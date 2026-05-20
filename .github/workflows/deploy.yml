@@ -32,6 +32,13 @@ jobs:
       - run: npm ci
       - run: npm run build
 
+      - name: Verify build output
+        run: |
+          echo "=== dist contents ==="
+          ls -la dist/
+          echo "=== index.html head ==="
+          head -20 dist/index.html
+
       - uses: actions/configure-pages@v4
 
       - uses: actions/upload-pages-artifact@v3

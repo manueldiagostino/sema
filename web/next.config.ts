@@ -4,9 +4,10 @@ const nextConfig: NextConfig = {
   output: "export",
   distDir: "dist",
   // GitHub Pages project page: username.github.io/sema/
-  // Change "/sema" to match your repo name if different
-  basePath: "/sema",
-  assetPrefix: "/sema",
+  // Only applied in production (npm run build), skipped in dev (npm run dev)
+  ...(process.env.NODE_ENV === "production"
+    ? { basePath: "/sema", assetPrefix: "/sema" }
+    : {}),
 };
 
 export default nextConfig;
