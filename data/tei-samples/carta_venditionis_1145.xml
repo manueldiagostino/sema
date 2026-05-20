@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Carta venditionis — Venditio terrae in comitatu Senensi</title>
+        <author>Petrus filius Bernardi</author>
+      </titleStmt>
+      <publicationStmt>
+        <p>Sample CEI2TEI P5 document for testing corpus table configuration</p>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier>
+            <country>Italy</country>
+            <settlement>Siena</settlement>
+            <repository>Archivio di Stato di Siena</repository>
+            <idno>Diplomatico, Archivio Generale, 1145 iunii 8</idno>
+          </msIdentifier>
+          <msContents>
+            <msItem>
+              <recipient>Ecclesia Sancti Martini de Sclavo</recipient>
+              <respStmt>
+                <resp>notary</resp>
+                <name>Rainerius filius Iohannis</name>
+              </respStmt>
+            </msItem>
+          </msContents>
+          <physDesc>
+            <objectDesc>
+              <supportDesc>
+                <support>parchment</support>
+              </supportDesc>
+            </objectDesc>
+          </physDesc>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+      <creation>
+        <date when="1145-06-08">8 Iunii 1145</date>
+        <origPlace>Siena</origPlace>
+      </creation>
+      <langUsage>
+        <language ident="la">Latin</language>
+      </langUsage>
+      <textClass>
+        <keywords>
+          <term type="object">Carta venditionis</term>
+          <term type="object_subtype">Venditio terrae</term>
+          <term type="material">Parchment</term>
+        </keywords>
+      </textClass>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="price_clause">
+        <p>Pretium huius venditionis est triginta solidi denariorum Lucensium, quos Petrus filius Bernardi ab ecclesia Sancti Martini integre recepit et quietavit.</p>
+      </div>
+      <div type="penalty_clause">
+        <p>Si quis contra hanc cartam venditionis venire temptaverit, componat auri optimi libras duas et poenam dupli pretii persolvat, et haec carta firma permaneat.</p>
+      </div>
+      <listWitness>
+        <witness>
+          <name>Albertus de Montepertuso</name>
+        </witness>
+        <witness>
+          <name>Ubertus filius Tedaldi</name>
+        </witness>
+        <witness>
+          <name>Enricus de Castiglione</name>
+        </witness>
+      </listWitness>
+    </body>
+  </text>
+</TEI>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Testamentum — Ultima voluntas Bonacursi filii Tedaldi</title>
+        <author>Bonacursus filius Tedaldi</author>
+      </titleStmt>
+      <publicationStmt>
+        <p>Sample CEI2TEI P5 document for testing corpus table configuration</p>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier>
+            <country>Italy</country>
+            <settlement>Siena</settlement>
+            <repository>Archivio di Stato di Siena</repository>
+            <idno>Diplomatico, Archivio Generale, 1234 novembris 11</idno>
+          </msIdentifier>
+          <msContents>
+            <msItem>
+              <recipient>Ecclesia Cathedralis Senensis</recipient>
+              <respStmt>
+                <resp>notary</resp>
+                <name>Gratianus de Ugurgieri</name>
+              </respStmt>
+            </msItem>
+          </msContents>
+          <physDesc>
+            <objectDesc>
+              <supportDesc>
+                <support>parchment</support>
+              </supportDesc>
+            </objectDesc>
+          </physDesc>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+      <creation>
+        <date when="1234-11-11">11 Novembris 1234</date>
+        <origPlace>Siena</origPlace>
+      </creation>
+      <langUsage>
+        <language ident="la">Latin</language>
+      </langUsage>
+      <textClass>
+        <keywords>
+          <term type="object">Testamentum</term>
+          <term type="object_subtype">Ultima voluntas</term>
+          <term type="material">Parchment</term>
+        </keywords>
+      </textClass>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="price_clause">
+        <p>Ego Bonacursus filius Tedaldi, sanus mente et corpore, relinquo ecclesiae Cathedrali Senensi decem libras denariorum Senensium pro anima mea, et filio meo Tedaldo domum meam cum horto et vinea adiacente.</p>
+      </div>
+      <div type="penalty_clause">
+        <p>Si quis contra hanc meam ultimam voluntatem venire temptaverit, excommunicatus sit et poenam quinquaginta librarum denariorum Senensium ecclesiae Cathedrali persolvat, et hoc testamentum in perpetuum firmum permaneat.</p>
+      </div>
+      <listWitness>
+        <witness>
+          <name>Ugo de Squarcialupis</name>
+        </witness>
+        <witness>
+          <name>Petrus de Piccolominis</name>
+        </witness>
+        <witness>
+          <name>Thomas filius Rainerii</name>
+        </witness>
+      </listWitness>
+    </body>
+  </text>
+</TEI>
