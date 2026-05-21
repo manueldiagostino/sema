@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Carta commutationis — Commutatio pratorum in comitatu</title>
+        <author>Salimbene de Salimbenis</author>
+      </titleStmt>
+      <publicationStmt>
+        <p>Sample CEI2TEI P5 document for testing corpus table configuration</p>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier>
+            <country>Italy</country>
+            <settlement>Siena</settlement>
+            <repository>Archivio di Stato di Siena</repository>
+            <idno>Diplomatico, Archivio Generale, 1223 martii 15</idno>
+          </msIdentifier>
+          <msContents>
+            <msItem>
+              <recipient>Ubertinus de Malavoltis</recipient>
+              <respStmt>
+                <resp>notary</resp>
+                <name>Petrus de Bichis</name>
+              </respStmt>
+            </msItem>
+          </msContents>
+          <physDesc>
+            <objectDesc>
+              <supportDesc>
+                <support>parchment</support>
+              </supportDesc>
+            </objectDesc>
+          </physDesc>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+      <creation>
+        <date when="1223-03-15">XVIII Kalendas Aprilis 1223</date>
+        <origPlace>Siena</origPlace>
+      </creation>
+      <langUsage>
+        <language ident="la">Latin</language>
+      </langUsage>
+      <textClass>
+        <keywords>
+          <term type="object">Carta commutationis</term>
+          <term type="object_subtype">Commutatio pratorum</term>
+          <term type="material">Parchment</term>
+        </keywords>
+      </textClass>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="price_clause">
+        <p>Salimbene de Salimbenis dat Ubertino de Malavoltis pratum situm iuxta flumen Arbia in loco qui dicitur Molino Vecchio, et accipit in commutatione pratum in contrata Sanctae Mariae cum iure aquae et pascui, utraque parte consentiente et laudante.</p>
+      </div>
+      <div type="penalty_clause">
+        <p>Si quis ex partibus hanc commutationem rescindere temptaverit, poenam dupli valoris rerum commutatarum persolvat et carta ista in suo robore permaneat.</p>
+      </div>
+      <listWitness>
+        <witness>
+          <name>Guido de Tolomeis</name>
+        </witness>
+        <witness>
+          <name>Farinatus filius Ugolini</name>
+        </witness>
+        <witness>
+          <name>Orlandus de Scottis</name>
+        </witness>
+      </listWitness>
+    </body>
+  </text>
+</TEI>

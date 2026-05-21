@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Testamentum — Legatum pro anima Scotti de Scottis</title>
+        <author>Scottus de Scottis</author>
+      </titleStmt>
+      <publicationStmt>
+        <p>Sample CEI2TEI P5 document for testing corpus table configuration</p>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier>
+            <country>Italy</country>
+            <settlement>Siena</settlement>
+            <repository>Archivio di Stato di Siena</repository>
+            <idno>Diplomatico, Archivio Generale, 1273 septembris 8</idno>
+          </msIdentifier>
+          <msContents>
+            <msItem>
+              <recipient>Monasterium Sancti Salvatoris de Monte Amiata</recipient>
+              <respStmt>
+                <resp>notary</resp>
+                <name>Guidottus de Pagliaresis</name>
+              </respStmt>
+            </msItem>
+          </msContents>
+          <physDesc>
+            <objectDesc>
+              <supportDesc>
+                <support>parchment</support>
+              </supportDesc>
+            </objectDesc>
+          </physDesc>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+      <creation>
+        <date when="1273-09-08">VIII Septembris 1273</date>
+        <origPlace>Siena</origPlace>
+      </creation>
+      <langUsage>
+        <language ident="la">Latin</language>
+      </langUsage>
+      <textClass>
+        <keywords>
+          <term type="object">Testamentum</term>
+          <term type="object_subtype">Legatum pro anima</term>
+          <term type="material">Parchment</term>
+        </keywords>
+      </textClass>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="price_clause">
+        <p>Ego Scottus de Scottis, sanus mente et corpore, relinquo monasterio Sancti Salvatoris de Monte Amiata triginta libras denariorum senensium ut monachi ibidem degentes pro anima mea missas celebrent singulis mensibus, et filio meo Iacobo castellum meum in Val d'Arbia cum omnibus pertinentiis suis.</p>
+      </div>
+      <div type="penalty_clause">
+        <p>Si quis contra hanc meam ultimam voluntatem venire temptaverit, anathema sit et insuper componat libras ducentas denariorum senensium, quarum dimidia pars sit ecclesiae et alia heredibus meis.</p>
+      </div>
+      <listWitness>
+        <witness><name>Petrus de Vecchiettis</name></witness>
+        <witness><name>Angelus de Buonfiglis</name></witness>
+        <witness><name>Fortis de Bandinellis</name></witness>
+        <witness><name>Gratianus de Squarcialupis</name></witness>
+      </listWitness>
+    </body>
+  </text>
+</TEI>

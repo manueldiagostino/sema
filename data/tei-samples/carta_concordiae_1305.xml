@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Carta concordiae — Concordia inter partes de lite finita</title>
+        <author>Simonus de Tolomeis</author>
+      </titleStmt>
+      <publicationStmt>
+        <p>Sample CEI2TEI P5 document for testing corpus table configuration</p>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier>
+            <country>Italy</country>
+            <settlement>Siena</settlement>
+            <repository>Archivio di Stato di Siena</repository>
+            <idno>Diplomatico, Archivio Generale, 1305 martii 8</idno>
+          </msIdentifier>
+          <msContents>
+            <msItem>
+              <recipient>Petrus de Piccolominibus</recipient>
+              <respStmt>
+                <resp>notary</resp>
+                <name>Ser Matthaeus de Saracinis</name>
+              </respStmt>
+            </msItem>
+          </msContents>
+          <physDesc>
+            <objectDesc>
+              <supportDesc>
+                <support>parchment</support>
+              </supportDesc>
+            </objectDesc>
+          </physDesc>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+      <creation>
+        <date when="1305-03-08">8 Martii 1305</date>
+        <origPlace>Siena</origPlace>
+      </creation>
+      <langUsage>
+        <language ident="la">Latin</language>
+      </langUsage>
+      <textClass>
+        <keywords>
+          <term type="object">Carta concordiae</term>
+          <term type="object_subtype">Concordia inter partes</term>
+          <term type="material">Parchment</term>
+        </keywords>
+      </textClass>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="price_clause">
+        <p>Ego Simonus de Tolomeis et Petrus de Piccolominibus, attendentes litem et controversiam quae inter nos vertebatur super possessione terrarum in loco qui dicitur Montemaggio, concordamus et paciscimur ut dictae terrae dividantur per aequas partes, et unusquisque suam portionem quiete possideat ...</p>
+      </div>
+      <div type="penalty_clause">
+        <p>Si autem altera pars contra hanc concordiam venire praesumpserit, poenam viginti florenorum auri parti observanti solvere teneatur, et haec concordia nihilominus firma permaneat ...</p>
+      </div>
+      <listWitness>
+        <witness><name>Lucas de Rinaldinis</name></witness>
+        <witness><name>Bartolus de Forteguerriis</name></witness>
+        <witness><name>Matteus de Goris</name></witness>
+      </listWitness>
+    </body>
+  </text>
+</TEI>

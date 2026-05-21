@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Carta permutationis — Permutatio possessionum in burgo</title>
+        <author>Rainerius de Malavoltis</author>
+      </titleStmt>
+      <publicationStmt>
+        <p>Sample CEI2TEI P5 document for testing corpus table configuration</p>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier>
+            <country>Italy</country>
+            <settlement>Siena</settlement>
+            <repository>Archivio di Stato di Siena</repository>
+            <idno>Diplomatico, Archivio Generale, 1212 februarii 14</idno>
+          </msIdentifier>
+          <msContents>
+            <msItem>
+              <recipient>Forteguerrius de Salimbenis</recipient>
+              <respStmt>
+                <resp>notary</resp>
+                <name>Ugolinus de Pannocchieschis</name>
+              </respStmt>
+            </msItem>
+          </msContents>
+          <physDesc>
+            <objectDesc>
+              <supportDesc>
+                <support>parchment</support>
+              </supportDesc>
+            </objectDesc>
+          </physDesc>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+      <creation>
+        <date when="1212-02-14">XVI Kalendas Martii 1212</date>
+        <origPlace>Siena</origPlace>
+      </creation>
+      <langUsage>
+        <language ident="la">Latin</language>
+      </langUsage>
+      <textClass>
+        <keywords>
+          <term type="object">Carta permutationis</term>
+          <term type="object_subtype">Permutatio possessionum</term>
+          <term type="material">Parchment</term>
+        </keywords>
+      </textClass>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="price_clause">
+        <p>Rainerius de Malavoltis dat Forteguerrio de Salimbenis possessiones sitas in burgo Sancti Petri cum domibus et hortis, et accipit in permutatione possessiones in contrata Oville cum iure aquae et viae, utraque parte consentiente et laudante.</p>
+      </div>
+      <div type="penalty_clause">
+        <p>Si quis ex partibus hanc permutationem rescindere temptaverit, poenam dupli valoris rerum permutatarum persolvat et carta ista in suo robore permaneat.</p>
+      </div>
+      <listWitness>
+        <witness>
+          <name>Guido de Scottis</name>
+        </witness>
+        <witness>
+          <name>Bernardinus filius Iacobi</name>
+        </witness>
+        <witness>
+          <name>Thomas de Saracinis</name>
+        </witness>
+      </listWitness>
+    </body>
+  </text>
+</TEI>

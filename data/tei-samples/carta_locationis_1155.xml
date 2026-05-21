@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Carta locationis — Locatio domus in civitate Senensi</title>
+        <author>Salimbenus filius Rainerii de Salimbenis</author>
+      </titleStmt>
+      <publicationStmt>
+        <p>Sample CEI2TEI P5 document for testing corpus table configuration</p>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier>
+            <country>Italy</country>
+            <settlement>Siena</settlement>
+            <repository>Archivio di Stato di Siena</repository>
+            <idno>Diplomatico, Archivio Generale, 1155 maii 12</idno>
+          </msIdentifier>
+          <msContents>
+            <msItem>
+              <recipient>Forteguerra filius Cacciaguidae de Forteguerriis</recipient>
+              <respStmt>
+                <resp>notary</resp>
+                <name>Rolandus filius Petri</name>
+              </respStmt>
+            </msItem>
+          </msContents>
+          <physDesc>
+            <objectDesc>
+              <supportDesc>
+                <support>parchment</support>
+              </supportDesc>
+            </objectDesc>
+          </physDesc>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+      <creation>
+        <date when="1155-05-12">IV Idus Maii 1155</date>
+        <origPlace>Siena</origPlace>
+      </creation>
+      <langUsage>
+        <language ident="la">Latin</language>
+      </langUsage>
+      <textClass>
+        <keywords>
+          <term type="object">Carta locationis</term>
+          <term type="object_subtype">Locatio domus</term>
+          <term type="material">Parchment</term>
+        </keywords>
+      </textClass>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="price_clause">
+        <p>Ego Salimbenus filius Rainerii de Salimbenis locabo et concedo tibi Forteguerre filio Cacciaguidae domum meam positam in civitate Senensi, in regione Sancti Christophori, cum curte, puteo et omnibus ad eam pertinentibus, pro annuo censu solidorum viginti denariorum Pisanorum, solvendo in festo Sancti Iohannis Baptistae.</p>
+      </div>
+      <div type="penalty_clause">
+        <p>Si quis contra hanc locationem venire temptaverit, componat auri optimi libras quattuor, et haec carta firma permaneat in perpetuum.</p>
+      </div>
+      <listWitness>
+        <witness><name>Tolomeus filius Iacobi de Tolomeis</name></witness>
+        <witness><name>Piccolominus filius Bernardi</name></witness>
+        <witness><name>Malavoltus filius Ildebrandi</name></witness>
+        <witness><name>Ugurgerius filius Bonacursi</name></witness>
+      </listWitness>
+    </body>
+  </text>
+</TEI>

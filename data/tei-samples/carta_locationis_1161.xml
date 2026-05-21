@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Carta locationis — Locatio terrae in comitatu Senensi</title>
+        <author>Cacciacontus filius Rainerii de Cacciacontis</author>
+      </titleStmt>
+      <publicationStmt>
+        <p>Sample CEI2TEI P5 document for testing corpus table configuration</p>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier>
+            <country>Italy</country>
+            <settlement>Siena</settlement>
+            <repository>Archivio di Stato di Siena</repository>
+            <idno>Diplomatico, Archivio Generale, 1161 octobris 5</idno>
+          </msIdentifier>
+          <msContents>
+            <msItem>
+              <recipient>Monasterium Sancti Petri ad Rupe</recipient>
+              <respStmt>
+                <resp>notary</resp>
+                <name>Farulfus filius Iohannis</name>
+              </respStmt>
+            </msItem>
+          </msContents>
+          <physDesc>
+            <objectDesc>
+              <supportDesc>
+                <support>parchment</support>
+              </supportDesc>
+            </objectDesc>
+          </physDesc>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+      <creation>
+        <date when="1161-10-05">III Nonas Octobris 1161</date>
+        <origPlace>Siena</origPlace>
+      </creation>
+      <langUsage>
+        <language ident="la">Latin</language>
+      </langUsage>
+      <textClass>
+        <keywords>
+          <term type="object">Carta locationis</term>
+          <term type="object_subtype">Locatio terrae</term>
+          <term type="material">Parchment</term>
+        </keywords>
+      </textClass>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="price_clause">
+        <p>Ego Cacciacontus filius Rainerii de Cacciacontis locabo et concedo tibi priori Ildibrando monasterii Sancti Petri ad Rupe terram meam positam in comitatu Senensi, in loco qui dicitur Val d'Arbia, cum omnibus finibus, arboribus et aquarum cursibus, pro annuo censu modiorum decem frumenti et modiorum quinque ordei, solvendo in festo Omnium Sanctorum.</p>
+      </div>
+      <div type="penalty_clause">
+        <p>Si quis contra hanc locationem venire temptaverit, componat auri optimi libras quinque, et haec carta firma permaneat in perpetuum.</p>
+      </div>
+      <listWitness>
+        <witness><name>Berardengus filius Ugonis de Berardenga</name></witness>
+        <witness><name>Squarcialupus filius Gerardi</name></witness>
+        <witness><name>Bichus de Bichis</name></witness>
+        <witness><name>Rinaldinus de Rinaldinis</name></witness>
+      </listWitness>
+    </body>
+  </text>
+</TEI>

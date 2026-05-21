@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Carta libertatis — Liberatio coloni Bonacursi de Pannocchieschis</title>
+        <author>Bonacursus de Pannocchieschis</author>
+      </titleStmt>
+      <publicationStmt>
+        <p>Sample CEI2TEI P5 document for testing corpus table configuration</p>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier>
+            <country>Italy</country>
+            <settlement>Siena</settlement>
+            <repository>Archivio di Stato di Siena</repository>
+            <idno>Diplomatico, Archivio Generale, 1270 februarii 14</idno>
+          </msIdentifier>
+          <msContents>
+            <msItem>
+              <recipient>Angelus colonus, filius quondam Rainerii de Montepulciano</recipient>
+              <respStmt>
+                <resp>notary</resp>
+                <name>Donatus de Vecchiettis</name>
+              </respStmt>
+            </msItem>
+          </msContents>
+          <physDesc>
+            <objectDesc>
+              <supportDesc>
+                <support>parchment</support>
+              </supportDesc>
+            </objectDesc>
+          </physDesc>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+      <creation>
+        <date when="1270-02-14">XIV Februarii 1270</date>
+        <origPlace>Siena</origPlace>
+      </creation>
+      <langUsage>
+        <language ident="la">Latin</language>
+      </langUsage>
+      <textClass>
+        <keywords>
+          <term type="object">Carta libertatis</term>
+          <term type="object_subtype">Liberatio coloni</term>
+          <term type="material">Parchment</term>
+        </keywords>
+      </textClass>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="price_clause">
+        <p>Ego Bonacursus de Pannocchieschis, considerata fidelitate et laboribus Angelis coloni mei, filii quondam Rainerii de Montepulciano, qui per viginti annos terram meam in loco Sancti Gimignani coluit, libero eum et absolvo ab omni obligatione colonatus, ut de cetero sit liber homo et possit recedere cum rebus suis ubicumque voluerit.</p>
+      </div>
+      <div type="penalty_clause">
+        <p>Si quis contra hanc meam cartam libertatis venire temptaverit, componat libras centum denariorum senensium, quarum dimidia pars sit camerae communis Senarum et dimidia pars ipsi Angelo liberato.</p>
+      </div>
+      <listWitness>
+        <witness><name>Farinata de Ugurgieri</name></witness>
+        <witness><name>Forteguerrius de Forteguerris</name></witness>
+        <witness><name>Ubertus de Goris</name></witness>
+        <witness><name>Rainerius de Bichis</name></witness>
+      </listWitness>
+    </body>
+  </text>
+</TEI>

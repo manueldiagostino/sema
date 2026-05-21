@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Testamentum — Legatum ecclesiae Petri de Bandinellis</title>
+        <author>Petrus de Bandinellis</author>
+      </titleStmt>
+      <publicationStmt>
+        <p>Sample CEI2TEI P5 document for testing corpus table configuration</p>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier>
+            <country>Italy</country>
+            <settlement>Siena</settlement>
+            <repository>Archivio di Stato di Siena</repository>
+            <idno>Diplomatico, Archivio Generale, 1295 octobris 3</idno>
+          </msIdentifier>
+          <msContents>
+            <msItem>
+              <recipient>Ecclesia Cathedralis Senensis</recipient>
+              <respStmt>
+                <resp>notary</resp>
+                <name>Angelus de Rinaldinis</name>
+              </respStmt>
+            </msItem>
+          </msContents>
+          <physDesc>
+            <objectDesc>
+              <supportDesc>
+                <support>parchment</support>
+              </supportDesc>
+            </objectDesc>
+          </physDesc>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+      <creation>
+        <date when="1295-10-03">III Octobris 1295</date>
+        <origPlace>Siena</origPlace>
+      </creation>
+      <langUsage>
+        <language ident="la">Latin</language>
+      </langUsage>
+      <textClass>
+        <keywords>
+          <term type="object">Testamentum</term>
+          <term type="object_subtype">Legatum ecclesiae</term>
+          <term type="material">Parchment</term>
+        </keywords>
+      </textClass>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="price_clause">
+        <p>Ego Petrus de Bandinellis, sanus mente et corpore, relinquo ecclesiae cathedrali Senensi quinquaginta libras denariorum senensium ad fabricam et reparationem ipsius ecclesiae, et uxori meae Agnesi dotem suam duplicatam, filiis autem meis omnibus bona reliqua aequaliter dividenda secundum consuetudinem civitatis Senarum.</p>
+      </div>
+      <div type="penalty_clause">
+        <p>Si quis contra hanc meam ultimam voluntatem venire temptaverit, excommunicetur et anathematizetur et insuper componat libras quingentas denariorum senensium.</p>
+      </div>
+      <listWitness>
+        <witness><name>Guidottus de Tolomeis</name></witness>
+        <witness><name>Manentus de Piccolominis</name></witness>
+        <witness><name>Salvus de Malavoltis</name></witness>
+        <witness><name>Bindus de Squarcialupis</name></witness>
+      </listWitness>
+    </body>
+  </text>
+</TEI>

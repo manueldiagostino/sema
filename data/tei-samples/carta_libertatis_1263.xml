@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Carta libertatis — Manumissio familiae Ugolinis de Forteguerris</title>
+        <author>Ugolinus de Forteguerris</author>
+      </titleStmt>
+      <publicationStmt>
+        <p>Sample CEI2TEI P5 document for testing corpus table configuration</p>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier>
+            <country>Italy</country>
+            <settlement>Siena</settlement>
+            <repository>Archivio di Stato di Siena</repository>
+            <idno>Diplomatico, Archivio Generale, 1263 augusti 25</idno>
+          </msIdentifier>
+          <msContents>
+            <msItem>
+              <recipient>Familia Ugolini: Petrus, Maria et Lucia</recipient>
+              <respStmt>
+                <resp>notary</resp>
+                <name>Thomas de Saracinis</name>
+              </respStmt>
+            </msItem>
+          </msContents>
+          <physDesc>
+            <objectDesc>
+              <supportDesc>
+                <support>parchment</support>
+              </supportDesc>
+            </objectDesc>
+          </physDesc>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+      <creation>
+        <date when="1263-08-25">XXV Augusti 1263</date>
+        <origPlace>Siena</origPlace>
+      </creation>
+      <langUsage>
+        <language ident="la">Latin</language>
+      </langUsage>
+      <textClass>
+        <keywords>
+          <term type="object">Carta libertatis</term>
+          <term type="object_subtype">Manumissio familiae</term>
+          <term type="material">Parchment</term>
+        </keywords>
+      </textClass>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="price_clause">
+        <p>Ego Ugolinus de Forteguerris, pro remedio animae meae et ob fidelitatem servitiorum quae mihi praestiterunt, manumitto et liberos facio Petrum, Mariam et Luciam, familiam meam, ab omni vinculo servitutis, ut deinceps vivant in libertate plena et nullus eos possit reclamare ut servos vel ancillas.</p>
+      </div>
+      <div type="penalty_clause">
+        <p>Si quis contra hanc meam cartam libertatis venire temptaverit, iram Dei omnipotentis incurrat et solvat poenam florenorum aureorum triginta.</p>
+      </div>
+      <listWitness>
+        <witness><name>Scottus de Scottis</name></witness>
+        <witness><name>Ranerius de Malavoltis</name></witness>
+        <witness><name>Guidottus de Pagliaresis</name></witness>
+        <witness><name>Matthaeus de Tolomeis</name></witness>
+      </listWitness>
+    </body>
+  </text>
+</TEI>

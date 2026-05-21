@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Carta libertatis — Manumissio servi Guidonis de Salimbenis</title>
+        <author>Guido de Salimbenis</author>
+      </titleStmt>
+      <publicationStmt>
+        <p>Sample CEI2TEI P5 document for testing corpus table configuration</p>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier>
+            <country>Italy</country>
+            <settlement>Siena</settlement>
+            <repository>Archivio di Stato di Siena</repository>
+            <idno>Diplomatico, Archivio Generale, 1255 maii 10</idno>
+          </msIdentifier>
+          <msContents>
+            <msItem>
+              <recipient>Ioannes servus, filius quondam Martini</recipient>
+              <respStmt>
+                <resp>notary</resp>
+                <name>Gratianus de Cacciacontis</name>
+              </respStmt>
+            </msItem>
+          </msContents>
+          <physDesc>
+            <objectDesc>
+              <supportDesc>
+                <support>parchment</support>
+              </supportDesc>
+            </objectDesc>
+          </physDesc>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+      <creation>
+        <date when="1255-05-10">X Maii 1255</date>
+        <origPlace>Siena</origPlace>
+      </creation>
+      <langUsage>
+        <language ident="la">Latin</language>
+      </langUsage>
+      <textClass>
+        <keywords>
+          <term type="object">Carta libertatis</term>
+          <term type="object_subtype">Manumissio servi</term>
+          <term type="material">Parchment</term>
+        </keywords>
+      </textClass>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="price_clause">
+        <p>Ego Guido de Salimbenis, spontanea voluntate et bona fide, manumitto et liberum facio Ioannem servum meum, filium quondam Martini, ab omni iugo servitutis et conditione servili, ita ut de cetero sit liber et franchus et possit ire, stare, morari et facere quidquid voluerit sicut ceteri homines liberi et franchi.</p>
+      </div>
+      <div type="penalty_clause">
+        <p>Si quis contra hanc meam cartam libertatis venire temptaverit, componat auri optimi libras quinquaginta, dimidia pars camerae communis Senarum et dimidia pars ipsi Ioanni liberato.</p>
+      </div>
+      <listWitness>
+        <witness><name>Iacobus de Tolomeis</name></witness>
+        <witness><name>Ugolinus de Piccolominis</name></witness>
+        <witness><name>Rolandus de Berardenga</name></witness>
+        <witness><name>Farinata de Malavoltis</name></witness>
+      </listWitness>
+    </body>
+  </text>
+</TEI>

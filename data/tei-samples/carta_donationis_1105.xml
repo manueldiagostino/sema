@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Carta donationis — Donatio terrarum ecclesiae Sancti Martini</title>
+        <author>Ranierius de Salimbenis</author>
+      </titleStmt>
+      <publicationStmt>
+        <p>Sample CEI2TEI P5 document for testing corpus table configuration</p>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier>
+            <country>Italy</country>
+            <settlement>Siena</settlement>
+            <repository>Archivio di Stato di Siena</repository>
+            <idno>Diplomatico, Archivio Generale, 1105 aprilis 3</idno>
+          </msIdentifier>
+          <msContents>
+            <msItem>
+              <recipient>Ecclesia Sancti Martini de Senis</recipient>
+              <respStmt>
+                <resp>notary</resp>
+                <name>Ser Petrus filius Alberti</name>
+              </respStmt>
+            </msItem>
+          </msContents>
+          <physDesc>
+            <objectDesc>
+              <supportDesc>
+                <support>parchment</support>
+              </supportDesc>
+            </objectDesc>
+          </physDesc>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+      <creation>
+        <date when="1105-04-03">III Nonas Aprilis 1105</date>
+        <origPlace>Siena</origPlace>
+      </creation>
+      <langUsage>
+        <language ident="la">Latin</language>
+      </langUsage>
+      <textClass>
+        <keywords>
+          <term type="object">Carta donationis</term>
+          <term type="object_subtype">Donatio terrarum</term>
+          <term type="material">Parchment</term>
+        </keywords>
+      </textClass>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="price_clause">
+        <p>Ego Ranierius de Salimbenis, pro remedio animae meae et parentum meorum, dono ecclesiae Sancti Martini de Senis terras meas aratorias sitas in loco qui dicitur Camollia, cum omnibus pertinentiis et usibus aquarum, libere et absolute, ut monachi ibidem Deo servientes pro nobis orent in perpetuum.</p>
+      </div>
+      <div type="penalty_clause">
+        <p>Quod si quis contra hanc cartam donationis venire temptaverit, anathema sit et a liminibus sanctae ecclesiae sequestratus, insuper et inferat fisci camerae libras quinque argenti, et haec donatio omni tempore inviolata permaneat.</p>
+      </div>
+      <listWitness>
+        <witness>
+          <name>Ugo de Malavoltis</name>
+        </witness>
+        <witness>
+          <name>Bernardus filius Ranerii</name>
+        </witness>
+        <witness>
+          <name>Gerardus de Cacciacontis</name>
+        </witness>
+        <witness>
+          <name>Petrus de Berardenga</name>
+        </witness>
+      </listWitness>
+    </body>
+  </text>
+</TEI>

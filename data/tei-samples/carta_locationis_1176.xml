@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Carta locationis — Locatio prati in comitatu Senensi</title>
+        <author>Forteguerra filius Cacciaguidae de Forteguerriis</author>
+      </titleStmt>
+      <publicationStmt>
+        <p>Sample CEI2TEI P5 document for testing corpus table configuration</p>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier>
+            <country>Italy</country>
+            <settlement>Siena</settlement>
+            <repository>Archivio di Stato di Siena</repository>
+            <idno>Diplomatico, Archivio Generale, 1176 ianuarii 24</idno>
+          </msIdentifier>
+          <msContents>
+            <msItem>
+              <recipient>Abbatia Sancti Salvatoris de Montis Amiata</recipient>
+              <respStmt>
+                <resp>notary</resp>
+                <name>Ildebrandus filius Ugonis</name>
+              </respStmt>
+            </msItem>
+          </msContents>
+          <physDesc>
+            <objectDesc>
+              <supportDesc>
+                <support>parchment</support>
+              </supportDesc>
+            </objectDesc>
+          </physDesc>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+      <creation>
+        <date when="1176-01-24">IX Kalendas Februarii 1176</date>
+        <origPlace>Siena</origPlace>
+      </creation>
+      <langUsage>
+        <language ident="la">Latin</language>
+      </langUsage>
+      <textClass>
+        <keywords>
+          <term type="object">Carta locationis</term>
+          <term type="object_subtype">Locatio prati</term>
+          <term type="material">Parchment</term>
+        </keywords>
+      </textClass>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="price_clause">
+        <p>Ego Forteguerra filius Cacciaguidae de Forteguerriis locabo et concedo tibi abbati Ranerio abbatiae Sancti Salvatoris de Montis Amiata pratum meum positum in comitatu Senensi, iuxta fluvium Arbiae, cum iure aquae et pascendi, pro annuo censu librarum quinque feni boni et sicci, solvendo in festo Sancti Michaelis.</p>
+      </div>
+      <div type="penalty_clause">
+        <p>Si quis contra hanc locationem venire temptaverit, componat auri optimi libras quattuor, et haec carta firma permaneat in perpetuum.</p>
+      </div>
+      <listWitness>
+        <witness><name>Piccolominus filius Bernardi</name></witness>
+        <witness><name>Malavoltus filius Ildebrandi</name></witness>
+        <witness><name>Ugurgerius filius Bonacursi</name></witness>
+        <witness><name>Ildebrandinus de Goriis</name></witness>
+      </listWitness>
+    </body>
+  </text>
+</TEI>

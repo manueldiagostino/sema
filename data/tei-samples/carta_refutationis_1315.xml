@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Carta refutationis — Refutatio hereditatis et iurium successori</title>
+        <author>Margarita filia Bernardi</author>
+      </titleStmt>
+      <publicationStmt>
+        <p>Sample CEI2TEI P5 document for testing corpus table configuration</p>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier>
+            <country>Italy</country>
+            <settlement>Siena</settlement>
+            <repository>Archivio di Stato di Siena</repository>
+            <idno>Diplomatico, Archivio Generale, 1315 septembris 3</idno>
+          </msIdentifier>
+          <msContents>
+            <msItem>
+              <recipient>Thomas filius Bernardi</recipient>
+              <respStmt>
+                <resp>notary</resp>
+                <name>Ser Lucas de Malavoltis</name>
+              </respStmt>
+            </msItem>
+          </msContents>
+          <physDesc>
+            <objectDesc>
+              <supportDesc>
+                <support>parchment</support>
+              </supportDesc>
+            </objectDesc>
+          </physDesc>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+      <creation>
+        <date when="1315-09-03">3 Septembris 1315</date>
+        <origPlace>Siena</origPlace>
+      </creation>
+      <langUsage>
+        <language ident="la">Latin</language>
+      </langUsage>
+      <textClass>
+        <keywords>
+          <term type="object">Carta refutationis</term>
+          <term type="object_subtype">Refutatio hereditatis</term>
+          <term type="material">Parchment</term>
+        </keywords>
+      </textClass>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="price_clause">
+        <p>Ego Margarita filia quondam Bernardi, recognoscens me habuisse et recepisse a Thoma fratre meo triginta florenos auri pro mea legitima portione in hereditate dicti patris nostri, refuto et renuntio omni iuri et actioni quae mihi competere possent in dicta hereditate, cedens et transferens in dictum Thomam omnia iura mea ...</p>
+      </div>
+      <div type="penalty_clause">
+        <p>Si vero ego vel mei heredes contra hanc refutationem venire praesumpserimus, poenam quinquaginta florenorum auri solvere teneamur, et refutatio haec perpetuo firma et stabilis permaneat ...</p>
+      </div>
+      <listWitness>
+        <witness><name>Franciscus de Bichis</name></witness>
+        <witness><name>Iohannes de Saracinis</name></witness>
+        <witness><name>Andreas de Rinaldinis</name></witness>
+      </listWitness>
+    </body>
+  </text>
+</TEI>

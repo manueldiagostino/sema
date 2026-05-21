@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Carta libertatis — Liberatio debitoris Tedaldi de Berardenga</title>
+        <author>Tedaldus de Berardenga</author>
+      </titleStmt>
+      <publicationStmt>
+        <p>Sample CEI2TEI P5 document for testing corpus table configuration</p>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier>
+            <country>Italy</country>
+            <settlement>Siena</settlement>
+            <repository>Archivio di Stato di Siena</repository>
+            <idno>Diplomatico, Archivio Generale, 1278 novembris 20</idno>
+          </msIdentifier>
+          <msContents>
+            <msItem>
+              <recipient>Guido debitor, filius quondam Petri de Asciano</recipient>
+              <respStmt>
+                <resp>notary</resp>
+                <name>Angelus de Buonfiglis</name>
+              </respStmt>
+            </msItem>
+          </msContents>
+          <physDesc>
+            <objectDesc>
+              <supportDesc>
+                <support>parchment</support>
+              </supportDesc>
+            </objectDesc>
+          </physDesc>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+      <creation>
+        <date when="1278-11-20">XX Novembris 1278</date>
+        <origPlace>Siena</origPlace>
+      </creation>
+      <langUsage>
+        <language ident="la">Latin</language>
+      </langUsage>
+      <textClass>
+        <keywords>
+          <term type="object">Carta libertatis</term>
+          <term type="object_subtype">Liberatio debitoris</term>
+          <term type="material">Parchment</term>
+        </keywords>
+      </textClass>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="price_clause">
+        <p>Ego Tedaldus de Berardenga, ob caritatem christianam et pro remedio animae meae, libero et absolvo Guidonem debitorem meum, filium quondam Petri de Asciano, ab omni debito et obligatione quam erga me habet in quantitate viginti librarum denariorum senensium, ita ut de cetero nullam petitionem contra eum facere possim ego vel heredes mei.</p>
+      </div>
+      <div type="penalty_clause">
+        <p>Si quis contra hanc meam cartam libertatis venire temptaverit, excommunicetur et insuper solvat poenam florenorum aureorum quadraginta.</p>
+      </div>
+      <listWitness>
+        <witness><name>Salvus de Piccolominis</name></witness>
+        <witness><name>Ildebrandinus de Cacciacontis</name></witness>
+        <witness><name>Guido de Salimbenis</name></witness>
+        <witness><name>Bindus de Squarcialupis</name></witness>
+      </listWitness>
+    </body>
+  </text>
+</TEI>

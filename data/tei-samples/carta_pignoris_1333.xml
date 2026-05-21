@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Carta pignoris — Pignus bonorum pro securitate debiti</title>
+        <author>Bernardus de Bichis</author>
+      </titleStmt>
+      <publicationStmt>
+        <p>Sample CEI2TEI P5 document for testing corpus table configuration</p>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier>
+            <country>Italy</country>
+            <settlement>Siena</settlement>
+            <repository>Archivio di Stato di Siena</repository>
+            <idno>Diplomatico, Archivio Generale, 1333 augusti 28</idno>
+          </msIdentifier>
+          <msContents>
+            <msItem>
+              <recipient>Salimbenus de Salimbenis</recipient>
+              <respStmt>
+                <resp>notary</resp>
+                <name>Ser Guido de Malavoltis</name>
+              </respStmt>
+            </msItem>
+          </msContents>
+          <physDesc>
+            <objectDesc>
+              <supportDesc>
+                <support>parchment</support>
+              </supportDesc>
+            </objectDesc>
+          </physDesc>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+      <creation>
+        <date when="1333-08-28">28 Augusti 1333</date>
+        <origPlace>Siena</origPlace>
+      </creation>
+      <langUsage>
+        <language ident="la">Latin</language>
+      </langUsage>
+      <textClass>
+        <keywords>
+          <term type="object">Carta pignoris</term>
+          <term type="object_subtype">Pignus bonorum</term>
+          <term type="material">Parchment</term>
+        </keywords>
+      </textClass>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="price_clause">
+        <p>Ego Bernardus de Bichis, recognoscens me debere Salimbeno de Salimbenis sexaginta florenos auri pro mercibus emptis, do et pignori obligo dicto Salimbeno domum meam positam in civitate Senarum in contrada Sancti Christophori, cum omnibus aedificiis, curtibus et pertinentiis suis, ut dicta domus sit pignus et securitas dicti debiti ...</p>
+      </div>
+      <div type="penalty_clause">
+        <p>Si vero ad festum Omnium Sanctorum proxime venturum dictum debitum non solvero, dictus Salimbenus possit dictam domum vendere, alienare vel sibi retinere pro pretio aestimando per bonos viros, et quod ex venditione supererit mihi restituatur ...</p>
+      </div>
+      <listWitness>
+        <witness><name>Matteus de Bandinellis</name></witness>
+        <witness><name>Franciscus de Rinaldinis</name></witness>
+        <witness><name>Nicolaus de Goris</name></witness>
+      </listWitness>
+    </body>
+  </text>
+</TEI>

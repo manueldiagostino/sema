@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Carta commutationis — Commutatio vinearum inter cives</title>
+        <author>Petrus de Tolomeis</author>
+      </titleStmt>
+      <publicationStmt>
+        <p>Sample CEI2TEI P5 document for testing corpus table configuration</p>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier>
+            <country>Italy</country>
+            <settlement>Siena</settlement>
+            <repository>Archivio di Stato di Siena</repository>
+            <idno>Diplomatico, Archivio Generale, 1202 iunii 26</idno>
+          </msIdentifier>
+          <msContents>
+            <msItem>
+              <recipient>Guido de Piccolominibus</recipient>
+              <respStmt>
+                <resp>notary</resp>
+                <name>Rainerius de Forteguerri</name>
+              </respStmt>
+            </msItem>
+          </msContents>
+          <physDesc>
+            <objectDesc>
+              <supportDesc>
+                <support>parchment</support>
+              </supportDesc>
+            </objectDesc>
+          </physDesc>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+      <creation>
+        <date when="1202-06-26">VI Kalendas Iulii 1202</date>
+        <origPlace>Siena</origPlace>
+      </creation>
+      <langUsage>
+        <language ident="la">Latin</language>
+      </langUsage>
+      <textClass>
+        <keywords>
+          <term type="object">Carta commutationis</term>
+          <term type="object_subtype">Commutatio vinearum</term>
+          <term type="material">Parchment</term>
+        </keywords>
+      </textClass>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="price_clause">
+        <p>Petrus de Tolomeis dat Guidoni de Piccolominibus vineam sitam in contrata Sancti Martini, et accipit in commutatione vineam in loco qui dicitur Poggio al Vento, cum omnibus arboribus et aedificiis ibi existentibus, utraque parte consentiente et laudante.</p>
+      </div>
+      <div type="penalty_clause">
+        <p>Si quis ex partibus hanc commutationem rescindere temptaverit, poenam dupli valoris rerum commutatarum persolvat et carta ista in suo robore permaneat.</p>
+      </div>
+      <listWitness>
+        <witness>
+          <name>Ildebrandinus de Salimbenis</name>
+        </witness>
+        <witness>
+          <name>Bernardinus filius Iacobi</name>
+        </witness>
+        <witness>
+          <name>Ugolinus de Malavoltis</name>
+        </witness>
+      </listWitness>
+    </body>
+  </text>
+</TEI>

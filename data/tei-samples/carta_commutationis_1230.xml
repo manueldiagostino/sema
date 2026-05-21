@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Carta commutationis — Commutatio silvae in montibus</title>
+        <author>Ildebrandinus de Pannocchieschis</author>
+      </titleStmt>
+      <publicationStmt>
+        <p>Sample CEI2TEI P5 document for testing corpus table configuration</p>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier>
+            <country>Italy</country>
+            <settlement>Siena</settlement>
+            <repository>Archivio di Stato di Siena</repository>
+            <idno>Diplomatico, Archivio Generale, 1230 ianuarii 20</idno>
+          </msIdentifier>
+          <msContents>
+            <msItem>
+              <recipient>Rainerius de Cacciacontis</recipient>
+              <respStmt>
+                <resp>notary</resp>
+                <name>Iacobus de Gori</name>
+              </respStmt>
+            </msItem>
+          </msContents>
+          <physDesc>
+            <objectDesc>
+              <supportDesc>
+                <support>parchment</support>
+              </supportDesc>
+            </objectDesc>
+          </physDesc>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+      <creation>
+        <date when="1230-01-20">XIII Kalendas Februarii 1230</date>
+        <origPlace>Siena</origPlace>
+      </creation>
+      <langUsage>
+        <language ident="la">Latin</language>
+      </langUsage>
+      <textClass>
+        <keywords>
+          <term type="object">Carta commutationis</term>
+          <term type="object_subtype">Commutatio silvae</term>
+          <term type="material">Parchment</term>
+        </keywords>
+      </textClass>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="price_clause">
+        <p>Ildebrandinus de Pannocchieschis dat Rainerio de Cacciacontis silvam castaneam sitam in monte qui dicitur Montemaggio cum iure lignandi et glandandi, et accipit in commutatione silvam quercinam in loco qui dicitur Lecceto cum omnibus iuribus et pertinentiis, utraque parte consentiente et laudante.</p>
+      </div>
+      <div type="penalty_clause">
+        <p>Si quis ex partibus hanc commutationem rescindere temptaverit, poenam dupli valoris rerum commutatarum persolvat et carta ista in suo robore permaneat.</p>
+      </div>
+      <listWitness>
+        <witness>
+          <name>Bonacursus de Piccolominibus</name>
+        </witness>
+        <witness>
+          <name>Gerardus filius Aldobrandini</name>
+        </witness>
+        <witness>
+          <name>Manfredus de Forteguerri</name>
+        </witness>
+      </listWitness>
+    </body>
+  </text>
+</TEI>

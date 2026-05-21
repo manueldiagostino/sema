@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Carta commutationis — Commutatio agrorum in plano</title>
+        <author>Bernardinus de Scottis</author>
+      </titleStmt>
+      <publicationStmt>
+        <p>Sample CEI2TEI P5 document for testing corpus table configuration</p>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier>
+            <country>Italy</country>
+            <settlement>Siena</settlement>
+            <repository>Archivio di Stato di Siena</repository>
+            <idno>Diplomatico, Archivio Generale, 1245 maii 7</idno>
+          </msIdentifier>
+          <msContents>
+            <msItem>
+              <recipient>Thomas de Pagliaresi</recipient>
+              <respStmt>
+                <resp>notary</resp>
+                <name>Matthaeus de Vecchiettis</name>
+              </respStmt>
+            </msItem>
+          </msContents>
+          <physDesc>
+            <objectDesc>
+              <supportDesc>
+                <support>parchment</support>
+              </supportDesc>
+            </objectDesc>
+          </physDesc>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+      <creation>
+        <date when="1245-05-07">Nonis Maii 1245</date>
+        <origPlace>Siena</origPlace>
+      </creation>
+      <langUsage>
+        <language ident="la">Latin</language>
+      </langUsage>
+      <textClass>
+        <keywords>
+          <term type="object">Carta commutationis</term>
+          <term type="object_subtype">Commutatio agrorum</term>
+          <term type="material">Parchment</term>
+        </keywords>
+      </textClass>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="price_clause">
+        <p>Bernardinus de Scottis dat Thomae de Pagliaresi agrum frumentarium situm in plano Sancti Petri in Campo, et accipit in commutatione agrum in contrata Fontebranda cum iure irrigationis et accessus, utraque parte consentiente et laudante.</p>
+      </div>
+      <div type="penalty_clause">
+        <p>Si quis ex partibus hanc commutationem rescindere temptaverit, poenam dupli valoris rerum commutatarum persolvat et carta ista in suo robore permaneat.</p>
+      </div>
+      <listWitness>
+        <witness>
+          <name>Petrus de Salimbenis</name>
+        </witness>
+        <witness>
+          <name>Guidottus filius Rainerii</name>
+        </witness>
+        <witness>
+          <name>Ildebrandinus de Malavoltis</name>
+        </witness>
+      </listWitness>
+    </body>
+  </text>
+</TEI>

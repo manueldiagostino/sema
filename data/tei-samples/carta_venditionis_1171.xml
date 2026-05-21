@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Carta venditionis — Venditio vineae in territorio Senensi</title>
+        <author>Malavoltus filius Ildebrandi de Malavoltis</author>
+      </titleStmt>
+      <publicationStmt>
+        <p>Sample CEI2TEI P5 document for testing corpus table configuration</p>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier>
+            <country>Italy</country>
+            <settlement>Siena</settlement>
+            <repository>Archivio di Stato di Siena</repository>
+            <idno>Diplomatico, Archivio Generale, 1171 septembris 22</idno>
+          </msIdentifier>
+          <msContents>
+            <msItem>
+              <recipient>Episcopatus Senensis</recipient>
+              <respStmt>
+                <resp>notary</resp>
+                <name>Bernardus filius Rolandi</name>
+              </respStmt>
+            </msItem>
+          </msContents>
+          <physDesc>
+            <objectDesc>
+              <supportDesc>
+                <support>parchment</support>
+              </supportDesc>
+            </objectDesc>
+          </physDesc>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+      <creation>
+        <date when="1171-09-22">X Kalendas Octobris 1171</date>
+        <origPlace>Siena</origPlace>
+      </creation>
+      <langUsage>
+        <language ident="la">Latin</language>
+      </langUsage>
+      <textClass>
+        <keywords>
+          <term type="object">Carta venditionis</term>
+          <term type="object_subtype">Venditio vineae</term>
+          <term type="material">Parchment</term>
+        </keywords>
+      </textClass>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="price_clause">
+        <p>Ego Malavoltus filius Ildebrandi de Malavoltis vendo et trado tibi episcopo Rainaldo Senensis ecclesiae vineam meam positam in territorio Senensi, in loco qui dicitur Montalcinellus, cum omnibus arboribus et aedificiis et aquarum cursibus, pro pretio librarum quadraginta denariorum Pisanorum, quae pretium a te accepi et numeravi.</p>
+      </div>
+      <div type="penalty_clause">
+        <p>Si quis contra hanc venditionem venire temptaverit, componat auri optimi libras octo, et haec carta firma permaneat in perpetuum.</p>
+      </div>
+      <listWitness>
+        <witness><name>Forteguerra filius Cacciaguidae</name></witness>
+        <witness><name>Saracenus de Saracinis</name></witness>
+        <witness><name>Ugolinus de Pannocchieschis</name></witness>
+        <witness><name>Ildebrandinus de Goriis</name></witness>
+      </listWitness>
+    </body>
+  </text>
+</TEI>

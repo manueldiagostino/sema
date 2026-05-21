@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Carta donationis — Donatio oliveti ecclesiae Sancti Petri in Villore</title>
+        <author>Farulfus de Berardenga</author>
+      </titleStmt>
+      <publicationStmt>
+        <p>Sample CEI2TEI P5 document for testing corpus table configuration</p>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier>
+            <country>Italy</country>
+            <settlement>Siena</settlement>
+            <repository>Archivio di Stato di Siena</repository>
+            <idno>Diplomatico, Archivio Generale, 1130 februarii 14</idno>
+          </msIdentifier>
+          <msContents>
+            <msItem>
+              <recipient>Ecclesia Sancti Petri in Villore</recipient>
+              <respStmt>
+                <resp>notary</resp>
+                <name>Ser Rainaldus filius Boni</name>
+              </respStmt>
+            </msItem>
+          </msContents>
+          <physDesc>
+            <objectDesc>
+              <supportDesc>
+                <support>parchment</support>
+              </supportDesc>
+            </objectDesc>
+          </physDesc>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+      <creation>
+        <date when="1130-02-14">XVI Kalendas Martii 1130</date>
+        <origPlace>Siena</origPlace>
+      </creation>
+      <langUsage>
+        <language ident="la">Latin</language>
+      </langUsage>
+      <textClass>
+        <keywords>
+          <term type="object">Carta donationis</term>
+          <term type="object_subtype">Donatio oliveti</term>
+          <term type="material">Parchment</term>
+        </keywords>
+      </textClass>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="price_clause">
+        <p>Ego Farulfus de Berardenga, pro salute animae meae et pro remissione peccatorum meorum, dono ecclesiae Sancti Petri in Villore olivetum meum magnum positum in collibus Senensibus, cum centum arboribus olivarum et cum omnibus fructibus et proventibus, ut presbyteri et clerici ibidem servientes oleum ad luminaria ecclesiae habeant in perpetuum.</p>
+      </div>
+      <div type="penalty_clause">
+        <p>Si quis vero hanc donationem infringere vel minuere praesumpserit, iram Dei omnipotentis et beati Petri apostoli incurrat, et componat ecclesiae libras quinque auri optimi, et donatio ista omni tempore firma et inviolata permaneat.</p>
+      </div>
+      <listWitness>
+        <witness>
+          <name>Ildebrandus de Saracinis</name>
+        </witness>
+        <witness>
+          <name>Guido filius Ranerii</name>
+        </witness>
+        <witness>
+          <name>Forteguerrius de Forteguerriis</name>
+        </witness>
+      </listWitness>
+    </body>
+  </text>
+</TEI>

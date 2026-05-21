@@ -141,6 +141,7 @@ export default function EntityGraphView({
   const edgesDataSetRef = useRef<unknown>(null);
   const allNodesRef = useRef<EntityNode[]>([]);
   const allEdgesRef = useRef<EntityEdge[]>([]);
+  const clickTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const themeRef = useRef({
     foreground: "#ffffff",
     dimmed: "rgba(229,231,235,0.55)",
@@ -251,40 +252,37 @@ export default function EntityGraphView({
 
     const visNodes = nodesDataSetRef.current as {
       get: (id: string) => Record<string, unknown>;
-      update: (item: Record<string, unknown>) => void;
+      update: (item: Record<string, unknown> | Record<string, unknown>[]) => void;
       getIds: () => string[];
     } | null;
     const visEdges = edgesDataSetRef.current as {
       getIds: () => string[];
       get: (id: string) => Record<string, unknown> | undefined;
-      update: (item: Record<string, unknown>) => void;
+      update: (item: Record<string, unknown> | Record<string, unknown>[]) => void;
     } | null;
 
     if (!visNodes || !visEdges) return;
 
-    // Restore all nodes to full opacity
+    // Restore all nodes to full opacity and remove glow in one batch
     const nodeIds = visNodes.getIds();
+    const nodeUpdates: Record<string, unknown>[] = [];
     for (const id of nodeIds) {
       const node = visNodes.get(id);
+      const update: Record<string, unknown> = { id, borderWidth: 0, shadow: false };
       if (node.hidden !== true) {
-        visNodes.update({ id, font: { color: themeRef.current.foreground } });
+        update.font = { color: themeRef.current.foreground };
       }
+      nodeUpdates.push(update);
     }
+    visNodes.update(nodeUpdates);
 
-    // Restore all edges
+    // Restore all edges in one batch
     const edgeIds = visEdges.getIds();
-    for (const id of edgeIds) {
-      visEdges.update({ id, hidden: false, color: { color: "#9ca3af" }, width: 2 });
-    }
+    visEdges.update(edgeIds.map((id) => ({ id, hidden: false, color: { color: "#9ca3af" }, width: 2 })));
 
     network.unselectAll();
     setSelectedNode(undefined);
     setInfoCard(null);
-
-    // Remove selection glow from all nodes
-    for (const id of nodeIds) {
-      visNodes.update({ id, borderWidth: 0, shadow: false });
-    }
   }, []);
 
   const handleNodeClick = useCallback((nodeId: string) => {
@@ -293,13 +291,13 @@ export default function EntityGraphView({
     } | null;
     const visNodes = nodesDataSetRef.current as {
       get: (id: string) => Record<string, unknown>;
-      update: (item: Record<string, unknown>) => void;
+      update: (item: Record<string, unknown> | Record<string, unknown>[]) => void;
       getIds: () => string[];
     } | null;
     const visEdges = edgesDataSetRef.current as {
       getIds: () => string[];
       get: (id: string) => Record<string, unknown> | undefined;
-      update: (item: Record<string, unknown>) => void;
+      update: (item: Record<string, unknown> | Record<string, unknown>[]) => void;
     } | null;
 
     if (!network || !visNodes || !visEdges) return;
@@ -310,21 +308,23 @@ export default function EntityGraphView({
     const neighborIds = getNeighborIds(nodeId, edges);
     const highlightIds = new Set([nodeId, ...neighborIds]);
 
-    // Dim non-neighbor nodes
+    // Dim non-neighbor nodes in one batch
     const allNodeIds = visNodes.getIds();
+    const nodeUpdates: Record<string, unknown>[] = [];
     for (const id of allNodeIds) {
       const node = visNodes.get(id);
       if (node.hidden === true) continue;
-      if (highlightIds.has(id)) {
-        visNodes.update({ id, font: { color: themeRef.current.foreground, size: 14 } });
-      } else {
-        visNodes.update({ id, font: { color: themeRef.current.dimmed, size: 14 } });
-      }
+      nodeUpdates.push({
+        id,
+        font: { color: highlightIds.has(id) ? themeRef.current.foreground : themeRef.current.dimmed, size: 14 },
+      });
     }
+    visNodes.update(nodeUpdates);
 
-    // Dim non-connected edges
+    // Dim non-connected edges in one batch
     const connectedEdgeIds = new Set<string>();
     const edgeIds = visEdges.getIds();
+    const edgeUpdates: Record<string, unknown>[] = [];
     for (const id of edgeIds) {
       const edge = visEdges.get(id) as Record<string, unknown> | undefined;
       if (!edge) continue;
@@ -332,11 +332,12 @@ export default function EntityGraphView({
       const to = edge.to as string;
       if (highlightIds.has(from) && highlightIds.has(to)) {
         connectedEdgeIds.add(id);
-        visEdges.update({ id, hidden: false, color: { color: "#9ca3af" }, width: 2 });
+        edgeUpdates.push({ id, hidden: false, color: { color: "#9ca3af" }, width: 2 });
       } else {
-        visEdges.update({ id, hidden: false, color: { color: "rgba(156,163,175,0.25)" }, width: 1 });
+        edgeUpdates.push({ id, hidden: false, color: { color: "rgba(156,163,175,0.25)" }, width: 1 });
       }
     }
+    visEdges.update(edgeUpdates);
 
     // Glow effect on selected node
     visNodes.update({
@@ -376,13 +377,13 @@ export default function EntityGraphView({
   const handleNodeDoubleClick = useCallback((nodeId: string) => {
     const visNodes = nodesDataSetRef.current as {
       get: (id: string) => Record<string, unknown>;
-      update: (item: Record<string, unknown>) => void;
+      update: (item: Record<string, unknown> | Record<string, unknown>[]) => void;
       getIds: () => string[];
     } | null;
     const visEdges = edgesDataSetRef.current as {
       getIds: () => string[];
       get: (id: string) => Record<string, unknown> | undefined;
-      update: (item: Record<string, unknown>) => void;
+      update: (item: Record<string, unknown> | Record<string, unknown>[]) => void;
     } | null;
     const network = networkRef.current as {
       focus: (id: string, opts: Record<string, unknown>) => void;
@@ -394,35 +395,70 @@ export default function EntityGraphView({
     const twoHopIds = getTwoHopIds(nodeId, allEdgesRef.current);
     const allNodeIds = visNodes.getIds();
 
-    // Hide nodes outside 2-hop
+    // Hide nodes outside 2-hop in one batch
+    const nodeUpdates: Record<string, unknown>[] = [];
     for (const id of allNodeIds) {
       if (twoHopIds.has(id)) {
-        visNodes.update({ id, hidden: false, font: { color: themeRef.current.foreground, size: 14 } });
+        nodeUpdates.push({ id, hidden: false, font: { color: themeRef.current.foreground, size: 14 } });
       } else {
-        visNodes.update({ id, hidden: true });
+        nodeUpdates.push({ id, hidden: true });
       }
     }
+    visNodes.update(nodeUpdates);
 
-    // Hide edges outside 2-hop
+    // Hide edges outside 2-hop in one batch
     const edgeIds = visEdges.getIds();
+    const edgeUpdates: Record<string, unknown>[] = [];
     for (const id of edgeIds) {
       const edge = visEdges.get(id) as Record<string, unknown> | undefined;
       if (!edge) continue;
       const from = edge.from as string;
       const to = edge.to as string;
       if (twoHopIds.has(from) && twoHopIds.has(to)) {
-        visEdges.update({ id, hidden: false });
+        edgeUpdates.push({ id, hidden: false });
       } else {
-        visEdges.update({ id, hidden: true });
+        edgeUpdates.push({ id, hidden: true });
       }
     }
+    visEdges.update(edgeUpdates);
+
+    // Glow effect on selected node
+    visNodes.update({
+      id: nodeId,
+      borderWidth: 3,
+      borderColor: themeRef.current.foreground,
+      shadow: { enabled: true, color: hexToRgba(themeRef.current.foreground, 0.5), size: 15 },
+    });
 
     network.focus(nodeId, { scale: 1.2, animation: { duration: 500, easingFunction: "easeInOutQuad" } });
     network.selectNodes([nodeId]);
 
-    // Also update info card
-    handleNodeClick(nodeId);
-  }, [handleNodeClick]);
+    // Build info card (inlined to avoid redundant full-dim pass)
+    const nodes = allNodesRef.current;
+    const edges = allEdgesRef.current;
+    const nodeMap = new Map(nodes.map((n) => [n.id, n]));
+    const clickedNode = nodeMap.get(nodeId);
+    if (clickedNode) {
+      const docs = getDocumentNodesInHop(nodeId, nodes, edges);
+      const docDates = docs
+        .map((d) => d.date)
+        .filter(Boolean)
+        .sort();
+      const dateRange =
+        docDates.length > 0
+          ? `${docDates[0]}${docDates.length > 1 ? ` — ${docDates[docDates.length - 1]}` : ""}`
+          : undefined;
+
+      setInfoCard({
+        label: clickedNode.label,
+        type: clickedNode.type,
+        docCount: docs.length,
+        dateRange,
+      });
+    }
+
+    setSelectedNode(nodeId);
+  }, []);
 
   // -----------------------------------------------------------------------
   // vis-network initialization
@@ -519,26 +555,34 @@ export default function EntityGraphView({
       });
 
       // -------------------------------------------------------------------
-      // Click handler — ego network (1-hop)
+      // Click handler — debounced to distinguish from double-click
       // -------------------------------------------------------------------
       network.on("click", (params: { nodes: string[]; event: unknown }) => {
-        if (params.nodes.length === 0) {
-          // Clicked on empty canvas — deselect
-          deselectAll();
-          return;
+        // Clear any pending timeout (e.g., rapid successive single-clicks)
+        if (clickTimeoutRef.current !== null) {
+          clearTimeout(clickTimeoutRef.current);
         }
-
-        const nodeId = params.nodes[0];
-        handleNodeClick(nodeId);
+        clickTimeoutRef.current = setTimeout(() => {
+          clickTimeoutRef.current = null;
+          if (params.nodes.length === 0) {
+            deselectAll();
+          } else {
+            handleNodeClick(params.nodes[0]);
+          }
+        }, 250);
       });
 
       // -------------------------------------------------------------------
       // Double-click handler — 2-hop neighborhood + recenter
       // -------------------------------------------------------------------
       network.on("doubleClick", (params: { nodes: string[] }) => {
+        // Cancel pending single-click action
+        if (clickTimeoutRef.current !== null) {
+          clearTimeout(clickTimeoutRef.current);
+          clickTimeoutRef.current = null;
+        }
         if (params.nodes.length === 0) return;
-        const nodeId = params.nodes[0];
-        handleNodeDoubleClick(nodeId);
+        handleNodeDoubleClick(params.nodes[0]);
       });
 
       // Restore initial selection if provided
@@ -569,12 +613,12 @@ export default function EntityGraphView({
 
   const applyFilters = useCallback(() => {
     const visNodes = nodesDataSetRef.current as {
-      update: (item: Record<string, unknown>) => void;
+      update: (item: Record<string, unknown> | Record<string, unknown>[]) => void;
       getIds: () => string[];
       get: (id: string) => Record<string, unknown>;
     } | null;
     const visEdges = edgesDataSetRef.current as {
-      update: (item: Record<string, unknown>) => void;
+      update: (item: Record<string, unknown> | Record<string, unknown>[]) => void;
       getIds: () => string[];
       get: (id: string) => Record<string, unknown>;
     } | null;
@@ -680,10 +724,18 @@ export default function EntityGraphView({
 
     network.setOptions({ physics: { enabled: true } });
     setTimeout(() => {
-      network.setOptions({ physics: { enabled: false } });
+      const currentNetwork = networkRef.current as {
+        setOptions: (opts: Record<string, unknown>) => void;
+        fit: () => void;
+      } | null;
+      const currentVisNodes = nodesDataSetRef.current as {
+        update: (items: Record<string, unknown> | Record<string, unknown>[]) => void;
+      } | null;
+      if (!currentNetwork || !currentVisNodes) return;
+      currentNetwork.setOptions({ physics: { enabled: false } });
       // Unfix document nodes so users can drag them after layout settles
-      visNodes.update(docNodes.map((n) => ({ id: n.id, fixed: false })));
-      network.fit();
+      currentVisNodes.update(docNodes.map((n) => ({ id: n.id, fixed: false })));
+      currentNetwork.fit();
     }, 2000);
   }, []);
 

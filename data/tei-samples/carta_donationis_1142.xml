@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Carta donationis — Donatio molendini monasterio Sancti Salvatoris</title>
+        <author>Iacobus de Saracinis</author>
+      </titleStmt>
+      <publicationStmt>
+        <p>Sample CEI2TEI P5 document for testing corpus table configuration</p>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier>
+            <country>Italy</country>
+            <settlement>Siena</settlement>
+            <repository>Archivio di Stato di Siena</repository>
+            <idno>Diplomatico, Archivio Generale, 1142 ianuarii 18</idno>
+          </msIdentifier>
+          <msContents>
+            <msItem>
+              <recipient>Monasterium Sancti Salvatoris de Montis Amiata</recipient>
+              <respStmt>
+                <resp>notary</resp>
+                <name>Ser Gualfredus filius Iohannis</name>
+              </respStmt>
+            </msItem>
+          </msContents>
+          <physDesc>
+            <objectDesc>
+              <supportDesc>
+                <support>parchment</support>
+              </supportDesc>
+            </objectDesc>
+          </physDesc>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+      <creation>
+        <date when="1142-01-18">XV Kalendas Februarii 1142</date>
+        <origPlace>Siena</origPlace>
+      </creation>
+      <langUsage>
+        <language ident="la">Latin</language>
+      </langUsage>
+      <textClass>
+        <keywords>
+          <term type="object">Carta donationis</term>
+          <term type="object_subtype">Donatio molendini</term>
+          <term type="material">Parchment</term>
+        </keywords>
+      </textClass>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="price_clause">
+        <p>Ego Iacobus de Saracinis, pro anima mea et pro remissione peccatorum meorum, dono monasterio Sancti Salvatoris de Montis Amiata molendinum meum situm super rivum qui dicitur Staggia, cum omnibus aedificiis et machinis et iure aquae et molendi, ut monachi frumentum suum molant et proventum percipiant in perpetuum.</p>
+      </div>
+      <div type="penalty_clause">
+        <p>Si quis autem hanc piam donationem violare vel molendinum destruere praesumpserit, excommunicationis sententiam ipso facto incurrat, et componat monasterio libras octo denariorum Senensium, et haec donatio firma et stabilis permaneat in aeternum.</p>
+      </div>
+      <listWitness>
+        <witness>
+          <name>Tedaldus de Bichis</name>
+        </witness>
+        <witness>
+          <name>Rainerius filius Farulfi</name>
+        </witness>
+        <witness>
+          <name>Guido de Rinaldinis</name>
+        </witness>
+        <witness>
+          <name>Albertus de Tolomeis</name>
+        </witness>
+      </listWitness>
+    </body>
+  </text>
+</TEI>

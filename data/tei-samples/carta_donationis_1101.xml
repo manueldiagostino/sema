@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Carta donationis — Donatio vinearum monasterio Sancti Salvatoris</title>
+        <author>Guido de Rinaldo</author>
+      </titleStmt>
+      <publicationStmt>
+        <p>Sample CEI2TEI P5 document for testing corpus table configuration</p>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier>
+            <country>Italy</country>
+            <settlement>Siena</settlement>
+            <repository>Archivio di Stato di Siena</repository>
+            <idno>Diplomatico, Archivio Generale, 1101 martii 15</idno>
+          </msIdentifier>
+          <msContents>
+            <msItem>
+              <recipient>Monasterium Sancti Salvatoris de Montis Amiata</recipient>
+              <respStmt>
+                <resp>notary</resp>
+                <name>Teuzo filius Bonacursi</name>
+              </respStmt>
+            </msItem>
+          </msContents>
+          <physDesc>
+            <objectDesc>
+              <supportDesc>
+                <support>parchment</support>
+              </supportDesc>
+            </objectDesc>
+          </physDesc>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+      <creation>
+        <date when="1101-03-15">XVIII Kalendas Aprilis 1101</date>
+        <origPlace>Siena</origPlace>
+      </creation>
+      <langUsage>
+        <language ident="la">Latin</language>
+      </langUsage>
+      <textClass>
+        <keywords>
+          <term type="object">Carta donationis</term>
+          <term type="object_subtype">Donatio vinearum</term>
+          <term type="material">Parchment</term>
+        </keywords>
+      </textClass>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="price_clause">
+        <p>Ego Guido de Rinaldo, pro salute animae meae et pro remedio omnium peccatorum meorum, dono et concedo monasterio Sancti Salvatoris de Montis Amiata vineas meas positas in territorio Senensi, cum omnibus arboribus et aedificiis superpositis, sine ullo pretio accepto, sed pro amore Dei et beati Salvatoris.</p>
+      </div>
+      <div type="penalty_clause">
+        <p>Si aliquis heredum meorum vel alia persona hanc donationem infringere voluerit, iram Dei omnipotentis incurrat et componat auri purissimi libras tres, et donatio ista in perpetuum firma permaneat.</p>
+      </div>
+      <listWitness>
+        <witness>
+          <name>Ildebrandus de Tolomeis</name>
+        </witness>
+        <witness>
+          <name>Farulfus de Piccolominis</name>
+        </witness>
+        <witness>
+          <name>Adimarus filius Ugonis</name>
+        </witness>
+      </listWitness>
+    </body>
+  </text>
+</TEI>

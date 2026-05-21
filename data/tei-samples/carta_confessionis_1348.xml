@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Carta confessionis — Confessio debiti et promissio solutionis</title>
+        <author>Lucca filius Petri de Senis</author>
+      </titleStmt>
+      <publicationStmt>
+        <p>Sample CEI2TEI P5 document for testing corpus table configuration</p>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier>
+            <country>Italy</country>
+            <settlement>Siena</settlement>
+            <repository>Archivio di Stato di Siena</repository>
+            <idno>Diplomatico, Archivio Generale, 1348 ianuarii 9</idno>
+          </msIdentifier>
+          <msContents>
+            <msItem>
+              <recipient>Monasterium Sancti Petri ad Ruinas</recipient>
+              <respStmt>
+                <resp>notary</resp>
+                <name>Ser Matteus de Rinaldinis</name>
+              </respStmt>
+            </msItem>
+          </msContents>
+          <physDesc>
+            <objectDesc>
+              <supportDesc>
+                <support>parchment</support>
+              </supportDesc>
+            </objectDesc>
+          </physDesc>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+      <creation>
+        <date when="1348-01-09">9 Ianuarii 1348</date>
+        <origPlace>Siena</origPlace>
+      </creation>
+      <langUsage>
+        <language ident="la">Latin</language>
+      </langUsage>
+      <textClass>
+        <keywords>
+          <term type="object">Carta confessionis</term>
+          <term type="object_subtype">Confessio debiti</term>
+          <term type="material">Parchment</term>
+        </keywords>
+      </textClass>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="price_clause">
+        <p>Ego Lucca filius Petri de Senis confiteor et recognosco me debere monasterio Sancti Petri ad Ruinas quadraginta florenos auri pro pensione unius domus quam habui in locatione per annos tres praeteritos, et promitto me soluturum dictam pecuniam infra festum Paschae Resurrectionis proxime venturum, sub obligatione omnium bonorum meorum ...</p>
+      </div>
+      <div type="penalty_clause">
+        <p>Si vero ad dictum terminum non solvero, poenam dupli debiti incurram et monasterium possit contra me et bona mea procedere per viam iuris et facti, sine aliqua exceptione vel defensione ...</p>
+      </div>
+      <listWitness>
+        <witness><name>Petrus de Tolomeis</name></witness>
+        <witness><name>Iohannes de Bandinellis</name></witness>
+        <witness><name>Franciscus de Piccolominibus</name></witness>
+      </listWitness>
+    </body>
+  </text>
+</TEI>

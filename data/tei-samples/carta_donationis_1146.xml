@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Carta donationis — Donatio castri communi Senarum</title>
+        <author>Tedaldus de Bichis</author>
+      </titleStmt>
+      <publicationStmt>
+        <p>Sample CEI2TEI P5 document for testing corpus table configuration</p>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier>
+            <country>Italy</country>
+            <settlement>Siena</settlement>
+            <repository>Archivio di Stato di Siena</repository>
+            <idno>Diplomatico, Archivio Generale, 1146 septembris 5</idno>
+          </msIdentifier>
+          <msContents>
+            <msItem>
+              <recipient>Commune Senarum</recipient>
+              <respStmt>
+                <resp>notary</resp>
+                <name>Ser Henricus filius Bonacursi</name>
+              </respStmt>
+            </msItem>
+          </msContents>
+          <physDesc>
+            <objectDesc>
+              <supportDesc>
+                <support>parchment</support>
+              </supportDesc>
+            </objectDesc>
+          </physDesc>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+      <creation>
+        <date when="1146-09-05">III Nonas Septembris 1146</date>
+        <origPlace>Siena</origPlace>
+      </creation>
+      <langUsage>
+        <language ident="la">Latin</language>
+      </langUsage>
+      <textClass>
+        <keywords>
+          <term type="object">Carta donationis</term>
+          <term type="object_subtype">Donatio castri</term>
+          <term type="material">Parchment</term>
+        </keywords>
+      </textClass>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="price_clause">
+        <p>Ego Tedaldus de Bichis, pro communi utilitate et defensione civitatis Senensis, dono et concedo communi Senarum castrum meum quod dicitur Montemaggio, cum turribus et muris et domibus et omnibus pertinentiis suis, cum iurisdictione et districtu et hominibus ibi habitantibus, ut commune Senarum teneat et defendat in perpetuum.</p>
+      </div>
+      <div type="penalty_clause">
+        <p>Si quis vero hanc donationem infringere vel castrum a communi auferre temptaverit, proditor civitatis Senensis habeatur, et componat communi libras viginti auri purissimi, et donatio ista omni tempore firma et inviolata permaneat.</p>
+      </div>
+      <listWitness>
+        <witness>
+          <name>Farulfus de Piccolominis</name>
+        </witness>
+        <witness>
+          <name>Ugo filius Bernardi</name>
+        </witness>
+        <witness>
+          <name>Ildebrandus de Salimbenis</name>
+        </witness>
+      </listWitness>
+    </body>
+  </text>
+</TEI>

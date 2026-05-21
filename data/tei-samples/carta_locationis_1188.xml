@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Carta locationis — Locatio molendini in territorio Senensi</title>
+        <author>Saracenus filius Aldobrandini de Saracinis</author>
+      </titleStmt>
+      <publicationStmt>
+        <p>Sample CEI2TEI P5 document for testing corpus table configuration</p>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier>
+            <country>Italy</country>
+            <settlement>Siena</settlement>
+            <repository>Archivio di Stato di Siena</repository>
+            <idno>Diplomatico, Archivio Generale, 1188 decembris 10</idno>
+          </msIdentifier>
+          <msContents>
+            <msItem>
+              <recipient>Commune Senarum</recipient>
+              <respStmt>
+                <resp>notary</resp>
+                <name>Bernardus filius Rolandi</name>
+              </respStmt>
+            </msItem>
+          </msContents>
+          <physDesc>
+            <objectDesc>
+              <supportDesc>
+                <support>parchment</support>
+              </supportDesc>
+            </objectDesc>
+          </physDesc>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+      <creation>
+        <date when="1188-12-10">IV Idus Decembris 1188</date>
+        <origPlace>Siena</origPlace>
+      </creation>
+      <langUsage>
+        <language ident="la">Latin</language>
+      </langUsage>
+      <textClass>
+        <keywords>
+          <term type="object">Carta locationis</term>
+          <term type="object_subtype">Locatio molendini</term>
+          <term type="material">Parchment</term>
+        </keywords>
+      </textClass>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="price_clause">
+        <p>Ego Saracenus filius Aldobrandini de Saracinis locabo et concedo tibi consulibus communis Senarum molendinum meum positum in territorio Senensi, super fluvium Merse, cum rota, macinis, canalibus et omnibus instrumentis ad molendum necessariis, pro annuo censu librarum triginta denariorum Senensium, solvendo in duabus solutionibus, videlicet in Pascha et in festo Sancti Martini.</p>
+      </div>
+      <div type="penalty_clause">
+        <p>Si quis contra hanc locationem venire temptaverit, componat auri optimi libras duodecim, et haec carta firma permaneat in perpetuum.</p>
+      </div>
+      <listWitness>
+        <witness><name>Tolomeus filius Iacobi de Tolomeis</name></witness>
+        <witness><name>Cacciacontus filius Rainerii</name></witness>
+        <witness><name>Bichus de Bichis</name></witness>
+        <witness><name>Rinaldinus de Rinaldinis</name></witness>
+      </listWitness>
+    </body>
+  </text>
+</TEI>

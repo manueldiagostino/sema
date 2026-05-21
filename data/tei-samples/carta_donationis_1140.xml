@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Carta donationis — Donatio silvae abbatiae Sancti Salvatoris de Amiata</title>
+        <author>Gerardus de Forteguerriis</author>
+      </titleStmt>
+      <publicationStmt>
+        <p>Sample CEI2TEI P5 document for testing corpus table configuration</p>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier>
+            <country>Italy</country>
+            <settlement>Siena</settlement>
+            <repository>Archivio di Stato di Siena</repository>
+            <idno>Diplomatico, Archivio Generale, 1140 novembris 30</idno>
+          </msIdentifier>
+          <msContents>
+            <msItem>
+              <recipient>Abbatia Sancti Salvatoris de Amiata</recipient>
+              <respStmt>
+                <resp>notary</resp>
+                <name>Ser Manfredus filius Petri</name>
+              </respStmt>
+            </msItem>
+          </msContents>
+          <physDesc>
+            <objectDesc>
+              <supportDesc>
+                <support>parchment</support>
+              </supportDesc>
+            </objectDesc>
+          </physDesc>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+      <creation>
+        <date when="1140-11-30">II Kalendas Decembris 1140</date>
+        <origPlace>Siena</origPlace>
+      </creation>
+      <langUsage>
+        <language ident="la">Latin</language>
+      </langUsage>
+      <textClass>
+        <keywords>
+          <term type="object">Carta donationis</term>
+          <term type="object_subtype">Donatio silvae</term>
+          <term type="material">Parchment</term>
+        </keywords>
+      </textClass>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="price_clause">
+        <p>Ego Gerardus de Forteguerriis, pro remedio animae meae et pro salute heredum meorum, dono abbatiae Sancti Salvatoris de Amiata silvam meam magnam positam in monte Amiata, cum omnibus arboribus quercuum et fagorum et castanearum, cum iure ligna caedendi et glandes colligendi et porcos pascendi, libere et absolute in perpetuum.</p>
+      </div>
+      <div type="penalty_clause">
+        <p>Quod si quis hanc donationem infringere vel silvam minuere praesumpserit, iram Dei omnipotentis et beati Salvatoris incurrat, et componat abbatiae libras decem auri optimi, et donatio ista nullatenus revocari possit sed firma permaneat.</p>
+      </div>
+      <listWitness>
+        <witness>
+          <name>Ubertus de Pannocchieschis</name>
+        </witness>
+        <witness>
+          <name>Bernardus filius Rainaldi</name>
+        </witness>
+        <witness>
+          <name>Ildebrandinus de Squarcialupis</name>
+        </witness>
+      </listWitness>
+    </body>
+  </text>
+</TEI>
