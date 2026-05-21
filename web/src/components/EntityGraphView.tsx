@@ -27,12 +27,12 @@ interface EntityGraphViewProps {
 // ---------------------------------------------------------------------------
 
 const NODE_GROUPS: Record<EntityType, Record<string, unknown>> = {
-  person: { color: { background: "#f59e0b", border: "#d97706" }, shape: "dot", size: 20, font: { color: "#ffffff", size: 14 } },
-  clan: { color: { background: "#8b5cf6", border: "#7c3aed" }, shape: "diamond", size: 18, font: { color: "#ffffff", size: 14 } },
-  institution: { color: { background: "#3b82f6", border: "#2563eb" }, shape: "square", size: 22, font: { color: "#ffffff", size: 14 } },
-  document: { color: { background: "#10b981", border: "#059669" }, shape: "square", size: 28, font: { color: "#ffffff", size: 14 } },
-  document_type: { color: { background: "#6b7280", border: "#4b5563" }, shape: "hexagon", size: 16, font: { color: "#ffffff", size: 14 } },
-  place: { color: { background: "#14b8a6", border: "#0d9488" }, shape: "triangle", size: 18, font: { color: "#ffffff", size: 14 } },
+  person: { color: { background: "#d97706", border: "#b45309" }, shape: "dot", size: 20, font: { color: "#ffffff", size: 14 } },
+  clan: { color: { background: "#7c3aed", border: "#6d28d9" }, shape: "diamond", size: 18, font: { color: "#ffffff", size: 14 } },
+  institution: { color: { background: "#2563eb", border: "#1d4ed8" }, shape: "square", size: 22, font: { color: "#ffffff", size: 14 } },
+  document: { color: { background: "#059669", border: "#047857" }, shape: "square", size: 28, font: { color: "#ffffff", size: 14 } },
+  document_type: { color: { background: "#4b5563", border: "#374151" }, shape: "hexagon", size: 16, font: { color: "#ffffff", size: 14 } },
+  place: { color: { background: "#0d9488", border: "#0f766e" }, shape: "triangle", size: 18, font: { color: "#ffffff", size: 14 } },
 };
 
 const ALL_TYPES: EntityType[] = ["person", "clan", "institution", "document", "document_type", "place"];
@@ -45,11 +45,6 @@ const TYPE_LABELS: Record<EntityType, string> = {
   document_type: "Document Type",
   place: "Place",
 };
-
-const DIRECT_EDGE_TYPES = new Set([
-  "signs", "notarizes", "witnesses", "receives",
-  "has_type", "created_in", "belongs_to_clan",
-]);
 
 const NETWORK_OPTIONS = {
   physics: {
@@ -83,10 +78,6 @@ const NETWORK_OPTIONS = {
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
-
-function getConnectedEdges(nodeId: string, edges: EntityEdge[]): EntityEdge[] {
-  return edges.filter((e) => e.source === nodeId || e.target === nodeId);
-}
 
 function getNeighborIds(nodeId: string, edges: EntityEdge[]): Set<string> {
   const neighbors = new Set<string>();
@@ -232,8 +223,193 @@ export default function EntityGraphView({
       .finally(() => {
         setLoading(false);
       });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialDocFilter]);
+
+  // -----------------------------------------------------------------------
+  // Node interaction handlers
+  // -----------------------------------------------------------------------
+
+  const deselectAll = useCallback(() => {
+    const network = networkRef.current as {
+      unselectAll: () => void;
+      setData: (data: Record<string, unknown>) => void;
+    } | null;
+    if (!network) return;
+
+    const visNodes = nodesDataSetRef.current as {
+      get: (id: string) => Record<string, unknown>;
+      update: (item: Record<string, unknown>) => void;
+      getIds: () => string[];
+    } | null;
+    const visEdges = edgesDataSetRef.current as {
+      getIds: () => string[];
+      get: (id: string) => Record<string, unknown> | undefined;
+      update: (item: Record<string, unknown>) => void;
+    } | null;
+
+    if (!visNodes || !visEdges) return;
+
+    // Restore all nodes to full opacity
+    const nodeIds = visNodes.getIds();
+    for (const id of nodeIds) {
+      const node = visNodes.get(id);
+      if (node.hidden !== true) {
+        visNodes.update({ id, font: { color: "#ffffff" } });
+      }
+    }
+
+    // Restore all edges
+    const edgeIds = visEdges.getIds();
+    for (const id of edgeIds) {
+      visEdges.update({ id, hidden: false, color: { color: "#9ca3af" }, width: 2 });
+    }
+
+    network.unselectAll();
+    setSelectedNode(undefined);
+    setInfoCard(null);
+
+    // Remove selection glow from all nodes
+    for (const id of nodeIds) {
+      visNodes.update({ id, borderWidth: 0, shadow: false });
+    }
+  }, []);
+
+  const handleNodeClick = useCallback((nodeId: string) => {
+    const network = networkRef.current as {
+      selectNodes: (ids: string[]) => void;
+    } | null;
+    const visNodes = nodesDataSetRef.current as {
+      get: (id: string) => Record<string, unknown>;
+      update: (item: Record<string, unknown>) => void;
+      getIds: () => string[];
+    } | null;
+    const visEdges = edgesDataSetRef.current as {
+      getIds: () => string[];
+      get: (id: string) => Record<string, unknown> | undefined;
+      update: (item: Record<string, unknown>) => void;
+    } | null;
+
+    if (!network || !visNodes || !visEdges) return;
+
+    const nodes = allNodesRef.current;
+    const edges = allEdgesRef.current;
+
+    const neighborIds = getNeighborIds(nodeId, edges);
+    const highlightIds = new Set([nodeId, ...neighborIds]);
+
+    // Dim non-neighbor nodes
+    const allNodeIds = visNodes.getIds();
+    for (const id of allNodeIds) {
+      const node = visNodes.get(id);
+      if (node.hidden === true) continue;
+      if (highlightIds.has(id)) {
+        visNodes.update({ id, font: { color: "#ffffff", size: 14 } });
+      } else {
+        visNodes.update({ id, font: { color: "rgba(229,231,235,0.55)", size: 14 } });
+      }
+    }
+
+    // Dim non-connected edges
+    const connectedEdgeIds = new Set<string>();
+    const edgeIds = visEdges.getIds();
+    for (const id of edgeIds) {
+      const edge = visEdges.get(id) as Record<string, unknown> | undefined;
+      if (!edge) continue;
+      const from = edge.from as string;
+      const to = edge.to as string;
+      if (highlightIds.has(from) && highlightIds.has(to)) {
+        connectedEdgeIds.add(id);
+        visEdges.update({ id, hidden: false, color: { color: "#9ca3af" }, width: 2 });
+      } else {
+        visEdges.update({ id, hidden: false, color: { color: "rgba(156,163,175,0.25)" }, width: 1 });
+      }
+    }
+
+    // Glow effect on selected node
+    visNodes.update({
+      id: nodeId,
+      borderWidth: 3,
+      borderColor: "#ffffff",
+      shadow: { enabled: true, color: "rgba(255,255,255,0.5)", size: 15 },
+    });
+
+    network.selectNodes([nodeId]);
+
+    // Build info card
+    const nodeMap = new Map(nodes.map((n) => [n.id, n]));
+    const clickedNode = nodeMap.get(nodeId);
+    if (clickedNode) {
+      const docs = getDocumentNodesInHop(nodeId, nodes, edges);
+      const docDates = docs
+        .map((d) => d.date)
+        .filter(Boolean)
+        .sort();
+      const dateRange =
+        docDates.length > 0
+          ? `${docDates[0]}${docDates.length > 1 ? ` — ${docDates[docDates.length - 1]}` : ""}`
+          : undefined;
+
+      setInfoCard({
+        label: clickedNode.label,
+        type: clickedNode.type,
+        docCount: docs.length,
+        dateRange,
+      });
+    }
+
+    setSelectedNode(nodeId);
+  }, []);
+
+  const handleNodeDoubleClick = useCallback((nodeId: string) => {
+    const visNodes = nodesDataSetRef.current as {
+      get: (id: string) => Record<string, unknown>;
+      update: (item: Record<string, unknown>) => void;
+      getIds: () => string[];
+    } | null;
+    const visEdges = edgesDataSetRef.current as {
+      getIds: () => string[];
+      get: (id: string) => Record<string, unknown> | undefined;
+      update: (item: Record<string, unknown>) => void;
+    } | null;
+    const network = networkRef.current as {
+      focus: (id: string, opts: Record<string, unknown>) => void;
+      selectNodes: (ids: string[]) => void;
+    } | null;
+
+    if (!visNodes || !visEdges || !network) return;
+
+    const twoHopIds = getTwoHopIds(nodeId, allEdgesRef.current);
+    const allNodeIds = visNodes.getIds();
+
+    // Hide nodes outside 2-hop
+    for (const id of allNodeIds) {
+      if (twoHopIds.has(id)) {
+        visNodes.update({ id, hidden: false, font: { color: "#ffffff", size: 14 } });
+      } else {
+        visNodes.update({ id, hidden: true });
+      }
+    }
+
+    // Hide edges outside 2-hop
+    const edgeIds = visEdges.getIds();
+    for (const id of edgeIds) {
+      const edge = visEdges.get(id) as Record<string, unknown> | undefined;
+      if (!edge) continue;
+      const from = edge.from as string;
+      const to = edge.to as string;
+      if (twoHopIds.has(from) && twoHopIds.has(to)) {
+        visEdges.update({ id, hidden: false });
+      } else {
+        visEdges.update({ id, hidden: true });
+      }
+    }
+
+    network.focus(nodeId, { scale: 1.2, animation: { duration: 500, easingFunction: "easeInOutQuad" } });
+    network.selectNodes([nodeId]);
+
+    // Also update info card
+    handleNodeClick(nodeId);
+  }, [handleNodeClick]);
 
   // -----------------------------------------------------------------------
   // vis-network initialization
@@ -365,192 +541,6 @@ export default function EntityGraphView({
   }, [graphData]);
 
   // -----------------------------------------------------------------------
-  // Node interaction handlers
-  // -----------------------------------------------------------------------
-
-  const deselectAll = useCallback(() => {
-    const network = networkRef.current as {
-      unselectAll: () => void;
-      setData: (data: Record<string, unknown>) => void;
-    } | null;
-    if (!network) return;
-
-    const visNodes = nodesDataSetRef.current as {
-      get: (id: string) => Record<string, unknown>;
-      update: (item: Record<string, unknown>) => void;
-      getIds: () => string[];
-    } | null;
-    const visEdges = edgesDataSetRef.current as {
-      getIds: () => string[];
-      get: (id: string) => Record<string, unknown> | undefined;
-      update: (item: Record<string, unknown>) => void;
-    } | null;
-
-    if (!visNodes || !visEdges) return;
-
-    // Restore all nodes to full opacity
-    const nodeIds = visNodes.getIds();
-    for (const id of nodeIds) {
-      const node = visNodes.get(id);
-      if (node.hidden !== true) {
-        visNodes.update({ id, font: { color: "#ffffff" } });
-      }
-    }
-
-    // Restore all edges
-    const edgeIds = visEdges.getIds();
-    for (const id of edgeIds) {
-      visEdges.update({ id, hidden: false, color: { color: "#9ca3af" }, width: 2 });
-    }
-
-    network.unselectAll();
-    setSelectedNode(undefined);
-    setInfoCard(null);
-
-    // Remove selection glow from all nodes
-    for (const id of nodeIds) {
-      visNodes.update({ id, borderWidth: 0, shadow: false });
-    }
-  }, []);
-
-  const handleNodeClick = useCallback((nodeId: string) => {
-    const network = networkRef.current as {
-      selectNodes: (ids: string[]) => void;
-    } | null;
-    const visNodes = nodesDataSetRef.current as {
-      get: (id: string) => Record<string, unknown>;
-      update: (item: Record<string, unknown>) => void;
-      getIds: () => string[];
-    } | null;
-    const visEdges = edgesDataSetRef.current as {
-      getIds: () => string[];
-      get: (id: string) => Record<string, unknown> | undefined;
-      update: (item: Record<string, unknown>) => void;
-    } | null;
-
-    if (!network || !visNodes || !visEdges) return;
-
-    const nodes = allNodesRef.current;
-    const edges = allEdgesRef.current;
-
-    const neighborIds = getNeighborIds(nodeId, edges);
-    const highlightIds = new Set([nodeId, ...neighborIds]);
-
-    // Dim non-neighbor nodes
-    const allNodeIds = visNodes.getIds();
-    for (const id of allNodeIds) {
-      const node = visNodes.get(id);
-      if (node.hidden === true) continue;
-      if (highlightIds.has(id)) {
-        visNodes.update({ id, font: { color: "#ffffff", size: 14 } });
-      } else {
-        visNodes.update({ id, font: { color: "rgba(229,231,235,0.40)", size: 14 } });
-      }
-    }
-
-    // Dim non-connected edges
-    const connectedEdgeIds = new Set<string>();
-    const edgeIds = visEdges.getIds();
-    for (const id of edgeIds) {
-      const edge = visEdges.get(id) as Record<string, unknown> | undefined;
-      if (!edge) continue;
-      const from = edge.from as string;
-      const to = edge.to as string;
-      if (highlightIds.has(from) && highlightIds.has(to)) {
-        connectedEdgeIds.add(id);
-        visEdges.update({ id, hidden: false, color: { color: "#9ca3af" }, width: 2 });
-      } else {
-        visEdges.update({ id, hidden: false, color: { color: "rgba(156,163,175,0.25)" }, width: 1 });
-      }
-    }
-
-    // Glow effect on selected node
-    visNodes.update({
-      id: nodeId,
-      borderWidth: 3,
-      borderColor: "#ffffff",
-      shadow: { enabled: true, color: "rgba(255,255,255,0.5)", size: 15 },
-    });
-
-    network.selectNodes([nodeId]);
-
-    // Build info card
-    const nodeMap = new Map(nodes.map((n) => [n.id, n]));
-    const clickedNode = nodeMap.get(nodeId);
-    if (clickedNode) {
-      const docs = getDocumentNodesInHop(nodeId, nodes, edges);
-      const docDates = docs
-        .map((d) => d.date)
-        .filter(Boolean)
-        .sort();
-      const dateRange =
-        docDates.length > 0
-          ? `${docDates[0]}${docDates.length > 1 ? ` — ${docDates[docDates.length - 1]}` : ""}`
-          : undefined;
-
-      setInfoCard({
-        label: clickedNode.label,
-        type: clickedNode.type,
-        docCount: docs.length,
-        dateRange,
-      });
-    }
-
-    setSelectedNode(nodeId);
-  }, []);
-
-  const handleNodeDoubleClick = useCallback((nodeId: string) => {
-    const visNodes = nodesDataSetRef.current as {
-      get: (id: string) => Record<string, unknown>;
-      update: (item: Record<string, unknown>) => void;
-      getIds: () => string[];
-    } | null;
-    const visEdges = edgesDataSetRef.current as {
-      getIds: () => string[];
-      get: (id: string) => Record<string, unknown> | undefined;
-      update: (item: Record<string, unknown>) => void;
-    } | null;
-    const network = networkRef.current as {
-      focus: (id: string, opts: Record<string, unknown>) => void;
-      selectNodes: (ids: string[]) => void;
-    } | null;
-
-    if (!visNodes || !visEdges || !network) return;
-
-    const twoHopIds = getTwoHopIds(nodeId, allEdgesRef.current);
-    const allNodeIds = visNodes.getIds();
-
-    // Hide nodes outside 2-hop
-    for (const id of allNodeIds) {
-      if (twoHopIds.has(id)) {
-        visNodes.update({ id, hidden: false, font: { color: "#e5e7eb", size: 14 } });
-      } else {
-        visNodes.update({ id, hidden: true });
-      }
-    }
-
-    // Hide edges outside 2-hop
-    const edgeIds = visEdges.getIds();
-    for (const id of edgeIds) {
-      const edge = visEdges.get(id) as Record<string, unknown> | undefined;
-      if (!edge) continue;
-      const from = edge.from as string;
-      const to = edge.to as string;
-      if (twoHopIds.has(from) && twoHopIds.has(to)) {
-        visEdges.update({ id, hidden: false });
-      } else {
-        visEdges.update({ id, hidden: true });
-      }
-    }
-
-    network.focus(nodeId, { scale: 1.2, animation: { duration: 500, easingFunction: "easeInOutQuad" } });
-    network.selectNodes([nodeId]);
-
-    // Also update info card
-    handleNodeClick(nodeId);
-  }, [handleNodeClick]);
-
-  // -----------------------------------------------------------------------
   // Filter application
   // -----------------------------------------------------------------------
 
@@ -569,7 +559,6 @@ export default function EntityGraphView({
     if (!visNodes || !visEdges) return;
 
     const nodes = allNodesRef.current;
-    const nodeMap = new Map(nodes.map((n) => [n.id, n]));
     const visibleNodeIds = new Set<string>();
 
     // Type filter
@@ -643,11 +632,34 @@ export default function EntityGraphView({
       setOptions: (opts: Record<string, unknown>) => void;
       fit: () => void;
     } | null;
-    if (!network) return;
+    const visNodes = nodesDataSetRef.current as {
+      update: (items: Record<string, unknown> | Record<string, unknown>[]) => void;
+      get: (id: string) => Record<string, unknown>;
+      getIds: () => string[];
+    } | null;
+    if (!network || !visNodes) return;
+
+    // Reposition document nodes back to their original circle layout
+    const allNodes = allNodesRef.current;
+    const docNodes = allNodes.filter((n) => n.type === "document");
+    const docUpdates: Record<string, unknown>[] = [];
+    for (let i = 0; i < docNodes.length; i++) {
+      const angle = (2 * Math.PI * i) / docNodes.length;
+      const radius = 800;
+      docUpdates.push({
+        id: docNodes[i].id,
+        x: Math.cos(angle) * radius,
+        y: Math.sin(angle) * radius,
+        fixed: { x: true, y: true },
+      });
+    }
+    visNodes.update(docUpdates);
 
     network.setOptions({ physics: { enabled: true } });
     setTimeout(() => {
       network.setOptions({ physics: { enabled: false } });
+      // Unfix document nodes so users can drag them after layout settles
+      visNodes.update(docNodes.map((n) => ({ id: n.id, fixed: false })));
       network.fit();
     }, 2000);
   }, []);
@@ -693,10 +705,10 @@ export default function EntityGraphView({
   // -----------------------------------------------------------------------
 
   const searchMatchCount = useMemo(() => {
-    if (!searchQuery.trim()) return 0;
+    if (!searchQuery.trim() || !graphData) return 0;
     const query = searchQuery.toLowerCase();
-    return allNodesRef.current.filter((n) => n.label.toLowerCase().includes(query)).length;
-  }, [searchQuery]);
+    return graphData.nodes.filter((n) => n.label.toLowerCase().includes(query)).length;
+  }, [searchQuery, graphData]);
 
   // -----------------------------------------------------------------------
   // Render
