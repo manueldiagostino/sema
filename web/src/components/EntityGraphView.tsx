@@ -79,6 +79,14 @@ const NETWORK_OPTIONS = {
 // Helpers
 // ---------------------------------------------------------------------------
 
+function hexToRgba(hex: string, alpha: number): string {
+  const h = hex.replace("#", "");
+  const r = parseInt(h.substring(0, 2), 16);
+  const g = parseInt(h.substring(2, 4), 16);
+  const b = parseInt(h.substring(4, 6), 16);
+  return `rgba(${r},${g},${b},${alpha})`;
+}
+
 function getNeighborIds(nodeId: string, edges: EntityEdge[]): Set<string> {
   const neighbors = new Set<string>();
   for (const e of edges) {
@@ -133,6 +141,11 @@ export default function EntityGraphView({
   const edgesDataSetRef = useRef<unknown>(null);
   const allNodesRef = useRef<EntityNode[]>([]);
   const allEdgesRef = useRef<EntityEdge[]>([]);
+  const themeRef = useRef({
+    foreground: "#ffffff",
+    dimmed: "rgba(229,231,235,0.55)",
+    edgeLabel: "#d1d5db",
+  });
 
   // Local state
   const [graphData, setGraphData] = useState<EntityGraph | null>(null);
@@ -254,7 +267,7 @@ export default function EntityGraphView({
     for (const id of nodeIds) {
       const node = visNodes.get(id);
       if (node.hidden !== true) {
-        visNodes.update({ id, font: { color: "#ffffff" } });
+        visNodes.update({ id, font: { color: themeRef.current.foreground } });
       }
     }
 
@@ -303,9 +316,9 @@ export default function EntityGraphView({
       const node = visNodes.get(id);
       if (node.hidden === true) continue;
       if (highlightIds.has(id)) {
-        visNodes.update({ id, font: { color: "#ffffff", size: 14 } });
+        visNodes.update({ id, font: { color: themeRef.current.foreground, size: 14 } });
       } else {
-        visNodes.update({ id, font: { color: "rgba(229,231,235,0.55)", size: 14 } });
+        visNodes.update({ id, font: { color: themeRef.current.dimmed, size: 14 } });
       }
     }
 
@@ -329,8 +342,8 @@ export default function EntityGraphView({
     visNodes.update({
       id: nodeId,
       borderWidth: 3,
-      borderColor: "#ffffff",
-      shadow: { enabled: true, color: "rgba(255,255,255,0.5)", size: 15 },
+      borderColor: themeRef.current.foreground,
+      shadow: { enabled: true, color: hexToRgba(themeRef.current.foreground, 0.5), size: 15 },
     });
 
     network.selectNodes([nodeId]);
@@ -384,7 +397,7 @@ export default function EntityGraphView({
     // Hide nodes outside 2-hop
     for (const id of allNodeIds) {
       if (twoHopIds.has(id)) {
-        visNodes.update({ id, hidden: false, font: { color: "#ffffff", size: 14 } });
+        visNodes.update({ id, hidden: false, font: { color: themeRef.current.foreground, size: 14 } });
       } else {
         visNodes.update({ id, hidden: true });
       }
@@ -426,6 +439,15 @@ export default function EntityGraphView({
 
       if (destroyed || !containerRef.current) return;
 
+      // Read theme foreground color from CSS variables at runtime
+      const foreground =
+        getComputedStyle(document.documentElement).getPropertyValue("--foreground").trim() || "#ffffff";
+      themeRef.current = {
+        foreground,
+        dimmed: hexToRgba(foreground, 0.55),
+        edgeLabel: hexToRgba(foreground, 0.6),
+      };
+
       const visNodes = new vis.DataSet(
         data.nodes.map((n, i, arr) => {
           const base = {
@@ -433,6 +455,7 @@ export default function EntityGraphView({
             label: n.label,
             group: n.type,
             ...NODE_GROUPS[n.type],
+            font: { color: themeRef.current.foreground, size: 14 },
           };
 
           // Position document nodes in a circle to create hub-and-spoke layout
@@ -464,7 +487,7 @@ export default function EntityGraphView({
             color: isCoOccurs ? "#d1d5db" : "#9ca3af",
             width: isCoOccurs ? 1 : 2,
             dashes: isCoOccurs ? [5, 5] : false,
-            font: { size: 10, color: "#d1d5db", align: "top" },
+            font: { size: 10, color: themeRef.current.edgeLabel, align: "top" },
             smooth: { enabled: true, type: "curvedCW", roundness: 0.15 },
           };
         })
@@ -929,7 +952,7 @@ export default function EntityGraphView({
 
       {/* ── Graph Canvas ─────────────────────────────────────────────── */}
       <div className="flex-1 min-h-0 relative">
-        <div ref={containerRef} className="absolute inset-0" />
+        <div ref={containerRef} className="absolute inset-0 bg-background" />
         {selectedNode && (
           <div className="absolute bottom-2 left-1/2 -translate-x-1/2 rounded bg-background/80 px-3 py-1 text-xs text-muted-foreground pointer-events-none">
             Click empty space to deselect · Double-click to zoom

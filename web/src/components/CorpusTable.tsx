@@ -321,9 +321,14 @@ export default function CorpusTable() {
   const handleGraphView = useCallback(() => {
     const params = new URLSearchParams(window.location.search);
     params.set("view", "graph");
+    const selectedDocIds = Object.keys(rowSelection).filter((k) => rowSelection[k]);
+    if (selectedDocIds.length > 0) {
+      params.set("graphNode", selectedDocIds[0]);
+      params.set("graphDocs", selectedDocIds.join(","));
+    }
     window.history.pushState({}, "", `?${params.toString()}`);
     window.dispatchEvent(new PopStateEvent("popstate"));
-  }, []);
+  }, [rowSelection]);
 
   // Derived: selected documents for CompareDrawer and export
   const selectedDocuments = useMemo(() => {
