@@ -38,6 +38,21 @@ export default function CompareDrawer({
   const [isMobile, setIsMobile] = useState(false);
   const [layout, setLayout] = useState<CompareLayout>(getInitialLayout);
 
+  const handleViewInGraph = () => {
+    const params = new URLSearchParams(window.location.search);
+    params.set("view", "graph");
+    // Pass selected document IDs as graphNode (first one as initial selection)
+    if (documents.length > 0) {
+      params.set("graphNode", documents[0].id);
+    }
+    // Pass all selected document IDs for graph filtering
+    if (documents.length > 0) {
+      params.set("graphDocs", documents.map((d) => d.id).join(","));
+    }
+    window.history.pushState({}, "", `?${params.toString()}`);
+    window.dispatchEvent(new PopStateEvent("popstate"));
+  };
+
   // Persist layout preference
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, layout);
@@ -143,6 +158,18 @@ export default function CompareDrawer({
                 title={isFullscreen ? "Collapse" : "Expand to fullscreen"}
               >
                 {isFullscreen ? "⤡" : "⤢"}
+              </button>
+            )}
+            {/* View in Graph — shown when 2+ documents selected */}
+            {documents.length >= 2 && (
+              <button
+                type="button"
+                onClick={handleViewInGraph}
+                className="rounded border border-border p-1.5 text-muted-foreground transition-colors hover:bg-muted/50 hover:text-foreground"
+                aria-label="View in graph"
+                title="View in graph"
+              >
+                ◉
               </button>
             )}
             {/* Close button */}

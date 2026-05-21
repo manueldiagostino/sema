@@ -1,0 +1,963 @@
+"use client";
+
+import { useEffect, useRef, useState, useCallback, useMemo } from "react";
+import type { EntityGraph, EntityNode, EntityEdge, EntityType } from "@/types/entity-graph";
+
+// ---------------------------------------------------------------------------
+// Types
+// ---------------------------------------------------------------------------
+
+interface EntityGraphViewProps {
+  initialSelectedNode?: string;
+  initialVisibleTypes?: string[];
+  initialDateFrom?: string;
+  initialDateTo?: string;
+  initialDocFilter?: string[];
+  onBackToTable: () => void;
+  onStateChange: (state: {
+    selectedNode?: string;
+    visibleTypes?: string[];
+    dateFrom?: string;
+    dateTo?: string;
+  }) => void;
+}
+
+// ---------------------------------------------------------------------------
+// Constants
+// ---------------------------------------------------------------------------
+
+const NODE_GROUPS: Record<EntityType, Record<string, unknown>> = {
+  person: { color: { background: "#f59e0b", border: "#d97706" }, shape: "dot", size: 20, font: { color: "#ffffff", size: 14 } },
+  clan: { color: { background: "#8b5cf6", border: "#7c3aed" }, shape: "diamond", size: 18, font: { color: "#ffffff", size: 14 } },
+  institution: { color: { background: "#3b82f6", border: "#2563eb" }, shape: "square", size: 22, font: { color: "#ffffff", size: 14 } },
+  document: { color: { background: "#10b981", border: "#059669" }, shape: "square", size: 28, font: { color: "#ffffff", size: 14 } },
+  document_type: { color: { background: "#6b7280", border: "#4b5563" }, shape: "hexagon", size: 16, font: { color: "#ffffff", size: 14 } },
+  place: { color: { background: "#14b8a6", border: "#0d9488" }, shape: "triangle", size: 18, font: { color: "#ffffff", size: 14 } },
+};
+
+const ALL_TYPES: EntityType[] = ["person", "clan", "institution", "document", "document_type", "place"];
+
+const TYPE_LABELS: Record<EntityType, string> = {
+  person: "Person",
+  clan: "Clan",
+  institution: "Institution",
+  document: "Document",
+  document_type: "Document Type",
+  place: "Place",
+};
+
+const DIRECT_EDGE_TYPES = new Set([
+  "signs", "notarizes", "witnesses", "receives",
+  "has_type", "created_in", "belongs_to_clan",
+]);
+
+const NETWORK_OPTIONS = {
+  physics: {
+    enabled: true,
+    solver: "barnesHut" as const,
+    barnesHut: {
+      gravitationalConstant: -2000,
+      centralGravity: 0.3,
+      springLength: 95,
+      springConstant: 0.04,
+      damping: 0.09,
+    },
+    stabilization: {
+      enabled: true,
+      iterations: 200,
+      fit: true,
+    },
+  },
+  interaction: {
+    hover: true,
+    tooltipDelay: 200,
+    zoomView: true,
+    dragView: true,
+    dragNodes: true,
+  },
+  layout: {
+    improvedLayout: true,
+  },
+};
+
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+
+function getConnectedEdges(nodeId: string, edges: EntityEdge[]): EntityEdge[] {
+  return edges.filter((e) => e.source === nodeId || e.target === nodeId);
+}
+
+function getNeighborIds(nodeId: string, edges: EntityEdge[]): Set<string> {
+  const neighbors = new Set<string>();
+  for (const e of edges) {
+    if (e.source === nodeId) neighbors.add(e.target);
+    if (e.target === nodeId) neighbors.add(e.source);
+  }
+  return neighbors;
+}
+
+function getTwoHopIds(nodeId: string, edges: EntityEdge[]): Set<string> {
+  const oneHop = getNeighborIds(nodeId, edges);
+  const twoHop = new Set<string>([nodeId, ...oneHop]);
+  for (const n of oneHop) {
+    for (const e of edges) {
+      if (e.source === n) twoHop.add(e.target);
+      if (e.target === n) twoHop.add(e.source);
+    }
+  }
+  return twoHop;
+}
+
+function getDocumentNodesInHop(nodeId: string, nodes: EntityNode[], edges: EntityEdge[]): EntityNode[] {
+  const neighborIds = getNeighborIds(nodeId, edges);
+  const nodeMap = new Map(nodes.map((n) => [n.id, n]));
+  const docs: EntityNode[] = [];
+  for (const nid of neighborIds) {
+    const node = nodeMap.get(nid);
+    if (node && node.type === "document") docs.push(node);
+  }
+  // Also check if the node itself is a document
+  const self = nodeMap.get(nodeId);
+  if (self && self.type === "document") docs.push(self);
+  return docs;
+}
+
+// ---------------------------------------------------------------------------
+// Component
+// ---------------------------------------------------------------------------
+
+export default function EntityGraphView({
+  initialSelectedNode,
+  initialVisibleTypes,
+  initialDateFrom,
+  initialDateTo,
+  initialDocFilter,
+  onBackToTable,
+  onStateChange,
+}: EntityGraphViewProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const networkRef = useRef<unknown>(null);
+  const nodesDataSetRef = useRef<unknown>(null);
+  const edgesDataSetRef = useRef<unknown>(null);
+  const allNodesRef = useRef<EntityNode[]>([]);
+  const allEdgesRef = useRef<EntityEdge[]>([]);
+
+  // Local state
+  const [graphData, setGraphData] = useState<EntityGraph | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const [selectedNode, setSelectedNode] = useState<string | undefined>(initialSelectedNode);
+  const [visibleTypes, setVisibleTypes] = useState<string[]>(
+    initialVisibleTypes && initialVisibleTypes.length > 0
+      ? initialVisibleTypes
+      : [...ALL_TYPES]
+  );
+  const [dateFrom, setDateFrom] = useState(initialDateFrom ?? "");
+  const [dateTo, setDateTo] = useState(initialDateTo ?? "");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showFilters, setShowFilters] = useState(false);
+  const [showLegend, setShowLegend] = useState(false);
+  const [infoCard, setInfoCard] = useState<{
+    label: string;
+    type: EntityType;
+    docCount: number;
+    dateRange?: string;
+  } | null>(null);
+
+  // -----------------------------------------------------------------------
+  // Sync state to URL (deferred via useEffect, NEVER during render)
+  // -----------------------------------------------------------------------
+
+  useEffect(() => {
+    onStateChange({
+      selectedNode,
+      visibleTypes: visibleTypes.length < ALL_TYPES.length ? visibleTypes : undefined,
+      dateFrom: dateFrom || undefined,
+      dateTo: dateTo || undefined,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedNode, visibleTypes, dateFrom, dateTo]);
+
+  // -----------------------------------------------------------------------
+  // Data fetching
+  // -----------------------------------------------------------------------
+
+  useEffect(() => {
+    fetch("/entity-graph.json")
+      .then(async (res) => {
+        if (!res.ok) {
+          throw new Error(`Failed to load entity graph: ${res.status} ${res.statusText}`);
+        }
+        return res.json() as Promise<EntityGraph>;
+      })
+      .then((data) => {
+        let filteredNodes = data.nodes;
+        let filteredEdges = data.edges;
+
+        if (initialDocFilter && initialDocFilter.length > 0) {
+          const docFilterSet = new Set(initialDocFilter);
+          // Find document nodes whose id is in the filter
+          const docNodeIds = new Set<string>();
+          for (const node of data.nodes) {
+            if (node.type === "document" && docFilterSet.has(node.id)) {
+              docNodeIds.add(node.id);
+            }
+          }
+          // Collect all 1-hop neighbor IDs of those document nodes
+          const allowedNodeIds = new Set<string>(docNodeIds);
+          for (const edge of data.edges) {
+            if (docNodeIds.has(edge.source)) {
+              allowedNodeIds.add(edge.target);
+            }
+            if (docNodeIds.has(edge.target)) {
+              allowedNodeIds.add(edge.source);
+            }
+          }
+          // Filter nodes and edges
+          filteredNodes = data.nodes.filter((n) => allowedNodeIds.has(n.id));
+          filteredEdges = data.edges.filter(
+            (e) => allowedNodeIds.has(e.source) && allowedNodeIds.has(e.target)
+          );
+        }
+
+        setGraphData({ nodes: filteredNodes, edges: filteredEdges });
+        allNodesRef.current = filteredNodes;
+        allEdgesRef.current = filteredEdges;
+      })
+      .catch((err) => {
+        setError(err instanceof Error ? err.message : "Failed to load entity graph");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialDocFilter]);
+
+  // -----------------------------------------------------------------------
+  // vis-network initialization
+  // -----------------------------------------------------------------------
+
+  useEffect(() => {
+    if (!graphData || !containerRef.current || graphData.nodes.length === 0) return;
+
+    let destroyed = false;
+    const data = graphData; // capture for async scope
+
+    async function initNetwork() {
+      const vis = await import("vis-network/standalone");
+
+      if (destroyed || !containerRef.current) return;
+
+      const visNodes = new vis.DataSet(
+        data.nodes.map((n, i, arr) => {
+          const base = {
+            id: n.id,
+            label: n.label,
+            group: n.type,
+            ...NODE_GROUPS[n.type],
+          };
+
+          // Position document nodes in a circle to create hub-and-spoke layout
+          if (n.type === "document") {
+            const docNodes = arr.filter((x) => x.type === "document");
+            const docIndex = docNodes.findIndex((x) => x.id === n.id);
+            const angle = (2 * Math.PI * docIndex) / docNodes.length;
+            const radius = 800;
+            return {
+              ...base,
+              x: Math.cos(angle) * radius,
+              y: Math.sin(angle) * radius,
+              fixed: { x: true, y: true },
+            };
+          }
+
+          return base;
+        })
+      );
+
+      const visEdges = new vis.DataSet(
+        data.edges.map((e) => {
+          const isCoOccurs = e.type === "co_occurs";
+          return {
+            id: `${e.source}-${e.target}`,
+            from: e.source,
+            to: e.target,
+            label: isCoOccurs ? undefined : e.type,
+            color: isCoOccurs ? "#d1d5db" : "#9ca3af",
+            width: isCoOccurs ? 1 : 2,
+            dashes: isCoOccurs ? [5, 5] : false,
+            font: { size: 10, color: "#d1d5db", align: "top" },
+            smooth: { enabled: true, type: "curvedCW", roundness: 0.15 },
+          };
+        })
+      );
+
+      nodesDataSetRef.current = visNodes;
+      edgesDataSetRef.current = visEdges;
+
+      const network = new vis.Network(
+        containerRef.current,
+        { nodes: visNodes, edges: visEdges },
+        NETWORK_OPTIONS
+      );
+
+      networkRef.current = network;
+
+      // Stop physics after stabilization
+      network.once("afterDrawing", () => {
+        // Physics will be stopped after stabilization event
+      });
+
+      network.on("stabilizationIterationsDone", () => {
+        network.setOptions({ physics: { enabled: false } });
+        // Unfix document nodes so users can drag them after layout settles
+        const docIds = data.nodes
+          .filter((n) => n.type === "document")
+          .map((n) => n.id);
+        visNodes.update(docIds.map((id) => ({ id, fixed: false })));
+      });
+
+      // -------------------------------------------------------------------
+      // Click handler — ego network (1-hop)
+      // -------------------------------------------------------------------
+      network.on("click", (params: { nodes: string[]; event: unknown }) => {
+        if (params.nodes.length === 0) {
+          // Clicked on empty canvas — deselect
+          deselectAll();
+          return;
+        }
+
+        const nodeId = params.nodes[0];
+        handleNodeClick(nodeId);
+      });
+
+      // -------------------------------------------------------------------
+      // Double-click handler — 2-hop neighborhood + recenter
+      // -------------------------------------------------------------------
+      network.on("doubleClick", (params: { nodes: string[] }) => {
+        if (params.nodes.length === 0) return;
+        const nodeId = params.nodes[0];
+        handleNodeDoubleClick(nodeId);
+      });
+
+      // Restore initial selection if provided
+      if (initialSelectedNode) {
+        handleNodeClick(initialSelectedNode);
+      }
+    }
+
+    initNetwork();
+
+    return () => {
+      destroyed = true;
+      if (networkRef.current) {
+        try {
+          (networkRef.current as { destroy: () => void }).destroy();
+        } catch {
+          // ignore
+        }
+        networkRef.current = null;
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [graphData]);
+
+  // -----------------------------------------------------------------------
+  // Node interaction handlers
+  // -----------------------------------------------------------------------
+
+  const deselectAll = useCallback(() => {
+    const network = networkRef.current as {
+      unselectAll: () => void;
+      setData: (data: Record<string, unknown>) => void;
+    } | null;
+    if (!network) return;
+
+    const visNodes = nodesDataSetRef.current as {
+      get: (id: string) => Record<string, unknown>;
+      update: (item: Record<string, unknown>) => void;
+      getIds: () => string[];
+    } | null;
+    const visEdges = edgesDataSetRef.current as {
+      getIds: () => string[];
+      get: (id: string) => Record<string, unknown> | undefined;
+      update: (item: Record<string, unknown>) => void;
+    } | null;
+
+    if (!visNodes || !visEdges) return;
+
+    // Restore all nodes to full opacity
+    const nodeIds = visNodes.getIds();
+    for (const id of nodeIds) {
+      const node = visNodes.get(id);
+      if (node.hidden !== true) {
+        visNodes.update({ id, font: { color: "#ffffff" } });
+      }
+    }
+
+    // Restore all edges
+    const edgeIds = visEdges.getIds();
+    for (const id of edgeIds) {
+      visEdges.update({ id, hidden: false, color: { color: "#9ca3af" }, width: 2 });
+    }
+
+    network.unselectAll();
+    setSelectedNode(undefined);
+    setInfoCard(null);
+
+    // Remove selection glow from all nodes
+    for (const id of nodeIds) {
+      visNodes.update({ id, borderWidth: 0, shadow: false });
+    }
+  }, []);
+
+  const handleNodeClick = useCallback((nodeId: string) => {
+    const network = networkRef.current as {
+      selectNodes: (ids: string[]) => void;
+    } | null;
+    const visNodes = nodesDataSetRef.current as {
+      get: (id: string) => Record<string, unknown>;
+      update: (item: Record<string, unknown>) => void;
+      getIds: () => string[];
+    } | null;
+    const visEdges = edgesDataSetRef.current as {
+      getIds: () => string[];
+      get: (id: string) => Record<string, unknown> | undefined;
+      update: (item: Record<string, unknown>) => void;
+    } | null;
+
+    if (!network || !visNodes || !visEdges) return;
+
+    const nodes = allNodesRef.current;
+    const edges = allEdgesRef.current;
+
+    const neighborIds = getNeighborIds(nodeId, edges);
+    const highlightIds = new Set([nodeId, ...neighborIds]);
+
+    // Dim non-neighbor nodes
+    const allNodeIds = visNodes.getIds();
+    for (const id of allNodeIds) {
+      const node = visNodes.get(id);
+      if (node.hidden === true) continue;
+      if (highlightIds.has(id)) {
+        visNodes.update({ id, font: { color: "#ffffff", size: 14 } });
+      } else {
+        visNodes.update({ id, font: { color: "rgba(229,231,235,0.40)", size: 14 } });
+      }
+    }
+
+    // Dim non-connected edges
+    const connectedEdgeIds = new Set<string>();
+    const edgeIds = visEdges.getIds();
+    for (const id of edgeIds) {
+      const edge = visEdges.get(id) as Record<string, unknown> | undefined;
+      if (!edge) continue;
+      const from = edge.from as string;
+      const to = edge.to as string;
+      if (highlightIds.has(from) && highlightIds.has(to)) {
+        connectedEdgeIds.add(id);
+        visEdges.update({ id, hidden: false, color: { color: "#9ca3af" }, width: 2 });
+      } else {
+        visEdges.update({ id, hidden: false, color: { color: "rgba(156,163,175,0.25)" }, width: 1 });
+      }
+    }
+
+    // Glow effect on selected node
+    visNodes.update({
+      id: nodeId,
+      borderWidth: 3,
+      borderColor: "#ffffff",
+      shadow: { enabled: true, color: "rgba(255,255,255,0.5)", size: 15 },
+    });
+
+    network.selectNodes([nodeId]);
+
+    // Build info card
+    const nodeMap = new Map(nodes.map((n) => [n.id, n]));
+    const clickedNode = nodeMap.get(nodeId);
+    if (clickedNode) {
+      const docs = getDocumentNodesInHop(nodeId, nodes, edges);
+      const docDates = docs
+        .map((d) => d.date)
+        .filter(Boolean)
+        .sort();
+      const dateRange =
+        docDates.length > 0
+          ? `${docDates[0]}${docDates.length > 1 ? ` — ${docDates[docDates.length - 1]}` : ""}`
+          : undefined;
+
+      setInfoCard({
+        label: clickedNode.label,
+        type: clickedNode.type,
+        docCount: docs.length,
+        dateRange,
+      });
+    }
+
+    setSelectedNode(nodeId);
+  }, []);
+
+  const handleNodeDoubleClick = useCallback((nodeId: string) => {
+    const visNodes = nodesDataSetRef.current as {
+      get: (id: string) => Record<string, unknown>;
+      update: (item: Record<string, unknown>) => void;
+      getIds: () => string[];
+    } | null;
+    const visEdges = edgesDataSetRef.current as {
+      getIds: () => string[];
+      get: (id: string) => Record<string, unknown> | undefined;
+      update: (item: Record<string, unknown>) => void;
+    } | null;
+    const network = networkRef.current as {
+      focus: (id: string, opts: Record<string, unknown>) => void;
+      selectNodes: (ids: string[]) => void;
+    } | null;
+
+    if (!visNodes || !visEdges || !network) return;
+
+    const twoHopIds = getTwoHopIds(nodeId, allEdgesRef.current);
+    const allNodeIds = visNodes.getIds();
+
+    // Hide nodes outside 2-hop
+    for (const id of allNodeIds) {
+      if (twoHopIds.has(id)) {
+        visNodes.update({ id, hidden: false, font: { color: "#e5e7eb", size: 14 } });
+      } else {
+        visNodes.update({ id, hidden: true });
+      }
+    }
+
+    // Hide edges outside 2-hop
+    const edgeIds = visEdges.getIds();
+    for (const id of edgeIds) {
+      const edge = visEdges.get(id) as Record<string, unknown> | undefined;
+      if (!edge) continue;
+      const from = edge.from as string;
+      const to = edge.to as string;
+      if (twoHopIds.has(from) && twoHopIds.has(to)) {
+        visEdges.update({ id, hidden: false });
+      } else {
+        visEdges.update({ id, hidden: true });
+      }
+    }
+
+    network.focus(nodeId, { scale: 1.2, animation: { duration: 500, easingFunction: "easeInOutQuad" } });
+    network.selectNodes([nodeId]);
+
+    // Also update info card
+    handleNodeClick(nodeId);
+  }, [handleNodeClick]);
+
+  // -----------------------------------------------------------------------
+  // Filter application
+  // -----------------------------------------------------------------------
+
+  const applyFilters = useCallback(() => {
+    const visNodes = nodesDataSetRef.current as {
+      update: (item: Record<string, unknown>) => void;
+      getIds: () => string[];
+      get: (id: string) => Record<string, unknown>;
+    } | null;
+    const visEdges = edgesDataSetRef.current as {
+      update: (item: Record<string, unknown>) => void;
+      getIds: () => string[];
+      get: (id: string) => Record<string, unknown>;
+    } | null;
+
+    if (!visNodes || !visEdges) return;
+
+    const nodes = allNodesRef.current;
+    const nodeMap = new Map(nodes.map((n) => [n.id, n]));
+    const visibleNodeIds = new Set<string>();
+
+    // Type filter
+    for (const node of nodes) {
+      if (visibleTypes.includes(node.type)) {
+        visibleNodeIds.add(node.id);
+      }
+    }
+
+    // Date range filter — hide documents outside range
+    if (dateFrom || dateTo) {
+      for (const node of nodes) {
+        if (node.type === "document" && node.date) {
+          if (dateFrom && node.date < dateFrom) {
+            visibleNodeIds.delete(node.id);
+          }
+          if (dateTo && node.date > dateTo) {
+            visibleNodeIds.delete(node.id);
+          }
+        }
+      }
+    }
+
+    // Search filter
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      const searchMatches = new Set<string>();
+      for (const node of nodes) {
+        if (node.label.toLowerCase().includes(query)) {
+          searchMatches.add(node.id);
+        }
+      }
+      // Intersect with visible nodes
+      for (const id of visibleNodeIds) {
+        if (!searchMatches.has(id)) {
+          visibleNodeIds.delete(id);
+        }
+      }
+    }
+
+    // Apply visibility to nodes
+    const allNodeIds = visNodes.getIds();
+    for (const id of allNodeIds) {
+      const isVisible = visibleNodeIds.has(id);
+      visNodes.update({ id, hidden: !isVisible });
+    }
+
+    // Apply visibility to edges — only show edges where both endpoints are visible
+    const edgeIds = visEdges.getIds();
+    for (const id of edgeIds) {
+      const edge = visEdges.get(id) as Record<string, unknown> | undefined;
+      if (!edge) continue;
+      const from = edge.from as string;
+      const to = edge.to as string;
+      const bothVisible = visibleNodeIds.has(from) && visibleNodeIds.has(to);
+      visEdges.update({ id, hidden: !bothVisible });
+    }
+  }, [visibleTypes, dateFrom, dateTo, searchQuery]);
+
+  // Re-apply filters when they change
+  useEffect(() => {
+    applyFilters();
+  }, [applyFilters]);
+
+  // -----------------------------------------------------------------------
+  // Reset layout
+  // -----------------------------------------------------------------------
+
+  const handleResetLayout = useCallback(() => {
+    const network = networkRef.current as {
+      setOptions: (opts: Record<string, unknown>) => void;
+      fit: () => void;
+    } | null;
+    if (!network) return;
+
+    network.setOptions({ physics: { enabled: true } });
+    setTimeout(() => {
+      network.setOptions({ physics: { enabled: false } });
+      network.fit();
+    }, 2000);
+  }, []);
+
+  // -----------------------------------------------------------------------
+  // Reset filters
+  // -----------------------------------------------------------------------
+
+  const handleResetFilters = useCallback(() => {
+    deselectAll();
+    setVisibleTypes([...ALL_TYPES]);
+    setDateFrom("");
+    setDateTo("");
+    setSearchQuery("");
+  }, [deselectAll]);
+
+  // -----------------------------------------------------------------------
+  // Type toggle
+  // -----------------------------------------------------------------------
+
+  const handleTypeToggle = useCallback((type: EntityType) => {
+    setVisibleTypes((prev) =>
+      prev.includes(type)
+        ? prev.filter((t) => t !== type)
+        : [...prev, type]
+    );
+  }, []);
+
+  // -----------------------------------------------------------------------
+  // Date range change
+  // -----------------------------------------------------------------------
+
+  const handleDateFromChange = useCallback((value: string) => {
+    setDateFrom(value);
+  }, []);
+
+  const handleDateToChange = useCallback((value: string) => {
+    setDateTo(value);
+  }, []);
+
+  // -----------------------------------------------------------------------
+  // Search match count
+  // -----------------------------------------------------------------------
+
+  const searchMatchCount = useMemo(() => {
+    if (!searchQuery.trim()) return 0;
+    const query = searchQuery.toLowerCase();
+    return allNodesRef.current.filter((n) => n.label.toLowerCase().includes(query)).length;
+  }, [searchQuery]);
+
+  // -----------------------------------------------------------------------
+  // Render
+  // -----------------------------------------------------------------------
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-background text-foreground">
+        <div className="flex items-center gap-3">
+          <svg className="h-6 w-6 animate-spin text-primary" viewBox="0 0 24 24" fill="none">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+          </svg>
+          <span className="text-lg">Loading entity graph…</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-background text-foreground">
+        <div className="rounded-md border border-red-300 bg-red-50 px-6 py-4 text-red-700 dark:border-red-800 dark:bg-red-950 dark:text-red-300">
+          <p className="font-semibold">Error loading graph</p>
+          <p className="text-sm">{error}</p>
+          <button
+            onClick={onBackToTable}
+            className="mt-3 rounded bg-primary px-3 py-1.5 text-sm text-white hover:bg-primary/90"
+          >
+            Back to Table
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (!graphData || graphData.nodes.length === 0) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-background text-foreground">
+        <div className="text-center">
+          <p className="text-lg text-muted">No entities found in the graph.</p>
+          <button
+            onClick={onBackToTable}
+            className="mt-3 rounded bg-primary px-3 py-1.5 text-sm text-white hover:bg-primary/90"
+          >
+            Back to Table
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex min-h-screen flex-col bg-background text-foreground">
+      {/* ── Toolbar ──────────────────────────────────────────────────── */}
+      <div className="bg-background border-b border-border px-4 py-2 flex items-center gap-2 flex-wrap">
+        <button
+          onClick={onBackToTable}
+          className="rounded border border-border bg-background px-3 py-1.5 text-sm text-foreground transition-colors hover:bg-muted"
+        >
+          ← Back to Table
+        </button>
+
+        <div className="relative flex-1 min-w-[180px] max-w-sm">
+          <input
+            type="text"
+            placeholder="Search entities…"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full rounded border border-border bg-background px-3 py-1.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-accent focus:outline-none"
+          />
+          {searchQuery.trim() && searchMatchCount === 0 && (
+            <p className="absolute left-0 right-0 top-full mt-1 text-xs text-red-500">
+              No entities found
+            </p>
+          )}
+        </div>
+
+        <button
+          onClick={() => setShowFilters((p) => !p)}
+          className={`rounded border px-3 py-1.5 text-sm transition-colors ${
+            showFilters
+              ? "border-accent bg-accent/10 text-accent"
+              : "border-border bg-background text-foreground hover:bg-muted"
+          }`}
+        >
+          Filters {showFilters ? "▲" : "▼"}
+        </button>
+
+        <button
+          onClick={() => setShowLegend((p) => !p)}
+          className={`rounded border px-3 py-1.5 text-sm transition-colors ${
+            showLegend
+              ? "border-accent bg-accent/10 text-accent"
+              : "border-border bg-background text-foreground hover:bg-muted"
+          }`}
+        >
+          Legend {showLegend ? "▲" : "▼"}
+        </button>
+
+        <button
+          onClick={handleResetLayout}
+          className="rounded border border-border bg-background px-3 py-1.5 text-sm text-foreground transition-colors hover:bg-muted"
+        >
+          Reset Layout
+        </button>
+      </div>
+
+      {/* ── Filter Panel ─────────────────────────────────────────────── */}
+      {showFilters && (
+        <div className="bg-background border-b border-border px-4 py-3">
+          <div className="flex flex-wrap items-center gap-4">
+            {/* Type toggles */}
+            <div className="flex flex-wrap items-center gap-3">
+              <span className="text-sm font-medium text-muted">Types:</span>
+              {ALL_TYPES.map((type) => (
+                <label
+                  key={type}
+                  className="flex items-center gap-1.5 cursor-pointer text-sm"
+                >
+                  <input
+                    type="checkbox"
+                    checked={visibleTypes.includes(type)}
+                    onChange={() => handleTypeToggle(type)}
+                    className="h-4 w-4 rounded border-border text-primary focus:ring-primary"
+                  />
+                  <span
+                    className="inline-block h-3 w-3 rounded-full"
+                    style={{
+                      backgroundColor: (NODE_GROUPS[type].color as Record<string, string>).background,
+                    }}
+                  />
+                  {TYPE_LABELS[type]}
+                </label>
+              ))}
+            </div>
+
+            {/* Date range */}
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium text-foreground">Date:</span>
+              <input
+                type="text"
+                placeholder="From (YYYY-MM-DD)"
+                value={dateFrom}
+                onChange={(e) => handleDateFromChange(e.target.value)}
+                className="rounded border border-border bg-background px-2 py-1 text-sm text-foreground placeholder:text-muted-foreground focus:border-accent focus:outline-none"
+              />
+              <span className="text-muted">—</span>
+              <input
+                type="text"
+                placeholder="To (YYYY-MM-DD)"
+                value={dateTo}
+                onChange={(e) => handleDateToChange(e.target.value)}
+                className="rounded border border-border bg-background px-2 py-1 text-sm text-foreground placeholder:text-muted-foreground focus:border-accent focus:outline-none"
+              />
+            </div>
+
+            {/* Reset */}
+            <button
+              onClick={handleResetFilters}
+              className="rounded border border-border bg-background px-3 py-1.5 text-sm text-foreground transition-colors hover:bg-muted"
+            >
+              Reset
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* ── Legend Panel ─────────────────────────────────────────────── */}
+      {showLegend && (
+        <div className="bg-background border-b border-border px-4 py-3">
+          <div className="flex flex-wrap items-center gap-4">
+            {ALL_TYPES.map((type) => {
+              const group = NODE_GROUPS[type];
+              const color = (group.color as Record<string, string>).background;
+              const shape = group.shape as string;
+              return (
+                <div key={type} className="flex items-center gap-2">
+                  <div
+                    className="h-4 w-4"
+                    style={{
+                      backgroundColor: color,
+                      borderRadius:
+                        shape === "dot"
+                          ? "50%"
+                          : shape === "diamond"
+                            ? "2px"
+                            : shape === "square"
+                              ? "2px"
+                              : shape === "hexagon"
+                                ? "2px"
+                                : shape === "triangle"
+                                  ? "0"
+                                  : "2px",
+                      clipPath:
+                        shape === "diamond"
+                          ? "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)"
+                          : shape === "triangle"
+                            ? "polygon(50% 0%, 0% 100%, 100% 100%)"
+                          : shape === "hexagon"
+                            ? "polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)"
+                            : undefined,
+                    }}
+                  />
+                  <span className="text-sm text-foreground">{TYPE_LABELS[type]}</span>
+                </div>
+              );
+            })}
+            <div className="flex items-center gap-2 ml-4">
+              <div className="h-0.5 w-6 bg-gray-400" />
+              <span className="text-sm text-muted">Direct</span>
+              <div className="h-0.5 w-6 border-t-2 border-dashed border-gray-300" />
+              <span className="text-sm text-muted">Co-occurs</span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── Graph Canvas ─────────────────────────────────────────────── */}
+      <div className="flex-1 min-h-0 relative">
+        <div ref={containerRef} className="absolute inset-0" />
+        {selectedNode && (
+          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 rounded bg-background/80 px-3 py-1 text-xs text-muted-foreground pointer-events-none">
+            Click empty space to deselect · Double-click to zoom
+          </div>
+        )}
+      </div>
+
+      {/* ── Info Card (conditional) ──────────────────────────────────── */}
+      {infoCard && (
+        <div className="bg-card border-t border-border px-4 py-3">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="font-semibold text-lg text-foreground">{infoCard.label}</span>
+                <span
+                  className="rounded px-2 py-0.5 text-xs font-medium text-white"
+                  style={{
+                    backgroundColor: (NODE_GROUPS[infoCard.type].color as Record<string, string>).background,
+                  }}
+                >
+                  {TYPE_LABELS[infoCard.type]}
+                </span>
+              </div>
+              <div className="mt-1 flex items-center gap-4 text-sm text-muted">
+                <span>Related documents: {infoCard.docCount}</span>
+                {infoCard.dateRange && <span>Date range: {infoCard.dateRange}</span>}
+              </div>
+            </div>
+            <button
+              onClick={deselectAll}
+              className="rounded p-1 text-muted hover:text-foreground transition-colors"
+              aria-label="Close info card"
+            >
+              <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M18 6L6 18M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

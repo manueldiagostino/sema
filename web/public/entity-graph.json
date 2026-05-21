@@ -1,0 +1,1019 @@
+{
+  "nodes": [
+    {
+      "id": "person_ugo filius adalberti",
+      "type": "person",
+      "label": "Ugo filius Adalberti",
+      "roles": [
+        "signer"
+      ],
+      "clan": "Adalberti"
+    },
+    {
+      "id": "person_bernardus de crescentiis",
+      "type": "person",
+      "label": "Bernardus de Crescentiis",
+      "roles": [
+        "notary"
+      ],
+      "clan": "Crescentiis"
+    },
+    {
+      "id": "person_rolandus de squarcialupis",
+      "type": "person",
+      "label": "Rolandus de Squarcialupis",
+      "roles": [
+        "witness"
+      ],
+      "clan": "Squarcialupis"
+    },
+    {
+      "id": "person_gratianus filius petri",
+      "type": "person",
+      "label": "Gratianus filius Petri",
+      "roles": [
+        "witness"
+      ],
+      "clan": "Petri"
+    },
+    {
+      "id": "person_malapresa de ugurgieri",
+      "type": "person",
+      "label": "Malapresa de Ugurgieri",
+      "roles": [
+        "witness"
+      ],
+      "clan": "Ugurgieri"
+    },
+    {
+      "id": "person_guido de rinaldo",
+      "type": "person",
+      "label": "Guido de Rinaldo",
+      "roles": [
+        "signer"
+      ],
+      "clan": "Rinaldo"
+    },
+    {
+      "id": "person_teuzo filius bonacursi",
+      "type": "person",
+      "label": "Teuzo filius Bonacursi",
+      "roles": [
+        "notary"
+      ],
+      "clan": "Bonacursi"
+    },
+    {
+      "id": "person_ildebrandus de tolomeis",
+      "type": "person",
+      "label": "Ildebrandus de Tolomeis",
+      "roles": [
+        "witness"
+      ],
+      "clan": "Tolomeis"
+    },
+    {
+      "id": "person_farulfus de piccolominis",
+      "type": "person",
+      "label": "Farulfus de Piccolominis",
+      "roles": [
+        "witness"
+      ],
+      "clan": "Piccolominis"
+    },
+    {
+      "id": "person_adimarus filius ugonis",
+      "type": "person",
+      "label": "Adimarus filius Ugonis",
+      "roles": [
+        "witness"
+      ],
+      "clan": "Ugonis"
+    },
+    {
+      "id": "person_comes ildebrandinus de soana",
+      "type": "person",
+      "label": "Comes Ildebrandinus de Soana",
+      "roles": [
+        "signer"
+      ],
+      "clan": "Soana"
+    },
+    {
+      "id": "person_enricus de tolomeis",
+      "type": "person",
+      "label": "Enricus de Tolomeis",
+      "roles": [
+        "notary"
+      ],
+      "clan": "Tolomeis"
+    },
+    {
+      "id": "person_ugolinus de berardengis",
+      "type": "person",
+      "label": "Ugolinus de Berardengis",
+      "roles": [
+        "witness"
+      ],
+      "clan": "Berardengis"
+    },
+    {
+      "id": "person_rainerius de cacciaconti",
+      "type": "person",
+      "label": "Rainerius de Cacciaconti",
+      "roles": [
+        "witness"
+      ],
+      "clan": "Cacciaconti"
+    },
+    {
+      "id": "person_manentus filius bonacursi",
+      "type": "person",
+      "label": "Manentus filius Bonacursi",
+      "roles": [
+        "witness"
+      ],
+      "clan": "Bonacursi"
+    },
+    {
+      "id": "person_salvius filius rustici",
+      "type": "person",
+      "label": "Salvius filius Rustici",
+      "roles": [
+        "signer"
+      ],
+      "clan": "Rustici"
+    },
+    {
+      "id": "person_ubertinus de bonaventuris",
+      "type": "person",
+      "label": "Ubertinus de Bonaventuris",
+      "roles": [
+        "notary"
+      ],
+      "clan": "Bonaventuris"
+    },
+    {
+      "id": "person_forteguerra de forteguerriis",
+      "type": "person",
+      "label": "Forteguerra de Forteguerriis",
+      "roles": [
+        "witness"
+      ],
+      "clan": "Forteguerriis"
+    },
+    {
+      "id": "person_guidottus filius iacobi",
+      "type": "person",
+      "label": "Guidottus filius Iacobi",
+      "roles": [
+        "witness"
+      ],
+      "clan": "Iacobi"
+    },
+    {
+      "id": "person_ardingus de pannocchieschis",
+      "type": "person",
+      "label": "Ardingus de Pannocchieschis",
+      "roles": [
+        "witness"
+      ],
+      "clan": "Pannocchieschis"
+    },
+    {
+      "id": "person_petrus filius bernardi",
+      "type": "person",
+      "label": "Petrus filius Bernardi",
+      "roles": [
+        "signer"
+      ],
+      "clan": "Bernardi"
+    },
+    {
+      "id": "person_rainerius filius iohannis",
+      "type": "person",
+      "label": "Rainerius filius Iohannis",
+      "roles": [
+        "notary"
+      ],
+      "clan": "Iohannis"
+    },
+    {
+      "id": "person_albertus de montepertuso",
+      "type": "person",
+      "label": "Albertus de Montepertuso",
+      "roles": [
+        "witness"
+      ],
+      "clan": "Montepertuso"
+    },
+    {
+      "id": "person_ubertus filius tedaldi",
+      "type": "person",
+      "label": "Ubertus filius Tedaldi",
+      "roles": [
+        "witness"
+      ],
+      "clan": "Tedaldi"
+    },
+    {
+      "id": "person_enricus de castiglione",
+      "type": "person",
+      "label": "Enricus de Castiglione",
+      "roles": [
+        "witness"
+      ],
+      "clan": "Castiglione"
+    },
+    {
+      "id": "person_bonacursus filius tedaldi",
+      "type": "person",
+      "label": "Bonacursus filius Tedaldi",
+      "roles": [
+        "signer"
+      ],
+      "clan": "Tedaldi"
+    },
+    {
+      "id": "person_gratianus de ugurgieri",
+      "type": "person",
+      "label": "Gratianus de Ugurgieri",
+      "roles": [
+        "notary"
+      ],
+      "clan": "Ugurgieri"
+    },
+    {
+      "id": "person_ugo de squarcialupis",
+      "type": "person",
+      "label": "Ugo de Squarcialupis",
+      "roles": [
+        "witness"
+      ],
+      "clan": "Squarcialupis"
+    },
+    {
+      "id": "person_petrus de piccolominis",
+      "type": "person",
+      "label": "Petrus de Piccolominis",
+      "roles": [
+        "witness"
+      ],
+      "clan": "Piccolominis"
+    },
+    {
+      "id": "person_thomas filius rainerii",
+      "type": "person",
+      "label": "Thomas filius Rainerii",
+      "roles": [
+        "witness"
+      ],
+      "clan": "Rainerii"
+    },
+    {
+      "id": "institution_lotarius filius gualterii",
+      "type": "institution",
+      "label": "Lotarius filius Gualterii"
+    },
+    {
+      "id": "place_siena",
+      "type": "place",
+      "label": "Siena"
+    },
+    {
+      "id": "carta_commutationis_1172",
+      "type": "document",
+      "label": "Carta commutationis — Commutatio terrarum inter vicinos",
+      "date": "1172-04-03",
+      "docType": "Carta commutationis",
+      "archive": "Archivio di Stato di Siena",
+      "fileId": "carta_commutationis_1172"
+    },
+    {
+      "id": "doctype_carta commutationis",
+      "type": "document_type",
+      "label": "Carta commutationis"
+    },
+    {
+      "id": "institution_monasterium sancti salvatoris de montis amiata",
+      "type": "institution",
+      "label": "Monasterium Sancti Salvatoris de Montis Amiata"
+    },
+    {
+      "id": "carta_donationis_1158",
+      "type": "document",
+      "label": "Carta donationis — Donatio vinearum monasterio Sancti Salvatoris",
+      "date": "1158-09-15",
+      "docType": "Carta donationis",
+      "archive": "Archivio di Stato di Siena",
+      "fileId": "carta_donationis_1158"
+    },
+    {
+      "id": "doctype_carta donationis",
+      "type": "document_type",
+      "label": "Carta donationis"
+    },
+    {
+      "id": "institution_aldrudus servus",
+      "type": "institution",
+      "label": "Aldrudus servus"
+    },
+    {
+      "id": "carta_libertatis_1210",
+      "type": "document",
+      "label": "Carta libertatis — Manumissio servi Aldrudi",
+      "date": "1210-05-01",
+      "docType": "Carta libertatis",
+      "archive": "Archivio di Stato di Siena",
+      "fileId": "carta_libertatis_1210"
+    },
+    {
+      "id": "doctype_carta libertatis",
+      "type": "document_type",
+      "label": "Carta libertatis"
+    },
+    {
+      "id": "institution_matteus filius aldobrandini",
+      "type": "institution",
+      "label": "Matteus filius Aldobrandini"
+    },
+    {
+      "id": "carta_locationis_1195",
+      "type": "document",
+      "label": "Carta locationis — Locatio domus et horti in civitate Senensi",
+      "date": "1195-02-20",
+      "docType": "Carta locationis",
+      "archive": "Archivio di Stato di Siena",
+      "fileId": "carta_locationis_1195"
+    },
+    {
+      "id": "doctype_carta locationis",
+      "type": "document_type",
+      "label": "Carta locationis"
+    },
+    {
+      "id": "institution_ecclesia sancti martini de sclavo",
+      "type": "institution",
+      "label": "Ecclesia Sancti Martini de Sclavo"
+    },
+    {
+      "id": "carta_venditionis_1145",
+      "type": "document",
+      "label": "Carta venditionis — Venditio terrae in comitatu Senensi",
+      "date": "1145-06-08",
+      "docType": "Carta venditionis",
+      "archive": "Archivio di Stato di Siena",
+      "fileId": "carta_venditionis_1145"
+    },
+    {
+      "id": "doctype_carta venditionis",
+      "type": "document_type",
+      "label": "Carta venditionis"
+    },
+    {
+      "id": "institution_ecclesia cathedralis senensis",
+      "type": "institution",
+      "label": "Ecclesia Cathedralis Senensis"
+    },
+    {
+      "id": "testamentum_1234",
+      "type": "document",
+      "label": "Testamentum — Ultima voluntas Bonacursi filii Tedaldi",
+      "date": "1234-11-11",
+      "docType": "Testamentum",
+      "archive": "Archivio di Stato di Siena",
+      "fileId": "testamentum_1234"
+    },
+    {
+      "id": "doctype_testamentum",
+      "type": "document_type",
+      "label": "Testamentum"
+    },
+    {
+      "id": "clan_adalberti",
+      "type": "clan",
+      "label": "Adalberti",
+      "memberCount": 1
+    },
+    {
+      "id": "clan_crescentiis",
+      "type": "clan",
+      "label": "Crescentiis",
+      "memberCount": 1
+    },
+    {
+      "id": "clan_squarcialupis",
+      "type": "clan",
+      "label": "Squarcialupis",
+      "memberCount": 2
+    },
+    {
+      "id": "clan_petri",
+      "type": "clan",
+      "label": "Petri",
+      "memberCount": 1
+    },
+    {
+      "id": "clan_ugurgieri",
+      "type": "clan",
+      "label": "Ugurgieri",
+      "memberCount": 2
+    },
+    {
+      "id": "clan_rinaldo",
+      "type": "clan",
+      "label": "Rinaldo",
+      "memberCount": 1
+    },
+    {
+      "id": "clan_bonacursi",
+      "type": "clan",
+      "label": "Bonacursi",
+      "memberCount": 2
+    },
+    {
+      "id": "clan_tolomeis",
+      "type": "clan",
+      "label": "Tolomeis",
+      "memberCount": 2
+    },
+    {
+      "id": "clan_piccolominis",
+      "type": "clan",
+      "label": "Piccolominis",
+      "memberCount": 2
+    },
+    {
+      "id": "clan_ugonis",
+      "type": "clan",
+      "label": "Ugonis",
+      "memberCount": 1
+    },
+    {
+      "id": "clan_soana",
+      "type": "clan",
+      "label": "Soana",
+      "memberCount": 1
+    },
+    {
+      "id": "clan_berardengis",
+      "type": "clan",
+      "label": "Berardengis",
+      "memberCount": 1
+    },
+    {
+      "id": "clan_cacciaconti",
+      "type": "clan",
+      "label": "Cacciaconti",
+      "memberCount": 1
+    },
+    {
+      "id": "clan_rustici",
+      "type": "clan",
+      "label": "Rustici",
+      "memberCount": 1
+    },
+    {
+      "id": "clan_bonaventuris",
+      "type": "clan",
+      "label": "Bonaventuris",
+      "memberCount": 1
+    },
+    {
+      "id": "clan_forteguerriis",
+      "type": "clan",
+      "label": "Forteguerriis",
+      "memberCount": 1
+    },
+    {
+      "id": "clan_iacobi",
+      "type": "clan",
+      "label": "Iacobi",
+      "memberCount": 1
+    },
+    {
+      "id": "clan_pannocchieschis",
+      "type": "clan",
+      "label": "Pannocchieschis",
+      "memberCount": 1
+    },
+    {
+      "id": "clan_bernardi",
+      "type": "clan",
+      "label": "Bernardi",
+      "memberCount": 1
+    },
+    {
+      "id": "clan_iohannis",
+      "type": "clan",
+      "label": "Iohannis",
+      "memberCount": 1
+    },
+    {
+      "id": "clan_montepertuso",
+      "type": "clan",
+      "label": "Montepertuso",
+      "memberCount": 1
+    },
+    {
+      "id": "clan_tedaldi",
+      "type": "clan",
+      "label": "Tedaldi",
+      "memberCount": 2
+    },
+    {
+      "id": "clan_castiglione",
+      "type": "clan",
+      "label": "Castiglione",
+      "memberCount": 1
+    },
+    {
+      "id": "clan_rainerii",
+      "type": "clan",
+      "label": "Rainerii",
+      "memberCount": 1
+    }
+  ],
+  "edges": [
+    {
+      "source": "person_ugo filius adalberti",
+      "target": "carta_commutationis_1172",
+      "type": "signs"
+    },
+    {
+      "source": "person_bernardus de crescentiis",
+      "target": "carta_commutationis_1172",
+      "type": "notarizes"
+    },
+    {
+      "source": "person_rolandus de squarcialupis",
+      "target": "carta_commutationis_1172",
+      "type": "witnesses"
+    },
+    {
+      "source": "person_gratianus filius petri",
+      "target": "carta_commutationis_1172",
+      "type": "witnesses"
+    },
+    {
+      "source": "person_malapresa de ugurgieri",
+      "target": "carta_commutationis_1172",
+      "type": "witnesses"
+    },
+    {
+      "source": "person_rolandus de squarcialupis",
+      "target": "person_gratianus filius petri",
+      "type": "co_occurs"
+    },
+    {
+      "source": "person_rolandus de squarcialupis",
+      "target": "person_malapresa de ugurgieri",
+      "type": "co_occurs"
+    },
+    {
+      "source": "person_gratianus filius petri",
+      "target": "person_malapresa de ugurgieri",
+      "type": "co_occurs"
+    },
+    {
+      "source": "institution_lotarius filius gualterii",
+      "target": "carta_commutationis_1172",
+      "type": "receives"
+    },
+    {
+      "source": "carta_commutationis_1172",
+      "target": "doctype_carta commutationis",
+      "type": "has_type"
+    },
+    {
+      "source": "carta_commutationis_1172",
+      "target": "place_siena",
+      "type": "created_in"
+    },
+    {
+      "source": "person_guido de rinaldo",
+      "target": "carta_donationis_1158",
+      "type": "signs"
+    },
+    {
+      "source": "person_teuzo filius bonacursi",
+      "target": "carta_donationis_1158",
+      "type": "notarizes"
+    },
+    {
+      "source": "person_ildebrandus de tolomeis",
+      "target": "carta_donationis_1158",
+      "type": "witnesses"
+    },
+    {
+      "source": "person_farulfus de piccolominis",
+      "target": "carta_donationis_1158",
+      "type": "witnesses"
+    },
+    {
+      "source": "person_adimarus filius ugonis",
+      "target": "carta_donationis_1158",
+      "type": "witnesses"
+    },
+    {
+      "source": "person_ildebrandus de tolomeis",
+      "target": "person_farulfus de piccolominis",
+      "type": "co_occurs"
+    },
+    {
+      "source": "person_ildebrandus de tolomeis",
+      "target": "person_adimarus filius ugonis",
+      "type": "co_occurs"
+    },
+    {
+      "source": "person_farulfus de piccolominis",
+      "target": "person_adimarus filius ugonis",
+      "type": "co_occurs"
+    },
+    {
+      "source": "institution_monasterium sancti salvatoris de montis amiata",
+      "target": "carta_donationis_1158",
+      "type": "receives"
+    },
+    {
+      "source": "carta_donationis_1158",
+      "target": "doctype_carta donationis",
+      "type": "has_type"
+    },
+    {
+      "source": "carta_donationis_1158",
+      "target": "place_siena",
+      "type": "created_in"
+    },
+    {
+      "source": "person_comes ildebrandinus de soana",
+      "target": "carta_libertatis_1210",
+      "type": "signs"
+    },
+    {
+      "source": "person_enricus de tolomeis",
+      "target": "carta_libertatis_1210",
+      "type": "notarizes"
+    },
+    {
+      "source": "person_ugolinus de berardengis",
+      "target": "carta_libertatis_1210",
+      "type": "witnesses"
+    },
+    {
+      "source": "person_rainerius de cacciaconti",
+      "target": "carta_libertatis_1210",
+      "type": "witnesses"
+    },
+    {
+      "source": "person_manentus filius bonacursi",
+      "target": "carta_libertatis_1210",
+      "type": "witnesses"
+    },
+    {
+      "source": "person_ugolinus de berardengis",
+      "target": "person_rainerius de cacciaconti",
+      "type": "co_occurs"
+    },
+    {
+      "source": "person_ugolinus de berardengis",
+      "target": "person_manentus filius bonacursi",
+      "type": "co_occurs"
+    },
+    {
+      "source": "person_rainerius de cacciaconti",
+      "target": "person_manentus filius bonacursi",
+      "type": "co_occurs"
+    },
+    {
+      "source": "institution_aldrudus servus",
+      "target": "carta_libertatis_1210",
+      "type": "receives"
+    },
+    {
+      "source": "carta_libertatis_1210",
+      "target": "doctype_carta libertatis",
+      "type": "has_type"
+    },
+    {
+      "source": "carta_libertatis_1210",
+      "target": "place_siena",
+      "type": "created_in"
+    },
+    {
+      "source": "person_salvius filius rustici",
+      "target": "carta_locationis_1195",
+      "type": "signs"
+    },
+    {
+      "source": "person_ubertinus de bonaventuris",
+      "target": "carta_locationis_1195",
+      "type": "notarizes"
+    },
+    {
+      "source": "person_forteguerra de forteguerriis",
+      "target": "carta_locationis_1195",
+      "type": "witnesses"
+    },
+    {
+      "source": "person_guidottus filius iacobi",
+      "target": "carta_locationis_1195",
+      "type": "witnesses"
+    },
+    {
+      "source": "person_ardingus de pannocchieschis",
+      "target": "carta_locationis_1195",
+      "type": "witnesses"
+    },
+    {
+      "source": "person_forteguerra de forteguerriis",
+      "target": "person_guidottus filius iacobi",
+      "type": "co_occurs"
+    },
+    {
+      "source": "person_forteguerra de forteguerriis",
+      "target": "person_ardingus de pannocchieschis",
+      "type": "co_occurs"
+    },
+    {
+      "source": "person_guidottus filius iacobi",
+      "target": "person_ardingus de pannocchieschis",
+      "type": "co_occurs"
+    },
+    {
+      "source": "institution_matteus filius aldobrandini",
+      "target": "carta_locationis_1195",
+      "type": "receives"
+    },
+    {
+      "source": "carta_locationis_1195",
+      "target": "doctype_carta locationis",
+      "type": "has_type"
+    },
+    {
+      "source": "carta_locationis_1195",
+      "target": "place_siena",
+      "type": "created_in"
+    },
+    {
+      "source": "person_petrus filius bernardi",
+      "target": "carta_venditionis_1145",
+      "type": "signs"
+    },
+    {
+      "source": "person_rainerius filius iohannis",
+      "target": "carta_venditionis_1145",
+      "type": "notarizes"
+    },
+    {
+      "source": "person_albertus de montepertuso",
+      "target": "carta_venditionis_1145",
+      "type": "witnesses"
+    },
+    {
+      "source": "person_ubertus filius tedaldi",
+      "target": "carta_venditionis_1145",
+      "type": "witnesses"
+    },
+    {
+      "source": "person_enricus de castiglione",
+      "target": "carta_venditionis_1145",
+      "type": "witnesses"
+    },
+    {
+      "source": "person_albertus de montepertuso",
+      "target": "person_ubertus filius tedaldi",
+      "type": "co_occurs"
+    },
+    {
+      "source": "person_albertus de montepertuso",
+      "target": "person_enricus de castiglione",
+      "type": "co_occurs"
+    },
+    {
+      "source": "person_ubertus filius tedaldi",
+      "target": "person_enricus de castiglione",
+      "type": "co_occurs"
+    },
+    {
+      "source": "institution_ecclesia sancti martini de sclavo",
+      "target": "carta_venditionis_1145",
+      "type": "receives"
+    },
+    {
+      "source": "carta_venditionis_1145",
+      "target": "doctype_carta venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "carta_venditionis_1145",
+      "target": "place_siena",
+      "type": "created_in"
+    },
+    {
+      "source": "person_bonacursus filius tedaldi",
+      "target": "testamentum_1234",
+      "type": "signs"
+    },
+    {
+      "source": "person_gratianus de ugurgieri",
+      "target": "testamentum_1234",
+      "type": "notarizes"
+    },
+    {
+      "source": "person_ugo de squarcialupis",
+      "target": "testamentum_1234",
+      "type": "witnesses"
+    },
+    {
+      "source": "person_petrus de piccolominis",
+      "target": "testamentum_1234",
+      "type": "witnesses"
+    },
+    {
+      "source": "person_thomas filius rainerii",
+      "target": "testamentum_1234",
+      "type": "witnesses"
+    },
+    {
+      "source": "person_ugo de squarcialupis",
+      "target": "person_petrus de piccolominis",
+      "type": "co_occurs"
+    },
+    {
+      "source": "person_ugo de squarcialupis",
+      "target": "person_thomas filius rainerii",
+      "type": "co_occurs"
+    },
+    {
+      "source": "person_petrus de piccolominis",
+      "target": "person_thomas filius rainerii",
+      "type": "co_occurs"
+    },
+    {
+      "source": "institution_ecclesia cathedralis senensis",
+      "target": "testamentum_1234",
+      "type": "receives"
+    },
+    {
+      "source": "testamentum_1234",
+      "target": "doctype_testamentum",
+      "type": "has_type"
+    },
+    {
+      "source": "testamentum_1234",
+      "target": "place_siena",
+      "type": "created_in"
+    },
+    {
+      "source": "person_ugo filius adalberti",
+      "target": "clan_adalberti",
+      "type": "belongs_to_clan"
+    },
+    {
+      "source": "person_bernardus de crescentiis",
+      "target": "clan_crescentiis",
+      "type": "belongs_to_clan"
+    },
+    {
+      "source": "person_rolandus de squarcialupis",
+      "target": "clan_squarcialupis",
+      "type": "belongs_to_clan"
+    },
+    {
+      "source": "person_ugo de squarcialupis",
+      "target": "clan_squarcialupis",
+      "type": "belongs_to_clan"
+    },
+    {
+      "source": "person_gratianus filius petri",
+      "target": "clan_petri",
+      "type": "belongs_to_clan"
+    },
+    {
+      "source": "person_malapresa de ugurgieri",
+      "target": "clan_ugurgieri",
+      "type": "belongs_to_clan"
+    },
+    {
+      "source": "person_gratianus de ugurgieri",
+      "target": "clan_ugurgieri",
+      "type": "belongs_to_clan"
+    },
+    {
+      "source": "person_guido de rinaldo",
+      "target": "clan_rinaldo",
+      "type": "belongs_to_clan"
+    },
+    {
+      "source": "person_teuzo filius bonacursi",
+      "target": "clan_bonacursi",
+      "type": "belongs_to_clan"
+    },
+    {
+      "source": "person_manentus filius bonacursi",
+      "target": "clan_bonacursi",
+      "type": "belongs_to_clan"
+    },
+    {
+      "source": "person_ildebrandus de tolomeis",
+      "target": "clan_tolomeis",
+      "type": "belongs_to_clan"
+    },
+    {
+      "source": "person_enricus de tolomeis",
+      "target": "clan_tolomeis",
+      "type": "belongs_to_clan"
+    },
+    {
+      "source": "person_farulfus de piccolominis",
+      "target": "clan_piccolominis",
+      "type": "belongs_to_clan"
+    },
+    {
+      "source": "person_petrus de piccolominis",
+      "target": "clan_piccolominis",
+      "type": "belongs_to_clan"
+    },
+    {
+      "source": "person_adimarus filius ugonis",
+      "target": "clan_ugonis",
+      "type": "belongs_to_clan"
+    },
+    {
+      "source": "person_comes ildebrandinus de soana",
+      "target": "clan_soana",
+      "type": "belongs_to_clan"
+    },
+    {
+      "source": "person_ugolinus de berardengis",
+      "target": "clan_berardengis",
+      "type": "belongs_to_clan"
+    },
+    {
+      "source": "person_rainerius de cacciaconti",
+      "target": "clan_cacciaconti",
+      "type": "belongs_to_clan"
+    },
+    {
+      "source": "person_salvius filius rustici",
+      "target": "clan_rustici",
+      "type": "belongs_to_clan"
+    },
+    {
+      "source": "person_ubertinus de bonaventuris",
+      "target": "clan_bonaventuris",
+      "type": "belongs_to_clan"
+    },
+    {
+      "source": "person_forteguerra de forteguerriis",
+      "target": "clan_forteguerriis",
+      "type": "belongs_to_clan"
+    },
+    {
+      "source": "person_guidottus filius iacobi",
+      "target": "clan_iacobi",
+      "type": "belongs_to_clan"
+    },
+    {
+      "source": "person_ardingus de pannocchieschis",
+      "target": "clan_pannocchieschis",
+      "type": "belongs_to_clan"
+    },
+    {
+      "source": "person_petrus filius bernardi",
+      "target": "clan_bernardi",
+      "type": "belongs_to_clan"
+    },
+    {
+      "source": "person_rainerius filius iohannis",
+      "target": "clan_iohannis",
+      "type": "belongs_to_clan"
+    },
+    {
+      "source": "person_albertus de montepertuso",
+      "target": "clan_montepertuso",
+      "type": "belongs_to_clan"
+    },
+    {
+      "source": "person_ubertus filius tedaldi",
+      "target": "clan_tedaldi",
+      "type": "belongs_to_clan"
+    },
+    {
+      "source": "person_bonacursus filius tedaldi",
+      "target": "clan_tedaldi",
+      "type": "belongs_to_clan"
+    },
+    {
+      "source": "person_enricus de castiglione",
+      "target": "clan_castiglione",
+      "type": "belongs_to_clan"
+    },
+    {
+      "source": "person_thomas filius rainerii",
+      "target": "clan_rainerii",
+      "type": "belongs_to_clan"
+    }
+  ]
+}

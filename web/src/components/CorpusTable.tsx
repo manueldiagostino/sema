@@ -318,6 +318,13 @@ export default function CorpusTable() {
     setCompareOpen(true);
   }, []);
 
+  const handleGraphView = useCallback(() => {
+    const params = new URLSearchParams(window.location.search);
+    params.set("view", "graph");
+    window.history.pushState({}, "", `?${params.toString()}`);
+    window.dispatchEvent(new PopStateEvent("popstate"));
+  }, []);
+
   // Derived: selected documents for CompareDrawer and export
   const selectedDocuments = useMemo(() => {
     if (!data) return [];
@@ -395,6 +402,12 @@ export default function CorpusTable() {
             className="rounded border border-border bg-background px-3 py-1.5 text-sm text-foreground transition-colors hover:bg-muted"
           >
             Export JSON
+          </button>
+          <button
+            onClick={handleGraphView}
+            className="rounded border border-border bg-background px-3 py-1.5 text-sm text-foreground transition-colors hover:bg-muted"
+          >
+            Graph View
           </button>
           <button
             onClick={clearFilters}

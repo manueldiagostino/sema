@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "npm run build-corpus && next build",
+    "build": "npm run build-corpus && npm run build-entity-graph && next build",
     "build-corpus": "tsx scripts/build-corpus.ts",
+    "build-entity-graph": "tsx scripts/build-entity-graph.ts",
     "start": "next start",
     "lint": "eslint"
   },
@@ -15,7 +16,9 @@
     "next": "16.2.6",
     "papaparse": "^5.5.3",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "vis-data": "^7.1.9",
+    "vis-network": "^9.1.9"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
