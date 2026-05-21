@@ -159,6 +159,8 @@ function main(): void {
       }
     }
 
+    item.id = path.basename(xmlPath, ".xml");
+
     items.push(item);
   }
 

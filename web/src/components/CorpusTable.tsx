@@ -12,12 +12,14 @@ import {
   SortingState,
   VisibilityState,
   OnChangeFn,
+  RowSelectionState,
   flexRender,
   CellContext,
 } from "@tanstack/react-table";
 import { CorpusItem } from "@/types/corpus";
 import { truncateWords } from "@/lib/truncateWords";
 import DocumentModal from "./DocumentModal";
+import CompareDrawer from "./CompareDrawer";
 
 /**
  * Column configuration — loaded from corpus-metadata.json.
@@ -34,6 +36,7 @@ interface ColumnConfig {
 }
 
 const PAGE_SIZES = [10, 25, 50, 100];
+const MAX_SELECTION = 20;
 
 function downloadBlob(content: string, filename: string, type: string) {
   const blob = new Blob([content], { type });
@@ -69,6 +72,21 @@ export default function CorpusTable() {
       initialColumnFilters.push({ id: key.replace("filter_", ""), value });
     }
   }
+
+  // Initialize rowSelection from URL `compare` param
+  const initialRowSelection: RowSelectionState = {};
+  const compareIds = searchParams.get("compare");
+  if (compareIds) {
+    const ids = compareIds.split(",").filter(Boolean);
+    for (const id of ids) {
+      initialRowSelection[id] = true;
+    }
+  }
+
+  // Initialize compareOpen/compareFullscreen from URL `view` param
+  const initialView = searchParams.get("view");
+  const initialCompareOpen = initialView === "compare";
+  const initialCompareFullscreen = initialView === "compare";
 
   const [data, setData] = useState<CorpusItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -107,9 +125,12 @@ export default function CorpusTable() {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [showColumnMenu, setShowColumnMenu] = useState(false);
   const [selectedDocument, setSelectedDocument] = useState<CorpusItem | null>(null);
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>(initialRowSelection);
+  const [compareOpen, setCompareOpen] = useState(initialCompareOpen);
+  const [compareFullscreen, setCompareFullscreen] = useState(initialCompareFullscreen);
   const columnMenuRef = useRef<HTMLDivElement>(null);
 
-  // Sync URL with state changes (pagination, sorting, filters)
+  // Sync URL with state changes (pagination, sorting, filters, compare)
   useEffect(() => {
     const params = new URLSearchParams();
 
@@ -131,6 +152,17 @@ export default function CorpusTable() {
       }
     }
 
+    // Sync compare param from rowSelection
+    const selectedIds = Object.keys(rowSelection).filter((k) => rowSelection[k]);
+    if (selectedIds.length > 0) {
+      params.set("compare", selectedIds.join(","));
+    }
+
+    // Sync view param for fullscreen compare
+    if (compareOpen && compareFullscreen) {
+      params.set("view", "compare");
+    }
+
     const queryString = params.toString();
     const currentUrl = window.location.pathname + window.location.search;
     const newUrl = queryString ? `${window.location.pathname}?${queryString}` : window.location.pathname;
@@ -138,7 +170,7 @@ export default function CorpusTable() {
     if (currentUrl !== newUrl) {
       window.history.replaceState({}, "", newUrl);
     }
-  }, [pagination, sorting, columnFilters]);
+  }, [pagination, sorting, columnFilters, rowSelection, compareOpen, compareFullscreen]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -152,8 +184,39 @@ export default function CorpusTable() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [showColumnMenu]);
 
+  // Auto-close drawer when selection drops below 2
+  useEffect(() => {
+    if (compareOpen && Object.keys(rowSelection).filter((k) => rowSelection[k]).length < 2) {
+      setCompareOpen(false);
+    }
+  }, [compareOpen, rowSelection]);
+
   const columns = useMemo<ColumnDef<CorpusItem>[]>(() => {
     if (!columnConfig) return [];
+
+    const selectionColumn: ColumnDef<CorpusItem> = {
+      id: "select",
+      header: ({ table }) => (
+        <input
+          type="checkbox"
+          checked={table.getIsAllRowsSelected()}
+          onChange={table.getToggleAllRowsSelectedHandler()}
+          className="h-4 w-4 rounded border-border text-primary focus:ring-primary"
+        />
+      ),
+      cell: ({ row }) => (
+        <input
+          type="checkbox"
+          checked={row.getIsSelected()}
+          onChange={row.getToggleSelectedHandler()}
+          className="h-4 w-4 rounded border-border text-primary focus:ring-primary"
+        />
+      ),
+      enableSorting: false,
+      enableColumnFilter: false,
+      meta: { minWidth: 40 },
+    };
+
     const mappedColumns = columnConfig.map((col) => ({
       accessorKey: col.id,
       header: col.label,
@@ -181,6 +244,7 @@ export default function CorpusTable() {
     }));
 
     return [
+      selectionColumn,
       {
         id: "actions",
         header: "",
@@ -203,16 +267,28 @@ export default function CorpusTable() {
   const table = useReactTable({
     data: data ?? [],
     columns,
+    getRowId: (row) => row.id,
     state: {
       pagination,
       sorting,
       columnFilters,
       columnVisibility,
+      rowSelection,
     },
     onPaginationChange: setPagination,
     onSortingChange: setSorting as OnChangeFn<SortingState>,
     onColumnFiltersChange: setColumnFilters,
     onColumnVisibilityChange: setColumnVisibility,
+    onRowSelectionChange: (updaterOrValue: RowSelectionState | ((old: RowSelectionState) => RowSelectionState)) => {
+      const newSelection = typeof updaterOrValue === "function"
+        ? updaterOrValue(rowSelection)
+        : updaterOrValue;
+      if (Object.keys(newSelection).length > MAX_SELECTION) {
+        alert("Maximum 20 documents can be selected for comparison.");
+        return;
+      }
+      setRowSelection(newSelection);
+    },
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
@@ -232,6 +308,15 @@ export default function CorpusTable() {
     setPagination({ pageIndex: 0, pageSize: pagination.pageSize });
     window.history.replaceState({}, "", window.location.pathname);
   }, [pagination.pageSize]);
+
+  const clearSelection = useCallback(() => {
+    setRowSelection({});
+    setCompareOpen(false);
+  }, []);
+
+  const handleCompare = useCallback(() => {
+    setCompareOpen(true);
+  }, []);
 
   const handleExport = useCallback(
     (format: "csv" | "json") => {
@@ -259,11 +344,50 @@ export default function CorpusTable() {
     [table, columnConfig],
   );
 
+  // Derived: selected documents for CompareDrawer
+  const selectedDocuments = useMemo(() => {
+    if (!data) return [];
+    const selectedSet = new Set(Object.keys(rowSelection).filter((k) => rowSelection[k]));
+    return data.filter((d) => selectedSet.has(d.id));
+  }, [data, rowSelection]);
+
+  // Selection counts for toolbar
+  const selectedIds = Object.keys(rowSelection).filter((k) => rowSelection[k]);
+  const selectedCount = selectedIds.length;
+  const visibleSelectedCount = Object.keys(rowSelection).filter(
+    (k) => rowSelection[k] && data?.some((d) => d.id === k)
+  ).length;
+  const hasFilteredOut = visibleSelectedCount < selectedCount;
+
+  // Total column count for colSpan (select + actions + mapped columns)
+  const totalColumnCount = 2 + (columnConfig?.length ?? 0);
+
   return (
     <div className="flex flex-col gap-4 p-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold text-primary">Corpus</h1>
         <div className="flex items-center gap-2">
+          {selectedCount > 0 && (
+            <>
+              <span className="text-sm text-muted">
+                {selectedCount} selected{hasFilteredOut ? ` · ${visibleSelectedCount} visible` : ""}
+              </span>
+              <button
+                onClick={clearSelection}
+                className="rounded border border-border bg-background px-3 py-1.5 text-sm text-foreground transition-colors hover:bg-muted"
+              >
+                Clear selection
+              </button>
+            </>
+          )}
+          {selectedCount >= 2 && (
+            <button
+              onClick={handleCompare}
+              className="rounded bg-primary px-3 py-1.5 text-sm text-white transition-colors hover:bg-primary/90"
+            >
+              Compare {selectedCount} selected →
+            </button>
+          )}
           <button
             onClick={() => handleExport("csv")}
             className="rounded border border-border bg-background px-3 py-1.5 text-sm text-foreground transition-colors hover:bg-muted"
@@ -289,20 +413,40 @@ export default function CorpusTable() {
             >
               Columns ▼
             </button>
-            {showColumnMenu && (
-              <div className="absolute right-0 z-50 mt-2 w-48 rounded border border-border bg-background shadow-lg">
-                {table.getAllLeafColumns().filter((col) => col.id !== "actions").map((column) => (
-                  <label key={column.id} className="flex items-center gap-2 px-3 py-2 hover:bg-muted cursor-pointer">
+            {showColumnMenu && (() => {
+              const visibleLeafColumns = table.getAllLeafColumns().filter(
+                (col) => col.id !== "actions" && col.id !== "select"
+              );
+              const allVisible = visibleLeafColumns.every((c) => c.getIsVisible());
+              return (
+                <div className="absolute right-0 z-50 mt-2 w-48 rounded border border-border bg-background shadow-lg">
+                  <label className="flex items-center gap-2 border-b border-border px-3 py-2 hover:bg-muted cursor-pointer">
                     <input
                       type="checkbox"
-                      checked={column.getIsVisible()}
-                      onChange={column.getToggleVisibilityHandler()}
+                      checked={allVisible}
+                      onChange={() => {
+                        if (allVisible) {
+                          visibleLeafColumns.forEach((c) => c.toggleVisibility(false));
+                        } else {
+                          visibleLeafColumns.forEach((c) => c.toggleVisibility(true));
+                        }
+                      }}
                     />
-                    <span className="text-sm">{columnConfig?.find((c) => c.id === column.id)?.label ?? column.id}</span>
+                    <span className="text-sm font-medium">All</span>
                   </label>
-                ))}
-              </div>
-            )}
+                  {visibleLeafColumns.map((column) => (
+                    <label key={column.id} className="flex items-center gap-2 px-3 py-2 hover:bg-muted cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={column.getIsVisible()}
+                        onChange={column.getToggleVisibilityHandler()}
+                      />
+                      <span className="text-sm">{columnConfig?.find((c) => c.id === column.id)?.label ?? column.id}</span>
+                    </label>
+                  ))}
+                </div>
+              );
+            })()}
           </div>
         </div>
       </div>
@@ -366,7 +510,7 @@ export default function CorpusTable() {
             {loading ? (
               <tr>
                 <td
-                  colSpan={columnConfig?.length ?? 4}
+                  colSpan={totalColumnCount}
                   className="px-4 py-8 text-center text-muted"
                 >
                   <div className="flex items-center justify-center gap-2">
@@ -396,7 +540,7 @@ export default function CorpusTable() {
             ) : table.getRowModel().rows.length === 0 ? (
               <tr>
                 <td
-                  colSpan={columnConfig?.length ?? 4}
+                  colSpan={totalColumnCount}
                   className="px-4 py-8 text-center text-muted"
                 >
                   No results found.
@@ -406,7 +550,9 @@ export default function CorpusTable() {
               table.getRowModel().rows.map((row) => (
                 <tr
                   key={row.id}
-                  className="border-b border-border transition-colors hover:bg-muted/50"
+                  className={`border-b border-border transition-colors hover:bg-muted/50 ${
+                    row.getIsSelected() ? "bg-primary/5" : ""
+                  }`}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <td key={cell.id} className="px-4 py-3 text-foreground" style={{ minWidth: (cell.column.columnDef.meta as any)?.minWidth }}>
@@ -472,6 +618,15 @@ export default function CorpusTable() {
           onClose={() => setSelectedDocument(null)}
         />
       )}
+
+      <CompareDrawer
+        documents={selectedDocuments}
+        columnConfig={columnConfig ?? []}
+        isOpen={compareOpen}
+        isFullscreen={compareFullscreen}
+        onClose={() => setCompareOpen(false)}
+        onToggleFullscreen={() => setCompareFullscreen((prev) => !prev)}
+      />
     </div>
   );
 }
