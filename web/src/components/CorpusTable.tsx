@@ -318,33 +318,7 @@ export default function CorpusTable() {
     setCompareOpen(true);
   }, []);
 
-  const handleExport = useCallback(
-    (format: "csv" | "json") => {
-      const allFilteredRows = table.getPrePaginationRowModel().rows;
-      const columnIds = columnConfig?.map((c) => c.id) ?? [];
-
-      if (format === "csv") {
-        // Dynamically import Papa for CSV generation
-        import("papaparse").then((Papa) => {
-          const csv = Papa.default.unparse(
-            allFilteredRows.map((r) => r.original),
-            { columns: columnIds },
-          );
-          downloadBlob(csv, "corpus-export.csv", "text/csv");
-        });
-      } else {
-        const json = JSON.stringify(
-          allFilteredRows.map((r) => r.original),
-          null,
-          2,
-        );
-        downloadBlob(json, "corpus-export.json", "application/json");
-      }
-    },
-    [table, columnConfig],
-  );
-
-  // Derived: selected documents for CompareDrawer
+  // Derived: selected documents for CompareDrawer and export
   const selectedDocuments = useMemo(() => {
     if (!data) return [];
     const selectedSet = new Set(Object.keys(rowSelection).filter((k) => rowSelection[k]));
@@ -358,6 +332,28 @@ export default function CorpusTable() {
     (k) => rowSelection[k] && data?.some((d) => d.id === k)
   ).length;
   const hasFilteredOut = visibleSelectedCount < selectedCount;
+
+  const handleExport = useCallback(
+    (format: "csv" | "json") => {
+      const columnIds = columnConfig?.map((c) => c.id) ?? [];
+      // If rows are selected, export only the selection; otherwise export all filtered rows
+      const exportDocs = selectedCount > 0
+        ? selectedDocuments
+        : table.getPrePaginationRowModel().rows.map((r) => r.original);
+
+      if (format === "csv") {
+        // Dynamically import Papa for CSV generation
+        import("papaparse").then((Papa) => {
+          const csv = Papa.default.unparse(exportDocs, { columns: columnIds });
+          downloadBlob(csv, "corpus-export.csv", "text/csv");
+        });
+      } else {
+        const json = JSON.stringify(exportDocs, null, 2);
+        downloadBlob(json, "corpus-export.json", "application/json");
+      }
+    },
+    [table, columnConfig, selectedCount, selectedDocuments],
+  );
 
   // Total column count for colSpan (select + actions + mapped columns)
   const totalColumnCount = 2 + (columnConfig?.length ?? 0);
