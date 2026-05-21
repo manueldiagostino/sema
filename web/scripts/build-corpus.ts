@@ -27,6 +27,7 @@ interface ColumnConfig {
   filterable?: boolean;
   cardinality?: "single" | "multiple";
   join?: string;
+  truncateWords?: number;
 }
 
 interface ColumnsYaml {

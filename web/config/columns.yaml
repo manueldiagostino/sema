@@ -3,7 +3,7 @@
 # Each column requires: id, label, xpath
 # Optional: sortable (default: true), filterable (default: true),
 #           cardinality (default: single), join (default: ", "),
-#           truncate (max chars before ellipsis, default: no truncation)
+#           truncateWords (max words before ellipsis, default: no truncation)
 #
 # To add a column, add a new entry here. No code changes needed.
 # To reorder columns, reorder this list. The table renders in this order.
@@ -83,14 +83,14 @@ columns:
     xpath: tei:text/tei:body/tei:div[@type='price_clause']
     sortable: false
     filterable: true
-    truncate: 120
+    truncateWords: 15
 
   - id: penalty_clause
     label: Penalty Clause
     xpath: tei:text/tei:body/tei:div[@type='penalty_clause']
     sortable: false
     filterable: true
-    truncate: 120
+    truncateWords: 15
 
   - id: archive
     label: Archive

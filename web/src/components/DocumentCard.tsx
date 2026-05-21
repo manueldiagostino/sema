@@ -5,6 +5,7 @@ import { truncateWords } from "@/lib/truncateWords";
 interface ColumnConfig {
   id: string;
   label: string;
+  truncateWords?: number;
 }
 
 interface DocumentCardProps {
@@ -14,8 +15,6 @@ interface DocumentCardProps {
   showRef?: boolean;
 }
 
-const longTextCols = ["price_clause", "penalty_clause"];
-
 export default function DocumentCard({
   item,
   columnConfig,
@@ -24,8 +23,8 @@ export default function DocumentCard({
 }: DocumentCardProps) {
   const title = (item.title as string) || "Document";
 
-  const metadataCols = columnConfig.filter((c) => !longTextCols.includes(c.id));
-  const longTextConfig = columnConfig.filter((c) => longTextCols.includes(c.id));
+  const metadataCols = columnConfig.filter((c) => !c.truncateWords || c.truncateWords <= 0);
+  const longTextConfig = columnConfig.filter((c) => c.truncateWords && c.truncateWords > 0);
 
   return (
     <div className="space-y-6">
@@ -55,7 +54,7 @@ export default function DocumentCard({
       {longTextConfig.map((col) => {
         const val = item[col.id];
         const raw = Array.isArray(val) ? val.join(" ") : (val as string) || "—";
-        const display = compact ? truncateWords(raw, 15) : raw;
+        const display = compact ? truncateWords(raw, col.truncateWords!) : raw;
         return (
           <div key={col.id} className="rounded border border-border bg-muted/30 p-4">
             <h3 className="mb-2 text-sm font-semibold text-primary">{col.label}</h3>

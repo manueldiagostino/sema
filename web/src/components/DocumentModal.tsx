@@ -45,7 +45,6 @@ export default function DocumentModal({ item, columnConfig, onClose }: DocumentM
         <DocumentCard
           item={item as Record<string, string | string[]> & { id: string }}
           columnConfig={columnConfig}
-          compact={true}
         />
       </div>
     </div>

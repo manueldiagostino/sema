@@ -4,3 +4,14 @@
  */
 export type CorpusItem = Record<string, string | string[]> & { id: string };
 export type CompareLayout = "stacked" | "side-by-side";
+
+export interface ColumnConfig {
+  id: string;
+  label: string;
+  xpath: string;
+  sortable: boolean;
+  filterable: boolean;
+  cardinality: "single" | "multiple";
+  join: string;
+  truncateWords?: number;
+}

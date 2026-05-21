@@ -32,7 +32,7 @@ interface ColumnConfig {
   filterable: boolean;
   cardinality: "single" | "multiple";
   join: string;
-  truncate?: number;
+  truncateWords?: number;
 }
 
 const PAGE_SIZES = [10, 25, 50, 100];
@@ -222,7 +222,7 @@ export default function CorpusTable() {
       header: col.label,
       enableSorting: col.sortable,
       enableColumnFilter: col.filterable,
-      meta: { minWidth: col.id === "price_clause" || col.id === "penalty_clause" ? 320 : 180 },
+      meta: { minWidth: col.truncateWords && col.truncateWords > 0 ? 320 : 180 },
       cell: ({ getValue }: CellContext<CorpusItem, unknown>) => {
         const value = getValue() as string | string[];
         let display: string;
@@ -231,9 +231,9 @@ export default function CorpusTable() {
         } else {
           display = value ?? "";
         }
-        const isLongText = col.id === "price_clause" || col.id === "penalty_clause";
+        const isLongText = col.truncateWords && col.truncateWords > 0;
         if (isLongText && typeof display === "string") {
-          display = truncateWords(display, 15);
+          display = truncateWords(display, col.truncateWords!);
         }
         return (
           <span className={isLongText ? "text-justify block" : ""}>
@@ -365,7 +365,7 @@ export default function CorpusTable() {
         <div className="flex items-center gap-2">
           {selectedCount > 0 && (
             <>
-              <span className="text-sm text-muted">
+              <span className="text-sm text-foreground">
                 {selectedCount} selected{hasFilteredOut ? ` · ${visibleSelectedCount} visible` : ""}
               </span>
               <button
@@ -454,7 +454,7 @@ export default function CorpusTable() {
       )}
 
       <div className="overflow-x-auto rounded-lg border border-border">
-        <table className="text-sm">
+        <table className="w-full text-sm">
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id} className="border-b border-border bg-muted">
