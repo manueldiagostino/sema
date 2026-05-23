@@ -2,6 +2,8 @@ import { getIronSession } from "iron-session";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { Octokit } from "@octokit/rest";
+import { writeFileSync, mkdirSync, existsSync } from "fs";
+import { join } from "path";
 import { loadFormConfig } from "@/lib/formConfig";
 import { generateTeiXml, buildFilename } from "@/lib/xmlBuilder";
 import type { FormSubmissionData } from "@/types/form";
@@ -57,20 +59,33 @@ export async function POST(request: Request) {
     const xml = generateTeiXml(data, config);
     const filename = buildFilename(data);
 
-    // ── 5. Commit to GitHub via Octokit ──
+    // ── 5. Persist the XML ──
     const token = process.env.GITHUB_TOKEN;
-    if (!token) {
-      return NextResponse.json(
-        { error: "Server configuration error: GITHUB_TOKEN not set" },
-        { status: 500 },
-      );
-    }
-
     const repoEnv = process.env.GITHUB_REPO;
-    if (!repoEnv) {
+
+    // Local fallback: save to disk when GitHub token is not set (dev/testing)
+    if (!token || !repoEnv) {
+      const outputDir = join(process.cwd(), "..", "data", "tei-samples");
+      mkdirSync(outputDir, { recursive: true });
+      const outputPath = join(outputDir, filename);
+
+      if (existsSync(outputPath)) {
+        return NextResponse.json(
+          { error: "A document with this filename already exists" },
+          { status: 409 },
+        );
+      }
+
+      writeFileSync(outputPath, xml, "utf-8");
+      console.log(`[admin/xml] Saved locally: ${outputPath}`);
+
       return NextResponse.json(
-        { error: "Server configuration error: GITHUB_REPO not set" },
-        { status: 500 },
+        {
+          success: true,
+          filename,
+          saved: "local",
+        },
+        { status: 200 },
       );
     }
 
