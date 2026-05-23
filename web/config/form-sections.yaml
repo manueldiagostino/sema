@@ -1,0 +1,261 @@
+# Form section and field definitions for the admin TEI XML builder.
+#
+# Each section groups related fields. Fields can be:
+#   applies_to: all       — always visible
+#   applies_to: [type...] — only visible for specific charter types
+#
+# Field properties:
+#   id              — machine name (used as key in form data JSON)
+#   label           — display label in the form
+#   input           — input type: text, textarea, date, select, dynamic-list
+#   cardinality     — single | multiple
+#   tei_element     — TEI element name to create
+#   tei_attributes  — (optional) attributes on the TEI element
+#   tei_wrapper     — (optional) intermediate wrapping element (e.g. "witness" for witnesses)
+#   xpath_parent    — full XPath to the parent element where this field's TEI element lives
+#   applies_to      — all | [emphyteusis, donationis, ...]
+#   required        — (optional) whether the field is required
+#   options         — (select fields only) list of {value, label} pairs
+#   default_value   — (optional) default value
+#   default_by_type — (optional) map of type → default value
+
+# Charter type definitions for the type selector dropdown
+types:
+  - id: emphyteusis
+    label: Carta emphyteusis (Emphyteusis)
+    object_value: "Carta emphyteusis"
+    object_subtype_value: "Concessio emphyteutica"
+
+sections:
+  # ── DOCUMENT IDENTITY ──────────────────────────────────
+  - id: identity
+    label: Document Identity
+    applies_to: all
+    fields:
+      - id: title
+        label: Title
+        input: text
+        cardinality: single
+        tei_element: title
+        xpath_parent: tei:teiHeader/tei:fileDesc/tei:titleStmt
+        applies_to: all
+        required: true
+
+      - id: signer
+        label: Signer (Author)
+        input: text
+        cardinality: single
+        tei_element: author
+        xpath_parent: tei:teiHeader/tei:fileDesc/tei:titleStmt
+        applies_to: all
+        required: true
+
+      - id: object
+        label: Object Type
+        input: text
+        cardinality: single
+        tei_element: term
+        tei_attributes:
+          type: object
+        xpath_parent: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords
+        applies_to: all
+        required: true
+
+      - id: object_subtype
+        label: Object Subtype
+        input: text
+        cardinality: single
+        tei_element: term
+        tei_attributes:
+          type: object_subtype
+        xpath_parent: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords
+        applies_to: all
+
+      - id: archive
+        label: Archive (Repository)
+        input: text
+        cardinality: single
+        tei_element: repository
+        xpath_parent: tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msIdentifier
+        applies_to: all
+
+      - id: shelfmark
+        label: Shelfmark (ID Number)
+        input: text
+        cardinality: single
+        tei_element: idno
+        xpath_parent: tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msIdentifier
+        applies_to: all
+
+  # ── PEOPLE ────────────────────────────────────────────
+  - id: people
+    label: People
+    applies_to: all
+    fields:
+      - id: recipient
+        label: Recipient
+        input: text
+        cardinality: single
+        tei_element: recipient
+        xpath_parent: tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msContents/tei:msItem
+        applies_to: all
+
+      - id: notary
+        label: Notary Name
+        input: text
+        cardinality: single
+        tei_element: name
+        tei_wrapper: respStmt
+        xpath_parent: tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msContents/tei:msItem
+        applies_to: all
+        note: >
+          The XML generator wraps this in <respStmt><resp>notary</resp><name>...</name></respStmt>.
+
+      - id: witnesses
+        label: Witnesses
+        input: dynamic-list
+        cardinality: multiple
+        tei_element: name
+        tei_wrapper: witness
+        xpath_parent: tei:text/tei:body/tei:listWitness
+        applies_to: all
+
+  # ── CONTEXT ───────────────────────────────────────────
+  - id: context
+    label: Context
+    applies_to: all
+    fields:
+      - id: date
+        label: Date
+        input: date
+        cardinality: single
+        tei_element: date
+        xpath_parent: tei:teiHeader/tei:profileDesc/tei:creation
+        applies_to: all
+        required: true
+        note: >
+          Date input type provides both an ISO date (used as @when attribute) and a text display value (used as element content).
+
+      - id: origPlace
+        label: Place of Origin
+        input: text
+        cardinality: single
+        tei_element: origPlace
+        xpath_parent: tei:teiHeader/tei:profileDesc/tei:creation
+        applies_to: all
+
+      - id: language
+        label: Language
+        input: select
+        cardinality: single
+        tei_element: language
+        tei_attributes:
+          ident: la
+        xpath_parent: tei:teiHeader/tei:profileDesc/tei:langUsage
+        applies_to: all
+        options:
+          - value: Latin
+            label: Latin
+          - value: Italian
+            label: Italian (Volgare)
+
+      - id: country
+        label: Country
+        input: text
+        cardinality: single
+        tei_element: country
+        xpath_parent: tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msIdentifier
+        applies_to: all
+        default_value: Italy
+
+      - id: settlement
+        label: City (Settlement)
+        input: text
+        cardinality: single
+        tei_element: settlement
+        xpath_parent: tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msIdentifier
+        applies_to: all
+        default_value: Siena
+
+      - id: material
+        label: Material / Support
+        input: text
+        cardinality: single
+        tei_element: term
+        tei_attributes:
+          type: material
+        xpath_parent: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords
+        applies_to: all
+        default_value: Parchment
+
+  # ── CONTENT ───────────────────────────────────────────
+  - id: content
+    label: Content
+    applies_to: all
+    fields:
+      - id: price_clause
+        label: Price Clause
+        input: textarea
+        cardinality: single
+        tei_element: p
+        tei_wrapper: div
+        tei_wrapper_attributes:
+          type: price_clause
+        xpath_parent: tei:text/tei:body
+        applies_to: all
+
+      - id: penalty_clause
+        label: Penalty Clause
+        input: textarea
+        cardinality: single
+        tei_element: p
+        tei_wrapper: div
+        tei_wrapper_attributes:
+          type: penalty_clause
+        xpath_parent: tei:text/tei:body
+        applies_to: all
+
+  # ── EMPHYTEUSIS-SPECIFIC ──────────────────────────────
+  - id: emphyteusis_specifics
+    label: Emphyteusis Specifics
+    applies_to:
+      - emphyteusis
+    fields:
+      - id: canon_annualis
+        label: Annual Rent (Canon)
+        input: textarea
+        cardinality: single
+        tei_element: term
+        tei_attributes:
+          type: canon_annualis
+        xpath_parent: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords
+        applies_to:
+          - emphyteusis
+        note: >
+          Describe the annual rent owed by the emphyteuta (e.g. "2 modii frumenti et 1 modius vini").
+
+      - id: property_description
+        label: Property Description
+        input: textarea
+        cardinality: single
+        tei_element: term
+        tei_attributes:
+          type: property_description
+        xpath_parent: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords
+        applies_to:
+          - emphyteusis
+        note: >
+          Description of the property granted in emphyteusis (e.g. "una petia terrae arabilis in territorio Senarum").
+
+      - id: duratio_emphyteuseos
+        label: Duration
+        input: text
+        cardinality: single
+        tei_element: term
+        tei_attributes:
+          type: duratio_emphyteuseos
+        xpath_parent: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords
+        applies_to:
+          - emphyteusis
+        note: >
+          Duration of the emphyteusis grant (e.g. "in perpetuum", "29 years").
