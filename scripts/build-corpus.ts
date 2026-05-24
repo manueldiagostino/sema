@@ -3,10 +3,11 @@
  * build-corpus.ts
  *
  * Reads TEI/XML files from data/tei-samples/ and generates
- * web/public/corpus-metadata.json based on column definitions
- * from web/config/columns.yaml.
+ * public/corpus-metadata.json based on column definitions
+ * from config/columns.yaml.
  *
- * Run via: npx tsx scripts/build-corpus.ts  (from web/ directory)
+ * Run via: npx tsx scripts/build-corpus.ts  (from repo root)
+ * Import via: import { buildCorpus } from "./scripts/build-corpus";
  */
 
 import * as fs from "fs";
@@ -42,14 +43,13 @@ interface CorpusMetadata {
 }
 
 // ---------------------------------------------------------------------------
-// Paths (relative to web/scripts/)
+// Paths (relative to scripts/)
 // ---------------------------------------------------------------------------
 
 const SCRIPT_DIR = __dirname;
-const PROJECT_ROOT = path.resolve(SCRIPT_DIR, "..");
-const COLUMNS_YAML = path.resolve(PROJECT_ROOT, "config", "columns.yaml");
-const TEI_DIR = path.resolve(PROJECT_ROOT, "..", "data", "tei-samples");
-const OUTPUT_FILE = path.resolve(PROJECT_ROOT, "public", "corpus-metadata.json");
+const COLUMNS_YAML = path.resolve(SCRIPT_DIR, "../config", "columns.yaml");
+const TEI_DIR = path.resolve(SCRIPT_DIR, "../data", "tei-samples");
+const OUTPUT_FILE = path.resolve(SCRIPT_DIR, "../public", "corpus-metadata.json");
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -94,7 +94,7 @@ function findXmlFiles(dir: string): string[] {
 // Main
 // ---------------------------------------------------------------------------
 
-function main(): void {
+export async function buildCorpus(): Promise<void> {
   // 1. Load column definitions from YAML
   console.log(`Reading column config from ${COLUMNS_YAML}`);
   const yamlContent = fs.readFileSync(COLUMNS_YAML, "utf-8");
@@ -182,4 +182,10 @@ function main(): void {
   console.log(`Wrote ${items.length} item(s) to ${OUTPUT_FILE}`);
 }
 
-main();
+// CLI entry point
+if (import.meta.url === `file://${process.argv[1]}`) {
+  buildCorpus().catch((err) => {
+    console.error("buildCorpus failed:", err);
+    process.exit(1);
+  });
+}

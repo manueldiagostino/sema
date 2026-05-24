@@ -7,7 +7,8 @@
  * institutions, places, documents, and document types with edges
  * representing relationships between them.
  *
- * Run via: npx tsx scripts/build-entity-graph.ts  (from web/ directory)
+ * Run via: npx tsx scripts/build-entity-graph.ts  (from project root)
+ * Or import programmatically: import { buildEntityGraph } from "./scripts/build-entity-graph";
  */
 
 import * as fs from "fs";
@@ -64,14 +65,13 @@ interface EntityGraph {
 }
 
 // ---------------------------------------------------------------------------
-// Paths (relative to web/scripts/)
+// Paths (relative to scripts/)
 // ---------------------------------------------------------------------------
 
 const SCRIPT_DIR = __dirname;
-const PROJECT_ROOT = path.resolve(SCRIPT_DIR, "..");
-const COLUMNS_YAML = path.resolve(PROJECT_ROOT, "config", "columns.yaml");
-const TEI_DIR = path.resolve(PROJECT_ROOT, "..", "data", "tei-samples");
-const OUTPUT_FILE = path.resolve(PROJECT_ROOT, "public", "entity-graph.json");
+const COLUMNS_YAML = path.resolve(SCRIPT_DIR, "../config", "columns.yaml");
+const TEI_DIR = path.resolve(SCRIPT_DIR, "../data", "tei-samples");
+const OUTPUT_FILE = path.resolve(SCRIPT_DIR, "../public", "entity-graph.json");
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -498,7 +498,7 @@ function deduplicatePhase2(
 // Main
 // ---------------------------------------------------------------------------
 
-function main(): void {
+export async function buildEntityGraph(): Promise<void> {
   // 1. Load column definitions from YAML (for validation / context)
   console.log(`Reading column config from ${COLUMNS_YAML}`);
   const yamlContent = fs.readFileSync(COLUMNS_YAML, "utf-8");
@@ -830,4 +830,10 @@ function main(): void {
   console.log("  Node types:", typeCounts);
 }
 
-main();
+// CLI entry point
+if (import.meta.url === `file://${process.argv[1]}`) {
+  buildEntityGraph().catch((err) => {
+    console.error("buildEntityGraph failed:", err);
+    process.exit(1);
+  });
+}
