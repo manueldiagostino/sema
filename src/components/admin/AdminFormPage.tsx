@@ -6,6 +6,7 @@ import type {
   FormSectionConfig,
   FormFieldConfig,
   DateFieldValue,
+  WitnessEntry,
   AdHocField,
   FormSubmissionData,
 } from "@/types/form";
@@ -20,7 +21,7 @@ interface AdminFormPageProps {
 function getInitialFieldValue(
   field: FormFieldConfig,
   charterType: string,
-): string | string[] | DateFieldValue {
+): string | string[] | DateFieldValue | WitnessEntry[] {
   // Determine default value
   let defaultStr = "";
   if (field.default_by_type && field.default_by_type[charterType]) {
@@ -38,14 +39,24 @@ function getInitialFieldValue(
     return { iso: "", text: "" } as DateFieldValue;
   }
 
+  if (field.input === "radio") {
+    if (defaultStr) return defaultStr;
+    if (field.options && field.options.length > 0) return field.options[0].value;
+    return "";
+  }
+
+  if (field.input === "dynamic-list" && field.exclusive_option) {
+    return [] as WitnessEntry[];
+  }
+
   return defaultStr;
 }
 
 function initializeFieldValues(
   sections: FormSectionConfig[],
   charterType: string,
-): Record<string, string | string[] | DateFieldValue | undefined> {
-  const values: Record<string, string | string[] | DateFieldValue | undefined> = {};
+): Record<string, string | string[] | DateFieldValue | WitnessEntry[] | undefined> {
+  const values: Record<string, string | string[] | DateFieldValue | WitnessEntry[] | undefined> = {};
   for (const section of sections) {
     for (const field of section.fields) {
       values[field.id] = getInitialFieldValue(field, charterType);
@@ -68,7 +79,7 @@ export default function AdminFormPage({ config }: AdminFormPageProps) {
 
   const [charterType, setCharterType] = useState("");
   const [fieldValues, setFieldValues] = useState<
-    Record<string, string | string[] | DateFieldValue | undefined>
+    Record<string, string | string[] | DateFieldValue | WitnessEntry[] | undefined>
   >({});
   const [adHoc, setAdHoc] = useState<AdHocField[]>([]);
   const [submitting, setSubmitting] = useState(false);
@@ -87,19 +98,8 @@ export default function AdminFormPage({ config }: AdminFormPageProps) {
         return;
       }
 
-      // Find the selected type config for auto-population
-      const selectedType = types.find((t) => t.id === typeId);
-
       // Initialize all field values with defaults
       const newValues = initializeFieldValues(sections, typeId);
-
-      // Auto-populate object and object_subtype from charter type config
-      if (selectedType) {
-        newValues["object"] = selectedType.object_value;
-        if (selectedType.object_subtype_value) {
-          newValues["object_subtype"] = selectedType.object_subtype_value;
-        }
-      }
 
       setFieldValues(newValues);
     },
@@ -107,7 +107,7 @@ export default function AdminFormPage({ config }: AdminFormPageProps) {
   );
 
   const handleFieldChange = useCallback(
-    (fieldId: string, value: string | string[] | DateFieldValue) => {
+    (fieldId: string, value: string | string[] | DateFieldValue | WitnessEntry[]) => {
       setFieldValues((prev) => ({ ...prev, [fieldId]: value }));
       // Clear validation error for this field when user edits it
       setValidationErrors((prev) => {
@@ -119,10 +119,15 @@ export default function AdminFormPage({ config }: AdminFormPageProps) {
     [],
   );
 
-  function isValueEmpty(value: string | string[] | DateFieldValue | undefined): boolean {
+  function isValueEmpty(value: string | string[] | DateFieldValue | WitnessEntry[] | undefined): boolean {
     if (value === undefined || value === "") return true;
     if (Array.isArray(value)) {
-      return value.length === 0 || value.every((v) => v.trim() === "");
+      const first = value[0];
+      if (first && typeof first === "object" && "name" in first) {
+        const entries = value as WitnessEntry[];
+        return entries.length === 0 || entries.every((e) => e.name.trim() === "");
+      }
+      return value.length === 0 || value.every((v) => (v as string).trim() === "");
     }
     if (typeof value === "object" && "iso" in value) {
       const dateVal = value as DateFieldValue;
@@ -256,6 +261,7 @@ export default function AdminFormPage({ config }: AdminFormPageProps) {
                 onFieldChange={handleFieldChange}
                 disabled={submitting}
                 validationErrors={validationErrors}
+                depth={0}
               />
             ))}
 

@@ -5,257 +5,416 @@
 #   applies_to: [type...] — only visible for specific charter types
 #
 # Field properties:
-#   id              — machine name (used as key in form data JSON)
-#   label           — display label in the form
-#   input           — input type: text, textarea, date, select, dynamic-list
-#   cardinality     — single | multiple
-#   tei_element     — TEI element name to create
-#   tei_attributes  — (optional) attributes on the TEI element
-#   tei_wrapper     — (optional) intermediate wrapping element (e.g. "witness" for witnesses)
-#   xpath_parent    — full XPath to the parent element where this field's TEI element lives
-#   applies_to      — all | [emphyteusis, donationis, ...]
-#   required        — (optional) whether the field is required
-#   options         — (select fields only) list of {value, label} pairs
-#   default_value   — (optional) default value
-#   default_by_type — (optional) map of type → default value
+#   id                    — machine name (used as key in form data JSON)
+#   label                 — display label in the form
+#   input                 — input type: text, textarea, date, select, dynamic-list, radio
+#   cardinality           — single | multiple
+#   tei_element           — TEI element name to create
+#   tei_attributes        — (optional) attributes on the TEI element
+#   tei_wrapper           — (optional) intermediate wrapping element
+#   tei_wrapper_attributes — (optional) attributes on the wrapper element
+#   xpath_parent          — full XPath to the parent element where this field's TEI element lives
+#   applies_to            — all | [type_id, ...]
+#   required              — (optional) whether the field is required
+#   options               — (select/radio fields only) list of {value, label} pairs
+#   field_pair            — (optional) groups adjacent fields into a visual pair
+#   exclusive_option      — (optional) config for per-entry radio on dynamic lists
 
-# Charter type definitions for the type selector dropdown
 types:
-  - id: emphyteusis
-    label: Carta emphyteusis (Emphyteusis)
-    object_value: "Carta emphyteusis"
-    object_subtype_value: "Concessio emphyteutica"
+  - id: instrumentum_venditionis
+    label: Instrumentum venditionis
+    object_value: "Instrumentum venditionis"
+    object_subtype_value: "Venditio"
 
 sections:
-  # ── DOCUMENT IDENTITY ──────────────────────────────────
-  - id: identity
-    label: Document Identity
+  # ── PROPERTIES ────────────────────────────────────────
+  - id: properties
+    label: Properties
     applies_to: all
     fields:
-      - id: title
-        label: Title
-        input: text
-        cardinality: single
-        tei_element: title
-        xpath_parent: tei:teiHeader/tei:fileDesc/tei:titleStmt
-        applies_to: all
-        required: true
-
-      - id: signer
-        label: Signer (Author)
-        input: text
-        cardinality: single
-        tei_element: author
-        xpath_parent: tei:teiHeader/tei:fileDesc/tei:titleStmt
-        applies_to: all
-        required: true
-
-      - id: object
-        label: Object Type
-        input: text
-        cardinality: single
-        tei_element: term
-        tei_attributes:
-          type: object
-        xpath_parent: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords
-        applies_to: all
-        required: true
-
-      - id: object_subtype
-        label: Object Subtype
-        input: text
-        cardinality: single
-        tei_element: term
-        tei_attributes:
-          type: object_subtype
-        xpath_parent: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords
-        applies_to: all
-
-      - id: archive
-        label: Archive (Repository)
+      - id: repository
+        label: Repository
         input: text
         cardinality: single
         tei_element: repository
         xpath_parent: tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msIdentifier
         applies_to: all
+        required: true
 
       - id: shelfmark
-        label: Shelfmark (ID Number)
+        label: Shelfmark
         input: text
         cardinality: single
         tei_element: idno
         xpath_parent: tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msIdentifier
         applies_to: all
 
-  # ── PEOPLE ────────────────────────────────────────────
-  - id: people
-    label: People
+  # ── FORMULARY ANALYSIS ────────────────────────────────
+  - id: formulary_analysis
+    label: Formulary Analysis
     applies_to: all
-    fields:
-      - id: recipient
-        label: Recipient
-        input: text
-        cardinality: single
-        tei_element: recipient
-        xpath_parent: tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msContents/tei:msItem
+    fields: []
+    subsections:
+      # ── PROTOCOL ──────────────────────────────────────
+      - id: protocol
+        label: Protocol
         applies_to: all
+        fields:
+          - id: invocatio_type
+            label: Invocatio
+            input: radio
+            cardinality: single
+            tei_element: div
+            tei_wrapper_attributes:
+              type: invocatio
+            xpath_parent: tei:text/tei:body/tei:div[@type='protocol']
+            applies_to: all
+            required: true
+            options:
+              - value: symbolica
+                label: Simbolica
+              - value: verbalis
+                label: Verbale
 
-      - id: notary
-        label: Notary Name
-        input: text
-        cardinality: single
-        tei_element: name
-        tei_wrapper: respStmt
-        xpath_parent: tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msContents/tei:msItem
+          - id: datatio_chronica
+            label: Datatio chronica
+            input: textarea
+            cardinality: single
+            tei_element: p
+            tei_wrapper: div
+            tei_wrapper_attributes:
+              type: datatio_chronica
+            xpath_parent: tei:text/tei:body/tei:div[@type='protocol']
+            applies_to: all
+
+          - id: date_modern
+            label: Modern Date
+            input: date
+            cardinality: single
+            tei_element: date
+            xpath_parent: tei:teiHeader/tei:profileDesc/tei:creation
+            applies_to: all
+            required: true
+
+      # ── TEXT ──────────────────────────────────────────
+      - id: text
+        label: Text
         applies_to: all
-        note: >
-          The XML generator wraps this in <respStmt><resp>notary</resp><name>...</name></respStmt>.
+        fields:
+          - id: author_text
+            label: Author
+            input: textarea
+            cardinality: single
+            tei_element: p
+            tei_wrapper: div
+            tei_wrapper_attributes:
+              type: author_context
+            xpath_parent: tei:text/tei:body/tei:div[@type='textus']
+            applies_to: all
+            field_pair: author
 
-      - id: witnesses
-        label: Witnesses
-        input: dynamic-list
-        cardinality: multiple
-        tei_element: name
-        tei_wrapper: witness
-        xpath_parent: tei:text/tei:body/tei:listWitness
+          - id: author_name
+            label: Author (normalized)
+            input: text
+            cardinality: single
+            tei_element: term
+            tei_attributes:
+              type: author_name
+            xpath_parent: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords
+            applies_to: all
+            field_pair: author
+
+          - id: verba_dispositiva
+            label: Verba dispositiva
+            input: textarea
+            cardinality: single
+            tei_element: p
+            tei_wrapper: div
+            tei_wrapper_attributes:
+              type: verba_dispositiva
+            xpath_parent: tei:text/tei:body/tei:div[@type='textus']
+            applies_to: all
+
+          - id: recipient_text
+            label: Recipient
+            input: textarea
+            cardinality: single
+            tei_element: p
+            tei_wrapper: div
+            tei_wrapper_attributes:
+              type: recipient_context
+            xpath_parent: tei:text/tei:body/tei:div[@type='textus']
+            applies_to: all
+            field_pair: recipient
+
+          - id: recipient_name
+            label: Recipient (normalized)
+            input: text
+            cardinality: single
+            tei_element: term
+            tei_attributes:
+              type: recipient_name
+            xpath_parent: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords
+            applies_to: all
+            field_pair: recipient
+
+          - id: clausula_perpetuitatis
+            label: Clausula perpetuitatis
+            input: textarea
+            cardinality: single
+            tei_element: p
+            tei_wrapper: div
+            tei_wrapper_attributes:
+              type: clausula_perpetuitatis
+            xpath_parent: tei:text/tei:body/tei:div[@type='textus']
+            applies_to: all
+
+          - id: property_description
+            label: Property / Assets
+            input: textarea
+            cardinality: single
+            tei_element: p
+            tei_wrapper: div
+            tei_wrapper_attributes:
+              type: property_description
+            xpath_parent: tei:text/tei:body/tei:div[@type='textus']
+            applies_to: all
+
+          - id: property_type
+            label: Property Type
+            input: radio
+            cardinality: single
+            tei_element: div
+            xpath_parent: tei:text/tei:body/tei:div[@type='textus']
+            applies_to: all
+            required: true
+            options:
+              - value: immobile
+                label: Immobile
+              - value: mobile
+                label: Mobile
+
+          - id: clausula_servitutis_passagii
+            label: Clausula servitutis passagii
+            input: textarea
+            cardinality: single
+            tei_element: p
+            tei_wrapper: div
+            tei_wrapper_attributes:
+              type: clausula_servitutis_passagii
+            xpath_parent: tei:text/tei:body/tei:div[@type='textus']
+            applies_to: all
+
+          - id: clausula_integritatis
+            label: Clausula integritatis
+            input: textarea
+            cardinality: single
+            tei_element: p
+            tei_wrapper: div
+            tei_wrapper_attributes:
+              type: clausula_integritatis
+            xpath_parent: tei:text/tei:body/tei:div[@type='textus']
+            applies_to: all
+
+          - id: clausula_quietantiae_pretii
+            label: Clausula quietantiae pretii
+            input: textarea
+            cardinality: single
+            tei_element: p
+            tei_wrapper: div
+            tei_wrapper_attributes:
+              type: clausula_quietantiae_pretii
+            xpath_parent: tei:text/tei:body/tei:div[@type='textus']
+            applies_to: all
+
+          - id: pretium
+            label: Price
+            input: text
+            cardinality: single
+            tei_element: term
+            tei_attributes:
+              type: price
+            xpath_parent: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords
+            applies_to: all
+
+          - id: formula_confinium
+            label: Formula confinium
+            input: textarea
+            cardinality: single
+            tei_element: p
+            tei_wrapper: div
+            tei_wrapper_attributes:
+              type: formula_confinium
+            xpath_parent: tei:text/tei:body/tei:div[@type='textus']
+            applies_to: all
+
+          - id: formula_mensurationum
+            label: Formula mensurationum
+            input: textarea
+            cardinality: single
+            tei_element: p
+            tei_wrapper: div
+            tei_wrapper_attributes:
+              type: formula_mensurationum
+            xpath_parent: tei:text/tei:body/tei:div[@type='textus']
+            applies_to: all
+
+          - id: formula_transmissionis
+            label: Formula transmissionis
+            input: textarea
+            cardinality: single
+            tei_element: p
+            tei_wrapper: div
+            tei_wrapper_attributes:
+              type: formula_transmissionis
+            xpath_parent: tei:text/tei:body/tei:div[@type='textus']
+            applies_to: all
+
+          - id: formula_libere_fruitionis
+            label: Formula libere fruitionis
+            input: textarea
+            cardinality: single
+            tei_element: p
+            tei_wrapper: div
+            tei_wrapper_attributes:
+              type: formula_libere_fruitionis
+            xpath_parent: tei:text/tei:body/tei:div[@type='textus']
+            applies_to: all
+
+          - id: formula_legitimae_defensionis
+            label: Formula legitimae defensionis
+            input: textarea
+            cardinality: single
+            tei_element: p
+            tei_wrapper: div
+            tei_wrapper_attributes:
+              type: formula_legitimae_defensionis
+            xpath_parent: tei:text/tei:body/tei:div[@type='textus']
+            applies_to: all
+
+          - id: sanctio_text
+            label: Sanctio
+            input: textarea
+            cardinality: single
+            tei_element: p
+            tei_wrapper: div
+            tei_wrapper_attributes:
+              type: sanctio
+            xpath_parent: tei:text/tei:body/tei:div[@type='textus']
+            applies_to: all
+
+          - id: sanctio_type
+            label: Sanctio Type
+            input: radio
+            cardinality: single
+            tei_element: div
+            xpath_parent: tei:text/tei:body/tei:div[@type='textus']
+            applies_to: all
+            required: true
+            options:
+              - value: dupli_pena
+                label: Penalty of Double
+              - value: pecunia_numerata
+                label: Numbered Pecunia
+
+          - id: property_location
+            label: Property Location
+            input: text
+            cardinality: single
+            tei_element: term
+            tei_attributes:
+              type: property_location
+            xpath_parent: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords
+            applies_to: all
+
+      # ── ESCHATOCOL ────────────────────────────────────
+      - id: eschatocol
+        label: Eschatocol
         applies_to: all
+        fields:
+          - id: datatio_topica
+            label: Datatio topica
+            input: textarea
+            cardinality: single
+            tei_element: p
+            tei_wrapper: div
+            tei_wrapper_attributes:
+              type: datatio_topica
+            xpath_parent: tei:text/tei:body/tei:div[@type='eschatocol']
+            applies_to: all
 
-  # ── CONTEXT ───────────────────────────────────────────
-  - id: context
-    label: Context
-    applies_to: all
-    fields:
-      - id: date
-        label: Date
-        input: date
-        cardinality: single
-        tei_element: date
-        xpath_parent: tei:teiHeader/tei:profileDesc/tei:creation
-        applies_to: all
-        required: true
-        note: >
-          Date input type provides both an ISO date (used as @when attribute) and a text display value (used as element content).
+          - id: locus_redactionis
+            label: Place of Redaction
+            input: text
+            cardinality: single
+            tei_element: term
+            tei_attributes:
+              type: locus_redactionis
+            xpath_parent: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords
+            applies_to: all
 
-      - id: origPlace
-        label: Place of Origin
-        input: text
-        cardinality: single
-        tei_element: origPlace
-        xpath_parent: tei:teiHeader/tei:profileDesc/tei:creation
-        applies_to: all
+        subsections:
+          # ── SUBSCRIPTIONS ─────────────────────────────
+          - id: subscriptions
+            label: Subscriptions
+            applies_to: all
+            fields:
+              - id: emittens_type
+                label: Emitter
+                input: radio
+                cardinality: single
+                tei_element: div
+                tei_wrapper_attributes:
+                  type: emittens
+                xpath_parent: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptiones']
+                applies_to: all
+                required: true
+                options:
+                  - value: auctor
+                    label: Author
+                  - value: destinatarius
+                    label: Recipient
 
-      - id: language
-        label: Language
-        input: select
-        cardinality: single
-        tei_element: language
-        tei_attributes:
-          ident: la
-        xpath_parent: tei:teiHeader/tei:profileDesc/tei:langUsage
-        applies_to: all
-        options:
-          - value: Latin
-            label: Latin
-          - value: Italian
-            label: Italian (Volgare)
+              - id: testes_text
+                label: Witnesses
+                input: textarea
+                cardinality: single
+                tei_element: p
+                tei_wrapper: div
+                tei_wrapper_attributes:
+                  type: testes
+                xpath_parent: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptiones']
+                applies_to: all
 
-      - id: country
-        label: Country
-        input: text
-        cardinality: single
-        tei_element: country
-        xpath_parent: tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msIdentifier
-        applies_to: all
-        default_value: Italy
+              - id: testes_names
+                label: Witness Names
+                input: dynamic-list
+                cardinality: multiple
+                tei_element: name
+                tei_wrapper: witness
+                xpath_parent: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptiones']/tei:listWitness
+                applies_to: all
+                exclusive_option:
+                  label: Investitor
+                  fieldKey: is_investitor
 
-      - id: settlement
-        label: City (Settlement)
-        input: text
-        cardinality: single
-        tei_element: settlement
-        xpath_parent: tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msIdentifier
-        applies_to: all
-        default_value: Siena
+              - id: completio
+                label: Completio
+                input: textarea
+                cardinality: single
+                tei_element: p
+                tei_wrapper: div
+                tei_wrapper_attributes:
+                  type: completio
+                xpath_parent: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptiones']
+                applies_to: all
 
-      - id: material
-        label: Material / Support
-        input: text
-        cardinality: single
-        tei_element: term
-        tei_attributes:
-          type: material
-        xpath_parent: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords
-        applies_to: all
-        default_value: Parchment
-
-  # ── CONTENT ───────────────────────────────────────────
-  - id: content
-    label: Content
-    applies_to: all
-    fields:
-      - id: price_clause
-        label: Price Clause
-        input: textarea
-        cardinality: single
-        tei_element: p
-        tei_wrapper: div
-        tei_wrapper_attributes:
-          type: price_clause
-        xpath_parent: tei:text/tei:body
-        applies_to: all
-
-      - id: penalty_clause
-        label: Penalty Clause
-        input: textarea
-        cardinality: single
-        tei_element: p
-        tei_wrapper: div
-        tei_wrapper_attributes:
-          type: penalty_clause
-        xpath_parent: tei:text/tei:body
-        applies_to: all
-
-  # ── EMPHYTEUSIS-SPECIFIC ──────────────────────────────
-  - id: emphyteusis_specifics
-    label: Emphyteusis Specifics
-    applies_to:
-      - emphyteusis
-    fields:
-      - id: canon_annualis
-        label: Annual Rent (Canon)
-        input: textarea
-        cardinality: single
-        tei_element: term
-        tei_attributes:
-          type: canon_annualis
-        xpath_parent: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords
-        applies_to:
-          - emphyteusis
-        note: >
-          Describe the annual rent owed by the emphyteuta (e.g. "2 modii frumenti et 1 modius vini").
-
-      - id: property_description
-        label: Property Description
-        input: textarea
-        cardinality: single
-        tei_element: term
-        tei_attributes:
-          type: property_description
-        xpath_parent: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords
-        applies_to:
-          - emphyteusis
-        note: >
-          Description of the property granted in emphyteusis (e.g. "una petia terrae arabilis in territorio Senarum").
-
-      - id: duratio_emphyteuseos
-        label: Duration
-        input: text
-        cardinality: single
-        tei_element: term
-        tei_attributes:
-          type: duratio_emphyteuseos
-        xpath_parent: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords
-        applies_to:
-          - emphyteusis
-        note: >
-          Duration of the emphyteusis grant (e.g. "in perpetuum", "29 years").
+              - id: notarius
+                label: Notary
+                input: text
+                cardinality: single
+                tei_element: name
+                tei_wrapper: respStmt
+                xpath_parent: tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msContents/tei:msItem
+                applies_to: all
+                required: true

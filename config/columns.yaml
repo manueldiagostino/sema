@@ -10,21 +10,15 @@
 # To hide a column, remove it from this list.
 
 columns:
-  - id: title
-    label: Title
-    xpath: tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title
+  - id: author_name
+    label: Author
+    xpath: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords/tei:term[@type='author_name']
     sortable: true
     filterable: true
 
-  - id: signer
-    label: Signer
-    xpath: tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:author
-    sortable: true
-    filterable: true
-
-  - id: recipient
+  - id: recipient_name
     label: Recipient
-    xpath: tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msContents/tei:msItem/tei:recipient
+    xpath: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords/tei:term[@type='recipient_name']
     sortable: true
     filterable: true
 
@@ -40,59 +34,39 @@ columns:
     sortable: true
     filterable: true
 
-  - id: object
-    label: Object
-    xpath: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords/tei:term[@type='object']
+  - id: pretium
+    label: Price
+    xpath: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords/tei:term[@type='price']
     sortable: true
     filterable: true
 
-  - id: object_subtype
-    label: Object Subtype
-    xpath: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords/tei:term[@type='object_subtype']
+  - id: property_location
+    label: Property Location
+    xpath: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords/tei:term[@type='property_location']
     sortable: true
     filterable: true
 
-  - id: language
-    label: Language
-    xpath: tei:teiHeader/tei:profileDesc/tei:langUsage/tei:language
+  - id: locus_redactionis
+    label: Place of Redaction
+    xpath: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords/tei:term[@type='locus_redactionis']
     sortable: true
     filterable: true
 
-  - id: material
-    label: Material
-    xpath: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords/tei:term[@type='material']
-    sortable: true
-    filterable: true
-
-  - id: notary
+  - id: notarius
     label: Notary
     xpath: tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msContents/tei:msItem/tei:respStmt/tei:name
     sortable: true
     filterable: true
 
-  - id: witnesses
+  - id: testes_names
     label: Witnesses
-    xpath: tei:text/tei:body/tei:listWitness/tei:witness/tei:name
+    xpath: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptiones']/tei:listWitness/tei:witness/tei:name
     sortable: false
     filterable: true
     cardinality: multiple
     join: "; "
 
-  - id: price_clause
-    label: Price Clause
-    xpath: tei:text/tei:body/tei:div[@type='price_clause']
-    sortable: false
-    filterable: true
-    truncateWords: 15
-
-  - id: penalty_clause
-    label: Penalty Clause
-    xpath: tei:text/tei:body/tei:div[@type='penalty_clause']
-    sortable: false
-    filterable: true
-    truncateWords: 15
-
-  - id: archive
+  - id: repository
     label: Archive
     xpath: tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msIdentifier/tei:repository
     sortable: true

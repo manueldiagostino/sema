@@ -4,7 +4,8 @@ export type FieldInputType =
   | "textarea"
   | "date"
   | "select"
-  | "dynamic-list";
+  | "dynamic-list"
+  | "radio";
 
 /** Cardinality of a form field. */
 export type FieldCardinality = "single" | "multiple";
@@ -28,6 +29,18 @@ export interface SelectOption {
 
 /** Default values that vary by charter type. */
 export type DefaultByType = Record<string, string>;
+
+/** A witness entry with an optional investitor flag. */
+export interface WitnessEntry {
+  name: string;
+  is_investitor: boolean;
+}
+
+/** Configuration for an exclusive option (radio) per dynamic list entry. */
+export interface ExclusiveOptionConfig {
+  label: string;
+  fieldKey: string;
+}
 
 /** Definition of a single form field. */
 export interface FormFieldConfig {
@@ -61,6 +74,10 @@ export interface FormFieldConfig {
   default_by_type?: DefaultByType;
   /** Developer note (not shown in the UI). */
   note?: string;
+  /** Groups this field with adjacent fields sharing the same pair ID (for descriptive + normalized pairs). */
+  field_pair?: string;
+  /** Exclusive radio option config for dynamic list entries (e.g. investitor flag). */
+  exclusive_option?: ExclusiveOptionConfig;
 }
 
 /** A section groups related fields under a common label. */
@@ -71,6 +88,8 @@ export interface FormSectionConfig {
   label: string;
   /** Fields in this section, rendered in order. */
   fields: FormFieldConfig[];
+  /** Nested subsections (recursive). */
+  subsections?: FormSectionConfig[];
   /** Which charter types show this section ("all" or list of type IDs). */
   applies_to: "all" | string[];
 }
@@ -100,7 +119,7 @@ export interface FormSubmissionData {
   /** Selected charter type ID (e.g. "emphyteusis"). */
   charter_type: string;
   /** Values for canonical and type-specific fields, keyed by field id. */
-  fields: Record<string, string | string[] | DateFieldValue | undefined>;
+  fields: Record<string, string | string[] | DateFieldValue | WitnessEntry[] | undefined>;
   /** Ad-hoc custom properties added at the bottom of the form. */
   ad_hoc: AdHocField[];
 }

@@ -1,8 +1,8 @@
 import type {
   FormSubmissionData,
   FormSectionsConfig,
-  FormFieldConfig,
   DateFieldValue,
+  WitnessEntry,
 } from "@/types/form";
 
 /** Escape special XML characters in text content. */
@@ -24,7 +24,9 @@ function attr(a?: Record<string, string>): string {
 
 /** Check if a value is empty / null / blank string. */
 function isEmpty(v: unknown): boolean {
-  return v == null || (typeof v === "string" && v.trim() === "");
+  if (v == null) return true;
+  if (typeof v === "string") return v.trim() === "";
+  return false;
 }
 
 /** Shorthand to read a field value from submission data. */
@@ -32,201 +34,242 @@ function getVal(data: FormSubmissionData, id: string) {
   return data.fields[id];
 }
 
-/**
- * Generate simple single-line TEI elements for a set of fields.
- * Skips date fields (handled separately) and empty values.
- * Handles cardinality: multiple by emitting one element per value.
- */
-function genSimpleElements(
-  data: FormSubmissionData,
-  fields: FormFieldConfig[],
-  indent: string,
-): string {
-  const lines: string[] = [];
-  for (const f of fields) {
-    if (f.input === "date") continue;
-    const v = getVal(data, f.id);
-    if (isEmpty(v)) continue;
+/** Get a field value as string, or empty string if missing. */
+function getStr(data: FormSubmissionData, id: string): string {
+  const v = getVal(data, id);
+  return typeof v === "string" ? v : "";
+}
 
-    const a = attr(f.tei_attributes);
-
-    if (f.cardinality === "multiple" && Array.isArray(v)) {
-      for (const item of v) {
-        if (!isEmpty(item)) {
-          lines.push(
-            `${indent}<${f.tei_element}${a}>${esc(item)}</${f.tei_element}>`,
-          );
-        }
-      }
-    } else if (typeof v === "string") {
-      lines.push(
-        `${indent}<${f.tei_element}${a}>${esc(v)}</${f.tei_element}>`,
-      );
-    }
+/** Get WitnessEntry[] value, or empty array. */
+function getWitnesses(data: FormSubmissionData, id: string): WitnessEntry[] {
+  const v = getVal(data, id);
+  if (Array.isArray(v) && v.length > 0 && v[0] && typeof v[0] === "object" && "name" in v[0]) {
+    return v as WitnessEntry[];
   }
-  return lines.join("\n");
+  return [];
 }
 
 /**
- * Main function that generates the complete TEI P5 XML document
- * from form submission data and the form section configuration.
+ * Build a div with optional @subtype and a <p> child.
+ * Returns empty string if textContent is empty.
+ */
+function makeDiv(
+  type: string,
+  textContent: string,
+  subtype?: string,
+  indent = "        ",
+): string {
+  if (isEmpty(textContent)) return "";
+  const subtypeAttr = subtype ? ` subtype="${esc(subtype)}"` : "";
+  return (
+    `${indent}<div type="${esc(type)}"${subtypeAttr}>\n` +
+    `${indent}  <p>${esc(textContent)}</p>\n` +
+    `${indent}</div>`
+  );
+}
+
+/**
+ * Build a div with optional @subtype but without <p> child (container only).
+ */
+function makeDivContainer(
+  type: string,
+  children: string[],
+  subtype?: string,
+  indent = "      ",
+): string {
+  const subtypeAttr = subtype ? ` subtype="${esc(subtype)}"` : "";
+  const childLines = children.filter((c) => c).map((c) => c);
+  if (childLines.length === 0) return "";
+  return (
+    `${indent}<div type="${esc(type)}"${subtypeAttr}>\n` +
+    childLines.join("\n") +
+    `\n${indent}</div>`
+  );
+}
+
+/**
+ * Generate the complete TEI P5 XML document from form submission data.
+ * Builds a three-part diplomatic formulary: Protocol, Text, Eschatocol.
  */
 export function generateTeiXml(
   data: FormSubmissionData,
-  config: FormSectionsConfig,
+  _config: FormSectionsConfig,
 ): string {
-  // Collect all fields grouped by xpath_parent
-  const byParent = new Map<string, FormFieldConfig[]>();
-  for (const section of config.sections) {
-    for (const f of section.fields) {
-      if (!byParent.has(f.xpath_parent)) byParent.set(f.xpath_parent, []);
-      byParent.get(f.xpath_parent)!.push(f);
-    }
+  const I = (n: number) => "  ".repeat(n); // indentation helper
+
+  // ── teiHeader lines ──
+
+  // titleStmt
+  const authorName = getStr(data, "author_name");
+  const titleStmt: string[] = [];
+  titleStmt.push(`${I(4)}<title>Instrumentum venditionis</title>`);
+  if (authorName) {
+    titleStmt.push(`${I(4)}<author>${esc(authorName)}</author>`);
   }
 
-  const fields = (path: string) => byParent.get(path) || [];
+  // msIdentifier
+  const repository = getStr(data, "repository");
+  const shelfmark = getStr(data, "shelfmark");
+  const msId: string[] = [];
+  if (repository) msId.push(`${I(6)}<repository>${esc(repository)}</repository>`);
+  if (shelfmark) msId.push(`${I(6)}<idno>${esc(shelfmark)}</idno>`);
 
-  // ── titleStmt (title, author) ──
-  const titleStmtContent = genSimpleElements(
-    data,
-    fields("tei:teiHeader/tei:fileDesc/tei:titleStmt"),
-    "        ",
-  );
-
-  // ── msIdentifier (country, settlement, repository, idno) ──
-  const msIdContent = genSimpleElements(
-    data,
-    fields(
-      "tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msIdentifier",
-    ),
-    "            ",
-  );
-
-  // ── msItem (recipient + notary as respStmt) ──
-  const msItemLines: string[] = [];
-  const msItemFields = fields(
-    "tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msContents/tei:msItem",
-  );
-  for (const f of msItemFields) {
-    if (f.id === "notary") continue;
-    const v = getVal(data, f.id);
-    if (!isEmpty(v) && typeof v === "string") {
-      msItemLines.push(
-        `              <${f.tei_element}>${esc(v)}</${f.tei_element}>`,
-      );
-    }
+  // msItem
+  const recipientName = getStr(data, "recipient_name");
+  const notaryName = getStr(data, "notarius");
+  const msItem: string[] = [];
+  if (recipientName) {
+    msItem.push(`${I(7)}<recipient>${esc(recipientName)}</recipient>`);
   }
-  // Notary → special respStmt wrapper
-  const notaryVal = getVal(data, "notary");
-  if (!isEmpty(notaryVal) && typeof notaryVal === "string") {
-    msItemLines.push(
-      `              <respStmt>\n` +
-        `                <resp>notary</resp>\n` +
-        `                <name>${esc(notaryVal)}</name>\n` +
-        `              </respStmt>`,
+  if (notaryName) {
+    msItem.push(
+      `${I(7)}<respStmt>\n` +
+        `${I(8)}<resp>notary</resp>\n` +
+        `${I(8)}<name>${esc(notaryName)}</name>\n` +
+        `${I(7)}</respStmt>`,
     );
   }
-  const msItemContent = msItemLines.join("\n");
 
-  // ── creation (date + origPlace) ──
-  const creationLines: string[] = [];
-  const dateVal = getVal(data, "date");
+  // creation
+  const dateVal = getVal(data, "date_modern");
+  const locusRedactionis = getStr(data, "locus_redactionis");
+  const creation: string[] = [];
   if (dateVal && typeof dateVal === "object" && "iso" in dateVal) {
     const dv = dateVal as DateFieldValue;
     const text = dv.text || dv.iso;
     if (!isEmpty(dv.iso) || !isEmpty(text)) {
-      creationLines.push(
-        `        <date when="${esc(dv.iso)}">${esc(text)}</date>`,
+      creation.push(
+        `${I(4)}<date when="${esc(dv.iso)}">${esc(text)}</date>`,
       );
     }
   }
-  const origPlaceFields = fields(
-    "tei:teiHeader/tei:profileDesc/tei:creation",
-  ).filter((f) => f.id !== "date");
-  const origPlaceContent = genSimpleElements(data, origPlaceFields, "        ");
-  if (origPlaceContent) creationLines.push(origPlaceContent);
-  const creationContent = creationLines.join("\n");
-
-  // ── langUsage (language with @ident) ──
-  const langFields = fields("tei:teiHeader/tei:profileDesc/tei:langUsage");
-  const langLines: string[] = [];
-  for (const f of langFields) {
-    const v = getVal(data, f.id);
-    if (!isEmpty(v) && typeof v === "string") {
-      const a = attr(f.tei_attributes);
-      langLines.push(
-        `        <${f.tei_element}${a}>${esc(v)}</${f.tei_element}>`,
-      );
-    }
+  if (locusRedactionis) {
+    creation.push(`${I(4)}<origPlace>${esc(locusRedactionis)}</origPlace>`);
   }
-  const langContent = langLines.join("\n");
 
-  // ── keywords (terms + ad-hoc) ──
-  const kwFields = fields(
-    "tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords",
-  );
-  const kwLines: string[] = [];
-  for (const f of kwFields) {
-    const v = getVal(data, f.id);
-    if (isEmpty(v)) continue;
-    const a = attr(f.tei_attributes);
-    if (f.cardinality === "multiple" && Array.isArray(v)) {
-      for (const item of v) {
-        if (!isEmpty(item))
-          kwLines.push(`          <term${a}>${esc(item)}</term>`);
-      }
-    } else if (typeof v === "string") {
-      kwLines.push(`          <term${a}>${esc(v)}</term>`);
-    }
+  // keywords
+  const kwFields: [string, string][] = [
+    ["author_name", "author_name"],
+    ["recipient_name", "recipient_name"],
+    ["pretium", "price"],
+    ["property_location", "property_location"],
+    ["locus_redactionis", "locus_redactionis"],
+    ["emittens_type", "emittens"],
+  ];
+  const kwTerms: string[] = [
+    `${I(5)}<term type="object">Instrumentum venditionis</term>`,
+    `${I(5)}<term type="object_subtype">Venditio</term>`,
+  ];
+  for (const [fieldId, termType] of kwFields) {
+    const v = getStr(data, fieldId);
+    if (v) kwTerms.push(`${I(5)}<term type="${esc(termType)}">${esc(v)}</term>`);
   }
-  // Ad-hoc fields → <term type="key">value</term>
+  // ad-hoc
   for (const ah of data.ad_hoc || []) {
     if (!isEmpty(ah.key) && !isEmpty(ah.value)) {
-      kwLines.push(
-        `          <term type="${esc(ah.key)}">${esc(ah.value)}</term>`,
-      );
+      kwTerms.push(`${I(5)}<term type="${esc(ah.key)}">${esc(ah.value)}</term>`);
     }
   }
-  const kwContent = kwLines.join("\n");
 
-  // ── body (div wrappers: price_clause, penalty_clause) ──
-  const bodyFields = fields("tei:text/tei:body");
-  const bodyLines: string[] = [];
-  for (const f of bodyFields) {
-    const v = getVal(data, f.id);
-    if (isEmpty(v) || typeof v !== "string") continue;
-    const type = f.tei_wrapper_attributes?.type || "";
-    bodyLines.push(
-      `      <div type="${esc(type)}">\n` +
-        `        <p>${esc(v)}</p>\n` +
-        `      </div>`,
+  // ── body: nested diplomatic structure ──
+
+  // Protocol
+  const protocolChildren: string[] = [];
+  const invocatioText = getStr(data, "invocatio_type"); // actually the invocatio text is in the radio field value? No, we need invocatio text separately.
+  // Wait - we don't have a text field for invocatio text. Let me check the spec.
+  // The spec says invocatio_type is radio, and the body div should contain a <p> with invocatio text.
+  // But there's no separate invocatio_text field. Let me check the form-sections.yaml to verify.
+
+  // Actually, looking at the spec more carefully: the invocatio div in body should render the invocatio
+  // radio selection as @subtype, but there's no explicit text field for invocatio text.
+  // The datatio_chronica field IS a textarea that maps to div/p.
+  // For invocatio, the @subtype alone is sufficient (it identifies which type was selected).
+
+  const invocatioType = getStr(data, "invocatio_type");
+  if (invocatioType) {
+    protocolChildren.push(
+      `        <div type="invocatio" subtype="${esc(invocatioType)}" />`,
     );
   }
-  const bodyContent = bodyLines.join("\n");
+  const dcDiv = makeDiv("datatio_chronica", getStr(data, "datatio_chronica"));
+  if (dcDiv) protocolChildren.push(dcDiv);
 
-  // ── listWitness ──
-  const witnessFields = fields("tei:text/tei:body/tei:listWitness");
-  const witnessLines: string[] = [];
-  for (const f of witnessFields) {
-    const v = getVal(data, f.id);
-    if (isEmpty(v)) continue;
-    if (f.cardinality === "multiple" && Array.isArray(v)) {
-      for (const item of v) {
-        if (!isEmpty(item)) {
-          witnessLines.push(
-            `        <witness><name>${esc(item)}</name></witness>`,
-          );
-        }
-      }
-    } else if (typeof v === "string") {
-      witnessLines.push(
-        `        <witness><name>${esc(v)}</name></witness>`,
-      );
-    }
+  const protocolDiv = makeDivContainer("protocol", protocolChildren);
+  const protocolContent = protocolDiv ? [protocolDiv] : [];
+
+  // Textus
+  const textusChildren: string[] = [];
+  const textusDivs: [string, string, string?][] = [
+    ["author_context", "author_text"],
+    ["verba_dispositiva", "verba_dispositiva"],
+    ["recipient_context", "recipient_text"],
+    ["clausula_perpetuitatis", "clausula_perpetuitatis"],
+    ["property_description", "property_description", "property_type"],
+    ["clausula_servitutis_passagii", "clausula_servitutis_passagii"],
+    ["clausula_integritatis", "clausula_integritatis"],
+    ["clausula_quietantiae_pretii", "clausula_quietantiae_pretii"],
+    ["formula_confinium", "formula_confinium"],
+    ["formula_mensurationum", "formula_mensurationum"],
+    ["formula_transmissionis", "formula_transmissionis"],
+    ["formula_libere_fruitionis", "formula_libere_fruitionis"],
+    ["formula_legitimae_defensionis", "formula_legitimae_defensionis"],
+    ["sanctio", "sanctio_text", "sanctio_type"],
+  ];
+  for (const [divType, fieldId, subtypeField] of textusDivs) {
+    const text = getStr(data, fieldId);
+    const subtype = subtypeField ? getStr(data, subtypeField) : undefined;
+    const div = makeDiv(divType, text, subtype);
+    if (div) textusChildren.push(div);
   }
-  const witnessContent = witnessLines.join("\n");
+  const textusDiv = makeDivContainer("textus", textusChildren, undefined, "      ");
+  const textusContent = textusDiv ? [textusDiv] : [];
 
-  // ── Assemble the full document ──
+  // Eschatocol
+  const eschatocolChildren: string[] = [];
+  const dtDiv = makeDiv("datatio_topica", getStr(data, "datatio_topica"));
+  if (dtDiv) eschatocolChildren.push(dtDiv);
+
+  // Subscriptions
+  const subscriptionsChildren: string[] = [];
+  const emittensType = getStr(data, "emittens_type");
+  if (emittensType) {
+    subscriptionsChildren.push(
+      `          <div type="emittens" subtype="${esc(emittensType)}" />`,
+    );
+  }
+  const testesDiv = makeDiv("testes", getStr(data, "testes_text"), undefined, "          ");
+  if (testesDiv) subscriptionsChildren.push(testesDiv);
+
+  // Witness list
+  const witnesses = getWitnesses(data, "testes_names");
+  const witnessLines: string[] = [];
+  for (const w of witnesses) {
+    if (isEmpty(w.name)) continue;
+    const ana = w.is_investitor ? `ana="#investitor" ` : "";
+    witnessLines.push(
+      `          <witness ${ana}><name>${esc(w.name)}</name></witness>`,
+    );
+  }
+  if (witnessLines.length > 0) {
+    subscriptionsChildren.push(
+      `          <listWitness>\n` +
+        witnessLines.join("\n") +
+        `\n          </listWitness>`,
+    );
+  }
+
+  const completioDiv = makeDiv("completio", getStr(data, "completio"), undefined, "          ");
+  if (completioDiv) subscriptionsChildren.push(completioDiv);
+
+  const subscriptionsDiv = makeDivContainer("subscriptiones", subscriptionsChildren, undefined, "        ");
+  if (subscriptionsDiv) eschatocolChildren.push(subscriptionsDiv);
+
+  const eschatocolDiv = makeDivContainer("eschatocol", eschatocolChildren, undefined, "      ");
+  const eschatocolContent = eschatocolDiv ? [eschatocolDiv] : [];
+
+  const bodyContent = [...protocolContent, ...textusContent, ...eschatocolContent];
+
+  // ── Assemble document ──
   const lines: string[] = [
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>',
@@ -234,7 +277,9 @@ export function generateTeiXml(
     "  <teiHeader>",
     "    <fileDesc>",
     "      <titleStmt>",
-    ...(titleStmtContent ? titleStmtContent.split("\n") : []),
+  ];
+  lines.push(...titleStmt);
+  lines.push(
     "      </titleStmt>",
     "      <publicationStmt>",
     "        <p>Sample CEI2TEI P5 document for testing corpus table configuration</p>",
@@ -242,13 +287,19 @@ export function generateTeiXml(
     "      <sourceDesc>",
     "        <msDesc>",
     "          <msIdentifier>",
-    ...(msIdContent ? msIdContent.split("\n") : []),
-    "          </msIdentifier>",
-    "          <msContents>",
-    "            <msItem>",
-    ...(msItemContent ? msItemContent.split("\n") : []),
-    "            </msItem>",
-    "          </msContents>",
+  );
+  if (msId.length > 0) lines.push(...msId);
+  lines.push("          </msIdentifier>");
+  if (msItem.length > 0) {
+    lines.push(
+      "          <msContents>",
+      "            <msItem>",
+      ...msItem,
+      "            </msItem>",
+      "          </msContents>",
+    );
+  }
+  lines.push(
     "          <physDesc>",
     "            <objectDesc>",
     "              <supportDesc>",
@@ -261,39 +312,42 @@ export function generateTeiXml(
     "    </fileDesc>",
     "    <profileDesc>",
     "      <creation>",
-    ...(creationContent ? creationContent.split("\n") : []),
+  );
+  if (creation.length > 0) lines.push(...creation);
+  lines.push(
     "      </creation>",
     "      <langUsage>",
-    ...(langContent ? langContent.split("\n") : []),
+    '        <language ident="la">Latin</language>',
     "      </langUsage>",
     "      <textClass>",
     "        <keywords>",
-    ...(kwContent ? kwContent.split("\n") : []),
+  );
+  lines.push(...kwTerms);
+  lines.push(
     "        </keywords>",
     "      </textClass>",
     "    </profileDesc>",
     "  </teiHeader>",
     "  <text>",
     "    <body>",
-    ...(bodyContent ? bodyContent.split("\n") : []),
-    "      <listWitness>",
-    ...(witnessContent ? witnessContent.split("\n") : []),
-    "      </listWitness>",
+  );
+  if (bodyContent.length > 0) lines.push(...bodyContent);
+  lines.push(
     "    </body>",
     "  </text>",
     "</TEI>",
-  ];
+  );
 
   return lines.join("\n");
 }
 
 /**
- * Generates a filename like `emphyteusis_1318.xml` from the charter type and date.
+ * Generates a filename like `instrumentum_venditionis_1318.xml` from the charter type and date.
  * Format: <type_id>_<year>.xml
  */
 export function buildFilename(data: FormSubmissionData): string {
   const charterType = data.charter_type || "unknown";
-  const dateVal = getVal(data, "date");
+  const dateVal = data.fields["date_modern"];
 
   let year = "unknown";
   if (
