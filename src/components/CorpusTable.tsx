@@ -124,11 +124,13 @@ export default function CorpusTable() {
   >(initialColumnFilters);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [showColumnMenu, setShowColumnMenu] = useState(false);
+  const [showExportMenu, setShowExportMenu] = useState(false);
   const [selectedDocument, setSelectedDocument] = useState<CorpusItem | null>(null);
   const [rowSelection, setRowSelection] = useState<RowSelectionState>(initialRowSelection);
   const [compareOpen, setCompareOpen] = useState(initialCompareOpen);
   const [compareFullscreen, setCompareFullscreen] = useState(initialCompareFullscreen);
   const columnMenuRef = useRef<HTMLDivElement>(null);
+  const exportMenuRef = useRef<HTMLDivElement>(null);
 
   // Sync URL with state changes (pagination, sorting, filters, compare)
   useEffect(() => {
@@ -177,12 +179,15 @@ export default function CorpusTable() {
       if (columnMenuRef.current && !columnMenuRef.current.contains(event.target as Node)) {
         setShowColumnMenu(false);
       }
+      if (exportMenuRef.current && !exportMenuRef.current.contains(event.target as Node)) {
+        setShowExportMenu(false);
+      }
     }
-    if (showColumnMenu) {
+    if (showColumnMenu || showExportMenu) {
       document.addEventListener("mousedown", handleClickOutside);
     }
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [showColumnMenu]);
+  }, [showColumnMenu, showExportMenu]);
 
   // Auto-close drawer when selection drops below 2
   useEffect(() => {
@@ -396,24 +401,38 @@ export default function CorpusTable() {
               Compare {selectedCount} selected →
             </button>
           )}
-          <button
-            onClick={() => handleExport("csv")}
-            className="rounded border border-border bg-background px-3 py-1.5 text-sm text-foreground transition-colors hover:bg-muted"
-          >
-            Export CSV
-          </button>
-          <button
-            onClick={() => handleExport("json")}
-            className="rounded border border-border bg-background px-3 py-1.5 text-sm text-foreground transition-colors hover:bg-muted"
-          >
-            Export JSON
-          </button>
-          <button
-            onClick={handleGraphView}
-            className="rounded border border-border bg-background px-3 py-1.5 text-sm text-foreground transition-colors hover:bg-muted"
-          >
-            Graph View
-          </button>
+          <div className="relative" ref={exportMenuRef}>
+            <button
+              onClick={() => setShowExportMenu(!showExportMenu)}
+              className="rounded border border-border bg-background px-3 py-1.5 text-sm text-foreground transition-colors hover:bg-muted"
+            >
+              Export ▼
+            </button>
+            {showExportMenu && (
+              <div className="absolute right-0 z-50 mt-2 w-36 rounded border border-border bg-background shadow-lg">
+                <button
+                  onClick={() => { handleExport("csv"); setShowExportMenu(false); }}
+                  className="block w-full px-3 py-2 text-left text-sm text-foreground hover:bg-muted"
+                >
+                  Export CSV
+                </button>
+                <button
+                  onClick={() => { handleExport("json"); setShowExportMenu(false); }}
+                  className="block w-full px-3 py-2 text-left text-sm text-foreground hover:bg-muted"
+                >
+                  Export JSON
+                </button>
+              </div>
+            )}
+          </div>
+          {selectedCount > 0 && (
+            <button
+              onClick={handleGraphView}
+              className="rounded border border-border bg-background px-3 py-1.5 text-sm text-foreground transition-colors hover:bg-muted"
+            >
+              Graph View
+            </button>
+          )}
           <button
             onClick={clearFilters}
             className="rounded border border-border bg-background px-3 py-1.5 text-sm text-foreground transition-colors hover:bg-muted"
@@ -471,9 +490,10 @@ export default function CorpusTable() {
         </div>
       )}
 
-      <div className="overflow-x-auto rounded-lg border border-border">
-        <table className="w-full text-sm">
-          <thead>
+      <div style={{ height: "calc(100vh - 180px)", overflow: "auto" }}>
+        <div className="rounded-lg border border-border">
+          <table className="w-full text-sm">
+          <thead className="sticky top-0 z-10">
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id} className="border-b border-border bg-muted">
                 {headerGroup.headers.map((header) => {
@@ -581,6 +601,7 @@ export default function CorpusTable() {
             )}
           </tbody>
         </table>
+        </div>
       </div>
 
       {/* Pagination controls */}

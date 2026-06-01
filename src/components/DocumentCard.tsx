@@ -1,7 +1,5 @@
 "use client";
 
-import { truncateWords } from "@/lib/truncateWords";
-
 interface ColumnConfig {
   id: string;
   label: string;
@@ -50,15 +48,17 @@ export default function DocumentCard({
         })}
       </div>
 
-      {/* Long text clauses */}
+      {/* Long text clauses — always show full content, never truncate */}
       {longTextConfig.map((col) => {
         const val = item[col.id];
-        const raw = Array.isArray(val) ? val.join(" ") : (val as string) || "—";
-        const display = compact ? truncateWords(raw, col.truncateWords!) : raw;
+        const text = Array.isArray(val) ? val.join(" ") : (val as string) || "—";
         return (
           <div key={col.id} className="rounded border border-border bg-muted/30 p-4">
             <h3 className="mb-2 text-sm font-semibold text-primary">{col.label}</h3>
-            <p className="text-sm leading-relaxed text-foreground text-justify">{display}</p>
+            <pre
+              className="text-sm leading-relaxed text-foreground font-sans"
+              style={{ whiteSpace: "pre-wrap", wordBreak: "break-word", overflowWrap: "break-word", margin: 0 }}
+            >{text}</pre>
           </div>
         );
       })}
