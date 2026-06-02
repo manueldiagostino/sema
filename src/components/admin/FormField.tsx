@@ -153,6 +153,37 @@ function MultipleValueInput({
     );
   }
 
+  // Radio with multiple cardinality becomes a checkbox group
+  if (field.input === "radio") {
+    const selectedValues: string[] = Array.isArray(value) ? (value as string[]) : [];
+    const toggleOption = (optValue: string) => {
+      if (selectedValues.includes(optValue)) {
+        onChange(selectedValues.filter((v) => v !== optValue));
+      } else {
+        onChange([...selectedValues, optValue]);
+      }
+    };
+    return (
+      <div className="flex flex-wrap gap-4" role="group">
+        {(field.options ?? []).map((opt) => (
+          <label
+            key={opt.value}
+            className={`inline-flex items-center gap-2 text-sm text-foreground${disabled ? " opacity-50 cursor-not-allowed" : " cursor-pointer"}`}
+          >
+            <input
+              type="checkbox"
+              checked={selectedValues.includes(opt.value)}
+              onChange={() => toggleOption(opt.value)}
+              disabled={disabled}
+              className="h-4 w-4 rounded border-border text-indigo-600 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            />
+            {opt.label}
+          </label>
+        ))}
+      </div>
+    );
+  }
+
   const values: string[] = Array.isArray(value) ? value as string[] : value ? [String(value)] : [""];
 
   const addItem = () => {

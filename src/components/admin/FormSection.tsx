@@ -25,7 +25,7 @@ export default function FormSection({
     depth >= 3
       ? "ml-4 pl-2 border-l-2 border-border/40 bg-transparent"
       : depth >= 2
-        ? "ml-4 border border-border/60 rounded-lg p-4 bg-white"
+        ? "border border-border/60 rounded-lg p-4 bg-gray-50/50"
         : "border border-border rounded-lg p-6 bg-white";
 
   const headingClass =
@@ -70,7 +70,7 @@ export default function FormSection({
                         ...field,
                         label: nextField.label.includes("normalized")
                           ? "Context"
-                          : field.label,
+                          : "Text",
                       }}
                       value={fieldValues[field.id]}
                       onChange={(value) => onFieldChange(field.id, value)}
@@ -78,7 +78,12 @@ export default function FormSection({
                       validationError={validationErrors[field.id]}
                     />
                     <FormField
-                      field={{ ...nextField, label: "Name (normalized)" }}
+                      field={{
+                        ...nextField,
+                        label: nextField.label.includes("normalized")
+                          ? "Name (normalized)"
+                          : nextField.label,
+                      }}
                       value={fieldValues[nextField.id]}
                       onChange={(value) => onFieldChange(nextField.id, value)}
                       disabled={disabled}

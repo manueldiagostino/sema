@@ -177,20 +177,16 @@ export function generateTeiXml(
 
   // Protocol
   const protocolChildren: string[] = [];
-  const invocatioText = getStr(data, "invocatio_type"); // actually the invocatio text is in the radio field value? No, we need invocatio text separately.
-  // Wait - we don't have a text field for invocatio text. Let me check the spec.
-  // The spec says invocatio_type is radio, and the body div should contain a <p> with invocatio text.
-  // But there's no separate invocatio_text field. Let me check the form-sections.yaml to verify.
-
-  // Actually, looking at the spec more carefully: the invocatio div in body should render the invocatio
-  // radio selection as @subtype, but there's no explicit text field for invocatio text.
-  // The datatio_chronica field IS a textarea that maps to div/p.
-  // For invocatio, the @subtype alone is sufficient (it identifies which type was selected).
-
-  const invocatioType = getStr(data, "invocatio_type");
-  if (invocatioType) {
+  const invocatioText = getStr(data, "invocatio_text");
+  const invocatioTypeVal = getVal(data, "invocatio_type");
+  const invocatioType = Array.isArray(invocatioTypeVal)
+    ? (invocatioTypeVal as string[]).join(" ")
+    : typeof invocatioTypeVal === "string" ? invocatioTypeVal : "";
+  if (invocatioText) {
     protocolChildren.push(
-      `        <div type="invocatio" subtype="${esc(invocatioType)}" />`,
+      invocatioType
+        ? `        <div type="invocatio" subtype="${esc(invocatioType)}">\n          <p>${esc(invocatioText)}</p>\n        </div>`
+        : `        <div type="invocatio">\n          <p>${esc(invocatioText)}</p>\n        </div>`,
     );
   }
   const dcDiv = makeDiv("datatio_chronica", getStr(data, "datatio_chronica"));

@@ -36,7 +36,7 @@ function getInitialFieldValue(
   }
 
   if (field.input === "date") {
-    return { iso: "", text: "" } as DateFieldValue;
+    return { iso: defaultStr || "", text: "" } as DateFieldValue;
   }
 
   if (field.input === "radio") {

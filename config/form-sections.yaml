@@ -59,13 +59,23 @@ sections:
         label: Protocol
         applies_to: all
         fields:
-          - id: invocatio_type
+          - id: invocatio_text
             label: Invocatio
-            input: radio
+            input: textarea
             cardinality: single
-            tei_element: div
+            tei_element: p
+            tei_wrapper: div
             tei_wrapper_attributes:
               type: invocatio
+            xpath_parent: tei:text/tei:body/tei:div[@type='protocol']
+            applies_to: all
+            field_pair: invocatio
+
+          - id: invocatio_type
+            label: Type
+            input: radio
+            cardinality: multiple
+            tei_element: div
             xpath_parent: tei:text/tei:body/tei:div[@type='protocol']
             applies_to: all
             options:
@@ -73,6 +83,7 @@ sections:
                 label: Simbolica
               - value: verbalis
                 label: Verbale
+            field_pair: invocatio
 
           - id: datatio_chronica
             label: Datatio chronica
@@ -84,6 +95,7 @@ sections:
               type: datatio_chronica
             xpath_parent: tei:text/tei:body/tei:div[@type='protocol']
             applies_to: all
+            field_pair: datatio
 
           - id: date_modern
             label: Modern Date
@@ -92,6 +104,8 @@ sections:
             tei_element: date
             xpath_parent: tei:teiHeader/tei:profileDesc/tei:creation
             applies_to: all
+            field_pair: datatio
+            default_value: "1200-01-01"
 
       # ── TEXT ──────────────────────────────────────────
       - id: text
