@@ -90,6 +90,79 @@ async function commitMultipleFiles(
 }
 
 // ---------------------------------------------------------------------------
+// GET handler — download a TEI XML file as raw XML
+// Usage: GET /api/admin/xml?filename=instrumentum_venditionis_1318_01.xml
+// ---------------------------------------------------------------------------
+
+export async function GET(request: Request) {
+  // ── 1. Check admin session ──
+  const session = await getIronSession<{ isAdmin: boolean }>(
+    await cookies(),
+    {
+      cookieName: "admin-session",
+      password: COOKIE_SECRET,
+      ttl: 60 * 60 * 8,
+      cookieOptions: {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        path: "/",
+      },
+    },
+  );
+
+  if (!session.isAdmin) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  // ── 2. Parse filename from query ──
+  const { searchParams } = new URL(request.url);
+  const filename = searchParams.get("filename");
+
+  if (!filename) {
+    return NextResponse.json(
+      { error: "Missing query parameter: filename" },
+      { status: 400 },
+    );
+  }
+
+  // Basic path-traversal guard: only allow safe filenames (no ., /, or \)
+  if (filename.includes("..") || filename.includes("/") || filename.includes("\\")) {
+    return NextResponse.json(
+      { error: "Invalid filename" },
+      { status: 400 },
+    );
+  }
+
+  // ── 3. Try to read the file (volatile /tmp first, then bundled data/) ──
+  const cwd = process.cwd();
+  const paths = [
+    join("/tmp", "data", "tei-samples", filename),
+    join(cwd, "data", "tei-samples", filename),
+  ];
+
+  for (const filePath of paths) {
+    try {
+      const xml = readFileSync(filePath, "utf-8");
+      return new Response(xml, {
+        status: 200,
+        headers: {
+          "Content-Type": "application/xml; charset=utf-8",
+          "Content-Disposition": `attachment; filename="${filename}"`,
+        },
+      });
+    } catch {
+      // File not found at this path — try next
+    }
+  }
+
+  return NextResponse.json(
+    { error: "File not found" },
+    { status: 404 },
+  );
+}
+
+// ---------------------------------------------------------------------------
 // POST handler
 // ---------------------------------------------------------------------------
 

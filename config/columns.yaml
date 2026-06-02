@@ -77,3 +77,140 @@ columns:
     xpath: tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msIdentifier/tei:idno
     sortable: true
     filterable: true
+
+  # --- Body-text columns (diplomatic clauses) ---
+  # These extract text from <body> divisions.
+  # truncateWords limits table display; full text shown in View modal.
+
+  - id: invocatio
+    label: Invocatio
+    xpath: tei:text/tei:body/tei:div[@type='protocol']/tei:div[@type='invocatio']
+    sortable: false
+    filterable: false
+    truncateWords: 20
+
+  - id: datatio_chronica
+    label: Dating (Chronica)
+    xpath: tei:text/tei:body/tei:div[@type='protocol']/tei:div[@type='datatio_chronica']
+    sortable: false
+    filterable: false
+    truncateWords: 20
+
+  - id: author_context
+    label: Author Context
+    xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='author_context']
+    sortable: false
+    filterable: false
+    truncateWords: 20
+
+  - id: verba_dispositiva
+    label: Verba Dispositiva
+    xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='verba_dispositiva']
+    sortable: false
+    filterable: false
+    truncateWords: 20
+
+  - id: recipient_context
+    label: Recipient Context
+    xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='recipient_context']
+    sortable: false
+    filterable: false
+    truncateWords: 20
+
+  - id: clausula_perpetuitatis
+    label: Clausula Perpetuitatis
+    xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='clausula_perpetuitatis']
+    sortable: false
+    filterable: false
+    truncateWords: 20
+
+  - id: property_description
+    label: Property Description
+    xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='property_description']
+    sortable: false
+    filterable: false
+    truncateWords: 20
+
+  - id: clausula_servitutis_passagii
+    label: Clausula Servitutis Passagii
+    xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='clausula_servitutis_passagii']
+    sortable: false
+    filterable: false
+    truncateWords: 20
+
+  - id: clausula_integritatis
+    label: Clausula Integritatis
+    xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='clausula_integritatis']
+    sortable: false
+    filterable: false
+    truncateWords: 20
+
+  - id: clausula_quietantiae_pretii
+    label: Clausula Quietantiae Pretii
+    xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='clausula_quietantiae_pretii']
+    sortable: false
+    filterable: false
+    truncateWords: 20
+
+  - id: formula_confinium
+    label: Formula Confinium
+    xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='formula_confinium']
+    sortable: false
+    filterable: false
+    truncateWords: 20
+
+  - id: formula_mensurationum
+    label: Formula Mensurationum
+    xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='formula_mensurationum']
+    sortable: false
+    filterable: false
+    truncateWords: 20
+
+  - id: formula_transmissionis
+    label: Formula Transmissionis
+    xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='formula_transmissionis']
+    sortable: false
+    filterable: false
+    truncateWords: 20
+
+  - id: formula_libere_fruitionis
+    label: Formula Libere Fruitionis
+    xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='formula_libere_fruitionis']
+    sortable: false
+    filterable: false
+    truncateWords: 20
+
+  - id: formula_legitimae_defensionis
+    label: Formula Legitimae Defensionis
+    xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='formula_legitimae_defensionis']
+    sortable: false
+    filterable: false
+    truncateWords: 20
+
+  - id: sanctio
+    label: Sanctio
+    xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='sanctio']
+    sortable: false
+    filterable: false
+    truncateWords: 20
+
+  - id: datatio_topica
+    label: Dating (Topica)
+    xpath: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='datatio_topica']
+    sortable: false
+    filterable: false
+    truncateWords: 20
+
+  - id: testes_text
+    label: Testes
+    xpath: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptiones']/tei:div[@type='testes']
+    sortable: false
+    filterable: false
+    truncateWords: 20
+
+  - id: completio
+    label: Completio
+    xpath: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptiones']/tei:div[@type='completio']
+    sortable: false
+    filterable: false
+    truncateWords: 20

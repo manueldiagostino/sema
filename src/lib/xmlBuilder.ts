@@ -94,17 +94,20 @@ function makeDivContainer(
  */
 export function generateTeiXml(
   data: FormSubmissionData,
-  _config: FormSectionsConfig,
+  config: FormSectionsConfig,
   docId?: string,
 ): string {
   const I = (n: number) => "  ".repeat(n); // indentation helper
+
+  // Look up charter type config
+  const charterTypeConfig = config.types.find((t) => t.id === data.charter_type);
 
   // ── teiHeader lines ──
 
   // titleStmt
   const authorName = getStr(data, "author_name");
   const titleStmt: string[] = [];
-  titleStmt.push(`${I(4)}<title>Instrumentum venditionis</title>`);
+  titleStmt.push(`${I(4)}<title>${esc(charterTypeConfig?.label || data.charter_type)}</title>`);
   if (authorName) {
     titleStmt.push(`${I(4)}<author>${esc(authorName)}</author>`);
   }
@@ -158,10 +161,13 @@ export function generateTeiXml(
     ["locus_redactionis", "locus_redactionis"],
     ["emittens_type", "emittens"],
   ];
-  const kwTerms: string[] = [
-    `${I(5)}<term type="object">Instrumentum venditionis</term>`,
-    `${I(5)}<term type="object_subtype">Venditio</term>`,
-  ];
+  const kwTerms: string[] = [];
+  if (charterTypeConfig?.object_value) {
+    kwTerms.push(`${I(5)}<term type="object">${esc(charterTypeConfig.object_value)}</term>`);
+  }
+  if (charterTypeConfig?.object_subtype_value) {
+    kwTerms.push(`${I(5)}<term type="object_subtype">${esc(charterTypeConfig.object_subtype_value)}</term>`);
+  }
   for (const [fieldId, termType] of kwFields) {
     const v = getStr(data, fieldId);
     if (v) kwTerms.push(`${I(5)}<term type="${esc(termType)}">${esc(v)}</term>`);
@@ -280,7 +286,7 @@ export function generateTeiXml(
   lines.push(
     "      </titleStmt>",
     "      <publicationStmt>",
-    "        <p>Sample CEI2TEI P5 document for testing corpus table configuration</p>",
+    "        <p></p>",
     "      </publicationStmt>",
     "      <sourceDesc>",
     "        <msDesc>",
