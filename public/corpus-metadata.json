@@ -265,6 +265,42 @@
       "testes_text": "",
       "completio": "",
       "id": "instrumentum_venditionis_unknown_01"
+    },
+    {
+      "author_name": "Zambono, figlio di Rodaldo di Lovoleto",
+      "recipient_name": "Bonfantino, a nome della chieda si S. Vittore e del priore Alberio",
+      "dating_chronological": "1136-04-26",
+      "dating_topical": "nel burgo S. Donati (Bologna)",
+      "pretium": "",
+      "property_location": "nella braida detta Flumexello",
+      "locus_redactionis": "nel burgo S. Donati (Bologna)",
+      "notarius": "Gerardus tabellio",
+      "testes_names": [
+        "Petrus de [T]eutio",
+        "Ambrosius filius Domin<i>ce"
+      ],
+      "repository": "ASBo",
+      "shelfmark": "Demaniale 002/1342, n. 46",
+      "invocatio": "+ In nomine sancte et individue Trinitatis.",
+      "datatio_chronica": "Anno Domini millesimo centesimo trigesimo sexto, / sexto kalendas madii, indicione quartadecima.",
+      "author_context": "Constat me quidem Iohannesbonus, filius / Rodaldi de Lupolito,",
+      "verba_dispositiva": "presenti die vendo et huius rei gratia trado tibi",
+      "recipient_context": "Bonofan/tino, accipienti in honore Dei et ecclesie Sancti Victoris et d(om)n(o) Alberio priori eiusdem / ecclesie et eius fratribus ac\nsuccessoribus",
+      "clausula_perpetuitatis": "in perpetuum,",
+      "property_description": "peciam unam terræ arat(oriae) quam habeo in brai/da vestra in loco qui dicitur Flumexello,",
+      "clausula_servitutis_passagii": "um ingressu et egressu suo usque in via pu/blica e",
+      "clausula_integritatis": "et cum omnibus super se et infra <se> habentem in integrum.",
+      "clausula_quietantiae_pretii": "",
+      "formula_confinium": "Confines vero eius a totis / quattuor lateribus ex omni parte detinet vos emptores et si qui alii fine sunt.",
+      "formula_mensurationum": "",
+      "formula_transmissionis": "Omnia que / michi pertinet in integrum in presenti vendo iam dicte ecclesie ad habendum, tenendum / ac possidendum",
+      "formula_libere_fruitionis": "et quicquid sibi iamdicto priori et eius fratribus ac successoribus deinceps / placuerint ad utilitatem eiusdem ecclesie faciendum.",
+      "formula_legitimae_defensionis": "Ut nullam litem / nullamque controversiam huius rei nomine a me vel a meis heredibus, quo/libet modo aliquo in tempore, prenominatus prior et eius fratribus ac successoribus de cetero / sustineas, ab omni quoque\nhomine prescriptam rem legittime defendere et / auctorizare promitto.",
+      "sanctio": "Et si ego vel mei heredes de hac re exinde / aliquo modo agere aut litigare presumpsero aut si contra quemlibet agentem le/gittimam defensionem non exibuero, pene nomine predicte rei duplum eiusdem bo/nitatis et extimationis dare omneque dannum prenominatus prior et eius successoribus / resarcire promitto et insuper hoc venditionis instrumentum ut supra legitur semper / incoruptum tenere spondeo.",
+      "datatio_topica": "Actum in burgo Sancti Donati, indicione predicta.",
+      "testes_text": "Taurellus de Villola",
+      "completio": "Ego Gerardus tabellio hoc venditionis instrumentum ut supra legitur / scripsi et conplevi.",
+      "id": "instrumentum_venditionis_1136_01"
     }
   ]
 }

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="instrumentum_venditionis_1136_01">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Instrumentum venditionis</title>
+        <author>Zambono, figlio di Rodaldo di Lovoleto</author>
+      </titleStmt>
+      <publicationStmt>
+        <p></p>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier>
+            <repository>ASBo</repository>
+            <idno>Demaniale 002/1342, n. 46</idno>
+          </msIdentifier>
+          <msContents>
+            <msItem>
+              <recipient>Bonfantino, a nome della chieda si S. Vittore e del priore Alberio</recipient>
+              <respStmt>
+                <resp>notary</resp>
+                <name>Gerardus tabellio</name>
+              </respStmt>
+            </msItem>
+          </msContents>
+          <physDesc>
+            <objectDesc>
+              <supportDesc>
+                <support>parchment</support>
+              </supportDesc>
+            </objectDesc>
+          </physDesc>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+      <creation>
+        <date when="1136-04-26">1136-04-26</date>
+        <origPlace>nel burgo S. Donati (Bologna)</origPlace>
+      </creation>
+      <langUsage>
+        <language ident="la">Latin</language>
+      </langUsage>
+      <textClass>
+        <keywords>
+          <term type="object">Instrumentum venditionis</term>
+          <term type="object_subtype">Venditio</term>
+          <term type="author_name">Zambono, figlio di Rodaldo di Lovoleto</term>
+          <term type="recipient_name">Bonfantino, a nome della chieda si S. Vittore e del priore Alberio</term>
+          <term type="property_location">nella braida detta Flumexello</term>
+          <term type="locus_redactionis">nel burgo S. Donati (Bologna)</term>
+          <term type="emittens">auctor</term>
+        </keywords>
+      </textClass>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="protocol">
+        <div type="invocatio" subtype="symbolica verbalis">
+          <p>+ In nomine sancte et individue Trinitatis. </p>
+        </div>
+        <div type="datatio_chronica">
+          <p>Anno Domini millesimo centesimo trigesimo sexto, / sexto kalendas madii, indicione quartadecima.</p>
+        </div>
+      </div>
+      <div type="textus">
+        <div type="author_context">
+          <p>Constat me quidem Iohannesbonus, filius / Rodaldi de Lupolito,</p>
+        </div>
+        <div type="verba_dispositiva">
+          <p>presenti die vendo et huius rei gratia trado tibi</p>
+        </div>
+        <div type="recipient_context">
+          <p>Bonofan/tino, accipienti in honore Dei et ecclesie Sancti Victoris et d(om)n(o) Alberio priori eiusdem / ecclesie et eius fratribus ac
+successoribus </p>
+        </div>
+        <div type="clausula_perpetuitatis">
+          <p>in perpetuum,</p>
+        </div>
+        <div type="property_description" subtype="immobile">
+          <p>peciam unam terræ arat(oriae) quam habeo in brai/da vestra in loco qui dicitur Flumexello,</p>
+        </div>
+        <div type="clausula_servitutis_passagii">
+          <p>um ingressu et egressu suo usque in via pu/blica e</p>
+        </div>
+        <div type="clausula_integritatis">
+          <p>et cum omnibus super se et infra &lt;se&gt; habentem in integrum. </p>
+        </div>
+        <div type="formula_confinium">
+          <p>Confines vero eius a totis / quattuor lateribus ex omni parte detinet vos emptores et si qui alii fine sunt. </p>
+        </div>
+        <div type="formula_transmissionis">
+          <p>Omnia que / michi pertinet in integrum in presenti vendo iam dicte ecclesie ad habendum, tenendum / ac possidendum </p>
+        </div>
+        <div type="formula_libere_fruitionis">
+          <p>et quicquid sibi iamdicto priori et eius fratribus ac successoribus deinceps / placuerint ad utilitatem eiusdem ecclesie faciendum. </p>
+        </div>
+        <div type="formula_legitimae_defensionis">
+          <p>Ut nullam litem / nullamque controversiam huius rei nomine a me vel a meis heredibus, quo/libet modo aliquo in tempore, prenominatus prior et eius fratribus ac successoribus de cetero / sustineas, ab omni quoque
+homine prescriptam rem legittime defendere et / auctorizare promitto.</p>
+        </div>
+        <div type="sanctio" subtype="dupli_pena">
+          <p>Et si ego vel mei heredes de hac re exinde / aliquo modo agere aut litigare presumpsero aut si contra quemlibet agentem le/gittimam defensionem non exibuero, pene nomine predicte rei duplum eiusdem bo/nitatis et extimationis dare omneque dannum prenominatus prior et eius successoribus / resarcire promitto et insuper hoc venditionis instrumentum ut supra legitur semper / incoruptum tenere spondeo.</p>
+        </div>
+      </div>
+      <div type="eschatocol">
+        <div type="datatio_topica">
+          <p>Actum in burgo Sancti Donati, indicione predicta. </p>
+        </div>
+        <div type="subscriptiones">
+          <div type="emittens" subtype="auctor" />
+          <div type="testes">
+            <p>Taurellus de Villola</p>
+          </div>
+          <listWitness>
+          <witness><name>Petrus de [T]eutio</name></witness>
+          <witness><name>Ambrosius filius Domin&lt;i&gt;ce </name></witness>
+          </listWitness>
+          <div type="completio">
+            <p>Ego Gerardus tabellio hoc venditionis instrumentum ut supra legitur / scripsi et conplevi.</p>
+          </div>
+        </div>
+      </div>
+    </body>
+  </text>
+</TEI>
