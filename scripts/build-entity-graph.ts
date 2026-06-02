@@ -64,14 +64,15 @@ interface EntityGraph {
   edges: EntityEdge[];
 }
 
-// ---------------------------------------------------------------------------
-// Paths (relative to scripts/)
-// ---------------------------------------------------------------------------
-
-const SCRIPT_DIR = __dirname;
-const COLUMNS_YAML = path.resolve(SCRIPT_DIR, "../config", "columns.yaml");
-const TEI_DIR = path.resolve(SCRIPT_DIR, "../data", "tei-samples");
-const OUTPUT_FILE = path.resolve(SCRIPT_DIR, "../public", "entity-graph.json");
+/** Configuration passed at call time (API routes) to override default paths. */
+export interface BuildConfig {
+  /** Additional directories to scan for XML files (beyond the default defaultTeiDir). */
+  dataDirs?: string[];
+  /** Override the output directory for the generated JSON file. */
+  outputDir?: string;
+  /** Project root directory. Falls back to __dirname-based path when not provided. */
+  projectRoot?: string;
+}
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -91,20 +92,26 @@ function extractText(node: Node): string {
 }
 
 /**
- * Recursively find all .xml files under a directory.
+ * Find all .xml files across multiple directories.
+ * Deduplicates by filename (first directory wins).
  */
-function findXmlFiles(dir: string): string[] {
+function findXmlFiles(dirs: string[]): string[] {
+  const seen = new Set<string>();
   const results: string[] = [];
-  if (!fs.existsSync(dir)) {
-    console.warn(`Warning: TEI directory not found: ${dir}`);
-    return results;
-  }
-  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-    const fullPath = path.join(dir, entry.name);
-    if (entry.isDirectory()) {
-      results.push(...findXmlFiles(fullPath));
-    } else if (entry.isFile() && entry.name.endsWith(".xml")) {
-      results.push(fullPath);
+  for (const dir of dirs) {
+    if (!fs.existsSync(dir)) {
+      console.warn(`Warning: TEI directory not found: ${dir}`);
+      continue;
+    }
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const fullPath = path.join(dir, entry.name);
+      if (entry.isDirectory()) {
+        results.push(...findXmlFiles([fullPath]));
+      } else if (entry.isFile() && entry.name.endsWith(".xml")) {
+        if (seen.has(entry.name)) continue;
+        seen.add(entry.name);
+        results.push(fullPath);
+      }
     }
   }
   return results;
@@ -498,16 +505,23 @@ function deduplicatePhase2(
 // Main
 // ---------------------------------------------------------------------------
 
-export async function buildEntityGraph(): Promise<void> {
+export async function buildEntityGraph(config?: BuildConfig): Promise<void> {
+  // Compute paths: use projectRoot from config, or fall back to __dirname
+  const root = config?.projectRoot ?? path.resolve(__dirname, "..");
+  const columnsYaml = path.join(root, "config", "columns.yaml");
+  const defaultTeiDir = path.join(root, "data", "tei-samples");
+  const defaultOutputFile = path.join(root, "public", "entity-graph.json");
+
   // 1. Load column definitions from YAML (for validation / context)
-  console.log(`Reading column config from ${COLUMNS_YAML}`);
-  const yamlContent = fs.readFileSync(COLUMNS_YAML, "utf-8");
+  console.log(`Reading column config from ${columnsYaml}`);
+  const yamlContent = fs.readFileSync(columnsYaml, "utf-8");
   const parsed = yaml.load(yamlContent) as { columns: unknown[] };
   console.log(`  Found ${parsed.columns.length} column definitions`);
 
-  // 2. Find all TEI/XML files
-  const xmlFiles = findXmlFiles(TEI_DIR);
-  console.log(`Found ${xmlFiles.length} XML file(s) in ${TEI_DIR}`);
+  // 2. Find all TEI/XML files (default dir + any additional dirs from config)
+  const dataDirs = [defaultTeiDir, ...(config?.dataDirs || [])];
+  const xmlFiles = findXmlFiles(dataDirs);
+  console.log(`Found ${xmlFiles.length} XML file(s) across ${dataDirs.length} dir(s)`);
 
   // 3. Process each file — collect raw nodes and edges
   const allRawNodes: PartialEntityNode[] = [];
@@ -518,7 +532,7 @@ export async function buildEntityGraph(): Promise<void> {
   const docDateMap: Map<string, string> = new Map();
 
   for (const xmlPath of xmlFiles) {
-    const relativePath = path.relative(TEI_DIR, xmlPath);
+    const relativePath = path.relative(defaultTeiDir, xmlPath);
     const fileName = path.basename(xmlPath);
     const docId = path.basename(xmlPath, ".xml");
 
@@ -812,13 +826,17 @@ export async function buildEntityGraph(): Promise<void> {
   };
 
   // 10. Ensure output directory exists and write JSON
-  const outputDir = path.dirname(OUTPUT_FILE);
+  const outputFile = config?.outputDir
+    ? path.join(config.outputDir, "entity-graph.json")
+    : defaultOutputFile;
+
+  const outputDir = path.dirname(outputFile);
   if (!fs.existsSync(outputDir)) {
     fs.mkdirSync(outputDir, { recursive: true });
   }
 
-  fs.writeFileSync(OUTPUT_FILE, JSON.stringify(graph, null, 2), "utf-8");
-  console.log(`\nWrote entity graph to ${OUTPUT_FILE}`);
+  fs.writeFileSync(outputFile, JSON.stringify(graph, null, 2), "utf-8");
+  console.log(`\nWrote entity graph to ${outputFile}`);
   console.log(`  Nodes: ${finalNodes.length}`);
   console.log(`  Edges: ${uniqueEdges.length}`);
 

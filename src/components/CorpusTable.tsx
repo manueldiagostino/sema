@@ -97,7 +97,7 @@ export default function CorpusTable() {
 
   // Fetch corpus-metadata.json once on mount
   useEffect(() => {
-    fetch(`${window.location.pathname.replace(/\/$/, "")}/corpus-metadata.json`)
+    fetch("/api/corpus")
       .then(async (res) => {
         if (!res.ok) {
           throw new Error(`Failed to load corpus metadata: ${res.status} ${res.statusText}`);

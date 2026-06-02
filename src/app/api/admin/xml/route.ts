@@ -140,23 +140,27 @@ export async function POST(request: Request) {
 
     const cwd = process.cwd();
 
-    // ── 4. Compute progressive number and build final filename ──
-    const teiDir = join(cwd, "data", "tei-samples");
-    mkdirSync(teiDir, { recursive: true });
+    // ── 4. Compute progressive number (scan bundled + /tmp dirs) ──
+    const teiDirs = [
+      join(cwd, "data", "tei-samples"),
+      "/tmp/data/tei-samples",
+    ];
 
     const prefix = filenameBase + "_";
     let maxNum = 0;
-    try {
-      const existing = readdirSync(teiDir);
-      for (const f of existing) {
-        if (f.startsWith(prefix) && f.endsWith(".xml")) {
-          const numStr = f.slice(prefix.length, f.length - 4);
-          const num = parseInt(numStr, 10);
-          if (!isNaN(num) && num > maxNum) maxNum = num;
+    for (const dir of teiDirs) {
+      try {
+        const existing = readdirSync(dir);
+        for (const f of existing) {
+          if (f.startsWith(prefix) && f.endsWith(".xml")) {
+            const numStr = f.slice(prefix.length, f.length - 4);
+            const num = parseInt(numStr, 10);
+            if (!isNaN(num) && num > maxNum) maxNum = num;
+          }
         }
+      } catch {
+        // Directory doesn't exist yet — continue
       }
-    } catch {
-      // Directory doesn't exist yet — start at 0
     }
     const nextNum = maxNum + 1;
     const numStr = String(nextNum).padStart(2, "0");
@@ -167,16 +171,28 @@ export async function POST(request: Request) {
     // ── 5. Generate TEI XML ──
     const xml = generateTeiXml(data, config, docId);
 
-    const xmlPath = join(teiDir, filename);
+    // ── 5a. Write XML to /tmp (always writable, used by build scripts at runtime) ──
+    const tmpTeiDir = "/tmp/data/tei-samples";
+    mkdirSync(tmpTeiDir, { recursive: true });
+    writeFileSync(join(tmpTeiDir, filename), xml, "utf-8");
+    console.log(`[admin/xml] Saved XML to /tmp: ${filename}`);
 
-    writeFileSync(xmlPath, xml, "utf-8");
-    console.log(`[admin/xml] Saved XML locally: ${xmlPath}`);
+    // ── 5b. Also write to bundled data/ dir (local dev persistence; fails silently on Vercel) ──
+    try {
+      const localTeiDir = join(cwd, "data", "tei-samples");
+      mkdirSync(localTeiDir, { recursive: true });
+      writeFileSync(join(localTeiDir, filename), xml, "utf-8");
+      console.log(`[admin/xml] Saved XML locally: ${filename}`);
+    } catch {
+      // Read-only filesystem (Vercel) — expected, /tmp copy is sufficient
+    }
 
-    // ── 5. Regenerate JSON artifacts via build scripts ──
+    // ── 6. Regenerate JSON artifacts via build scripts ──
     // Dynamic import: build scripts live outside src/, so we import them
     // at call time. Next.js compiles them as part of the server bundle.
-    let buildCorpus: () => Promise<void>;
-    let buildEntityGraph: () => Promise<void>;
+    // Pass BuildConfig so they read from /tmp and write to /tmp/public/.
+    let buildCorpus: (config?: { dataDirs?: string[]; outputDir?: string; projectRoot?: string }) => Promise<void>;
+    let buildEntityGraph: (config?: { dataDirs?: string[]; outputDir?: string; projectRoot?: string }) => Promise<void>;
 
     try {
       const corpusModule = await import(
@@ -199,11 +215,17 @@ export async function POST(request: Request) {
       );
     }
 
+    const buildConfig = {
+      dataDirs: ["/tmp/data/tei-samples"],
+      outputDir: "/tmp/public",
+      projectRoot: cwd,
+    };
+
     try {
-      await buildCorpus();
-      console.log("[admin/xml] corpus-metadata.json regenerated");
-      await buildEntityGraph();
-      console.log("[admin/xml] entity-graph.json regenerated");
+      await buildCorpus(buildConfig);
+      console.log("[admin/xml] corpus-metadata.json regenerated in /tmp/public");
+      await buildEntityGraph(buildConfig);
+      console.log("[admin/xml] entity-graph.json regenerated in /tmp/public");
     } catch (buildErr) {
       console.error("[admin/xml] Build script failed:", buildErr);
       return NextResponse.json(
@@ -216,14 +238,14 @@ export async function POST(request: Request) {
       );
     }
 
-    // ── 6. Read regenerated JSON files ──
-    const publicDir = join(cwd, "public");
+    // ── 7. Read regenerated JSON files from /tmp/public/ ──
+    const tmpPublicDir = "/tmp/public";
     const corpusJson = readFileSync(
-      join(publicDir, "corpus-metadata.json"),
+      join(tmpPublicDir, "corpus-metadata.json"),
       "utf-8",
     );
     const entityGraphJson = readFileSync(
-      join(publicDir, "entity-graph.json"),
+      join(tmpPublicDir, "entity-graph.json"),
       "utf-8",
     );
 
