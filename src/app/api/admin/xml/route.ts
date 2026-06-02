@@ -2,7 +2,7 @@ import { getIronSession } from "iron-session";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { Octokit } from "@octokit/rest";
-import { writeFileSync, mkdirSync, existsSync, readFileSync } from "fs";
+import { writeFileSync, mkdirSync, existsSync, readFileSync, readdirSync } from "fs";
 import { join } from "path";
 import { loadFormConfig } from "@/lib/formConfig";
 import { generateTeiXml, buildFilename } from "@/lib/xmlBuilder";
@@ -134,25 +134,40 @@ export async function POST(request: Request) {
   }
 
   try {
-    // ── 3. Load form config and generate TEI XML ──
+    // ── 3. Load form config ──
     const config = loadFormConfig();
-    const xml = generateTeiXml(data, config);
-    const filename = buildFilename(data);
-    const commitMessage = `Add ${data.charter_type} charter document: ${filename}`;
+    const filenameBase = buildFilename(data);
 
     const cwd = process.cwd();
 
-    // ── 4. Save XML locally (required by build scripts that read from disk) ──
+    // ── 4. Compute progressive number and build final filename ──
     const teiDir = join(cwd, "data", "tei-samples");
     mkdirSync(teiDir, { recursive: true });
-    const xmlPath = join(teiDir, filename);
 
-    if (existsSync(xmlPath)) {
-      return NextResponse.json(
-        { error: "A document with this filename already exists" },
-        { status: 409 },
-      );
+    const prefix = filenameBase + "_";
+    let maxNum = 0;
+    try {
+      const existing = readdirSync(teiDir);
+      for (const f of existing) {
+        if (f.startsWith(prefix) && f.endsWith(".xml")) {
+          const numStr = f.slice(prefix.length, f.length - 4);
+          const num = parseInt(numStr, 10);
+          if (!isNaN(num) && num > maxNum) maxNum = num;
+        }
+      }
+    } catch {
+      // Directory doesn't exist yet — start at 0
     }
+    const nextNum = maxNum + 1;
+    const numStr = String(nextNum).padStart(2, "0");
+    const filename = `${filenameBase}_${numStr}.xml`;
+    const docId = `${filenameBase}_${numStr}`;
+    const commitMessage = `Add ${data.charter_type} charter document: ${filename}`;
+
+    // ── 5. Generate TEI XML ──
+    const xml = generateTeiXml(data, config, docId);
+
+    const xmlPath = join(teiDir, filename);
 
     writeFileSync(xmlPath, xml, "utf-8");
     console.log(`[admin/xml] Saved XML locally: ${xmlPath}`);

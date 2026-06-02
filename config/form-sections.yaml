@@ -39,7 +39,6 @@ sections:
         tei_element: repository
         xpath_parent: tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msIdentifier
         applies_to: all
-        required: true
 
       - id: shelfmark
         label: Shelfmark
@@ -69,7 +68,6 @@ sections:
               type: invocatio
             xpath_parent: tei:text/tei:body/tei:div[@type='protocol']
             applies_to: all
-            required: true
             options:
               - value: symbolica
                 label: Simbolica
@@ -94,7 +92,6 @@ sections:
             tei_element: date
             xpath_parent: tei:teiHeader/tei:profileDesc/tei:creation
             applies_to: all
-            required: true
 
       # ── TEXT ──────────────────────────────────────────
       - id: text
@@ -187,7 +184,6 @@ sections:
             tei_element: div
             xpath_parent: tei:text/tei:body/tei:div[@type='textus']
             applies_to: all
-            required: true
             options:
               - value: immobile
                 label: Immobile
@@ -310,7 +306,6 @@ sections:
             tei_element: div
             xpath_parent: tei:text/tei:body/tei:div[@type='textus']
             applies_to: all
-            required: true
             options:
               - value: dupli_pena
                 label: Penalty of Double
@@ -368,7 +363,6 @@ sections:
                   type: emittens
                 xpath_parent: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptiones']
                 applies_to: all
-                required: true
                 options:
                   - value: auctor
                     label: Author
@@ -417,4 +411,3 @@ sections:
                 tei_wrapper: respStmt
                 xpath_parent: tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msContents/tei:msItem
                 applies_to: all
-                required: true

@@ -11,14 +11,14 @@ export default function NavLinks() {
     <>
       <Link
         href="/"
-        className="text-sm text-muted transition-colors hover:text-foreground"
+        className="text-sm text-secondary transition-colors hover:text-foreground"
       >
         Home
       </Link>
       {!isAdminPage && (
         <Link
           href="/admin"
-          className="text-sm text-muted transition-colors hover:text-foreground"
+          className="text-sm text-secondary transition-colors hover:text-foreground"
         >
           Admin
         </Link>

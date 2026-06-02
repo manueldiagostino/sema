@@ -90,10 +90,12 @@ function makeDivContainer(
 /**
  * Generate the complete TEI P5 XML document from form submission data.
  * Builds a three-part diplomatic formulary: Protocol, Text, Eschatocol.
+ * @param docId Optional document ID (filename stem) for xml:id on <TEI> root.
  */
 export function generateTeiXml(
   data: FormSubmissionData,
   _config: FormSectionsConfig,
+  docId?: string,
 ): string {
   const I = (n: number) => "  ".repeat(n); // indentation helper
 
@@ -245,9 +247,9 @@ export function generateTeiXml(
   const witnessLines: string[] = [];
   for (const w of witnesses) {
     if (isEmpty(w.name)) continue;
-    const ana = w.is_investitor ? `ana="#investitor" ` : "";
+    const anaAttr = w.is_investitor ? ' ana="#investitor"' : "";
     witnessLines.push(
-      `          <witness ${ana}><name>${esc(w.name)}</name></witness>`,
+      `          <witness${anaAttr}><name>${esc(w.name)}</name></witness>`,
     );
   }
   if (witnessLines.length > 0) {
@@ -273,7 +275,7 @@ export function generateTeiXml(
   const lines: string[] = [
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>',
-    '<TEI xmlns="http://www.tei-c.org/ns/1.0">',
+    `<TEI xmlns="http://www.tei-c.org/ns/1.0"${docId ? ` xml:id="${esc(docId)}"` : ""}>`,
     "  <teiHeader>",
     "    <fileDesc>",
     "      <titleStmt>",
@@ -342,8 +344,9 @@ export function generateTeiXml(
 }
 
 /**
- * Generates a filename like `instrumentum_venditionis_1318.xml` from the charter type and date.
- * Format: <type_id>_<year>.xml
+ * Generates a filename base like `instrumentum_venditionis_1318` from charter type and date.
+ * The progressive number and .xml extension are appended by the API route.
+ * Format: <type_id>_<year>
  */
 export function buildFilename(data: FormSubmissionData): string {
   const charterType = data.charter_type || "unknown";
@@ -361,5 +364,5 @@ export function buildFilename(data: FormSubmissionData): string {
     if (match) year = match[1];
   }
 
-  return `${charterType}_${year}.xml`;
+  return `${charterType}_${year}`;
 }
