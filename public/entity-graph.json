@@ -1,4 +1,36 @@
 {
-  "nodes": [],
-  "edges": []
+  "nodes": [
+    {
+      "id": "person_zambono figlio di rodaldo di lovoleto",
+      "type": "person",
+      "label": "Zambono, figlio di Rodaldo di Lovoleto",
+      "roles": [
+        "signer"
+      ]
+    },
+    {
+      "id": "instrumentum_venditionis_unknown_01",
+      "type": "document",
+      "label": "Instrumentum venditionis",
+      "docType": "Instrumentum venditionis",
+      "fileId": "instrumentum_venditionis_unknown_01"
+    },
+    {
+      "id": "doctype_instrumentum venditionis",
+      "type": "document_type",
+      "label": "Instrumentum venditionis"
+    }
+  ],
+  "edges": [
+    {
+      "source": "person_zambono figlio di rodaldo di lovoleto",
+      "target": "instrumentum_venditionis_unknown_01",
+      "type": "signs"
+    },
+    {
+      "source": "instrumentum_venditionis_unknown_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    }
+  ]
 }

@@ -1,0 +1,270 @@
+{
+  "columns": [
+    {
+      "id": "author_name",
+      "label": "Author",
+      "xpath": "tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords/tei:term[@type='author_name']",
+      "sortable": true,
+      "filterable": true
+    },
+    {
+      "id": "recipient_name",
+      "label": "Recipient",
+      "xpath": "tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords/tei:term[@type='recipient_name']",
+      "sortable": true,
+      "filterable": true
+    },
+    {
+      "id": "dating_chronological",
+      "label": "Dating (Chronological)",
+      "xpath": "tei:teiHeader/tei:profileDesc/tei:creation/tei:date",
+      "sortable": true,
+      "filterable": true
+    },
+    {
+      "id": "dating_topical",
+      "label": "Dating (Topical)",
+      "xpath": "tei:teiHeader/tei:profileDesc/tei:creation/tei:origPlace",
+      "sortable": true,
+      "filterable": true
+    },
+    {
+      "id": "pretium",
+      "label": "Price",
+      "xpath": "tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords/tei:term[@type='price']",
+      "sortable": true,
+      "filterable": true
+    },
+    {
+      "id": "property_location",
+      "label": "Property Location",
+      "xpath": "tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords/tei:term[@type='property_location']",
+      "sortable": true,
+      "filterable": true
+    },
+    {
+      "id": "locus_redactionis",
+      "label": "Place of Redaction",
+      "xpath": "tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords/tei:term[@type='locus_redactionis']",
+      "sortable": true,
+      "filterable": true
+    },
+    {
+      "id": "notarius",
+      "label": "Notary",
+      "xpath": "tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msContents/tei:msItem/tei:respStmt/tei:name",
+      "sortable": true,
+      "filterable": true
+    },
+    {
+      "id": "testes_names",
+      "label": "Witnesses",
+      "xpath": "tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptiones']/tei:listWitness/tei:witness/tei:name",
+      "sortable": false,
+      "filterable": true,
+      "cardinality": "multiple",
+      "join": "; "
+    },
+    {
+      "id": "repository",
+      "label": "Archive",
+      "xpath": "tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msIdentifier/tei:repository",
+      "sortable": true,
+      "filterable": true
+    },
+    {
+      "id": "shelfmark",
+      "label": "Shelfmark",
+      "xpath": "tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msIdentifier/tei:idno",
+      "sortable": true,
+      "filterable": true
+    },
+    {
+      "id": "invocatio",
+      "label": "Invocatio",
+      "xpath": "tei:text/tei:body/tei:div[@type='protocol']/tei:div[@type='invocatio']",
+      "sortable": false,
+      "filterable": false,
+      "truncateWords": 20
+    },
+    {
+      "id": "datatio_chronica",
+      "label": "Dating (Chronica)",
+      "xpath": "tei:text/tei:body/tei:div[@type='protocol']/tei:div[@type='datatio_chronica']",
+      "sortable": false,
+      "filterable": false,
+      "truncateWords": 20
+    },
+    {
+      "id": "author_context",
+      "label": "Author Context",
+      "xpath": "tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='author_context']",
+      "sortable": false,
+      "filterable": false,
+      "truncateWords": 20
+    },
+    {
+      "id": "verba_dispositiva",
+      "label": "Verba Dispositiva",
+      "xpath": "tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='verba_dispositiva']",
+      "sortable": false,
+      "filterable": false,
+      "truncateWords": 20
+    },
+    {
+      "id": "recipient_context",
+      "label": "Recipient Context",
+      "xpath": "tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='recipient_context']",
+      "sortable": false,
+      "filterable": false,
+      "truncateWords": 20
+    },
+    {
+      "id": "clausula_perpetuitatis",
+      "label": "Clausula Perpetuitatis",
+      "xpath": "tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='clausula_perpetuitatis']",
+      "sortable": false,
+      "filterable": false,
+      "truncateWords": 20
+    },
+    {
+      "id": "property_description",
+      "label": "Property Description",
+      "xpath": "tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='property_description']",
+      "sortable": false,
+      "filterable": false,
+      "truncateWords": 20
+    },
+    {
+      "id": "clausula_servitutis_passagii",
+      "label": "Clausula Servitutis Passagii",
+      "xpath": "tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='clausula_servitutis_passagii']",
+      "sortable": false,
+      "filterable": false,
+      "truncateWords": 20
+    },
+    {
+      "id": "clausula_integritatis",
+      "label": "Clausula Integritatis",
+      "xpath": "tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='clausula_integritatis']",
+      "sortable": false,
+      "filterable": false,
+      "truncateWords": 20
+    },
+    {
+      "id": "clausula_quietantiae_pretii",
+      "label": "Clausula Quietantiae Pretii",
+      "xpath": "tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='clausula_quietantiae_pretii']",
+      "sortable": false,
+      "filterable": false,
+      "truncateWords": 20
+    },
+    {
+      "id": "formula_confinium",
+      "label": "Formula Confinium",
+      "xpath": "tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='formula_confinium']",
+      "sortable": false,
+      "filterable": false,
+      "truncateWords": 20
+    },
+    {
+      "id": "formula_mensurationum",
+      "label": "Formula Mensurationum",
+      "xpath": "tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='formula_mensurationum']",
+      "sortable": false,
+      "filterable": false,
+      "truncateWords": 20
+    },
+    {
+      "id": "formula_transmissionis",
+      "label": "Formula Transmissionis",
+      "xpath": "tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='formula_transmissionis']",
+      "sortable": false,
+      "filterable": false,
+      "truncateWords": 20
+    },
+    {
+      "id": "formula_libere_fruitionis",
+      "label": "Formula Libere Fruitionis",
+      "xpath": "tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='formula_libere_fruitionis']",
+      "sortable": false,
+      "filterable": false,
+      "truncateWords": 20
+    },
+    {
+      "id": "formula_legitimae_defensionis",
+      "label": "Formula Legitimae Defensionis",
+      "xpath": "tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='formula_legitimae_defensionis']",
+      "sortable": false,
+      "filterable": false,
+      "truncateWords": 20
+    },
+    {
+      "id": "sanctio",
+      "label": "Sanctio",
+      "xpath": "tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='sanctio']",
+      "sortable": false,
+      "filterable": false,
+      "truncateWords": 20
+    },
+    {
+      "id": "datatio_topica",
+      "label": "Dating (Topica)",
+      "xpath": "tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='datatio_topica']",
+      "sortable": false,
+      "filterable": false,
+      "truncateWords": 20
+    },
+    {
+      "id": "testes_text",
+      "label": "Testes",
+      "xpath": "tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptiones']/tei:div[@type='testes']",
+      "sortable": false,
+      "filterable": false,
+      "truncateWords": 20
+    },
+    {
+      "id": "completio",
+      "label": "Completio",
+      "xpath": "tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptiones']/tei:div[@type='completio']",
+      "sortable": false,
+      "filterable": false,
+      "truncateWords": 20
+    }
+  ],
+  "items": [
+    {
+      "author_name": "Zambono, figlio di Rodaldo di Lovoleto",
+      "recipient_name": "",
+      "dating_chronological": "",
+      "dating_topical": "",
+      "pretium": "",
+      "property_location": "",
+      "locus_redactionis": "",
+      "notarius": "",
+      "testes_names": [],
+      "repository": "",
+      "shelfmark": "",
+      "invocatio": "",
+      "datatio_chronica": "",
+      "author_context": "Zambono, figlio di Rodaldo di Lovoleto",
+      "verba_dispositiva": "",
+      "recipient_context": "",
+      "clausula_perpetuitatis": "",
+      "property_description": "",
+      "clausula_servitutis_passagii": "",
+      "clausula_integritatis": "",
+      "clausula_quietantiae_pretii": "",
+      "formula_confinium": "",
+      "formula_mensurationum": "",
+      "formula_transmissionis": "",
+      "formula_libere_fruitionis": "",
+      "formula_legitimae_defensionis": "",
+      "sanctio": "",
+      "datatio_topica": "",
+      "testes_text": "",
+      "completio": "",
+      "id": "instrumentum_venditionis_unknown_01"
+    }
+  ]
+}
