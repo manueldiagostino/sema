@@ -6,9 +6,25 @@
    - Download the **LTS** version
    - Run the installer and follow the prompts
 
+## Getting the Project from GitHub
+
+Clone the repository (requires **Git for Windows** — download from [git-scm.com](https://git-scm.com)):
+
+```powershell
+git clone https://github.com/manueldiagostino/sema.git
+cd sema
+```
+
+Alternatively, download as a ZIP:
+1. Go to the repository page on GitHub
+2. Click the green **"Code"** button → **"Download ZIP"**
+3. Extract the ZIP to your preferred folder
+
+> **Git beginners**: See [GitHub's guide on cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) or [downloading a repository as ZIP](https://docs.github.com/en/repositories/working-with-files/using-files/downloading-source-code-archives).
+
 ## Quick Start
 
-1. Download and extract the Sema project folder
+1. Open the Sema project folder (cloned or extracted in the step above)
 2. Double-click **`start.bat`**
 3. Wait for the browser to open at `http://localhost:3000/admin`
 
