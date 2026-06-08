@@ -269,5 +269,79 @@
       "completio": "Ego Gerardus tabellio hoc venditionis instrumentum ut supra legitur / scripsi et conplevi.",
       "id": "instrumentum_venditionis_1136_01"
     }
+  ],
+  "facets": {
+    "author_name": [
+      {
+        "value": "Zambono, figlio di Rodaldo di Lovoleto",
+        "count": 1
+      }
+    ],
+    "recipient_name": [
+      {
+        "value": "Bonfantino, a nome della chieda si S. Vittore e del priore Alberio",
+        "count": 1
+      }
+    ],
+    "dating_chronological": [
+      {
+        "value": "1136-04-26",
+        "count": 1
+      }
+    ],
+    "dating_topical": [
+      {
+        "value": "nel burgo S. Donati (Bologna)",
+        "count": 1
+      }
+    ],
+    "pretium": [],
+    "property_location": [
+      {
+        "value": "nella braida detta Flumexello",
+        "count": 1
+      }
+    ],
+    "locus_redactionis": [
+      {
+        "value": "nel burgo S. Donati (Bologna)",
+        "count": 1
+      }
+    ],
+    "notarius": [
+      {
+        "value": "Gerardus tabellio",
+        "count": 1
+      }
+    ],
+    "testes_names": [
+      {
+        "value": "Petrus de [T]eutio",
+        "count": 1
+      },
+      {
+        "value": "Ambrosius filius Domin<i>ce",
+        "count": 1
+      }
+    ],
+    "repository": [
+      {
+        "value": "ASBo",
+        "count": 1
+      }
+    ],
+    "shelfmark": [
+      {
+        "value": "Demaniale 002/1342, n. 46",
+        "count": 1
+      }
+    ]
+  },
+  "charterTypes": [
+    {
+      "id": "instrumentum_venditionis",
+      "label": "Instrumentum venditionis",
+      "count": 1
+    }
   ]
 }

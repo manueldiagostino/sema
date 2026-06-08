@@ -20,6 +20,8 @@ import { CorpusItem } from "@/types/corpus";
 import { truncateWords } from "@/lib/truncateWords";
 import DocumentModal from "./DocumentModal";
 import CompareDrawer from "./CompareDrawer";
+import FacetSidebar from "./corpus/FacetSidebar";
+import { Facets, CharterType, SelectedFacets, DateRange } from "@/types/corpus";
 
 /**
  * Column configuration — loaded from corpus-metadata.json.
@@ -66,10 +68,17 @@ export default function CorpusTable() {
     initialSortField
       ? [{ id: initialSortField, desc: initialSortOrder === "desc" }]
       : [];
-  const initialColumnFilters: { id: string; value: string }[] = [];
+
+  // Initialize facet state from URL
+  const initialGlobalSearch = searchParams.get("search") ?? "";
+  const initialDateRange: DateRange = {
+    min: searchParams.get("dateFrom") ? parseInt(searchParams.get("dateFrom")!, 10) : 0,
+    max: searchParams.get("dateTo") ? parseInt(searchParams.get("dateTo")!, 10) : 0,
+  };
+  const initialSelectedFacets: SelectedFacets = {};
   for (const [key, value] of searchParams.entries()) {
-    if (key.startsWith("filter_")) {
-      initialColumnFilters.push({ id: key.replace("filter_", ""), value });
+    if (key.startsWith("facet_")) {
+      initialSelectedFacets[key.replace("facet_", "")] = value.split(",").filter(Boolean);
     }
   }
 
@@ -95,6 +104,15 @@ export default function CorpusTable() {
   // Column config loaded from JSON file
   const [columnConfig, setColumnConfig] = useState<ColumnConfig[] | null>(null);
 
+  // Facet sidebar state
+  const [facets, setFacets] = useState<Facets>({});
+  const [charterTypes, setCharterTypes] = useState<CharterType[]>([]);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [selectedFacets, setSelectedFacets] = useState<SelectedFacets>(initialSelectedFacets);
+  const [dateRange, setDateRange] = useState<DateRange>(initialDateRange);
+  const [globalSearch, setGlobalSearch] = useState(initialGlobalSearch);
+  const [resetKey, setResetKey] = useState(0);
+
   // Fetch corpus-metadata.json once on mount
   useEffect(() => {
     fetch("/api/corpus")
@@ -105,6 +123,8 @@ export default function CorpusTable() {
         const json = await res.json();
         setColumnConfig(json.columns);
         setData(json.items);
+        setFacets(json.facets ?? {});
+        setCharterTypes(json.charterTypes ?? []);
       })
       .catch((err) => {
         setError(err instanceof Error ? err.message : "Failed to load corpus data");
@@ -119,9 +139,6 @@ export default function CorpusTable() {
     pageSize: isNaN(initialPageSize) ? 25 : initialPageSize,
   });
   const [sorting, setSorting] = useState<SortingState>(initialSorting);
-  const [columnFilters, setColumnFilters] = useState<
-    { id: string; value: unknown }[]
-  >(initialColumnFilters);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [showColumnMenu, setShowColumnMenu] = useState(false);
   const [showExportMenu, setShowExportMenu] = useState(false);
@@ -132,7 +149,7 @@ export default function CorpusTable() {
   const columnMenuRef = useRef<HTMLDivElement>(null);
   const exportMenuRef = useRef<HTMLDivElement>(null);
 
-  // Sync URL with state changes (pagination, sorting, filters, compare)
+  // Sync URL with state changes (pagination, sorting, facets, compare)
   useEffect(() => {
     const params = new URLSearchParams();
 
@@ -148,10 +165,24 @@ export default function CorpusTable() {
       params.set("sortOrder", sorting[0].desc ? "desc" : "asc");
     }
 
-    for (const filter of columnFilters) {
-      if (filter.value) {
-        params.set(`filter_${filter.id}`, filter.value as string);
+    // Sync facet selections to URL
+    for (const [facetId, values] of Object.entries(selectedFacets)) {
+      if (values.length > 0) {
+        params.set(`facet_${facetId}`, values.join(","));
       }
+    }
+
+    // Sync date range to URL
+    if (dateRange.min) {
+      params.set("dateFrom", String(dateRange.min));
+    }
+    if (dateRange.max) {
+      params.set("dateTo", String(dateRange.max));
+    }
+
+    // Sync global search to URL
+    if (globalSearch) {
+      params.set("search", globalSearch);
     }
 
     // Sync compare param from rowSelection
@@ -172,7 +203,7 @@ export default function CorpusTable() {
     if (currentUrl !== newUrl) {
       window.history.replaceState({}, "", newUrl);
     }
-  }, [pagination, sorting, columnFilters, rowSelection, compareOpen, compareFullscreen]);
+  }, [pagination, sorting, selectedFacets, dateRange, globalSearch, rowSelection, compareOpen, compareFullscreen]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -195,6 +226,82 @@ export default function CorpusTable() {
       setCompareOpen(false);
     }
   }, [compareOpen, rowSelection]);
+
+  /** Extract charter type label from a document ID */
+  function getCharterTypeLabel(itemId: string, ctList: CharterType[]): string | null {
+    const parts = itemId.split("_");
+    const prefix = parts.length >= 3 ? parts.slice(0, -2).join("_") : itemId;
+    const ct = ctList.find((c) => c.id === prefix);
+    return ct?.label ?? null;
+  }
+
+  /** Extract a 4-digit year from a dating string (e.g. "1136 marzo 15" → 1136) */
+  function extractYear(dateStr: string): number | null {
+    const match = dateStr.match(/\d{4}/);
+    return match ? parseInt(match[0], 10) : null;
+  }
+
+  const filteredData = useMemo(() => {
+    if (!data) return [];
+    let result = data;
+
+    // Layer 1: Global search — case-insensitive substring across all string/string[] fields
+    if (globalSearch.trim()) {
+      const q = globalSearch.toLowerCase().trim();
+      result = result.filter((item) => {
+        return Object.values(item).some((val) => {
+          if (val === null || val === undefined) return false;
+          if (Array.isArray(val)) {
+            return val.some((v) => typeof v === "string" && v.toLowerCase().includes(q));
+          }
+          if (typeof val === "string") {
+            return val.toLowerCase().includes(q);
+          }
+          return false;
+        });
+      });
+    }
+
+    // Layer 2: Facet filters — AND across different facet groups, OR within each group
+    for (const [facetId, selectedValues] of Object.entries(selectedFacets)) {
+      if (selectedValues.length === 0) continue;
+
+      if (facetId === "charterType") {
+        // Charter type: filter by label derived from document ID prefix
+        result = result.filter((item) => {
+          const ctLabel = getCharterTypeLabel(item.id, charterTypes);
+          return ctLabel !== null && selectedValues.includes(ctLabel);
+        });
+      } else {
+        // Regular facet: match against item field value(s) — OR logic
+        result = result.filter((item) => {
+          const fieldValue = item[facetId];
+          if (fieldValue === undefined || fieldValue === null) return false;
+          if (Array.isArray(fieldValue)) {
+            return fieldValue.some((v) => selectedValues.includes(v));
+          }
+          return selectedValues.includes(fieldValue as string);
+        });
+      }
+    }
+
+    // Layer 3: Date range filter on dating_chronological
+    const fromYear = dateRange.min || null;
+    const toYear = dateRange.max || null;
+    if (fromYear !== null || toYear !== null) {
+      result = result.filter((item) => {
+        const dateStr = item.dating_chronological;
+        if (typeof dateStr !== "string" || !dateStr) return true; // can't filter, include
+        const year = extractYear(dateStr);
+        if (year === null) return true; // no year found, include
+        if (fromYear !== null && year < fromYear) return false;
+        if (toYear !== null && year > toYear) return false;
+        return true;
+      });
+    }
+
+    return result;
+  }, [data, globalSearch, selectedFacets, dateRange, charterTypes]);
 
   const columns = useMemo<ColumnDef<CorpusItem>[]>(() => {
     if (!columnConfig) return [];
@@ -270,19 +377,17 @@ export default function CorpusTable() {
   }, [columnConfig]);
 
   const table = useReactTable({
-    data: data ?? [],
+    data: filteredData ?? [],
     columns,
     getRowId: (row) => row.id,
     state: {
       pagination,
       sorting,
-      columnFilters,
       columnVisibility,
       rowSelection,
     },
     onPaginationChange: setPagination,
     onSortingChange: setSorting as OnChangeFn<SortingState>,
-    onColumnFiltersChange: setColumnFilters,
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: (updaterOrValue: RowSelectionState | ((old: RowSelectionState) => RowSelectionState)) => {
       const newSelection = typeof updaterOrValue === "function"
@@ -308,9 +413,12 @@ export default function CorpusTable() {
   );
 
   const clearFilters = useCallback(() => {
-    setColumnFilters([]);
+    setSelectedFacets({});
+    setDateRange({ min: 0, max: 0 });
+    setGlobalSearch("");
     setSorting([]);
     setPagination({ pageIndex: 0, pageSize: pagination.pageSize });
+    setResetKey((k) => k + 1);
     window.history.replaceState({}, "", window.location.pathname);
   }, [pagination.pageSize]);
 
@@ -377,8 +485,29 @@ export default function CorpusTable() {
 
   return (
     <div className="flex flex-col gap-4 p-6">
+      {/* TOOLBAR: search + sidebar toggle + existing buttons */}
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold text-primary">Corpus</h1>
+        <div className="flex items-center gap-2">
+          <h1 className="text-2xl font-semibold text-primary">Corpus</h1>
+          {/* Sidebar toggle button */}
+          <button
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            className="rounded border border-border bg-background px-3 py-1.5 text-sm text-foreground transition-colors hover:bg-muted"
+          >
+            {sidebarOpen ? "✕ Filters" : "☰ Filters"}
+          </button>
+          {/* Global search input */}
+          <input
+            type="text"
+            value={globalSearch}
+            onChange={(e) => {
+              setGlobalSearch(e.target.value);
+              setPagination((prev) => ({ ...prev, pageIndex: 0 }));
+            }}
+            placeholder="Search all fields…"
+            className="w-64 rounded border border-border bg-background px-3 py-1.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-accent focus:outline-none"
+          />
+        </div>
         <div className="flex items-center gap-2">
           {selectedCount > 0 && (
             <>
@@ -490,159 +619,176 @@ export default function CorpusTable() {
         </div>
       )}
 
-      <div style={{ height: "calc(100vh - 180px)", overflow: "auto" }}>
-        <div className="rounded-lg border border-border">
-          <table className="w-full text-sm">
-          <thead className="sticky top-0 z-10">
-            {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id} className="border-b border-border bg-muted">
-                {headerGroup.headers.map((header) => {
-                  const colConfig = columnConfig?.find(
-                    (c) => c.id === header.column.id,
-                  );
-                  return (
-                    <th key={header.id} className="px-4 py-3 text-left font-medium text-primary" style={{ minWidth: (header.column.columnDef.meta as any)?.minWidth }}>
-                      <div className="flex flex-col gap-2">
-                        {header.isPlaceholder ? null : (
-                          <>
-                            <button
-                              className="flex items-center gap-1 font-semibold hover:text-accent"
-                              onClick={header.column.getToggleSortingHandler()}
-                            >
-                              {flexRender(
-                                header.column.columnDef.header,
-                                header.getContext(),
+      {/* MAIN CONTENT: sidebar + table in flex row */}
+      <div className="flex" style={{ height: "calc(100vh - 180px)" }}>
+        {/* FacetSidebar */}
+        <FacetSidebar
+          key={resetKey}
+          facets={facets}
+          charterTypes={charterTypes}
+          selectedFacets={selectedFacets}
+          dateRange={dateRange}
+          onFacetChange={(facetId, values) => {
+            setSelectedFacets((prev) => ({ ...prev, [facetId]: values }));
+            setPagination((prev) => ({ ...prev, pageIndex: 0 }));
+          }}
+          onDateRangeChange={(range) => {
+            setDateRange(range);
+            setPagination((prev) => ({ ...prev, pageIndex: 0 }));
+          }}
+          onClearAll={() => {
+            setSelectedFacets({});
+            setDateRange({ min: 0, max: 0 });
+            setGlobalSearch("");
+            setSorting([]);
+            setPagination((prev) => ({ ...prev, pageIndex: 0 }));
+            setResetKey((k) => k + 1);
+            window.history.replaceState({}, "", window.location.pathname);
+          }}
+          isOpen={sidebarOpen}
+          onToggle={() => setSidebarOpen(!sidebarOpen)}
+        />
+
+        {/* Table area — takes remaining space */}
+        <div className="flex min-w-0 flex-1 flex-col">
+          {/* Scrollable table wrapper */}
+          <div className="flex-1 overflow-auto">
+            <div className="rounded-lg border border-border">
+              <table className="w-full text-sm">
+                <thead className="sticky top-0 z-10">
+                  {table.getHeaderGroups().map((headerGroup) => (
+                    <tr key={headerGroup.id} className="border-b border-border bg-muted">
+                      {headerGroup.headers.map((header) => {
+                        return (
+                          <th key={header.id} className="px-4 py-3 text-left font-medium text-primary" style={{ minWidth: (header.column.columnDef.meta as any)?.minWidth }}>
+                            <div className="flex flex-col gap-2">
+                              {header.isPlaceholder ? null : (
+                                <button
+                                  className="flex items-center gap-1 font-semibold hover:text-accent"
+                                  onClick={header.column.getToggleSortingHandler()}
+                                >
+                                  {flexRender(
+                                    header.column.columnDef.header,
+                                    header.getContext(),
+                                  )}
+                                  {{
+                                    asc: " ▲",
+                                    desc: " ▼",
+                                  }[header.column.getIsSorted() as string] ?? null}
+                                </button>
                               )}
-                              {{
-                                asc: " ▲",
-                                desc: " ▼",
-                              }[header.column.getIsSorted() as string] ?? null}
-                            </button>
-                            {colConfig?.filterable && (
-                              <input
-                                type="text"
-                                placeholder={`Filter…`}
-                                value={
-                                  (header.column.getFilterValue() as string) ?? ""
-                                }
-                                onChange={(e) =>
-                                  header.column.setFilterValue(e.target.value)
-                                }
-                                className="w-full rounded border border-border bg-background px-2 py-1 text-xs text-foreground placeholder:text-muted-foreground focus:border-accent focus:outline-none"
-                              />
-                            )}
-                          </>
-                        )}
-                      </div>
-                    </th>
-                  );
-                })}
-              </tr>
-            ))}
-          </thead>
-          <tbody>
-            {loading ? (
-              <tr>
-                <td
-                  colSpan={totalColumnCount}
-                  className="px-4 py-8 text-center text-muted"
-                >
-                  <div className="flex items-center justify-center gap-2">
-                    <svg
-                      className="h-5 w-5 animate-spin"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                    >
-                      <circle
-                        className="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                      />
-                      <path
-                        className="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                      />
-                    </svg>
-                    Loading…
-                  </div>
-                </td>
-              </tr>
-            ) : table.getRowModel().rows.length === 0 ? (
-              <tr>
-                <td
-                  colSpan={totalColumnCount}
-                  className="px-4 py-8 text-center text-muted"
-                >
-                  No results found.
-                </td>
-              </tr>
-            ) : (
-              table.getRowModel().rows.map((row) => (
-                <tr
-                  key={row.id}
-                  className={`border-b border-border transition-colors hover:bg-muted/50 ${
-                    row.getIsSelected() ? "bg-primary/5" : ""
-                  }`}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <td key={cell.id} className="px-4 py-3 text-foreground" style={{ minWidth: (cell.column.columnDef.meta as any)?.minWidth }}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
-                    </td>
+                            </div>
+                          </th>
+                        );
+                      })}
+                    </tr>
                   ))}
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-        </div>
-      </div>
+                </thead>
+                <tbody>
+                  {loading ? (
+                    <tr>
+                      <td
+                        colSpan={totalColumnCount}
+                        className="px-4 py-8 text-center text-muted"
+                      >
+                        <div className="flex items-center justify-center gap-2">
+                          <svg
+                            className="h-5 w-5 animate-spin"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              strokeWidth="4"
+                            />
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                            />
+                          </svg>
+                          Loading…
+                        </div>
+                      </td>
+                    </tr>
+                  ) : table.getRowModel().rows.length === 0 ? (
+                    <tr>
+                      <td
+                        colSpan={totalColumnCount}
+                        className="px-4 py-8 text-center text-muted"
+                      >
+                        No results found.
+                      </td>
+                    </tr>
+                  ) : (
+                    table.getRowModel().rows.map((row) => (
+                      <tr
+                        key={row.id}
+                        className={`border-b border-border transition-colors hover:bg-muted/50 ${
+                          row.getIsSelected() ? "bg-primary/5" : ""
+                        }`}
+                      >
+                        {row.getVisibleCells().map((cell) => (
+                          <td key={cell.id} className="px-4 py-3 text-foreground" style={{ minWidth: (cell.column.columnDef.meta as any)?.minWidth }}>
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext(),
+                            )}
+                          </td>
+                        ))}
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
 
-      {/* Pagination controls */}
-      <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
-        <div className="flex items-center gap-2 text-sm text-muted">
-          <span>Rows per page:</span>
-          <select
-            value={pagination.pageSize}
-            onChange={(e) => {
-              table.setPageSize(Number(e.target.value));
-              table.setPageIndex(0);
-            }}
-            className="rounded border border-border bg-background px-2 py-1 text-foreground focus:border-accent focus:outline-none"
-          >
-            {PAGE_SIZES.map((size) => (
-              <option key={size} value={size}>
-                {size}
-              </option>
-            ))}
-          </select>
-        </div>
+          {/* Pagination controls */}
+          <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
+            <div className="flex items-center gap-2 text-sm text-muted">
+              <span>Rows per page:</span>
+              <select
+                value={pagination.pageSize}
+                onChange={(e) => {
+                  table.setPageSize(Number(e.target.value));
+                  table.setPageIndex(0);
+                }}
+                className="rounded border border-border bg-background px-2 py-1 text-foreground focus:border-accent focus:outline-none"
+              >
+                {PAGE_SIZES.map((size) => (
+                  <option key={size} value={size}>
+                    {size}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-        <div className="text-sm text-muted">
-          Showing {startIdx} to {endIdx} of {filteredRowCount} results
-        </div>
+            <div className="text-sm text-muted">
+              Showing {startIdx} to {endIdx} of {filteredRowCount} results
+            </div>
 
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-            className="rounded border border-border bg-background px-3 py-1.5 text-sm text-foreground transition-colors hover:bg-muted disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            Previous
-          </button>
-          <button
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-            className="rounded border border-border bg-background px-3 py-1.5 text-sm text-foreground transition-colors hover:bg-muted disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            Next
-          </button>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => table.previousPage()}
+                disabled={!table.getCanPreviousPage()}
+                className="rounded border border-border bg-background px-3 py-1.5 text-sm text-foreground transition-colors hover:bg-muted disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                Previous
+              </button>
+              <button
+                onClick={() => table.nextPage()}
+                disabled={!table.getCanNextPage()}
+                className="rounded border border-border bg-background px-3 py-1.5 text-sm text-foreground transition-colors hover:bg-muted disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                Next
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 

@@ -37,9 +37,21 @@ interface ColumnsYaml {
 
 type CorpusItem = Record<string, string | string[]>;
 
+interface TypeConfig {
+  id: string;
+  label: string;
+}
+
+interface TypesConfig {
+  types: TypeConfig[];
+  sections: unknown[];
+}
+
 interface CorpusMetadata {
   columns: ColumnConfig[];
   items: CorpusItem[];
+  facets: Record<string, { value: string; count: number }[]>;
+  charterTypes: { id: string; label: string; count: number }[];
 }
 
 /** Configuration passed at call time (API routes) to override default paths. */
@@ -95,6 +107,86 @@ function findXmlFiles(dirs: string[]): string[] {
     }
   }
   return results;
+}
+
+/**
+ * Compute facet counts for all filterable columns.
+ * For multi-valued fields (arrays), each element is counted separately.
+ * Returns a map from column id to sorted {value, count} entries.
+ */
+function computeFacets(
+  items: CorpusItem[],
+  columns: ColumnConfig[],
+): Record<string, { value: string; count: number }[]> {
+  const filterableCols = columns.filter((c) => c.filterable);
+  const facets: Record<string, Map<string, number>> = {};
+
+  for (const col of filterableCols) {
+    facets[col.id] = new Map();
+  }
+
+  for (const item of items) {
+    for (const col of filterableCols) {
+      const raw = item[col.id];
+      const values: string[] = Array.isArray(raw)
+        ? raw.filter((v) => v.trim().length > 0)
+        : typeof raw === "string" && raw.trim().length > 0
+          ? [raw.trim()]
+          : [];
+
+      const map = facets[col.id];
+      for (const v of values) {
+        map.set(v, (map.get(v) || 0) + 1);
+      }
+    }
+  }
+
+  const result: Record<string, { value: string; count: number }[]> = {};
+  for (const col of filterableCols) {
+    result[col.id] = Array.from(facets[col.id].entries())
+      .map(([value, count]) => ({ value, count }))
+      .sort((a, b) => b.count - a.count);
+  }
+  return result;
+}
+
+/**
+ * Extract charter types from document ids and map them to human-readable labels.
+ * Id pattern: <type_prefix>_<year>_<sequence>
+ * The prefix is everything before the last two underscore-separated segments.
+ */
+function extractCharterTypes(
+  items: CorpusItem[],
+  formConfig: TypesConfig,
+): { id: string; label: string; count: number }[] {
+  const typeCounts = new Map<string, number>();
+
+  for (const item of items) {
+    const docId = typeof item.id === "string" ? item.id : "";
+    const parts = docId.split("_");
+    // Need at least 3 segments to have a prefix + year + sequence
+    const prefix =
+      parts.length >= 3 ? parts.slice(0, -2).join("_") : docId;
+    typeCounts.set(prefix, (typeCounts.get(prefix) || 0) + 1);
+  }
+
+  // Build a lookup from formConfig.types
+  const typeLookup = new Map<string, string>();
+  for (const t of formConfig.types) {
+    typeLookup.set(t.id, t.label);
+  }
+
+  const result: { id: string; label: string; count: number }[] = [];
+  for (const [prefix, count] of typeCounts) {
+    const label =
+      typeLookup.get(prefix) ??
+      prefix
+        .replace(/_/g, " ")
+        .replace(/\b\w/g, (ch) => ch.toUpperCase());
+    result.push({ id: prefix, label, count });
+  }
+
+  return result.sort((a, b) => b.count - a.count);
 }
 
 // ---------------------------------------------------------------------------
@@ -179,13 +271,28 @@ export async function buildCorpus(config?: BuildConfig): Promise<void> {
     items.push(item);
   }
 
-  // 4. Build output
+  // 4. Load form-sections.yaml for charter type extraction
+  const formSectionsYaml = path.join(root, "config", "form-sections.yaml");
+  console.log(`Reading form sections from ${formSectionsYaml}`);
+  const formYamlContent = fs.readFileSync(formSectionsYaml, "utf-8");
+  const typesConfig = yaml.load(formYamlContent) as TypesConfig;
+  console.log(`  Found ${typesConfig.types.length} charter type(s)`);
+
+  // 5. Compute facets and charter types
+  const facets = computeFacets(items, columns);
+  const charterTypes = extractCharterTypes(items, typesConfig);
+  console.log(`  Computed facets for ${Object.keys(facets).length} column(s)`);
+  console.log(`  Found ${charterTypes.length} charter type(s)`);
+
+  // 6. Build output
   const metadata: CorpusMetadata = {
     columns,
     items,
+    facets,
+    charterTypes,
   };
 
-  // 5. Determine output path (config overrides default)
+  // 7. Determine output path (config overrides default)
   const outputFile = config?.outputDir
     ? path.join(config.outputDir, "corpus-metadata.json")
     : defaultOutputFile;
@@ -195,7 +302,7 @@ export async function buildCorpus(config?: BuildConfig): Promise<void> {
     fs.mkdirSync(outputDir, { recursive: true });
   }
 
-  // 6. Write JSON (idempotent — overwrites existing file)
+  // 8. Write JSON (idempotent — overwrites existing file)
   fs.writeFileSync(outputFile, JSON.stringify(metadata, null, 2), "utf-8");
   console.log(`Wrote ${items.length} item(s) to ${outputFile}`);
 }
