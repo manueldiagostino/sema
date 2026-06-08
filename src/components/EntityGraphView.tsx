@@ -190,7 +190,7 @@ export default function EntityGraphView({
   // -----------------------------------------------------------------------
 
   useEffect(() => {
-    fetch("/api/graph")
+    fetch("entity-graph.json")
       .then(async (res) => {
         if (!res.ok) {
           throw new Error(`Failed to load entity graph: ${res.status} ${res.statusText}`);
