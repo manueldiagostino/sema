@@ -17,9 +17,6 @@ concurrency:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: web
     steps:
       - uses: actions/checkout@v4
 
@@ -27,22 +24,22 @@ jobs:
         with:
           node-version: "22"
           cache: npm
-          cache-dependency-path: web/package-lock.json
+          cache-dependency-path: package-lock.json
 
       - run: npm ci
       - run: npm run build
 
       - name: Verify build output
         run: |
-          echo "=== dist contents ==="
-          ls -la dist/
+          echo "=== out contents ==="
+          ls -la out/
           echo "=== index.html head ==="
-          head -20 dist/index.html
+          head -20 out/index.html
 
       - uses: actions/configure-pages@v4
 
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: web/dist
+          path: out
 
       - uses: actions/deploy-pages@v4

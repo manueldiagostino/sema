@@ -4,12 +4,17 @@ import { parseTeiXml } from "@/lib/xmlParser";
 import { readFileSync } from "fs";
 import { join } from "path";
 import { getActiveTeiDir } from "@/lib/dataDir";
+import StaticExportPlaceholder from "@/components/StaticExportPlaceholder";
 
 export default async function AdminFormRoutePage({
   searchParams,
 }: {
   searchParams: Promise<{ edit?: string }>;
 }) {
+  if (process.env.GITHUB_ACTIONS) {
+    return <StaticExportPlaceholder />;
+  }
+
   const config = loadFormConfig();
   const params = await searchParams;
   const editFile = params.edit;
