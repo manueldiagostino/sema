@@ -24,7 +24,9 @@ export async function POST(request: Request) {
     );
   }
 
-  const adminPassword = process.env.ADMIN_PASSWORD;
+  const adminPassword =
+    process.env.ADMIN_PASSWORD ||
+    (process.env.NODE_ENV !== "production" ? "dev" : undefined);
 
   if (!adminPassword) {
     console.error("ADMIN_PASSWORD environment variable is not set");
