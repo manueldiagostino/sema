@@ -185,7 +185,7 @@ export default function CompareDrawer({
         </div>
 
         {/* Scrollable body */}
-        <div className="flex-1 overflow-y-auto p-4">
+        <div className="flex-1 overflow-hidden p-4">
           <CompareView
             documents={documents}
             columnConfig={columnConfig}

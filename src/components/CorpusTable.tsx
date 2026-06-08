@@ -40,6 +40,21 @@ interface ColumnConfig {
 const PAGE_SIZES = [10, 25, 50, 100];
 const MAX_SELECTION = 20;
 
+/** Metadata columns visible by default in the table (allowlist). Body-text clause columns are hidden. */
+const DEFAULT_VISIBLE_COLUMNS = new Set([
+  "author_name",
+  "recipient_name",
+  "dating_chronological",
+  "dating_topical",
+  "pretium",
+  "property_location",
+  "locus_redactionis",
+  "notarius",
+  "testes_names",
+  "repository",
+  "shelfmark",
+]);
+
 function downloadBlob(content: string, filename: string, type: string) {
   const blob = new Blob([content], { type });
   const url = URL.createObjectURL(blob);
@@ -111,6 +126,12 @@ export default function CorpusTable() {
   const [selectedFacets, setSelectedFacets] = useState<SelectedFacets>(initialSelectedFacets);
   const [dateRange, setDateRange] = useState<DateRange>(initialDateRange);
   const [globalSearch, setGlobalSearch] = useState(initialGlobalSearch);
+  const [priceFilter, setPriceFilter] = useState<boolean | null>(() => {
+    const param = searchParams.get("price");
+    if (param === "1") return true;
+    if (param === "0") return false;
+    return null;
+  });
   const [resetKey, setResetKey] = useState(0);
 
   // Fetch corpus-metadata.json once on mount
@@ -148,6 +169,7 @@ export default function CorpusTable() {
   const [compareFullscreen, setCompareFullscreen] = useState(initialCompareFullscreen);
   const columnMenuRef = useRef<HTMLDivElement>(null);
   const exportMenuRef = useRef<HTMLDivElement>(null);
+  const visibilityInitialized = useRef(false);
 
   // Sync URL with state changes (pagination, sorting, facets, compare)
   useEffect(() => {
@@ -185,6 +207,11 @@ export default function CorpusTable() {
       params.set("search", globalSearch);
     }
 
+    // Sync price filter to URL
+    if (priceFilter !== null) {
+      params.set("price", priceFilter ? "1" : "0");
+    }
+
     // Sync compare param from rowSelection
     const selectedIds = Object.keys(rowSelection).filter((k) => rowSelection[k]);
     if (selectedIds.length > 0) {
@@ -203,7 +230,7 @@ export default function CorpusTable() {
     if (currentUrl !== newUrl) {
       window.history.replaceState({}, "", newUrl);
     }
-  }, [pagination, sorting, selectedFacets, dateRange, globalSearch, rowSelection, compareOpen, compareFullscreen]);
+  }, [pagination, sorting, selectedFacets, dateRange, globalSearch, priceFilter, rowSelection, compareOpen, compareFullscreen]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -219,6 +246,18 @@ export default function CorpusTable() {
     }
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [showColumnMenu, showExportMenu]);
+
+  // Set initial column visibility once when column config loads
+  useEffect(() => {
+    if (columnConfig && !visibilityInitialized.current) {
+      const vis: VisibilityState = {};
+      for (const col of columnConfig) {
+        vis[col.id] = DEFAULT_VISIBLE_COLUMNS.has(col.id);
+      }
+      setColumnVisibility(vis);
+      visibilityInitialized.current = true;
+    }
+  }, [columnConfig]);
 
   // Auto-close drawer when selection drops below 2
   useEffect(() => {
@@ -300,33 +339,28 @@ export default function CorpusTable() {
       });
     }
 
+    // Layer 4: Price filter — show all, only with price, or only without price
+    if (priceFilter !== null) {
+      result = result.filter((item) => {
+        const price = item.pretium;
+        const hasPrice = typeof price === "string" && price.trim().length > 0;
+        return priceFilter ? hasPrice : !hasPrice;
+      });
+    }
+
     return result;
-  }, [data, globalSearch, selectedFacets, dateRange, charterTypes]);
+  }, [data, globalSearch, selectedFacets, dateRange, priceFilter, charterTypes]);
 
   const columns = useMemo<ColumnDef<CorpusItem>[]>(() => {
     if (!columnConfig) return [];
 
-    const selectionColumn: ColumnDef<CorpusItem> = {
-      id: "select",
-      header: ({ table }) => (
-        <input
-          type="checkbox"
-          checked={table.getIsAllRowsSelected()}
-          onChange={table.getToggleAllRowsSelectedHandler()}
-          className="h-4 w-4 rounded border-border text-primary focus:ring-primary"
-        />
-      ),
-      cell: ({ row }) => (
-        <input
-          type="checkbox"
-          checked={row.getIsSelected()}
-          onChange={row.getToggleSelectedHandler()}
-          className="h-4 w-4 rounded border-border text-primary focus:ring-primary"
-        />
-      ),
-      enableSorting: false,
+    const charterTypeColumn: ColumnDef<CorpusItem> = {
+      id: "charterType",
+      header: "Charter Type",
+      accessorFn: (row) => getCharterTypeLabel(row.id, charterTypes),
+      enableSorting: true,
       enableColumnFilter: false,
-      meta: { minWidth: 40 },
+      meta: { minWidth: 220 },
     };
 
     const mappedColumns = columnConfig.map((col) => ({
@@ -356,7 +390,6 @@ export default function CorpusTable() {
     }));
 
     return [
-      selectionColumn,
       {
         id: "actions",
         header: "",
@@ -372,9 +405,10 @@ export default function CorpusTable() {
           </button>
         ),
       },
+      charterTypeColumn,
       ...mappedColumns,
     ];
-  }, [columnConfig]);
+  }, [columnConfig, charterTypes]);
 
   const table = useReactTable({
     data: filteredData ?? [],
@@ -416,6 +450,7 @@ export default function CorpusTable() {
     setSelectedFacets({});
     setDateRange({ min: 0, max: 0 });
     setGlobalSearch("");
+    setPriceFilter(null);
     setSorting([]);
     setPagination({ pageIndex: 0, pageSize: pagination.pageSize });
     setResetKey((k) => k + 1);
@@ -480,7 +515,7 @@ export default function CorpusTable() {
     [table, columnConfig, selectedCount, selectedDocuments],
   );
 
-  // Total column count for colSpan (select + actions + mapped columns)
+  // Total column count for colSpan (actions + charterType + mapped columns)
   const totalColumnCount = 2 + (columnConfig?.length ?? 0);
 
   return (
@@ -577,7 +612,7 @@ export default function CorpusTable() {
             </button>
             {showColumnMenu && (() => {
               const visibleLeafColumns = table.getAllLeafColumns().filter(
-                (col) => col.id !== "actions" && col.id !== "select"
+                (col) => col.id !== "actions" && col.id !== "charterType"
               );
               const allVisible = visibleLeafColumns.every((c) => c.getIsVisible());
               return (
@@ -640,6 +675,7 @@ export default function CorpusTable() {
             setSelectedFacets({});
             setDateRange({ min: 0, max: 0 });
             setGlobalSearch("");
+            setPriceFilter(null);
             setSorting([]);
             setPagination((prev) => ({ ...prev, pageIndex: 0 }));
             setResetKey((k) => k + 1);
@@ -647,6 +683,11 @@ export default function CorpusTable() {
           }}
           isOpen={sidebarOpen}
           onToggle={() => setSidebarOpen(!sidebarOpen)}
+          priceFilter={priceFilter}
+          onPriceFilterChange={(value) => {
+            setPriceFilter(value);
+            setPagination((prev) => ({ ...prev, pageIndex: 0 }));
+          }}
         />
 
         {/* Table area — takes remaining space */}
@@ -728,8 +769,9 @@ export default function CorpusTable() {
                     table.getRowModel().rows.map((row) => (
                       <tr
                         key={row.id}
-                        className={`border-b border-border transition-colors hover:bg-muted/50 ${
-                          row.getIsSelected() ? "bg-primary/5" : ""
+                        onClick={() => row.toggleSelected()}
+                        className={`border-b border-border transition-colors hover:bg-muted/50 cursor-pointer ${
+                          row.getIsSelected() ? "bg-accent/25 shadow-[inset_4px_0_0_var(--color-accent)]" : ""
                         }`}
                       >
                         {row.getVisibleCells().map((cell) => (
@@ -750,7 +792,7 @@ export default function CorpusTable() {
 
           {/* Pagination controls */}
           <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
-            <div className="flex items-center gap-2 text-sm text-muted">
+            <div className="flex items-center gap-2 text-sm text-foreground/70">
               <span>Rows per page:</span>
               <select
                 value={pagination.pageSize}
@@ -768,21 +810,21 @@ export default function CorpusTable() {
               </select>
             </div>
 
-            <div className="text-sm text-muted">
+            <div className="text-sm text-foreground/70">
               Showing {startIdx} to {endIdx} of {filteredRowCount} results
             </div>
 
             <div className="flex items-center gap-2">
               <button
                 onClick={() => table.previousPage()}
-                disabled={!table.getCanPreviousPage()}
+                disabled={loading || !table.getCanPreviousPage()}
                 className="rounded border border-border bg-background px-3 py-1.5 text-sm text-foreground transition-colors hover:bg-muted disabled:cursor-not-allowed disabled:opacity-50"
               >
                 Previous
               </button>
               <button
                 onClick={() => table.nextPage()}
-                disabled={!table.getCanNextPage()}
+                disabled={loading || !table.getCanNextPage()}
                 className="rounded border border-border bg-background px-3 py-1.5 text-sm text-foreground transition-colors hover:bg-muted disabled:cursor-not-allowed disabled:opacity-50"
               >
                 Next

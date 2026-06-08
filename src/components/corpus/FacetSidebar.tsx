@@ -14,6 +14,8 @@ interface FacetSidebarProps {
   onClearAll: () => void;
   isOpen: boolean;
   onToggle: () => void;
+  priceFilter: boolean | null;
+  onPriceFilterChange: (value: boolean | null) => void;
 }
 
 /** Toggle a value in an array (add if missing, remove if present) */
@@ -49,7 +51,7 @@ function FacetSection({
   icon,
   selectedCount,
   children,
-  defaultOpen = true,
+  defaultOpen = false,
 }: {
   title: string;
   icon: string;
@@ -159,7 +161,12 @@ export default function FacetSidebar({
   onClearAll,
   isOpen,
   onToggle,
+  priceFilter,
+  onPriceFilterChange,
 }: FacetSidebarProps) {
+  // Filter text for People section (many entities benefit from inline search)
+  const [peopleFilterText, setPeopleFilterText] = useState("");
+
   // Compute slider bounds from dating_chronological facet values
   // MUST be before any conditional returns (React hooks rule)
   const { sliderMin, sliderMax, hasDates } = useMemo(() => {
@@ -261,13 +268,47 @@ export default function FacetSidebar({
           icon="👤"
           selectedCount={peopleSelectedCount}
         >
+          {/* Inline name filter for People — helps when there are many entities */}
+          <div className="px-2 pb-1">
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Filter by name…"
+                value={peopleFilterText}
+                onChange={(e) => setPeopleFilterText(e.target.value)}
+                className="w-full rounded border border-border bg-background px-2 py-1 text-xs text-foreground placeholder:text-muted-foreground focus:border-accent focus:outline-none"
+              />
+              {peopleFilterText && (
+                <button
+                  onClick={() => setPeopleFilterText("")}
+                  className="absolute right-1 top-1/2 -translate-y-1/2 rounded p-0.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                  aria-label="Clear name filter"
+                >
+                  ✕
+                </button>
+              )}
+            </div>
+          </div>
           {PEOPLE_SUBGROUPS.map((sg) => {
-            const values = facets[sg.id];
+            let values = facets[sg.id];
             if (!values || values.length === 0) return null;
+
+            // Filter by peopleFilterText (case-insensitive substring match)
+            if (peopleFilterText.trim()) {
+              const q = peopleFilterText.toLowerCase().trim();
+              values = values.filter((v) => v.value.toLowerCase().includes(q));
+              if (values.length === 0) return null; // hide subgroup if no matches
+            }
+
             return (
               <div key={sg.id}>
                 <span className="mt-2 mb-0.5 block px-2 text-xs font-medium text-secondary">
-                  {sg.label}
+                  {sg.label}{" "}
+                  {peopleFilterText.trim() && (
+                    <span className="font-normal text-muted-foreground">
+                      ({values.length})
+                    </span>
+                  )}
                 </span>
                 <div className="px-2">
                   <FacetCheckboxGroup
@@ -341,6 +382,42 @@ export default function FacetSidebar({
               />
             </div>
           )}
+        </FacetSection>
+
+        {/* Price */}
+        <FacetSection
+          title="Price"
+          icon="💰"
+          selectedCount={priceFilter !== null ? 1 : 0}
+        >
+          <div className="px-2 pb-1">
+            {([
+              { label: "Has price", value: true as const },
+              { label: "No price", value: false as const },
+            ]).map(({ label, value }) => {
+              const isSelected = priceFilter === value;
+              return (
+                <button
+                  key={label}
+                  onClick={() =>
+                    onPriceFilterChange(isSelected ? null : value)
+                  }
+                  className="flex w-full cursor-pointer items-center gap-2 rounded px-2 py-1 text-left text-sm transition-colors hover:bg-muted/50 active:bg-muted"
+                >
+                  <span
+                    className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-full border text-xs transition-colors ${
+                      isSelected
+                        ? "border-accent bg-accent text-white"
+                        : "border-border bg-background"
+                    }`}
+                  >
+                    {isSelected && "✓"}
+                  </span>
+                  <span className="text-foreground">{label}</span>
+                </button>
+              );
+            })}
+          </div>
         </FacetSection>
 
         {/* Archive */}

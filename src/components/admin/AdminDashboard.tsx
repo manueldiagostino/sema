@@ -278,6 +278,8 @@ export default function AdminDashboard() {
           }}
           isOpen={sidebarOpen}
           onToggle={() => setSidebarOpen(!sidebarOpen)}
+          priceFilter={null}
+          onPriceFilterChange={() => {}}
         />
 
         {/* Table area */}
@@ -301,9 +303,9 @@ export default function AdminDashboard() {
             </div>
           ) : (
             <div className="flex-1 overflow-auto p-4">
-              <div className="overflow-x-auto rounded-lg border border-gray-200 bg-white shadow-sm">
+              <div className="rounded-lg border border-gray-200 bg-white shadow-sm">
                 <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50">
+                  <thead className="sticky top-0 z-10 bg-gray-50">
                     <tr>
                       <th scope="col" className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                         Actions

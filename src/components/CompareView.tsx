@@ -29,10 +29,10 @@ export default function CompareView({
   }
 
   return (
-    <div className="space-y-4">
+    <div className="h-full">
       {/* Stacked layout */}
       {layout === "stacked" && (
-        <div className="space-y-6">
+        <div className="space-y-6 overflow-auto h-full pr-2">
           {documents.map((doc) => (
             <div key={doc.id} className="rounded-lg border border-border bg-card p-6">
               <DocumentCard
@@ -48,7 +48,7 @@ export default function CompareView({
 
       {/* Side-by-side layout — per-section grid for aligned comparison */}
       {layout === "side-by-side" && (
-        <div className="overflow-x-auto pb-4">
+        <div className="h-full overflow-auto rounded-lg border border-border">
           {/* Document title headers row */}
           <div className="flex mb-4">
             {documents.map((doc, docIdx) => (

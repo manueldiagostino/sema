@@ -9,7 +9,7 @@
  * Options:
  *   --count N    Number of documents to generate (default: 100)
  *   --seed N     Random seed for reproducibility
- *   --sparse F   Probability (0-1) of skipping optional fields (default: 0)
+  *   --sparse F   Probability (0-1) of skipping optional fields (default: 0.3)
  *   --clean      Delete existing data/fake/ contents before generating
  */
 
@@ -87,7 +87,7 @@ function parseArgs(): Args {
   const args = process.argv.slice(2);
   let count = 100;
   let seed: number | undefined;
-  let sparse = 0;
+  let sparse = 0.3;
   let clean = false;
 
   for (let i = 0; i < args.length; i++) {

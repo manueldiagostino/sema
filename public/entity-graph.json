@@ -1,52 +1,78 @@
 {
   "nodes": [
     {
-      "id": "person_martinus germanus quondam alberti de padua",
+      "id": "person_michael nepos quondam uberti de sancto petro",
       "type": "person",
-      "label": "Martinus, germanus quondam Alberti de Padua",
+      "label": "Michael, nepos quondam Uberti de Sancto Petro",
       "roles": [
         "signer"
       ],
-      "clan": "Padua"
+      "clan": "Sancto"
+    },
+    {
+      "id": "person_albertus quondam nicholai tabellio",
+      "type": "person",
+      "label": "Albertus quondam Nicholai tabellio",
+      "roles": [
+        "notary"
+      ]
+    },
+    {
+      "id": "person_uguicio frater quondam henrici de monteveglio",
+      "type": "person",
+      "label": "Uguicio, frater quondam Henrici de Monteveglio",
+      "roles": [
+        "signer"
+      ],
+      "clan": "Monteveglio"
+    },
+    {
+      "id": "person_azo heres quondam guidonis de lamola",
+      "type": "person",
+      "label": "Azo, heres quondam Guidonis de Lamola",
+      "roles": [
+        "signer"
+      ],
+      "clan": "Lamola"
+    },
+    {
+      "id": "person_albertinus quondam iohannis tabellio",
+      "type": "person",
+      "label": "Albertinus quondam Iohannis tabellio",
+      "roles": [
+        "notary"
+      ]
+    },
+    {
+      "id": "person_raynaldus filius quondam ubertini de persiceto",
+      "type": "person",
+      "label": "Raynaldus, filius quondam Ubertini de Persiceto",
+      "roles": [
+        "signer"
+      ],
+      "clan": "Persiceto"
+    },
+    {
+      "id": "person_iohannes quondam petri tabellio",
+      "type": "person",
+      "label": "Iohannes quondam Petri tabellio",
+      "roles": [
+        "notary"
+      ]
+    },
+    {
+      "id": "person_guido heres quondam albertini de montebello",
+      "type": "person",
+      "label": "Guido, heres quondam Albertini de Montebello",
+      "roles": [
+        "signer"
+      ],
+      "clan": "Montebello"
     },
     {
       "id": "person_uguicio quondam iacobini tabellio",
       "type": "person",
       "label": "Uguicio quondam Iacobini tabellio",
-      "roles": [
-        "notary"
-      ]
-    },
-    {
-      "id": "person_ventura germanus quondam petri de vallibus",
-      "type": "person",
-      "label": "Ventura, germanus quondam Petri de Vallibus",
-      "roles": [
-        "signer"
-      ],
-      "clan": "Vallibus"
-    },
-    {
-      "id": "person_bonaventura quondam guidonis tabellio",
-      "type": "person",
-      "label": "Bonaventura quondam Guidonis tabellio",
-      "roles": [
-        "notary"
-      ]
-    },
-    {
-      "id": "person_albertus filius quondam guidonis de aon",
-      "type": "person",
-      "label": "Albertus, filius quondam Guidonis de Açon",
-      "roles": [
-        "signer"
-      ],
-      "clan": "A"
-    },
-    {
-      "id": "person_bartholomeus filius quondam raynaldi tabellio",
-      "type": "person",
-      "label": "Bartholomeus filius quondam Raynaldi tabellio",
       "roles": [
         "notary"
       ]
@@ -61,54 +87,48 @@
       "clan": "Sancto"
     },
     {
-      "id": "person_albertinus quondam iohannis tabellio",
+      "id": "person_ventura germanus quondam petri de vallibus",
       "type": "person",
-      "label": "Albertinus quondam Iohannis tabellio",
-      "roles": [
-        "notary"
-      ]
-    },
-    {
-      "id": "person_rolandinus filius quondam alberti de solario",
-      "type": "person",
-      "label": "Rolandinus, filius quondam Alberti de Solario",
+      "label": "Ventura, germanus quondam Petri de Vallibus",
       "roles": [
         "signer"
       ],
-      "clan": "Solario"
+      "clan": "Vallibus"
     },
     {
-      "id": "person_gerardus quondam alberti tabellio",
+      "id": "person_bartholomeus filius quondam raynaldi tabellio",
       "type": "person",
-      "label": "Gerardus quondam Alberti tabellio",
+      "label": "Bartholomeus filius quondam Raynaldi tabellio",
       "roles": [
         "notary"
       ]
     },
     {
-      "id": "person_guizardus filius quondam gerardi tabellio",
+      "id": "person_lanfrancus filius quondam lanfranci de rovigo",
       "type": "person",
-      "label": "Guizardus filius quondam Gerardi tabellio",
-      "roles": [
-        "notary"
-      ]
-    },
-    {
-      "id": "person_iohannes heres ugonis de sablono",
-      "type": "person",
-      "label": "Iohannes, heres Ugonis de Sablono",
+      "label": "Lanfrancus, filius quondam Lanfranci de Rovigo",
       "roles": [
         "signer"
       ],
-      "clan": "Sablono"
+      "clan": "Rovigo"
     },
     {
-      "id": "person_iohannes quondam petri tabellio",
+      "id": "person_albertus filius quondam guidonis de aon",
       "type": "person",
-      "label": "Iohannes quondam Petri tabellio",
+      "label": "Albertus, filius quondam Guidonis de Açon",
       "roles": [
-        "notary"
-      ]
+        "signer"
+      ],
+      "clan": "A"
+    },
+    {
+      "id": "person_iacobinus nepos quondam guizardi de castrofranco",
+      "type": "person",
+      "label": "Iacobinus, nepos quondam Guizardi de Castrofranco",
+      "roles": [
+        "signer"
+      ],
+      "clan": "Castrofranco"
     },
     {
       "id": "person_simon filius quondam rainaldi de zola",
@@ -129,22 +149,20 @@
       "clan": "Crevalcore"
     },
     {
-      "id": "person_iacobinus nepos quondam guizardi de castrofranco",
+      "id": "person_gerardus quondam alberti tabellio",
       "type": "person",
-      "label": "Iacobinus, nepos quondam Guizardi de Castrofranco",
+      "label": "Gerardus quondam Alberti tabellio",
       "roles": [
-        "signer"
-      ],
-      "clan": "Castrofranco"
+        "notary"
+      ]
     },
     {
-      "id": "person_nicholaus filius quondam gerardi de savignano",
+      "id": "person_rolandinus quondam bonacursi tabellio",
       "type": "person",
-      "label": "Nicholaus, filius quondam Gerardi de Savignano",
+      "label": "Rolandinus quondam Bonacursi tabellio",
       "roles": [
-        "signer"
-      ],
-      "clan": "Savignano"
+        "notary"
+      ]
     },
     {
       "id": "person_bonacursus filius quondam iohannis de crepacorio",
@@ -156,6 +174,31 @@
       "clan": "Crepacorio"
     },
     {
+      "id": "person_bonaventura quondam guidonis tabellio",
+      "type": "person",
+      "label": "Bonaventura quondam Guidonis tabellio",
+      "roles": [
+        "notary"
+      ]
+    },
+    {
+      "id": "person_nicholaus filius quondam gerardi de savignano",
+      "type": "person",
+      "label": "Nicholaus, filius quondam Gerardi de Savignano",
+      "roles": [
+        "signer"
+      ],
+      "clan": "Savignano"
+    },
+    {
+      "id": "person_guizardus filius quondam gerardi tabellio",
+      "type": "person",
+      "label": "Guizardus filius quondam Gerardi tabellio",
+      "roles": [
+        "notary"
+      ]
+    },
+    {
       "id": "person_aldrevandinus filius quondam bonacursi de flesso",
       "type": "person",
       "label": "Aldrevandinus, filius quondam Bonacursi de Flesso",
@@ -163,111 +206,6 @@
         "signer"
       ],
       "clan": "Flesso"
-    },
-    {
-      "id": "person_albertus quondam nicholai tabellio",
-      "type": "person",
-      "label": "Albertus quondam Nicholai tabellio",
-      "roles": [
-        "notary"
-      ]
-    },
-    {
-      "id": "person_ubertinus nepos quondam federici de calcaria",
-      "type": "person",
-      "label": "Ubertinus, nepos quondam Federici de Calcaria",
-      "roles": [
-        "signer"
-      ],
-      "clan": "Calcaria"
-    },
-    {
-      "id": "person_uguicio frater quondam henrici de monteveglio",
-      "type": "person",
-      "label": "Uguicio, frater quondam Henrici de Monteveglio",
-      "roles": [
-        "signer"
-      ],
-      "clan": "Monteveglio"
-    },
-    {
-      "id": "person_symon quondam ubertini tabellio",
-      "type": "person",
-      "label": "Symon quondam Ubertini tabellio",
-      "roles": [
-        "notary"
-      ]
-    },
-    {
-      "id": "person_raynaldus filius quondam ubertini de persiceto",
-      "type": "person",
-      "label": "Raynaldus, filius quondam Ubertini de Persiceto",
-      "roles": [
-        "signer"
-      ],
-      "clan": "Persiceto"
-    },
-    {
-      "id": "person_fredericus filius quondam petri de meledulo",
-      "type": "person",
-      "label": "Fredericus, filius quondam Petri de Meledulo",
-      "roles": [
-        "signer"
-      ],
-      "clan": "Meledulo"
-    },
-    {
-      "id": "person_michael nepos quondam uberti de sancto petro",
-      "type": "person",
-      "label": "Michael, nepos quondam Uberti de Sancto Petro",
-      "roles": [
-        "signer"
-      ],
-      "clan": "Sancto"
-    },
-    {
-      "id": "person_rolandinus quondam bonacursi tabellio",
-      "type": "person",
-      "label": "Rolandinus quondam Bonacursi tabellio",
-      "roles": [
-        "notary"
-      ]
-    },
-    {
-      "id": "person_guido heres quondam albertini de montebello",
-      "type": "person",
-      "label": "Guido, heres quondam Albertini de Montebello",
-      "roles": [
-        "signer"
-      ],
-      "clan": "Montebello"
-    },
-    {
-      "id": "person_azo heres quondam guidonis de lamola",
-      "type": "person",
-      "label": "Azo, heres quondam Guidonis de Lamola",
-      "roles": [
-        "signer"
-      ],
-      "clan": "Lamola"
-    },
-    {
-      "id": "person_matheus frater quondam iohannis de anzola",
-      "type": "person",
-      "label": "Matheus, frater quondam Iohannis de Anzola",
-      "roles": [
-        "signer"
-      ],
-      "clan": "Anzola"
-    },
-    {
-      "id": "person_lanfrancus filius quondam lanfranci de rovigo",
-      "type": "person",
-      "label": "Lanfrancus, filius quondam Lanfranci de Rovigo",
-      "roles": [
-        "signer"
-      ],
-      "clan": "Rovigo"
     },
     {
       "id": "person_bonincontrus germanus quondam guidonis de casalecchio",
@@ -279,73 +217,66 @@
       "clan": "Casalecchio"
     },
     {
-      "id": "institution_monasterium sancti georgii",
-      "type": "institution",
-      "label": "Monasterium Sancti Georgii"
+      "id": "person_symon quondam ubertini tabellio",
+      "type": "person",
+      "label": "Symon quondam Ubertini tabellio",
+      "roles": [
+        "notary"
+      ]
     },
     {
-      "id": "place_in curia montisveglij",
-      "type": "place",
-      "label": "in curia Montisveglij"
+      "id": "person_rolandinus filius quondam alberti de solario",
+      "type": "person",
+      "label": "Rolandinus, filius quondam Alberti de Solario",
+      "roles": [
+        "signer"
+      ],
+      "clan": "Solario"
     },
     {
-      "id": "instrumentum_venditionis_1103_01",
-      "type": "document",
-      "label": "Instrumentum venditionis",
-      "date": "1103-06-07",
-      "docType": "Instrumentum venditionis",
-      "archive": "Archivio di Stato di Bologna, Corporazioni religiose soppresse",
-      "fileId": "instrumentum_venditionis_1103_01"
+      "id": "person_fredericus filius quondam petri de meledulo",
+      "type": "person",
+      "label": "Fredericus, filius quondam Petri de Meledulo",
+      "roles": [
+        "signer"
+      ],
+      "clan": "Meledulo"
     },
     {
-      "id": "doctype_instrumentum venditionis",
-      "type": "document_type",
-      "label": "Instrumentum venditionis"
+      "id": "person_ubertinus nepos quondam federici de calcaria",
+      "type": "person",
+      "label": "Ubertinus, nepos quondam Federici de Calcaria",
+      "roles": [
+        "signer"
+      ],
+      "clan": "Calcaria"
     },
     {
-      "id": "institution_monasterium sancti iohannis",
-      "type": "institution",
-      "label": "Monasterium Sancti Iohannis"
+      "id": "person_martinus germanus quondam alberti de padua",
+      "type": "person",
+      "label": "Martinus, germanus quondam Alberti de Padua",
+      "roles": [
+        "signer"
+      ],
+      "clan": "Padua"
     },
     {
-      "id": "place_in curia casalecchii",
-      "type": "place",
-      "label": "in curia Casalecchii"
+      "id": "person_matheus frater quondam iohannis de anzola",
+      "type": "person",
+      "label": "Matheus, frater quondam Iohannis de Anzola",
+      "roles": [
+        "signer"
+      ],
+      "clan": "Anzola"
     },
     {
-      "id": "place_in capella sancte marie maioris",
-      "type": "place",
-      "label": "in capella Sancte Marie Maioris"
-    },
-    {
-      "id": "place_in capella sancti donati",
-      "type": "place",
-      "label": "in capella Sancti Donati"
-    },
-    {
-      "id": "institution_monasterium sancti stephani",
-      "type": "institution",
-      "label": "Monasterium Sancti Stephani"
-    },
-    {
-      "id": "place_in civitate bononie",
-      "type": "place",
-      "label": "in civitate Bononie"
-    },
-    {
-      "id": "institution_monasterium sancti benedicti",
-      "type": "institution",
-      "label": "Monasterium Sancti Benedicti"
-    },
-    {
-      "id": "place_in capella sancte cecilie",
-      "type": "place",
-      "label": "in capella Sancte Cecilie"
-    },
-    {
-      "id": "institution_monasterium sancti pauli",
-      "type": "institution",
-      "label": "Monasterium Sancti Pauli"
+      "id": "person_iohannes heres ugonis de sablono",
+      "type": "person",
+      "label": "Iohannes, heres Ugonis de Sablono",
+      "roles": [
+        "signer"
+      ],
+      "clan": "Sablono"
     },
     {
       "id": "institution_monasterium sancti petri",
@@ -353,34 +284,23 @@
       "label": "Monasterium Sancti Petri"
     },
     {
-      "id": "institution_monasterium sancti dominici",
-      "type": "institution",
-      "label": "Monasterium Sancti Dominici"
-    },
-    {
       "id": "place_in burgo sancti felicis",
       "type": "place",
       "label": "in burgo Sancti Felicis"
     },
     {
-      "id": "institution_monasterium sancti laurentii",
-      "type": "institution",
-      "label": "Monasterium Sancti Laurentii"
+      "id": "instrumentum_venditionis_1102_01",
+      "type": "document",
+      "label": "Instrumentum venditionis",
+      "date": "1102-06-13",
+      "docType": "Instrumentum venditionis",
+      "archive": "Archivio Capitolare di San Pietro",
+      "fileId": "instrumentum_venditionis_1102_01"
     },
     {
-      "id": "place_in capella sancti proculi",
-      "type": "place",
-      "label": "in capella Sancti Proculi"
-    },
-    {
-      "id": "institution_monasterium sancti marie",
-      "type": "institution",
-      "label": "Monasterium Sancti Marie"
-    },
-    {
-      "id": "place_in curia crepacorii",
-      "type": "place",
-      "label": "in curia Crepacorii"
+      "id": "doctype_instrumentum venditionis",
+      "type": "document_type",
+      "label": "Instrumentum venditionis"
     },
     {
       "id": "institution_monasterium sancti michaelis",
@@ -388,9 +308,59 @@
       "label": "Monasterium Sancti Michaelis"
     },
     {
-      "id": "place_in strata sancti donati",
+      "id": "place_in curia casalecchii",
       "type": "place",
-      "label": "in strata Sancti Donati"
+      "label": "in curia Casalecchii"
+    },
+    {
+      "id": "institution_monasterium sancti marie",
+      "type": "institution",
+      "label": "Monasterium Sancti Marie"
+    },
+    {
+      "id": "place_in capella sancte marie maioris",
+      "type": "place",
+      "label": "in capella Sancte Marie Maioris"
+    },
+    {
+      "id": "place_in curia montisveglij",
+      "type": "place",
+      "label": "in curia Montisveglij"
+    },
+    {
+      "id": "institution_monasterium sancti dominici",
+      "type": "institution",
+      "label": "Monasterium Sancti Dominici"
+    },
+    {
+      "id": "place_in curia crepacorii",
+      "type": "place",
+      "label": "in curia Crepacorii"
+    },
+    {
+      "id": "institution_monasterium sancti georgii",
+      "type": "institution",
+      "label": "Monasterium Sancti Georgii"
+    },
+    {
+      "id": "place_in capella sancti donati",
+      "type": "place",
+      "label": "in capella Sancti Donati"
+    },
+    {
+      "id": "institution_monasterium sancti pauli",
+      "type": "institution",
+      "label": "Monasterium Sancti Pauli"
+    },
+    {
+      "id": "place_bononie",
+      "type": "place",
+      "label": "Bononie"
+    },
+    {
+      "id": "institution_monasterium sancti benedicti",
+      "type": "institution",
+      "label": "Monasterium Sancti Benedicti"
     },
     {
       "id": "place_in burgo sancti stephani",
@@ -398,9 +368,39 @@
       "label": "in burgo Sancti Stephani"
     },
     {
-      "id": "place_bononie",
+      "id": "place_in capella sancte cecilie",
       "type": "place",
-      "label": "Bononie"
+      "label": "in capella Sancte Cecilie"
+    },
+    {
+      "id": "place_in civitate bononie",
+      "type": "place",
+      "label": "in civitate Bononie"
+    },
+    {
+      "id": "place_in strata sancti donati",
+      "type": "place",
+      "label": "in strata Sancti Donati"
+    },
+    {
+      "id": "institution_monasterium sancti laurentii",
+      "type": "institution",
+      "label": "Monasterium Sancti Laurentii"
+    },
+    {
+      "id": "institution_monasterium sancti iohannis",
+      "type": "institution",
+      "label": "Monasterium Sancti Iohannis"
+    },
+    {
+      "id": "place_in capella sancti proculi",
+      "type": "place",
+      "label": "in capella Sancti Proculi"
+    },
+    {
+      "id": "institution_monasterium sancti stephani",
+      "type": "institution",
+      "label": "Monasterium Sancti Stephani"
     },
     {
       "id": "place_in castro sancti iohannis in persiceto",
@@ -413,9 +413,33 @@
       "label": "apud ecclesiam Sancti Petri"
     },
     {
-      "id": "clan_padua",
+      "id": "clan_sancto",
       "type": "clan",
-      "label": "Padua",
+      "label": "Sancto",
+      "memberCount": 2
+    },
+    {
+      "id": "clan_monteveglio",
+      "type": "clan",
+      "label": "Monteveglio",
+      "memberCount": 1
+    },
+    {
+      "id": "clan_lamola",
+      "type": "clan",
+      "label": "Lamola",
+      "memberCount": 1
+    },
+    {
+      "id": "clan_persiceto",
+      "type": "clan",
+      "label": "Persiceto",
+      "memberCount": 1
+    },
+    {
+      "id": "clan_montebello",
+      "type": "clan",
+      "label": "Montebello",
       "memberCount": 1
     },
     {
@@ -425,27 +449,21 @@
       "memberCount": 1
     },
     {
+      "id": "clan_rovigo",
+      "type": "clan",
+      "label": "Rovigo",
+      "memberCount": 1
+    },
+    {
       "id": "clan_a",
       "type": "clan",
       "label": "A",
       "memberCount": 1
     },
     {
-      "id": "clan_sancto",
+      "id": "clan_castrofranco",
       "type": "clan",
-      "label": "Sancto",
-      "memberCount": 2
-    },
-    {
-      "id": "clan_solario",
-      "type": "clan",
-      "label": "Solario",
-      "memberCount": 1
-    },
-    {
-      "id": "clan_sablono",
-      "type": "clan",
-      "label": "Sablono",
+      "label": "Castrofranco",
       "memberCount": 1
     },
     {
@@ -461,9 +479,9 @@
       "memberCount": 1
     },
     {
-      "id": "clan_castrofranco",
+      "id": "clan_crepacorio",
       "type": "clan",
-      "label": "Castrofranco",
+      "label": "Crepacorio",
       "memberCount": 1
     },
     {
@@ -473,33 +491,21 @@
       "memberCount": 1
     },
     {
-      "id": "clan_crepacorio",
-      "type": "clan",
-      "label": "Crepacorio",
-      "memberCount": 1
-    },
-    {
       "id": "clan_flesso",
       "type": "clan",
       "label": "Flesso",
       "memberCount": 1
     },
     {
-      "id": "clan_calcaria",
+      "id": "clan_casalecchio",
       "type": "clan",
-      "label": "Calcaria",
+      "label": "Casalecchio",
       "memberCount": 1
     },
     {
-      "id": "clan_monteveglio",
+      "id": "clan_solario",
       "type": "clan",
-      "label": "Monteveglio",
-      "memberCount": 1
-    },
-    {
-      "id": "clan_persiceto",
-      "type": "clan",
-      "label": "Persiceto",
+      "label": "Solario",
       "memberCount": 1
     },
     {
@@ -509,15 +515,15 @@
       "memberCount": 1
     },
     {
-      "id": "clan_montebello",
+      "id": "clan_calcaria",
       "type": "clan",
-      "label": "Montebello",
+      "label": "Calcaria",
       "memberCount": 1
     },
     {
-      "id": "clan_lamola",
+      "id": "clan_padua",
       "type": "clan",
-      "label": "Lamola",
+      "label": "Padua",
       "memberCount": 1
     },
     {
@@ -527,81 +533,120 @@
       "memberCount": 1
     },
     {
-      "id": "clan_rovigo",
+      "id": "clan_sablono",
       "type": "clan",
-      "label": "Rovigo",
-      "memberCount": 1
-    },
-    {
-      "id": "clan_casalecchio",
-      "type": "clan",
-      "label": "Casalecchio",
+      "label": "Sablono",
       "memberCount": 1
     }
   ],
   "edges": [
     {
-      "source": "person_martinus germanus quondam alberti de padua",
-      "target": "instrumentum_venditionis_1103_01",
+      "source": "person_michael nepos quondam uberti de sancto petro",
+      "target": "instrumentum_venditionis_1102_01",
       "type": "signs"
     },
     {
-      "source": "person_uguicio quondam iacobini tabellio",
-      "target": "instrumentum_venditionis_1103_01",
+      "source": "person_albertus quondam nicholai tabellio",
+      "target": "instrumentum_venditionis_1102_01",
       "type": "notarizes"
     },
     {
-      "source": "institution_monasterium sancti georgii",
-      "target": "instrumentum_venditionis_1103_01",
+      "source": "institution_monasterium sancti petri",
+      "target": "instrumentum_venditionis_1102_01",
       "type": "receives"
     },
     {
-      "source": "instrumentum_venditionis_1103_01",
+      "source": "instrumentum_venditionis_1102_01",
       "target": "doctype_instrumentum venditionis",
       "type": "has_type"
     },
     {
-      "source": "instrumentum_venditionis_1103_01",
-      "target": "place_in curia montisveglij",
+      "source": "instrumentum_venditionis_1102_01",
+      "target": "place_in burgo sancti felicis",
       "type": "created_in"
     },
     {
-      "source": "person_ventura germanus quondam petri de vallibus",
-      "target": "instrumentum_venditionis_1105_01",
+      "source": "person_uguicio frater quondam henrici de monteveglio",
+      "target": "instrumentum_venditionis_1103_01",
       "type": "signs"
     },
     {
-      "source": "person_bonaventura quondam guidonis tabellio",
-      "target": "instrumentum_venditionis_1105_01",
-      "type": "notarizes"
-    },
-    {
-      "source": "institution_monasterium sancti iohannis",
-      "target": "instrumentum_venditionis_1105_01",
+      "source": "institution_monasterium sancti michaelis",
+      "target": "instrumentum_venditionis_1103_01",
       "type": "receives"
     },
     {
-      "source": "instrumentum_venditionis_1105_01",
+      "source": "instrumentum_venditionis_1103_01",
       "target": "doctype_instrumentum venditionis",
       "type": "has_type"
     },
     {
-      "source": "instrumentum_venditionis_1105_01",
+      "source": "instrumentum_venditionis_1103_01",
       "target": "place_in curia casalecchii",
       "type": "created_in"
     },
     {
-      "source": "person_albertus filius quondam guidonis de aon",
+      "source": "person_azo heres quondam guidonis de lamola",
+      "target": "instrumentum_venditionis_1104_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_albertinus quondam iohannis tabellio",
+      "target": "instrumentum_venditionis_1104_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti marie",
+      "target": "instrumentum_venditionis_1104_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1104_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1104_01",
+      "target": "place_in capella sancte marie maioris",
+      "type": "created_in"
+    },
+    {
+      "source": "person_raynaldus filius quondam ubertini de persiceto",
+      "target": "instrumentum_venditionis_1105_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_iohannes quondam petri tabellio",
+      "target": "instrumentum_venditionis_1105_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti marie",
+      "target": "instrumentum_venditionis_1105_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1105_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1105_01",
+      "target": "place_in curia montisveglij",
+      "type": "created_in"
+    },
+    {
+      "source": "person_guido heres quondam albertini de montebello",
       "target": "instrumentum_venditionis_1106_01",
       "type": "signs"
     },
     {
-      "source": "person_bartholomeus filius quondam raynaldi tabellio",
+      "source": "person_uguicio quondam iacobini tabellio",
       "target": "instrumentum_venditionis_1106_01",
       "type": "notarizes"
     },
     {
-      "source": "institution_monasterium sancti georgii",
+      "source": "institution_monasterium sancti dominici",
       "target": "instrumentum_venditionis_1106_01",
       "type": "receives"
     },
@@ -612,7 +657,7 @@
     },
     {
       "source": "instrumentum_venditionis_1106_01",
-      "target": "place_in capella sancte marie maioris",
+      "target": "place_in curia crepacorii",
       "type": "created_in"
     },
     {
@@ -641,17 +686,17 @@
       "type": "created_in"
     },
     {
-      "source": "person_rolandinus filius quondam alberti de solario",
+      "source": "person_ventura germanus quondam petri de vallibus",
       "target": "instrumentum_venditionis_1111_01",
       "type": "signs"
     },
     {
-      "source": "person_gerardus quondam alberti tabellio",
+      "source": "person_bartholomeus filius quondam raynaldi tabellio",
       "target": "instrumentum_venditionis_1111_01",
       "type": "notarizes"
     },
     {
-      "source": "institution_monasterium sancti iohannis",
+      "source": "institution_monasterium sancti dominici",
       "target": "instrumentum_venditionis_1111_01",
       "type": "receives"
     },
@@ -666,42 +711,87 @@
       "type": "created_in"
     },
     {
-      "source": "person_petrus filius quondam bonaventure de sancto iohanne",
-      "target": "instrumentum_venditionis_1113_01",
+      "source": "person_lanfrancus filius quondam lanfranci de rovigo",
+      "target": "instrumentum_venditionis_1111_02",
       "type": "signs"
     },
     {
-      "source": "person_guizardus filius quondam gerardi tabellio",
-      "target": "instrumentum_venditionis_1113_01",
+      "source": "person_albertus quondam nicholai tabellio",
+      "target": "instrumentum_venditionis_1111_02",
       "type": "notarizes"
     },
     {
-      "source": "institution_monasterium sancti stephani",
-      "target": "instrumentum_venditionis_1113_01",
+      "source": "institution_monasterium sancti pauli",
+      "target": "instrumentum_venditionis_1111_02",
       "type": "receives"
     },
     {
-      "source": "instrumentum_venditionis_1113_01",
+      "source": "instrumentum_venditionis_1111_02",
       "target": "doctype_instrumentum venditionis",
       "type": "has_type"
     },
     {
-      "source": "instrumentum_venditionis_1113_01",
-      "target": "place_in civitate bononie",
+      "source": "instrumentum_venditionis_1111_02",
+      "target": "place_bononie",
       "type": "created_in"
     },
     {
-      "source": "person_iohannes heres ugonis de sablono",
-      "target": "instrumentum_venditionis_1114_01",
+      "source": "person_michael nepos quondam uberti de sancto petro",
+      "target": "instrumentum_venditionis_1112_01",
       "type": "signs"
     },
     {
       "source": "person_iohannes quondam petri tabellio",
-      "target": "instrumentum_venditionis_1114_01",
+      "target": "instrumentum_venditionis_1112_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti marie",
+      "target": "instrumentum_venditionis_1112_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1112_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1112_01",
+      "target": "place_in burgo sancti felicis",
+      "type": "created_in"
+    },
+    {
+      "source": "person_albertus filius quondam guidonis de aon",
+      "target": "instrumentum_venditionis_1113_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_albertus quondam nicholai tabellio",
+      "target": "instrumentum_venditionis_1113_01",
       "type": "notarizes"
     },
     {
       "source": "institution_monasterium sancti benedicti",
+      "target": "instrumentum_venditionis_1113_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1113_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1113_01",
+      "target": "place_in curia casalecchii",
+      "type": "created_in"
+    },
+    {
+      "source": "person_iacobinus nepos quondam guizardi de castrofranco",
+      "target": "instrumentum_venditionis_1114_01",
+      "type": "signs"
+    },
+    {
+      "source": "institution_monasterium sancti dominici",
       "target": "instrumentum_venditionis_1114_01",
       "type": "receives"
     },
@@ -712,7 +802,7 @@
     },
     {
       "source": "instrumentum_venditionis_1114_01",
-      "target": "place_in capella sancte cecilie",
+      "target": "place_in burgo sancti stephani",
       "type": "created_in"
     },
     {
@@ -791,17 +881,17 @@
       "type": "created_in"
     },
     {
-      "source": "person_iohannes heres ugonis de sablono",
+      "source": "person_lanfrancus filius quondam lanfranci de rovigo",
       "target": "instrumentum_venditionis_1116_01",
       "type": "signs"
     },
     {
-      "source": "person_iohannes quondam petri tabellio",
+      "source": "person_rolandinus quondam bonacursi tabellio",
       "target": "instrumentum_venditionis_1116_01",
       "type": "notarizes"
     },
     {
-      "source": "institution_monasterium sancti pauli",
+      "source": "institution_monasterium sancti michaelis",
       "target": "instrumentum_venditionis_1116_01",
       "type": "receives"
     },
@@ -812,7 +902,7 @@
     },
     {
       "source": "instrumentum_venditionis_1116_01",
-      "target": "place_in capella sancte cecilie",
+      "target": "place_in curia casalecchii",
       "type": "created_in"
     },
     {
@@ -866,17 +956,42 @@
       "type": "created_in"
     },
     {
-      "source": "person_ventura germanus quondam petri de vallibus",
-      "target": "instrumentum_venditionis_1118_01",
+      "source": "person_azo heres quondam guidonis de lamola",
+      "target": "instrumentum_venditionis_1117_01",
       "type": "signs"
     },
     {
-      "source": "person_guizardus filius quondam gerardi tabellio",
-      "target": "instrumentum_venditionis_1118_01",
+      "source": "person_albertinus quondam iohannis tabellio",
+      "target": "instrumentum_venditionis_1117_01",
       "type": "notarizes"
     },
     {
       "source": "institution_monasterium sancti dominici",
+      "target": "instrumentum_venditionis_1117_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1117_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1117_01",
+      "target": "place_in strata sancti donati",
+      "type": "created_in"
+    },
+    {
+      "source": "person_bonacursus filius quondam iohannis de crepacorio",
+      "target": "instrumentum_venditionis_1118_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_bonaventura quondam guidonis tabellio",
+      "target": "instrumentum_venditionis_1118_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti marie",
       "target": "instrumentum_venditionis_1118_01",
       "type": "receives"
     },
@@ -887,7 +1002,32 @@
     },
     {
       "source": "instrumentum_venditionis_1118_01",
-      "target": "place_in capella sancte cecilie",
+      "target": "place_in civitate bononie",
+      "type": "created_in"
+    },
+    {
+      "source": "person_michael nepos quondam uberti de sancto petro",
+      "target": "instrumentum_venditionis_1118_02",
+      "type": "signs"
+    },
+    {
+      "source": "person_uguicio quondam iacobini tabellio",
+      "target": "instrumentum_venditionis_1118_02",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti petri",
+      "target": "instrumentum_venditionis_1118_02",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1118_02",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1118_02",
+      "target": "place_in capella sancti donati",
       "type": "created_in"
     },
     {
@@ -941,67 +1081,292 @@
       "type": "created_in"
     },
     {
+      "source": "person_guido heres quondam albertini de montebello",
+      "target": "instrumentum_venditionis_1122_01",
+      "type": "signs"
+    },
+    {
+      "source": "institution_monasterium sancti stephani",
+      "target": "instrumentum_venditionis_1122_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1122_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1122_01",
+      "target": "place_in burgo sancti felicis",
+      "type": "created_in"
+    },
+    {
       "source": "person_aldrevandinus filius quondam bonacursi de flesso",
+      "target": "instrumentum_venditionis_1122_02",
+      "type": "signs"
+    },
+    {
+      "source": "person_iohannes quondam petri tabellio",
+      "target": "instrumentum_venditionis_1122_02",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti michaelis",
+      "target": "instrumentum_venditionis_1122_02",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1122_02",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1122_02",
+      "target": "place_in capella sancti donati",
+      "type": "created_in"
+    },
+    {
+      "source": "person_bonincontrus germanus quondam guidonis de casalecchio",
       "target": "instrumentum_venditionis_1123_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_symon quondam ubertini tabellio",
+      "target": "instrumentum_venditionis_1123_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti petri",
+      "target": "instrumentum_venditionis_1123_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1123_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1123_01",
+      "target": "place_in curia casalecchii",
+      "type": "created_in"
+    },
+    {
+      "source": "person_simon filius quondam rainaldi de zola",
+      "target": "instrumentum_venditionis_1124_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_rolandinus quondam bonacursi tabellio",
+      "target": "instrumentum_venditionis_1124_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti stephani",
+      "target": "instrumentum_venditionis_1124_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1124_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1124_01",
+      "target": "place_in strata sancti donati",
+      "type": "created_in"
+    },
+    {
+      "source": "person_rolandinus filius quondam alberti de solario",
+      "target": "instrumentum_venditionis_1124_02",
+      "type": "signs"
+    },
+    {
+      "source": "institution_monasterium sancti dominici",
+      "target": "instrumentum_venditionis_1124_02",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1124_02",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1124_02",
+      "target": "place_in curia montisveglij",
+      "type": "created_in"
+    },
+    {
+      "source": "person_fredericus filius quondam petri de meledulo",
+      "target": "instrumentum_venditionis_1125_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_symon quondam ubertini tabellio",
+      "target": "instrumentum_venditionis_1125_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti georgii",
+      "target": "instrumentum_venditionis_1125_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1125_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1125_01",
+      "target": "place_in strata sancti donati",
+      "type": "created_in"
+    },
+    {
+      "source": "person_bonacursus filius quondam iohannis de crepacorio",
+      "target": "instrumentum_venditionis_1126_01",
+      "type": "signs"
+    },
+    {
+      "source": "institution_monasterium sancti iohannis",
+      "target": "instrumentum_venditionis_1126_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1126_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1126_01",
+      "target": "place_in curia montisveglij",
+      "type": "created_in"
+    },
+    {
+      "source": "person_ubertinus nepos quondam federici de calcaria",
+      "target": "instrumentum_venditionis_1128_01",
+      "type": "signs"
+    },
+    {
+      "source": "institution_monasterium sancti georgii",
+      "target": "instrumentum_venditionis_1128_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1128_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1128_01",
+      "target": "place_in capella sancte marie maioris",
+      "type": "created_in"
+    },
+    {
+      "source": "person_uguicio frater quondam henrici de monteveglio",
+      "target": "instrumentum_venditionis_1128_02",
+      "type": "signs"
+    },
+    {
+      "source": "person_symon quondam ubertini tabellio",
+      "target": "instrumentum_venditionis_1128_02",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti benedicti",
+      "target": "instrumentum_venditionis_1128_02",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1128_02",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1128_02",
+      "target": "place_in capella sancte marie maioris",
+      "type": "created_in"
+    },
+    {
+      "source": "person_bonacursus filius quondam iohannis de crepacorio",
+      "target": "instrumentum_venditionis_1131_01",
       "type": "signs"
     },
     {
       "source": "person_albertinus quondam iohannis tabellio",
-      "target": "instrumentum_venditionis_1123_01",
+      "target": "instrumentum_venditionis_1131_01",
       "type": "notarizes"
     },
     {
       "source": "institution_monasterium sancti iohannis",
-      "target": "instrumentum_venditionis_1123_01",
+      "target": "instrumentum_venditionis_1131_01",
       "type": "receives"
     },
     {
-      "source": "instrumentum_venditionis_1123_01",
+      "source": "instrumentum_venditionis_1131_01",
       "target": "doctype_instrumentum venditionis",
       "type": "has_type"
     },
     {
-      "source": "instrumentum_venditionis_1123_01",
-      "target": "place_in burgo sancti felicis",
-      "type": "created_in"
-    },
-    {
-      "source": "person_albertus filius quondam guidonis de aon",
-      "target": "instrumentum_venditionis_1125_01",
-      "type": "signs"
-    },
-    {
-      "source": "person_albertus quondam nicholai tabellio",
-      "target": "instrumentum_venditionis_1125_01",
-      "type": "notarizes"
-    },
-    {
-      "source": "institution_monasterium sancti iohannis",
-      "target": "instrumentum_venditionis_1125_01",
-      "type": "receives"
-    },
-    {
-      "source": "instrumentum_venditionis_1125_01",
-      "target": "doctype_instrumentum venditionis",
-      "type": "has_type"
-    },
-    {
-      "source": "instrumentum_venditionis_1125_01",
+      "source": "instrumentum_venditionis_1131_01",
       "target": "place_in civitate bononie",
       "type": "created_in"
     },
     {
-      "source": "person_ventura germanus quondam petri de vallibus",
+      "source": "person_raynaldus filius quondam ubertini de persiceto",
+      "target": "instrumentum_venditionis_1132_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_bonaventura quondam guidonis tabellio",
+      "target": "instrumentum_venditionis_1132_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti dominici",
+      "target": "instrumentum_venditionis_1132_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1132_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1132_01",
+      "target": "place_in curia crepacorii",
+      "type": "created_in"
+    },
+    {
+      "source": "person_uguicio frater quondam henrici de monteveglio",
+      "target": "instrumentum_venditionis_1134_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_bartholomeus filius quondam raynaldi tabellio",
+      "target": "instrumentum_venditionis_1134_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti dominici",
+      "target": "instrumentum_venditionis_1134_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1134_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1134_01",
+      "target": "place_in capella sancti proculi",
+      "type": "created_in"
+    },
+    {
+      "source": "person_rolandinus filius quondam alberti de solario",
       "target": "instrumentum_venditionis_1137_01",
       "type": "signs"
     },
     {
-      "source": "person_guizardus filius quondam gerardi tabellio",
-      "target": "instrumentum_venditionis_1137_01",
-      "type": "notarizes"
-    },
-    {
-      "source": "institution_monasterium sancti marie",
+      "source": "institution_monasterium sancti benedicti",
       "target": "instrumentum_venditionis_1137_01",
       "type": "receives"
     },
@@ -1012,7 +1377,7 @@
     },
     {
       "source": "instrumentum_venditionis_1137_01",
-      "target": "place_in burgo sancti felicis",
+      "target": "place_bononie",
       "type": "created_in"
     },
     {
@@ -1041,12 +1406,12 @@
       "type": "created_in"
     },
     {
-      "source": "person_albertus filius quondam guidonis de aon",
+      "source": "person_ubertinus nepos quondam federici de calcaria",
       "target": "instrumentum_venditionis_1140_01",
       "type": "signs"
     },
     {
-      "source": "person_bartholomeus filius quondam raynaldi tabellio",
+      "source": "person_iohannes quondam petri tabellio",
       "target": "instrumentum_venditionis_1140_01",
       "type": "notarizes"
     },
@@ -1062,46 +1427,186 @@
     },
     {
       "source": "instrumentum_venditionis_1140_01",
-      "target": "place_in capella sancti proculi",
+      "target": "place_in capella sancte marie maioris",
       "type": "created_in"
     },
     {
-      "source": "person_petrus filius quondam bonaventure de sancto iohanne",
-      "target": "instrumentum_venditionis_1144_01",
+      "source": "person_ubertinus nepos quondam federici de calcaria",
+      "target": "instrumentum_venditionis_1140_02",
       "type": "signs"
     },
     {
-      "source": "person_gerardus quondam alberti tabellio",
-      "target": "instrumentum_venditionis_1144_01",
+      "source": "person_symon quondam ubertini tabellio",
+      "target": "instrumentum_venditionis_1140_02",
       "type": "notarizes"
     },
     {
-      "source": "institution_monasterium sancti michaelis",
-      "target": "instrumentum_venditionis_1144_01",
+      "source": "institution_monasterium sancti marie",
+      "target": "instrumentum_venditionis_1140_02",
       "type": "receives"
     },
     {
-      "source": "instrumentum_venditionis_1144_01",
+      "source": "instrumentum_venditionis_1140_02",
       "target": "doctype_instrumentum venditionis",
       "type": "has_type"
     },
     {
-      "source": "instrumentum_venditionis_1144_01",
-      "target": "place_in strata sancti donati",
+      "source": "instrumentum_venditionis_1140_02",
+      "target": "place_in castro sancti iohannis in persiceto",
       "type": "created_in"
     },
     {
-      "source": "person_uguicio frater quondam henrici de monteveglio",
-      "target": "instrumentum_venditionis_1147_01",
+      "source": "person_simon filius quondam rainaldi de zola",
+      "target": "instrumentum_venditionis_1141_01",
       "type": "signs"
     },
     {
-      "source": "person_guizardus filius quondam gerardi tabellio",
-      "target": "instrumentum_venditionis_1147_01",
+      "source": "person_symon quondam ubertini tabellio",
+      "target": "instrumentum_venditionis_1141_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti petri",
+      "target": "instrumentum_venditionis_1141_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1141_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1141_01",
+      "target": "place_in burgo sancti felicis",
+      "type": "created_in"
+    },
+    {
+      "source": "person_guido heres quondam albertini de montebello",
+      "target": "instrumentum_venditionis_1141_02",
+      "type": "signs"
+    },
+    {
+      "source": "person_bartholomeus filius quondam raynaldi tabellio",
+      "target": "instrumentum_venditionis_1141_02",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti benedicti",
+      "target": "instrumentum_venditionis_1141_02",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1141_02",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1141_02",
+      "target": "place_apud ecclesiam sancti petri",
+      "type": "created_in"
+    },
+    {
+      "source": "person_bonacursus filius quondam iohannis de crepacorio",
+      "target": "instrumentum_venditionis_1142_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_rolandinus quondam bonacursi tabellio",
+      "target": "instrumentum_venditionis_1142_01",
       "type": "notarizes"
     },
     {
       "source": "institution_monasterium sancti laurentii",
+      "target": "instrumentum_venditionis_1142_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1142_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1142_01",
+      "target": "place_in curia crepacorii",
+      "type": "created_in"
+    },
+    {
+      "source": "person_raynaldus filius quondam ubertini de persiceto",
+      "target": "instrumentum_venditionis_1143_01",
+      "type": "signs"
+    },
+    {
+      "source": "institution_monasterium sancti dominici",
+      "target": "instrumentum_venditionis_1143_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1143_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1143_01",
+      "target": "place_in curia montisveglij",
+      "type": "created_in"
+    },
+    {
+      "source": "person_martinus germanus quondam alberti de padua",
+      "target": "instrumentum_venditionis_1144_01",
+      "type": "signs"
+    },
+    {
+      "source": "institution_monasterium sancti pauli",
+      "target": "instrumentum_venditionis_1144_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1144_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1144_01",
+      "target": "place_in castro sancti iohannis in persiceto",
+      "type": "created_in"
+    },
+    {
+      "source": "person_albertus filius quondam guidonis de aon",
+      "target": "instrumentum_venditionis_1145_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_bartholomeus filius quondam raynaldi tabellio",
+      "target": "instrumentum_venditionis_1145_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti benedicti",
+      "target": "instrumentum_venditionis_1145_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1145_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1145_01",
+      "target": "place_in strata sancti donati",
+      "type": "created_in"
+    },
+    {
+      "source": "person_albertus filius quondam guidonis de aon",
+      "target": "instrumentum_venditionis_1147_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_albertus quondam nicholai tabellio",
+      "target": "instrumentum_venditionis_1147_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti pauli",
       "target": "instrumentum_venditionis_1147_01",
       "type": "receives"
     },
@@ -1112,7 +1617,177 @@
     },
     {
       "source": "instrumentum_venditionis_1147_01",
-      "target": "place_in capella sancte cecilie",
+      "target": "place_in curia casalecchii",
+      "type": "created_in"
+    },
+    {
+      "source": "person_bonacursus filius quondam iohannis de crepacorio",
+      "target": "instrumentum_venditionis_1147_02",
+      "type": "signs"
+    },
+    {
+      "source": "person_iohannes quondam petri tabellio",
+      "target": "instrumentum_venditionis_1147_02",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti georgii",
+      "target": "instrumentum_venditionis_1147_02",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1147_02",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1147_02",
+      "target": "place_in curia montisveglij",
+      "type": "created_in"
+    },
+    {
+      "source": "person_raynaldus filius quondam ubertini de persiceto",
+      "target": "instrumentum_venditionis_1149_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_albertus quondam nicholai tabellio",
+      "target": "instrumentum_venditionis_1149_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti benedicti",
+      "target": "instrumentum_venditionis_1149_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1149_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1149_01",
+      "target": "place_in capella sancte marie maioris",
+      "type": "created_in"
+    },
+    {
+      "source": "person_bonacursus filius quondam iohannis de crepacorio",
+      "target": "instrumentum_venditionis_1150_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_symon quondam ubertini tabellio",
+      "target": "instrumentum_venditionis_1150_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti pauli",
+      "target": "instrumentum_venditionis_1150_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1150_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1150_01",
+      "target": "place_in burgo sancti stephani",
+      "type": "created_in"
+    },
+    {
+      "source": "person_gerardus nepos quondam albertini de crevalcore",
+      "target": "instrumentum_venditionis_1151_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_iohannes quondam petri tabellio",
+      "target": "instrumentum_venditionis_1151_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti dominici",
+      "target": "instrumentum_venditionis_1151_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1151_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1151_01",
+      "target": "place_in capella sancte marie maioris",
+      "type": "created_in"
+    },
+    {
+      "source": "person_lanfrancus filius quondam lanfranci de rovigo",
+      "target": "instrumentum_venditionis_1152_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_uguicio quondam iacobini tabellio",
+      "target": "instrumentum_venditionis_1152_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti pauli",
+      "target": "instrumentum_venditionis_1152_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1152_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1152_01",
+      "target": "place_in capella sancti proculi",
+      "type": "created_in"
+    },
+    {
+      "source": "person_matheus frater quondam iohannis de anzola",
+      "target": "instrumentum_venditionis_1154_01",
+      "type": "signs"
+    },
+    {
+      "source": "institution_monasterium sancti marie",
+      "target": "instrumentum_venditionis_1154_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1154_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1154_01",
+      "target": "place_in burgo sancti felicis",
+      "type": "created_in"
+    },
+    {
+      "source": "person_gerardus nepos quondam albertini de crevalcore",
+      "target": "instrumentum_venditionis_1155_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_iohannes quondam petri tabellio",
+      "target": "instrumentum_venditionis_1155_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti benedicti",
+      "target": "instrumentum_venditionis_1155_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1155_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1155_01",
+      "target": "place_in civitate bononie",
       "type": "created_in"
     },
     {
@@ -1216,17 +1891,62 @@
       "type": "created_in"
     },
     {
-      "source": "person_raynaldus filius quondam ubertini de persiceto",
+      "source": "person_petrus filius quondam bonaventure de sancto iohanne",
+      "target": "instrumentum_venditionis_1161_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_guizardus filius quondam gerardi tabellio",
+      "target": "instrumentum_venditionis_1161_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti laurentii",
+      "target": "instrumentum_venditionis_1161_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1161_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1161_01",
+      "target": "place_in capella sancti donati",
+      "type": "created_in"
+    },
+    {
+      "source": "person_ubertinus nepos quondam federici de calcaria",
+      "target": "instrumentum_venditionis_1163_01",
+      "type": "signs"
+    },
+    {
+      "source": "institution_monasterium sancti marie",
+      "target": "instrumentum_venditionis_1163_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1163_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1163_01",
+      "target": "place_in capella sancte marie maioris",
+      "type": "created_in"
+    },
+    {
+      "source": "person_ventura germanus quondam petri de vallibus",
       "target": "instrumentum_venditionis_1166_01",
       "type": "signs"
     },
     {
-      "source": "person_gerardus quondam alberti tabellio",
+      "source": "person_albertinus quondam iohannis tabellio",
       "target": "instrumentum_venditionis_1166_01",
       "type": "notarizes"
     },
     {
-      "source": "institution_monasterium sancti pauli",
+      "source": "institution_monasterium sancti marie",
       "target": "instrumentum_venditionis_1166_01",
       "type": "receives"
     },
@@ -1237,7 +1957,7 @@
     },
     {
       "source": "instrumentum_venditionis_1166_01",
-      "target": "place_in castro sancti iohannis in persiceto",
+      "target": "place_in curia casalecchii",
       "type": "created_in"
     },
     {
@@ -1266,6 +1986,31 @@
       "type": "created_in"
     },
     {
+      "source": "person_ventura germanus quondam petri de vallibus",
+      "target": "instrumentum_venditionis_1167_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_gerardus quondam alberti tabellio",
+      "target": "instrumentum_venditionis_1167_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti marie",
+      "target": "instrumentum_venditionis_1167_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1167_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1167_01",
+      "target": "place_in curia montisveglij",
+      "type": "created_in"
+    },
+    {
       "source": "person_gerardus nepos quondam albertini de crevalcore",
       "target": "instrumentum_venditionis_1169_01",
       "type": "signs"
@@ -1288,6 +2033,51 @@
     {
       "source": "instrumentum_venditionis_1169_01",
       "target": "place_in curia casalecchii",
+      "type": "created_in"
+    },
+    {
+      "source": "person_martinus germanus quondam alberti de padua",
+      "target": "instrumentum_venditionis_1170_01",
+      "type": "signs"
+    },
+    {
+      "source": "institution_monasterium sancti stephani",
+      "target": "instrumentum_venditionis_1170_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1170_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1170_01",
+      "target": "place_in capella sancte cecilie",
+      "type": "created_in"
+    },
+    {
+      "source": "person_guido heres quondam albertini de montebello",
+      "target": "instrumentum_venditionis_1171_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_symon quondam ubertini tabellio",
+      "target": "instrumentum_venditionis_1171_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti georgii",
+      "target": "instrumentum_venditionis_1171_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1171_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1171_01",
+      "target": "place_in strata sancti donati",
       "type": "created_in"
     },
     {
@@ -1391,17 +2181,67 @@
       "type": "created_in"
     },
     {
-      "source": "person_martinus germanus quondam alberti de padua",
-      "target": "instrumentum_venditionis_1175_01",
+      "source": "person_iacobinus nepos quondam guizardi de castrofranco",
+      "target": "instrumentum_venditionis_1174_01",
       "type": "signs"
     },
     {
-      "source": "person_gerardus quondam alberti tabellio",
-      "target": "instrumentum_venditionis_1175_01",
+      "source": "person_bartholomeus filius quondam raynaldi tabellio",
+      "target": "instrumentum_venditionis_1174_01",
       "type": "notarizes"
     },
     {
       "source": "institution_monasterium sancti pauli",
+      "target": "instrumentum_venditionis_1174_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1174_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1174_01",
+      "target": "place_in capella sancti proculi",
+      "type": "created_in"
+    },
+    {
+      "source": "person_michael nepos quondam uberti de sancto petro",
+      "target": "instrumentum_venditionis_1174_02",
+      "type": "signs"
+    },
+    {
+      "source": "person_albertus quondam nicholai tabellio",
+      "target": "instrumentum_venditionis_1174_02",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti laurentii",
+      "target": "instrumentum_venditionis_1174_02",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1174_02",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1174_02",
+      "target": "place_in civitate bononie",
+      "type": "created_in"
+    },
+    {
+      "source": "person_aldrevandinus filius quondam bonacursi de flesso",
+      "target": "instrumentum_venditionis_1175_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_albertinus quondam iohannis tabellio",
+      "target": "instrumentum_venditionis_1175_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti laurentii",
       "target": "instrumentum_venditionis_1175_01",
       "type": "receives"
     },
@@ -1412,7 +2252,102 @@
     },
     {
       "source": "instrumentum_venditionis_1175_01",
+      "target": "place_in strata sancti donati",
+      "type": "created_in"
+    },
+    {
+      "source": "person_martinus germanus quondam alberti de padua",
+      "target": "instrumentum_venditionis_1176_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_guizardus filius quondam gerardi tabellio",
+      "target": "instrumentum_venditionis_1176_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti georgii",
+      "target": "instrumentum_venditionis_1176_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1176_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1176_01",
       "target": "place_in capella sancte cecilie",
+      "type": "created_in"
+    },
+    {
+      "source": "person_petrus filius quondam bonaventure de sancto iohanne",
+      "target": "instrumentum_venditionis_1176_02",
+      "type": "signs"
+    },
+    {
+      "source": "person_iohannes quondam petri tabellio",
+      "target": "instrumentum_venditionis_1176_02",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti laurentii",
+      "target": "instrumentum_venditionis_1176_02",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1176_02",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1176_02",
+      "target": "place_in burgo sancti stephani",
+      "type": "created_in"
+    },
+    {
+      "source": "person_albertus filius quondam guidonis de aon",
+      "target": "instrumentum_venditionis_1177_01",
+      "type": "signs"
+    },
+    {
+      "source": "institution_monasterium sancti stephani",
+      "target": "instrumentum_venditionis_1177_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1177_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1177_01",
+      "target": "place_in castro sancti iohannis in persiceto",
+      "type": "created_in"
+    },
+    {
+      "source": "person_albertus filius quondam guidonis de aon",
+      "target": "instrumentum_venditionis_1177_02",
+      "type": "signs"
+    },
+    {
+      "source": "person_iohannes quondam petri tabellio",
+      "target": "instrumentum_venditionis_1177_02",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti benedicti",
+      "target": "instrumentum_venditionis_1177_02",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1177_02",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1177_02",
+      "target": "place_apud ecclesiam sancti petri",
       "type": "created_in"
     },
     {
@@ -1441,42 +2376,282 @@
       "type": "created_in"
     },
     {
-      "source": "person_rolandinus filius quondam alberti de solario",
-      "target": "instrumentum_venditionis_1194_01",
+      "source": "person_gerardus nepos quondam albertini de crevalcore",
+      "target": "instrumentum_venditionis_1179_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_gerardus quondam alberti tabellio",
+      "target": "instrumentum_venditionis_1179_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti stephani",
+      "target": "instrumentum_venditionis_1179_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1179_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1179_01",
+      "target": "place_in capella sancte marie maioris",
+      "type": "created_in"
+    },
+    {
+      "source": "person_matheus frater quondam iohannis de anzola",
+      "target": "instrumentum_venditionis_1180_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_rolandinus quondam bonacursi tabellio",
+      "target": "instrumentum_venditionis_1180_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti stephani",
+      "target": "instrumentum_venditionis_1180_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1180_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1180_01",
+      "target": "place_in curia crepacorii",
+      "type": "created_in"
+    },
+    {
+      "source": "person_ventura germanus quondam petri de vallibus",
+      "target": "instrumentum_venditionis_1181_01",
+      "type": "signs"
+    },
+    {
+      "source": "institution_monasterium sancti michaelis",
+      "target": "instrumentum_venditionis_1181_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1181_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1181_01",
+      "target": "place_in capella sancti donati",
+      "type": "created_in"
+    },
+    {
+      "source": "person_iacobinus nepos quondam guizardi de castrofranco",
+      "target": "instrumentum_venditionis_1182_01",
       "type": "signs"
     },
     {
       "source": "person_uguicio quondam iacobini tabellio",
-      "target": "instrumentum_venditionis_1194_01",
+      "target": "instrumentum_venditionis_1182_01",
       "type": "notarizes"
     },
     {
-      "source": "institution_monasterium sancti michaelis",
-      "target": "instrumentum_venditionis_1194_01",
+      "source": "institution_monasterium sancti laurentii",
+      "target": "instrumentum_venditionis_1182_01",
       "type": "receives"
     },
     {
-      "source": "instrumentum_venditionis_1194_01",
+      "source": "instrumentum_venditionis_1182_01",
       "target": "doctype_instrumentum venditionis",
       "type": "has_type"
     },
     {
-      "source": "instrumentum_venditionis_1194_01",
+      "source": "instrumentum_venditionis_1182_01",
+      "target": "place_in strata sancti donati",
+      "type": "created_in"
+    },
+    {
+      "source": "person_petrus filius quondam bonaventure de sancto iohanne",
+      "target": "instrumentum_venditionis_1183_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_symon quondam ubertini tabellio",
+      "target": "instrumentum_venditionis_1183_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti benedicti",
+      "target": "instrumentum_venditionis_1183_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1183_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1183_01",
+      "target": "place_in curia casalecchii",
+      "type": "created_in"
+    },
+    {
+      "source": "person_matheus frater quondam iohannis de anzola",
+      "target": "instrumentum_venditionis_1184_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_guizardus filius quondam gerardi tabellio",
+      "target": "instrumentum_venditionis_1184_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti stephani",
+      "target": "instrumentum_venditionis_1184_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1184_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1184_01",
       "target": "place_bononie",
       "type": "created_in"
     },
     {
-      "source": "person_iohannes heres ugonis de sablono",
-      "target": "instrumentum_venditionis_1195_01",
+      "source": "person_matheus frater quondam iohannis de anzola",
+      "target": "instrumentum_venditionis_1188_01",
       "type": "signs"
     },
     {
-      "source": "person_bartholomeus filius quondam raynaldi tabellio",
-      "target": "instrumentum_venditionis_1195_01",
+      "source": "person_guizardus filius quondam gerardi tabellio",
+      "target": "instrumentum_venditionis_1188_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti laurentii",
+      "target": "instrumentum_venditionis_1188_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1188_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1188_01",
+      "target": "place_in strata sancti donati",
+      "type": "created_in"
+    },
+    {
+      "source": "person_raynaldus filius quondam ubertini de persiceto",
+      "target": "instrumentum_venditionis_1188_02",
+      "type": "signs"
+    },
+    {
+      "source": "person_gerardus quondam alberti tabellio",
+      "target": "instrumentum_venditionis_1188_02",
       "type": "notarizes"
     },
     {
       "source": "institution_monasterium sancti iohannis",
+      "target": "instrumentum_venditionis_1188_02",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1188_02",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1188_02",
+      "target": "place_in strata sancti donati",
+      "type": "created_in"
+    },
+    {
+      "source": "person_guido heres quondam albertini de montebello",
+      "target": "instrumentum_venditionis_1191_01",
+      "type": "signs"
+    },
+    {
+      "source": "institution_monasterium sancti marie",
+      "target": "instrumentum_venditionis_1191_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1191_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1191_01",
+      "target": "place_in burgo sancti felicis",
+      "type": "created_in"
+    },
+    {
+      "source": "person_martinus germanus quondam alberti de padua",
+      "target": "instrumentum_venditionis_1192_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_bonaventura quondam guidonis tabellio",
+      "target": "instrumentum_venditionis_1192_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti michaelis",
+      "target": "instrumentum_venditionis_1192_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1192_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1192_01",
+      "target": "place_in capella sancte marie maioris",
+      "type": "created_in"
+    },
+    {
+      "source": "person_iohannes heres ugonis de sablono",
+      "target": "instrumentum_venditionis_1194_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_bartholomeus filius quondam raynaldi tabellio",
+      "target": "instrumentum_venditionis_1194_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti laurentii",
+      "target": "instrumentum_venditionis_1194_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1194_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1194_01",
+      "target": "place_in burgo sancti felicis",
+      "type": "created_in"
+    },
+    {
+      "source": "person_martinus germanus quondam alberti de padua",
+      "target": "instrumentum_venditionis_1195_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_uguicio quondam iacobini tabellio",
+      "target": "instrumentum_venditionis_1195_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti benedicti",
       "target": "instrumentum_venditionis_1195_01",
       "type": "receives"
     },
@@ -1487,7 +2662,32 @@
     },
     {
       "source": "instrumentum_venditionis_1195_01",
-      "target": "place_in burgo sancti felicis",
+      "target": "place_in civitate bononie",
+      "type": "created_in"
+    },
+    {
+      "source": "person_iohannes heres ugonis de sablono",
+      "target": "instrumentum_venditionis_1197_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_uguicio quondam iacobini tabellio",
+      "target": "instrumentum_venditionis_1197_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti pauli",
+      "target": "instrumentum_venditionis_1197_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1197_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1197_01",
+      "target": "place_bononie",
       "type": "created_in"
     },
     {
@@ -1541,17 +2741,12 @@
       "type": "created_in"
     },
     {
-      "source": "person_gerardus nepos quondam albertini de crevalcore",
+      "source": "person_petrus filius quondam bonaventure de sancto iohanne",
       "target": "instrumentum_venditionis_1199_01",
       "type": "signs"
     },
     {
-      "source": "person_albertinus quondam iohannis tabellio",
-      "target": "instrumentum_venditionis_1199_01",
-      "type": "notarizes"
-    },
-    {
-      "source": "institution_monasterium sancti marie",
+      "source": "institution_monasterium sancti pauli",
       "target": "instrumentum_venditionis_1199_01",
       "type": "receives"
     },
@@ -1562,7 +2757,27 @@
     },
     {
       "source": "instrumentum_venditionis_1199_01",
-      "target": "place_apud ecclesiam sancti petri",
+      "target": "place_in capella sancte cecilie",
+      "type": "created_in"
+    },
+    {
+      "source": "person_raynaldus filius quondam ubertini de persiceto",
+      "target": "instrumentum_venditionis_1200_01",
+      "type": "signs"
+    },
+    {
+      "source": "institution_monasterium sancti pauli",
+      "target": "instrumentum_venditionis_1200_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1200_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1200_01",
+      "target": "place_in capella sancte cecilie",
       "type": "created_in"
     },
     {
@@ -1591,17 +2806,12 @@
       "type": "created_in"
     },
     {
-      "source": "person_albertus filius quondam guidonis de aon",
+      "source": "person_bonincontrus germanus quondam guidonis de casalecchio",
       "target": "instrumentum_venditionis_1203_01",
       "type": "signs"
     },
     {
-      "source": "person_rolandinus quondam bonacursi tabellio",
-      "target": "instrumentum_venditionis_1203_01",
-      "type": "notarizes"
-    },
-    {
-      "source": "institution_monasterium sancti pauli",
+      "source": "institution_monasterium sancti dominici",
       "target": "instrumentum_venditionis_1203_01",
       "type": "receives"
     },
@@ -1612,7 +2822,7 @@
     },
     {
       "source": "instrumentum_venditionis_1203_01",
-      "target": "place_in capella sancti proculi",
+      "target": "place_apud ecclesiam sancti petri",
       "type": "created_in"
     },
     {
@@ -1641,67 +2851,207 @@
       "type": "created_in"
     },
     {
-      "source": "person_azo heres quondam guidonis de lamola",
+      "source": "person_fredericus filius quondam petri de meledulo",
       "target": "instrumentum_venditionis_1204_01",
       "type": "signs"
     },
     {
-      "source": "person_uguicio quondam iacobini tabellio",
+      "source": "institution_monasterium sancti pauli",
       "target": "instrumentum_venditionis_1204_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1204_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1204_01",
+      "target": "place_in castro sancti iohannis in persiceto",
+      "type": "created_in"
+    },
+    {
+      "source": "person_raynaldus filius quondam ubertini de persiceto",
+      "target": "instrumentum_venditionis_1204_02",
+      "type": "signs"
+    },
+    {
+      "source": "institution_monasterium sancti pauli",
+      "target": "instrumentum_venditionis_1204_02",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1204_02",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1204_02",
+      "target": "place_in burgo sancti stephani",
+      "type": "created_in"
+    },
+    {
+      "source": "person_matheus frater quondam iohannis de anzola",
+      "target": "instrumentum_venditionis_1205_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_bonaventura quondam guidonis tabellio",
+      "target": "instrumentum_venditionis_1205_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti benedicti",
+      "target": "instrumentum_venditionis_1205_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1205_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1205_01",
+      "target": "place_in strata sancti donati",
+      "type": "created_in"
+    },
+    {
+      "source": "person_matheus frater quondam iohannis de anzola",
+      "target": "instrumentum_venditionis_1205_02",
+      "type": "signs"
+    },
+    {
+      "source": "person_iohannes quondam petri tabellio",
+      "target": "instrumentum_venditionis_1205_02",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti marie",
+      "target": "instrumentum_venditionis_1205_02",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1205_02",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1205_02",
+      "target": "place_in curia montisveglij",
+      "type": "created_in"
+    },
+    {
+      "source": "person_rolandinus filius quondam alberti de solario",
+      "target": "instrumentum_venditionis_1206_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_guizardus filius quondam gerardi tabellio",
+      "target": "instrumentum_venditionis_1206_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti marie",
+      "target": "instrumentum_venditionis_1206_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1206_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1206_01",
+      "target": "place_apud ecclesiam sancti petri",
+      "type": "created_in"
+    },
+    {
+      "source": "person_bonincontrus germanus quondam guidonis de casalecchio",
+      "target": "instrumentum_venditionis_1206_02",
+      "type": "signs"
+    },
+    {
+      "source": "person_iohannes quondam petri tabellio",
+      "target": "instrumentum_venditionis_1206_02",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti michaelis",
+      "target": "instrumentum_venditionis_1206_02",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1206_02",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1206_02",
+      "target": "place_apud ecclesiam sancti petri",
+      "type": "created_in"
+    },
+    {
+      "source": "person_michael nepos quondam uberti de sancto petro",
+      "target": "instrumentum_venditionis_1208_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_rolandinus quondam bonacursi tabellio",
+      "target": "instrumentum_venditionis_1208_01",
       "type": "notarizes"
     },
     {
       "source": "institution_monasterium sancti iohannis",
-      "target": "instrumentum_venditionis_1204_01",
+      "target": "instrumentum_venditionis_1208_01",
       "type": "receives"
     },
     {
-      "source": "instrumentum_venditionis_1204_01",
+      "source": "instrumentum_venditionis_1208_01",
       "target": "doctype_instrumentum venditionis",
       "type": "has_type"
     },
     {
-      "source": "instrumentum_venditionis_1204_01",
-      "target": "place_in burgo sancti felicis",
-      "type": "created_in"
-    },
-    {
-      "source": "person_gerardus nepos quondam albertini de crevalcore",
-      "target": "instrumentum_venditionis_1205_01",
-      "type": "signs"
-    },
-    {
-      "source": "person_gerardus quondam alberti tabellio",
-      "target": "instrumentum_venditionis_1205_01",
-      "type": "notarizes"
-    },
-    {
-      "source": "institution_monasterium sancti laurentii",
-      "target": "instrumentum_venditionis_1205_01",
-      "type": "receives"
-    },
-    {
-      "source": "instrumentum_venditionis_1205_01",
-      "target": "doctype_instrumentum venditionis",
-      "type": "has_type"
-    },
-    {
-      "source": "instrumentum_venditionis_1205_01",
+      "source": "instrumentum_venditionis_1208_01",
       "target": "place_in civitate bononie",
       "type": "created_in"
     },
     {
-      "source": "person_ubertinus nepos quondam federici de calcaria",
-      "target": "instrumentum_venditionis_1211_01",
+      "source": "person_bonincontrus germanus quondam guidonis de casalecchio",
+      "target": "instrumentum_venditionis_1209_01",
       "type": "signs"
     },
     {
-      "source": "person_gerardus quondam alberti tabellio",
-      "target": "instrumentum_venditionis_1211_01",
+      "source": "person_bonaventura quondam guidonis tabellio",
+      "target": "instrumentum_venditionis_1209_01",
       "type": "notarizes"
     },
     {
       "source": "institution_monasterium sancti petri",
+      "target": "instrumentum_venditionis_1209_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1209_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1209_01",
+      "target": "place_in burgo sancti stephani",
+      "type": "created_in"
+    },
+    {
+      "source": "person_gerardus nepos quondam albertini de crevalcore",
+      "target": "instrumentum_venditionis_1211_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_albertinus quondam iohannis tabellio",
+      "target": "instrumentum_venditionis_1211_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti pauli",
       "target": "instrumentum_venditionis_1211_01",
       "type": "receives"
     },
@@ -1712,7 +3062,32 @@
     },
     {
       "source": "instrumentum_venditionis_1211_01",
-      "target": "place_in curia montisveglij",
+      "target": "place_in strata sancti donati",
+      "type": "created_in"
+    },
+    {
+      "source": "person_gerardus nepos quondam albertini de crevalcore",
+      "target": "instrumentum_venditionis_1212_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_guizardus filius quondam gerardi tabellio",
+      "target": "instrumentum_venditionis_1212_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti georgii",
+      "target": "instrumentum_venditionis_1212_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1212_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1212_01",
+      "target": "place_apud ecclesiam sancti petri",
       "type": "created_in"
     },
     {
@@ -1741,17 +3116,92 @@
       "type": "created_in"
     },
     {
-      "source": "person_matheus frater quondam iohannis de anzola",
-      "target": "instrumentum_venditionis_1222_01",
+      "source": "person_iacobinus nepos quondam guizardi de castrofranco",
+      "target": "instrumentum_venditionis_1214_01",
       "type": "signs"
     },
     {
       "source": "person_iohannes quondam petri tabellio",
+      "target": "instrumentum_venditionis_1214_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti marie",
+      "target": "instrumentum_venditionis_1214_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1214_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1214_01",
+      "target": "place_in curia crepacorii",
+      "type": "created_in"
+    },
+    {
+      "source": "person_bonacursus filius quondam iohannis de crepacorio",
+      "target": "instrumentum_venditionis_1215_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_bonaventura quondam guidonis tabellio",
+      "target": "instrumentum_venditionis_1215_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti georgii",
+      "target": "instrumentum_venditionis_1215_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1215_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1215_01",
+      "target": "place_in curia montisveglij",
+      "type": "created_in"
+    },
+    {
+      "source": "person_ventura germanus quondam petri de vallibus",
+      "target": "instrumentum_venditionis_1217_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_uguicio quondam iacobini tabellio",
+      "target": "instrumentum_venditionis_1217_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti iohannis",
+      "target": "instrumentum_venditionis_1217_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1217_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1217_01",
+      "target": "place_in castro sancti iohannis in persiceto",
+      "type": "created_in"
+    },
+    {
+      "source": "person_guido heres quondam albertini de montebello",
+      "target": "instrumentum_venditionis_1222_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_uguicio quondam iacobini tabellio",
       "target": "instrumentum_venditionis_1222_01",
       "type": "notarizes"
     },
     {
-      "source": "institution_monasterium sancti laurentii",
+      "source": "institution_monasterium sancti petri",
       "target": "instrumentum_venditionis_1222_01",
       "type": "receives"
     },
@@ -1762,7 +3212,32 @@
     },
     {
       "source": "instrumentum_venditionis_1222_01",
-      "target": "place_in castro sancti iohannis in persiceto",
+      "target": "place_in capella sancte cecilie",
+      "type": "created_in"
+    },
+    {
+      "source": "person_albertus filius quondam guidonis de aon",
+      "target": "instrumentum_venditionis_1223_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_guizardus filius quondam gerardi tabellio",
+      "target": "instrumentum_venditionis_1223_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti iohannis",
+      "target": "instrumentum_venditionis_1223_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1223_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1223_01",
+      "target": "place_in strata sancti donati",
       "type": "created_in"
     },
     {
@@ -1771,12 +3246,7 @@
       "type": "signs"
     },
     {
-      "source": "person_albertus quondam nicholai tabellio",
-      "target": "instrumentum_venditionis_1224_01",
-      "type": "notarizes"
-    },
-    {
-      "source": "institution_monasterium sancti stephani",
+      "source": "institution_monasterium sancti georgii",
       "target": "instrumentum_venditionis_1224_01",
       "type": "receives"
     },
@@ -1816,12 +3286,12 @@
       "type": "created_in"
     },
     {
-      "source": "person_fredericus filius quondam petri de meledulo",
+      "source": "person_petrus filius quondam bonaventure de sancto iohanne",
       "target": "instrumentum_venditionis_1228_01",
       "type": "signs"
     },
     {
-      "source": "person_gerardus quondam alberti tabellio",
+      "source": "person_albertus quondam nicholai tabellio",
       "target": "instrumentum_venditionis_1228_01",
       "type": "notarizes"
     },
@@ -1837,7 +3307,7 @@
     },
     {
       "source": "instrumentum_venditionis_1228_01",
-      "target": "place_in capella sancte cecilie",
+      "target": "place_in curia crepacorii",
       "type": "created_in"
     },
     {
@@ -1866,17 +3336,42 @@
       "type": "created_in"
     },
     {
-      "source": "person_fredericus filius quondam petri de meledulo",
+      "source": "person_simon filius quondam rainaldi de zola",
+      "target": "instrumentum_venditionis_1229_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_rolandinus quondam bonacursi tabellio",
+      "target": "instrumentum_venditionis_1229_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti pauli",
+      "target": "instrumentum_venditionis_1229_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1229_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1229_01",
+      "target": "place_bononie",
+      "type": "created_in"
+    },
+    {
+      "source": "person_petrus filius quondam bonaventure de sancto iohanne",
       "target": "instrumentum_venditionis_1230_01",
       "type": "signs"
     },
     {
-      "source": "person_albertus quondam nicholai tabellio",
+      "source": "person_bonaventura quondam guidonis tabellio",
       "target": "instrumentum_venditionis_1230_01",
       "type": "notarizes"
     },
     {
-      "source": "institution_monasterium sancti michaelis",
+      "source": "institution_monasterium sancti iohannis",
       "target": "instrumentum_venditionis_1230_01",
       "type": "receives"
     },
@@ -1887,16 +3382,41 @@
     },
     {
       "source": "instrumentum_venditionis_1230_01",
+      "target": "place_in curia crepacorii",
+      "type": "created_in"
+    },
+    {
+      "source": "person_lanfrancus filius quondam lanfranci de rovigo",
+      "target": "instrumentum_venditionis_1230_02",
+      "type": "signs"
+    },
+    {
+      "source": "person_symon quondam ubertini tabellio",
+      "target": "instrumentum_venditionis_1230_02",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti marie",
+      "target": "instrumentum_venditionis_1230_02",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1230_02",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1230_02",
       "target": "place_in burgo sancti stephani",
       "type": "created_in"
     },
     {
-      "source": "person_ventura germanus quondam petri de vallibus",
+      "source": "person_michael nepos quondam uberti de sancto petro",
       "target": "instrumentum_venditionis_1231_01",
       "type": "signs"
     },
     {
-      "source": "person_albertus quondam nicholai tabellio",
+      "source": "person_bartholomeus filius quondam raynaldi tabellio",
       "target": "instrumentum_venditionis_1231_01",
       "type": "notarizes"
     },
@@ -1941,6 +3461,216 @@
       "type": "created_in"
     },
     {
+      "source": "person_petrus filius quondam bonaventure de sancto iohanne",
+      "target": "instrumentum_venditionis_1234_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_gerardus quondam alberti tabellio",
+      "target": "instrumentum_venditionis_1234_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti petri",
+      "target": "instrumentum_venditionis_1234_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1234_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1234_01",
+      "target": "place_in burgo sancti stephani",
+      "type": "created_in"
+    },
+    {
+      "source": "person_petrus filius quondam bonaventure de sancto iohanne",
+      "target": "instrumentum_venditionis_1235_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_bonaventura quondam guidonis tabellio",
+      "target": "instrumentum_venditionis_1235_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti georgii",
+      "target": "instrumentum_venditionis_1235_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1235_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1235_01",
+      "target": "place_in curia montisveglij",
+      "type": "created_in"
+    },
+    {
+      "source": "person_ventura germanus quondam petri de vallibus",
+      "target": "instrumentum_venditionis_1236_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_gerardus quondam alberti tabellio",
+      "target": "instrumentum_venditionis_1236_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti petri",
+      "target": "instrumentum_venditionis_1236_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1236_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1236_01",
+      "target": "place_apud ecclesiam sancti petri",
+      "type": "created_in"
+    },
+    {
+      "source": "person_simon filius quondam rainaldi de zola",
+      "target": "instrumentum_venditionis_1239_01",
+      "type": "signs"
+    },
+    {
+      "source": "institution_monasterium sancti petri",
+      "target": "instrumentum_venditionis_1239_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1239_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1239_01",
+      "target": "place_in civitate bononie",
+      "type": "created_in"
+    },
+    {
+      "source": "person_petrus filius quondam bonaventure de sancto iohanne",
+      "target": "instrumentum_venditionis_1239_02",
+      "type": "signs"
+    },
+    {
+      "source": "person_bonaventura quondam guidonis tabellio",
+      "target": "instrumentum_venditionis_1239_02",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti dominici",
+      "target": "instrumentum_venditionis_1239_02",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1239_02",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1239_02",
+      "target": "place_in capella sancte marie maioris",
+      "type": "created_in"
+    },
+    {
+      "source": "person_lanfrancus filius quondam lanfranci de rovigo",
+      "target": "instrumentum_venditionis_1240_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_albertinus quondam iohannis tabellio",
+      "target": "instrumentum_venditionis_1240_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti iohannis",
+      "target": "instrumentum_venditionis_1240_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1240_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1240_01",
+      "target": "place_in civitate bononie",
+      "type": "created_in"
+    },
+    {
+      "source": "person_iacobinus nepos quondam guizardi de castrofranco",
+      "target": "instrumentum_venditionis_1243_01",
+      "type": "signs"
+    },
+    {
+      "source": "institution_monasterium sancti georgii",
+      "target": "instrumentum_venditionis_1243_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1243_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1243_01",
+      "target": "place_in curia montisveglij",
+      "type": "created_in"
+    },
+    {
+      "source": "person_martinus germanus quondam alberti de padua",
+      "target": "instrumentum_venditionis_1245_01",
+      "type": "signs"
+    },
+    {
+      "source": "institution_monasterium sancti laurentii",
+      "target": "instrumentum_venditionis_1245_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1245_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1245_01",
+      "target": "place_in capella sancti donati",
+      "type": "created_in"
+    },
+    {
+      "source": "person_ventura germanus quondam petri de vallibus",
+      "target": "instrumentum_venditionis_1246_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_guizardus filius quondam gerardi tabellio",
+      "target": "instrumentum_venditionis_1246_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti georgii",
+      "target": "instrumentum_venditionis_1246_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1246_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1246_01",
+      "target": "place_bononie",
+      "type": "created_in"
+    },
+    {
       "source": "person_gerardus nepos quondam albertini de crevalcore",
       "target": "instrumentum_venditionis_1247_01",
       "type": "signs"
@@ -1971,12 +3701,12 @@
       "type": "signs"
     },
     {
-      "source": "person_guizardus filius quondam gerardi tabellio",
+      "source": "person_albertinus quondam iohannis tabellio",
       "target": "instrumentum_venditionis_1248_01",
       "type": "notarizes"
     },
     {
-      "source": "institution_monasterium sancti stephani",
+      "source": "institution_monasterium sancti georgii",
       "target": "instrumentum_venditionis_1248_01",
       "type": "receives"
     },
@@ -1987,7 +3717,27 @@
     },
     {
       "source": "instrumentum_venditionis_1248_01",
-      "target": "place_in curia montisveglij",
+      "target": "place_in burgo sancti felicis",
+      "type": "created_in"
+    },
+    {
+      "source": "person_nicholaus filius quondam gerardi de savignano",
+      "target": "instrumentum_venditionis_1250_01",
+      "type": "signs"
+    },
+    {
+      "source": "institution_monasterium sancti iohannis",
+      "target": "instrumentum_venditionis_1250_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1250_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1250_01",
+      "target": "place_in burgo sancti felicis",
       "type": "created_in"
     },
     {
@@ -2016,17 +3766,17 @@
       "type": "created_in"
     },
     {
-      "source": "person_bonacursus filius quondam iohannis de crepacorio",
+      "source": "person_bonincontrus germanus quondam guidonis de casalecchio",
       "target": "instrumentum_venditionis_1255_01",
       "type": "signs"
     },
     {
-      "source": "person_albertinus quondam iohannis tabellio",
+      "source": "person_iohannes quondam petri tabellio",
       "target": "instrumentum_venditionis_1255_01",
       "type": "notarizes"
     },
     {
-      "source": "institution_monasterium sancti dominici",
+      "source": "institution_monasterium sancti michaelis",
       "target": "instrumentum_venditionis_1255_01",
       "type": "receives"
     },
@@ -2037,96 +3787,236 @@
     },
     {
       "source": "instrumentum_venditionis_1255_01",
-      "target": "place_bononie",
+      "target": "place_in civitate bononie",
       "type": "created_in"
     },
     {
-      "source": "person_guido heres quondam albertini de montebello",
-      "target": "instrumentum_venditionis_1260_01",
-      "type": "signs"
-    },
-    {
-      "source": "person_rolandinus quondam bonacursi tabellio",
-      "target": "instrumentum_venditionis_1260_01",
-      "type": "notarizes"
-    },
-    {
-      "source": "institution_monasterium sancti pauli",
-      "target": "instrumentum_venditionis_1260_01",
-      "type": "receives"
-    },
-    {
-      "source": "instrumentum_venditionis_1260_01",
-      "target": "doctype_instrumentum venditionis",
-      "type": "has_type"
-    },
-    {
-      "source": "instrumentum_venditionis_1260_01",
-      "target": "place_in burgo sancti felicis",
-      "type": "created_in"
-    },
-    {
-      "source": "person_gerardus nepos quondam albertini de crevalcore",
-      "target": "instrumentum_venditionis_1265_01",
-      "type": "signs"
-    },
-    {
-      "source": "person_gerardus quondam alberti tabellio",
-      "target": "instrumentum_venditionis_1265_01",
-      "type": "notarizes"
-    },
-    {
-      "source": "institution_monasterium sancti pauli",
-      "target": "instrumentum_venditionis_1265_01",
-      "type": "receives"
-    },
-    {
-      "source": "instrumentum_venditionis_1265_01",
-      "target": "doctype_instrumentum venditionis",
-      "type": "has_type"
-    },
-    {
-      "source": "instrumentum_venditionis_1265_01",
-      "target": "place_in capella sancte cecilie",
-      "type": "created_in"
-    },
-    {
-      "source": "person_nicholaus filius quondam gerardi de savignano",
-      "target": "instrumentum_venditionis_1267_01",
-      "type": "signs"
-    },
-    {
-      "source": "person_gerardus quondam alberti tabellio",
-      "target": "instrumentum_venditionis_1267_01",
-      "type": "notarizes"
-    },
-    {
-      "source": "institution_monasterium sancti petri",
-      "target": "instrumentum_venditionis_1267_01",
-      "type": "receives"
-    },
-    {
-      "source": "instrumentum_venditionis_1267_01",
-      "target": "doctype_instrumentum venditionis",
-      "type": "has_type"
-    },
-    {
-      "source": "instrumentum_venditionis_1267_01",
-      "target": "place_in curia montisveglij",
-      "type": "created_in"
-    },
-    {
-      "source": "person_simon filius quondam rainaldi de zola",
-      "target": "instrumentum_venditionis_1267_02",
+      "source": "person_lanfrancus filius quondam lanfranci de rovigo",
+      "target": "instrumentum_venditionis_1255_02",
       "type": "signs"
     },
     {
       "source": "person_guizardus filius quondam gerardi tabellio",
-      "target": "instrumentum_venditionis_1267_02",
+      "target": "instrumentum_venditionis_1255_02",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti stephani",
+      "target": "instrumentum_venditionis_1255_02",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1255_02",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1255_02",
+      "target": "place_in capella sancte cecilie",
+      "type": "created_in"
+    },
+    {
+      "source": "person_azo heres quondam guidonis de lamola",
+      "target": "instrumentum_venditionis_1257_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_guizardus filius quondam gerardi tabellio",
+      "target": "instrumentum_venditionis_1257_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti stephani",
+      "target": "instrumentum_venditionis_1257_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1257_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1257_01",
+      "target": "place_in strata sancti donati",
+      "type": "created_in"
+    },
+    {
+      "source": "person_azo heres quondam guidonis de lamola",
+      "target": "instrumentum_venditionis_1259_01",
+      "type": "signs"
+    },
+    {
+      "source": "institution_monasterium sancti marie",
+      "target": "instrumentum_venditionis_1259_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1259_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1259_01",
+      "target": "place_in curia casalecchii",
+      "type": "created_in"
+    },
+    {
+      "source": "person_albertus filius quondam guidonis de aon",
+      "target": "instrumentum_venditionis_1260_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_albertus quondam nicholai tabellio",
+      "target": "instrumentum_venditionis_1260_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti pauli",
+      "target": "instrumentum_venditionis_1260_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1260_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1260_01",
+      "target": "place_in strata sancti donati",
+      "type": "created_in"
+    },
+    {
+      "source": "person_iohannes heres ugonis de sablono",
+      "target": "instrumentum_venditionis_1262_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_bonaventura quondam guidonis tabellio",
+      "target": "instrumentum_venditionis_1262_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti marie",
+      "target": "instrumentum_venditionis_1262_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1262_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1262_01",
+      "target": "place_apud ecclesiam sancti petri",
+      "type": "created_in"
+    },
+    {
+      "source": "person_iohannes heres ugonis de sablono",
+      "target": "instrumentum_venditionis_1263_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_gerardus quondam alberti tabellio",
+      "target": "instrumentum_venditionis_1263_01",
       "type": "notarizes"
     },
     {
       "source": "institution_monasterium sancti petri",
+      "target": "instrumentum_venditionis_1263_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1263_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1263_01",
+      "target": "place_in capella sancte cecilie",
+      "type": "created_in"
+    },
+    {
+      "source": "person_iacobinus nepos quondam guizardi de castrofranco",
+      "target": "instrumentum_venditionis_1265_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_gerardus quondam alberti tabellio",
+      "target": "instrumentum_venditionis_1265_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti stephani",
+      "target": "instrumentum_venditionis_1265_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1265_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1265_01",
+      "target": "place_in capella sancte marie maioris",
+      "type": "created_in"
+    },
+    {
+      "source": "person_ubertinus nepos quondam federici de calcaria",
+      "target": "instrumentum_venditionis_1266_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_albertinus quondam iohannis tabellio",
+      "target": "instrumentum_venditionis_1266_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti benedicti",
+      "target": "instrumentum_venditionis_1266_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1266_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1266_01",
+      "target": "place_in civitate bononie",
+      "type": "created_in"
+    },
+    {
+      "source": "person_ventura germanus quondam petri de vallibus",
+      "target": "instrumentum_venditionis_1267_01",
+      "type": "signs"
+    },
+    {
+      "source": "institution_monasterium sancti laurentii",
+      "target": "instrumentum_venditionis_1267_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1267_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1267_01",
+      "target": "place_in curia casalecchii",
+      "type": "created_in"
+    },
+    {
+      "source": "person_matheus frater quondam iohannis de anzola",
+      "target": "instrumentum_venditionis_1267_02",
+      "type": "signs"
+    },
+    {
+      "source": "person_iohannes quondam petri tabellio",
+      "target": "instrumentum_venditionis_1267_02",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti benedicti",
       "target": "instrumentum_venditionis_1267_02",
       "type": "receives"
     },
@@ -2137,7 +4027,7 @@
     },
     {
       "source": "instrumentum_venditionis_1267_02",
-      "target": "place_in strata sancti donati",
+      "target": "place_in capella sancte marie maioris",
       "type": "created_in"
     },
     {
@@ -2166,17 +4056,87 @@
       "type": "created_in"
     },
     {
-      "source": "person_iacobinus nepos quondam guizardi de castrofranco",
+      "source": "person_rolandinus filius quondam alberti de solario",
+      "target": "instrumentum_venditionis_1271_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_uguicio quondam iacobini tabellio",
+      "target": "instrumentum_venditionis_1271_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti pauli",
+      "target": "instrumentum_venditionis_1271_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1271_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1271_01",
+      "target": "place_in capella sancte cecilie",
+      "type": "created_in"
+    },
+    {
+      "source": "person_bonacursus filius quondam iohannis de crepacorio",
+      "target": "instrumentum_venditionis_1271_02",
+      "type": "signs"
+    },
+    {
+      "source": "person_bonaventura quondam guidonis tabellio",
+      "target": "instrumentum_venditionis_1271_02",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti iohannis",
+      "target": "instrumentum_venditionis_1271_02",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1271_02",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1271_02",
+      "target": "place_in capella sancte cecilie",
+      "type": "created_in"
+    },
+    {
+      "source": "person_nicholaus filius quondam gerardi de savignano",
+      "target": "instrumentum_venditionis_1272_01",
+      "type": "signs"
+    },
+    {
+      "source": "institution_monasterium sancti stephani",
+      "target": "instrumentum_venditionis_1272_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1272_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1272_01",
+      "target": "place_in civitate bononie",
+      "type": "created_in"
+    },
+    {
+      "source": "person_lanfrancus filius quondam lanfranci de rovigo",
       "target": "instrumentum_venditionis_1273_01",
       "type": "signs"
     },
     {
-      "source": "person_albertus quondam nicholai tabellio",
+      "source": "person_bonaventura quondam guidonis tabellio",
       "target": "instrumentum_venditionis_1273_01",
       "type": "notarizes"
     },
     {
-      "source": "institution_monasterium sancti petri",
+      "source": "institution_monasterium sancti dominici",
       "target": "instrumentum_venditionis_1273_01",
       "type": "receives"
     },
@@ -2187,7 +4147,7 @@
     },
     {
       "source": "instrumentum_venditionis_1273_01",
-      "target": "place_in curia casalecchii",
+      "target": "place_apud ecclesiam sancti petri",
       "type": "created_in"
     },
     {
@@ -2241,12 +4201,132 @@
       "type": "created_in"
     },
     {
-      "source": "person_bonacursus filius quondam iohannis de crepacorio",
+      "source": "person_fredericus filius quondam petri de meledulo",
+      "target": "instrumentum_venditionis_1280_01",
+      "type": "signs"
+    },
+    {
+      "source": "institution_monasterium sancti dominici",
+      "target": "instrumentum_venditionis_1280_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1280_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1280_01",
+      "target": "place_in burgo sancti stephani",
+      "type": "created_in"
+    },
+    {
+      "source": "person_fredericus filius quondam petri de meledulo",
+      "target": "instrumentum_venditionis_1280_02",
+      "type": "signs"
+    },
+    {
+      "source": "person_gerardus quondam alberti tabellio",
+      "target": "instrumentum_venditionis_1280_02",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti dominici",
+      "target": "instrumentum_venditionis_1280_02",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1280_02",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1280_02",
+      "target": "place_bononie",
+      "type": "created_in"
+    },
+    {
+      "source": "person_lanfrancus filius quondam lanfranci de rovigo",
+      "target": "instrumentum_venditionis_1280_03",
+      "type": "signs"
+    },
+    {
+      "source": "person_guizardus filius quondam gerardi tabellio",
+      "target": "instrumentum_venditionis_1280_03",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti stephani",
+      "target": "instrumentum_venditionis_1280_03",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1280_03",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1280_03",
+      "target": "place_in burgo sancti felicis",
+      "type": "created_in"
+    },
+    {
+      "source": "person_ventura germanus quondam petri de vallibus",
+      "target": "instrumentum_venditionis_1282_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_guizardus filius quondam gerardi tabellio",
+      "target": "instrumentum_venditionis_1282_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti laurentii",
+      "target": "instrumentum_venditionis_1282_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1282_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1282_01",
+      "target": "place_in capella sancti donati",
+      "type": "created_in"
+    },
+    {
+      "source": "person_uguicio frater quondam henrici de monteveglio",
+      "target": "instrumentum_venditionis_1282_02",
+      "type": "signs"
+    },
+    {
+      "source": "person_albertus quondam nicholai tabellio",
+      "target": "instrumentum_venditionis_1282_02",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti marie",
+      "target": "instrumentum_venditionis_1282_02",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1282_02",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1282_02",
+      "target": "place_in civitate bononie",
+      "type": "created_in"
+    },
+    {
+      "source": "person_simon filius quondam rainaldi de zola",
       "target": "instrumentum_venditionis_1283_01",
       "type": "signs"
     },
     {
-      "source": "person_albertinus quondam iohannis tabellio",
+      "source": "person_bartholomeus filius quondam raynaldi tabellio",
       "target": "instrumentum_venditionis_1283_01",
       "type": "notarizes"
     },
@@ -2262,7 +4342,57 @@
     },
     {
       "source": "instrumentum_venditionis_1283_01",
-      "target": "place_in civitate bononie",
+      "target": "place_in capella sancte marie maioris",
+      "type": "created_in"
+    },
+    {
+      "source": "person_martinus germanus quondam alberti de padua",
+      "target": "instrumentum_venditionis_1285_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_gerardus quondam alberti tabellio",
+      "target": "instrumentum_venditionis_1285_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti pauli",
+      "target": "instrumentum_venditionis_1285_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1285_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1285_01",
+      "target": "place_in burgo sancti felicis",
+      "type": "created_in"
+    },
+    {
+      "source": "person_guido heres quondam albertini de montebello",
+      "target": "instrumentum_venditionis_1285_02",
+      "type": "signs"
+    },
+    {
+      "source": "person_guizardus filius quondam gerardi tabellio",
+      "target": "instrumentum_venditionis_1285_02",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti michaelis",
+      "target": "instrumentum_venditionis_1285_02",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1285_02",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1285_02",
+      "target": "place_in capella sancte marie maioris",
       "type": "created_in"
     },
     {
@@ -2341,17 +4471,67 @@
       "type": "created_in"
     },
     {
-      "source": "person_aldrevandinus filius quondam bonacursi de flesso",
-      "target": "instrumentum_venditionis_1293_01",
+      "source": "person_fredericus filius quondam petri de meledulo",
+      "target": "instrumentum_venditionis_1290_01",
       "type": "signs"
     },
     {
       "source": "person_albertus quondam nicholai tabellio",
+      "target": "instrumentum_venditionis_1290_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti marie",
+      "target": "instrumentum_venditionis_1290_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1290_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1290_01",
+      "target": "place_in civitate bononie",
+      "type": "created_in"
+    },
+    {
+      "source": "person_iacobinus nepos quondam guizardi de castrofranco",
+      "target": "instrumentum_venditionis_1291_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_gerardus quondam alberti tabellio",
+      "target": "instrumentum_venditionis_1291_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti dominici",
+      "target": "instrumentum_venditionis_1291_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1291_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1291_01",
+      "target": "place_in capella sancti donati",
+      "type": "created_in"
+    },
+    {
+      "source": "person_rolandinus filius quondam alberti de solario",
+      "target": "instrumentum_venditionis_1293_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_rolandinus quondam bonacursi tabellio",
       "target": "instrumentum_venditionis_1293_01",
       "type": "notarizes"
     },
     {
-      "source": "institution_monasterium sancti stephani",
+      "source": "institution_monasterium sancti michaelis",
       "target": "instrumentum_venditionis_1293_01",
       "type": "receives"
     },
@@ -2362,7 +4542,7 @@
     },
     {
       "source": "instrumentum_venditionis_1293_01",
-      "target": "place_in curia montisveglij",
+      "target": "place_in civitate bononie",
       "type": "created_in"
     },
     {
@@ -2441,6 +4621,56 @@
       "type": "created_in"
     },
     {
+      "source": "person_gerardus nepos quondam albertini de crevalcore",
+      "target": "instrumentum_venditionis_1296_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_iohannes quondam petri tabellio",
+      "target": "instrumentum_venditionis_1296_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti marie",
+      "target": "instrumentum_venditionis_1296_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1296_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1296_01",
+      "target": "place_bononie",
+      "type": "created_in"
+    },
+    {
+      "source": "person_matheus frater quondam iohannis de anzola",
+      "target": "instrumentum_venditionis_1297_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_albertinus quondam iohannis tabellio",
+      "target": "instrumentum_venditionis_1297_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti dominici",
+      "target": "instrumentum_venditionis_1297_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1297_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1297_01",
+      "target": "place_in civitate bononie",
+      "type": "created_in"
+    },
+    {
       "source": "person_aldrevandinus filius quondam bonacursi de flesso",
       "target": "instrumentum_venditionis_1298_01",
       "type": "signs"
@@ -2491,6 +4721,151 @@
       "type": "created_in"
     },
     {
+      "source": "person_ventura germanus quondam petri de vallibus",
+      "target": "instrumentum_venditionis_1300_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_gerardus quondam alberti tabellio",
+      "target": "instrumentum_venditionis_1300_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti stephani",
+      "target": "instrumentum_venditionis_1300_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1300_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1300_01",
+      "target": "place_in civitate bononie",
+      "type": "created_in"
+    },
+    {
+      "source": "person_simon filius quondam rainaldi de zola",
+      "target": "instrumentum_venditionis_1300_02",
+      "type": "signs"
+    },
+    {
+      "source": "person_albertus quondam nicholai tabellio",
+      "target": "instrumentum_venditionis_1300_02",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti georgii",
+      "target": "instrumentum_venditionis_1300_02",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1300_02",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1300_02",
+      "target": "place_in burgo sancti felicis",
+      "type": "created_in"
+    },
+    {
+      "source": "person_azo heres quondam guidonis de lamola",
+      "target": "instrumentum_venditionis_1301_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_uguicio quondam iacobini tabellio",
+      "target": "instrumentum_venditionis_1301_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti dominici",
+      "target": "instrumentum_venditionis_1301_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1301_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1301_01",
+      "target": "place_in capella sancte cecilie",
+      "type": "created_in"
+    },
+    {
+      "source": "person_aldrevandinus filius quondam bonacursi de flesso",
+      "target": "instrumentum_venditionis_1301_02",
+      "type": "signs"
+    },
+    {
+      "source": "person_bartholomeus filius quondam raynaldi tabellio",
+      "target": "instrumentum_venditionis_1301_02",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti marie",
+      "target": "instrumentum_venditionis_1301_02",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1301_02",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1301_02",
+      "target": "place_in strata sancti donati",
+      "type": "created_in"
+    },
+    {
+      "source": "person_matheus frater quondam iohannis de anzola",
+      "target": "instrumentum_venditionis_1301_03",
+      "type": "signs"
+    },
+    {
+      "source": "person_albertinus quondam iohannis tabellio",
+      "target": "instrumentum_venditionis_1301_03",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti benedicti",
+      "target": "instrumentum_venditionis_1301_03",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1301_03",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1301_03",
+      "target": "place_apud ecclesiam sancti petri",
+      "type": "created_in"
+    },
+    {
+      "source": "person_nicholaus filius quondam gerardi de savignano",
+      "target": "instrumentum_venditionis_1302_01",
+      "type": "signs"
+    },
+    {
+      "source": "institution_monasterium sancti dominici",
+      "target": "instrumentum_venditionis_1302_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1302_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1302_01",
+      "target": "place_in curia montisveglij",
+      "type": "created_in"
+    },
+    {
       "source": "person_fredericus filius quondam petri de meledulo",
       "target": "instrumentum_venditionis_1303_01",
       "type": "signs"
@@ -2516,17 +4891,12 @@
       "type": "created_in"
     },
     {
-      "source": "person_ventura germanus quondam petri de vallibus",
+      "source": "person_aldrevandinus filius quondam bonacursi de flesso",
       "target": "instrumentum_venditionis_1304_01",
       "type": "signs"
     },
     {
-      "source": "person_rolandinus quondam bonacursi tabellio",
-      "target": "instrumentum_venditionis_1304_01",
-      "type": "notarizes"
-    },
-    {
-      "source": "institution_monasterium sancti iohannis",
+      "source": "institution_monasterium sancti laurentii",
       "target": "instrumentum_venditionis_1304_01",
       "type": "receives"
     },
@@ -2537,6 +4907,26 @@
     },
     {
       "source": "instrumentum_venditionis_1304_01",
+      "target": "place_in curia crepacorii",
+      "type": "created_in"
+    },
+    {
+      "source": "person_raynaldus filius quondam ubertini de persiceto",
+      "target": "instrumentum_venditionis_1304_02",
+      "type": "signs"
+    },
+    {
+      "source": "institution_monasterium sancti georgii",
+      "target": "instrumentum_venditionis_1304_02",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1304_02",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1304_02",
       "target": "place_in strata sancti donati",
       "type": "created_in"
     },
@@ -2566,17 +4956,42 @@
       "type": "created_in"
     },
     {
-      "source": "person_raynaldus filius quondam ubertini de persiceto",
+      "source": "person_iacobinus nepos quondam guizardi de castrofranco",
+      "target": "instrumentum_venditionis_1306_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_uguicio quondam iacobini tabellio",
+      "target": "instrumentum_venditionis_1306_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti benedicti",
+      "target": "instrumentum_venditionis_1306_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1306_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1306_01",
+      "target": "place_in curia crepacorii",
+      "type": "created_in"
+    },
+    {
+      "source": "person_azo heres quondam guidonis de lamola",
       "target": "instrumentum_venditionis_1307_01",
       "type": "signs"
     },
     {
-      "source": "person_symon quondam ubertini tabellio",
+      "source": "person_guizardus filius quondam gerardi tabellio",
       "target": "instrumentum_venditionis_1307_01",
       "type": "notarizes"
     },
     {
-      "source": "institution_monasterium sancti pauli",
+      "source": "institution_monasterium sancti georgii",
       "target": "instrumentum_venditionis_1307_01",
       "type": "receives"
     },
@@ -2587,7 +5002,82 @@
     },
     {
       "source": "instrumentum_venditionis_1307_01",
-      "target": "place_in capella sancti donati",
+      "target": "place_apud ecclesiam sancti petri",
+      "type": "created_in"
+    },
+    {
+      "source": "person_simon filius quondam rainaldi de zola",
+      "target": "instrumentum_venditionis_1307_02",
+      "type": "signs"
+    },
+    {
+      "source": "person_guizardus filius quondam gerardi tabellio",
+      "target": "instrumentum_venditionis_1307_02",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti pauli",
+      "target": "instrumentum_venditionis_1307_02",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1307_02",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1307_02",
+      "target": "place_in strata sancti donati",
+      "type": "created_in"
+    },
+    {
+      "source": "person_rolandinus filius quondam alberti de solario",
+      "target": "instrumentum_venditionis_1309_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_symon quondam ubertini tabellio",
+      "target": "instrumentum_venditionis_1309_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti georgii",
+      "target": "instrumentum_venditionis_1309_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1309_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1309_01",
+      "target": "place_in burgo sancti stephani",
+      "type": "created_in"
+    },
+    {
+      "source": "person_martinus germanus quondam alberti de padua",
+      "target": "instrumentum_venditionis_1309_02",
+      "type": "signs"
+    },
+    {
+      "source": "person_uguicio quondam iacobini tabellio",
+      "target": "instrumentum_venditionis_1309_02",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti dominici",
+      "target": "instrumentum_venditionis_1309_02",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1309_02",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1309_02",
+      "target": "place_in capella sancte marie maioris",
       "type": "created_in"
     },
     {
@@ -2641,17 +5131,112 @@
       "type": "created_in"
     },
     {
-      "source": "person_aldrevandinus filius quondam bonacursi de flesso",
-      "target": "instrumentum_venditionis_1317_01",
+      "source": "person_nicholaus filius quondam gerardi de savignano",
+      "target": "instrumentum_venditionis_1313_01",
       "type": "signs"
     },
     {
-      "source": "person_iohannes quondam petri tabellio",
-      "target": "instrumentum_venditionis_1317_01",
+      "source": "person_bonaventura quondam guidonis tabellio",
+      "target": "instrumentum_venditionis_1313_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti benedicti",
+      "target": "instrumentum_venditionis_1313_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1313_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1313_01",
+      "target": "place_in capella sancti proculi",
+      "type": "created_in"
+    },
+    {
+      "source": "person_aldrevandinus filius quondam bonacursi de flesso",
+      "target": "instrumentum_venditionis_1314_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_gerardus quondam alberti tabellio",
+      "target": "instrumentum_venditionis_1314_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti laurentii",
+      "target": "instrumentum_venditionis_1314_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1314_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1314_01",
+      "target": "place_in castro sancti iohannis in persiceto",
+      "type": "created_in"
+    },
+    {
+      "source": "person_lanfrancus filius quondam lanfranci de rovigo",
+      "target": "instrumentum_venditionis_1315_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_bonaventura quondam guidonis tabellio",
+      "target": "instrumentum_venditionis_1315_01",
       "type": "notarizes"
     },
     {
       "source": "institution_monasterium sancti marie",
+      "target": "instrumentum_venditionis_1315_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1315_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1315_01",
+      "target": "place_in burgo sancti stephani",
+      "type": "created_in"
+    },
+    {
+      "source": "person_aldrevandinus filius quondam bonacursi de flesso",
+      "target": "instrumentum_venditionis_1316_01",
+      "type": "signs"
+    },
+    {
+      "source": "institution_monasterium sancti michaelis",
+      "target": "instrumentum_venditionis_1316_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1316_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1316_01",
+      "target": "place_in burgo sancti stephani",
+      "type": "created_in"
+    },
+    {
+      "source": "person_raynaldus filius quondam ubertini de persiceto",
+      "target": "instrumentum_venditionis_1317_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_uguicio quondam iacobini tabellio",
+      "target": "instrumentum_venditionis_1317_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti michaelis",
       "target": "instrumentum_venditionis_1317_01",
       "type": "receives"
     },
@@ -2662,46 +5247,46 @@
     },
     {
       "source": "instrumentum_venditionis_1317_01",
-      "target": "place_in burgo sancti felicis",
+      "target": "place_apud ecclesiam sancti petri",
       "type": "created_in"
     },
     {
-      "source": "person_bonincontrus germanus quondam guidonis de casalecchio",
+      "source": "person_ventura germanus quondam petri de vallibus",
       "target": "instrumentum_venditionis_1318_01",
       "type": "signs"
     },
     {
-      "source": "person_gerardus quondam alberti tabellio",
+      "source": "person_bartholomeus filius quondam raynaldi tabellio",
       "target": "instrumentum_venditionis_1318_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti georgii",
+      "target": "instrumentum_venditionis_1318_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1318_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1318_01",
+      "target": "place_in capella sancti proculi",
+      "type": "created_in"
+    },
+    {
+      "source": "person_ventura germanus quondam petri de vallibus",
+      "target": "instrumentum_venditionis_1320_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_rolandinus quondam bonacursi tabellio",
+      "target": "instrumentum_venditionis_1320_01",
       "type": "notarizes"
     },
     {
       "source": "institution_monasterium sancti petri",
-      "target": "instrumentum_venditionis_1318_01",
-      "type": "receives"
-    },
-    {
-      "source": "instrumentum_venditionis_1318_01",
-      "target": "doctype_instrumentum venditionis",
-      "type": "has_type"
-    },
-    {
-      "source": "instrumentum_venditionis_1318_01",
-      "target": "place_in strata sancti donati",
-      "type": "created_in"
-    },
-    {
-      "source": "person_matheus frater quondam iohannis de anzola",
-      "target": "instrumentum_venditionis_1320_01",
-      "type": "signs"
-    },
-    {
-      "source": "person_uguicio quondam iacobini tabellio",
-      "target": "instrumentum_venditionis_1320_01",
-      "type": "notarizes"
-    },
-    {
-      "source": "institution_monasterium sancti stephani",
       "target": "instrumentum_venditionis_1320_01",
       "type": "receives"
     },
@@ -2712,21 +5297,16 @@
     },
     {
       "source": "instrumentum_venditionis_1320_01",
-      "target": "place_in curia casalecchii",
+      "target": "place_in burgo sancti felicis",
       "type": "created_in"
     },
     {
-      "source": "person_bonacursus filius quondam iohannis de crepacorio",
+      "source": "person_gerardus nepos quondam albertini de crevalcore",
       "target": "instrumentum_venditionis_1320_02",
       "type": "signs"
     },
     {
-      "source": "person_gerardus quondam alberti tabellio",
-      "target": "instrumentum_venditionis_1320_02",
-      "type": "notarizes"
-    },
-    {
-      "source": "institution_monasterium sancti pauli",
+      "source": "institution_monasterium sancti michaelis",
       "target": "instrumentum_venditionis_1320_02",
       "type": "receives"
     },
@@ -2791,17 +5371,17 @@
       "type": "created_in"
     },
     {
-      "source": "person_raynaldus filius quondam ubertini de persiceto",
+      "source": "person_azo heres quondam guidonis de lamola",
       "target": "instrumentum_venditionis_1322_01",
       "type": "signs"
     },
     {
-      "source": "person_albertus quondam nicholai tabellio",
+      "source": "person_iohannes quondam petri tabellio",
       "target": "instrumentum_venditionis_1322_01",
       "type": "notarizes"
     },
     {
-      "source": "institution_monasterium sancti iohannis",
+      "source": "institution_monasterium sancti pauli",
       "target": "instrumentum_venditionis_1322_01",
       "type": "receives"
     },
@@ -2812,7 +5392,32 @@
     },
     {
       "source": "instrumentum_venditionis_1322_01",
-      "target": "place_in burgo sancti felicis",
+      "target": "place_in capella sancte marie maioris",
+      "type": "created_in"
+    },
+    {
+      "source": "person_bonincontrus germanus quondam guidonis de casalecchio",
+      "target": "instrumentum_venditionis_1323_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_bonaventura quondam guidonis tabellio",
+      "target": "instrumentum_venditionis_1323_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti pauli",
+      "target": "instrumentum_venditionis_1323_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1323_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1323_01",
+      "target": "place_in burgo sancti stephani",
       "type": "created_in"
     },
     {
@@ -2846,12 +5451,12 @@
       "type": "signs"
     },
     {
-      "source": "person_bartholomeus filius quondam raynaldi tabellio",
+      "source": "person_bonaventura quondam guidonis tabellio",
       "target": "instrumentum_venditionis_1325_01",
       "type": "notarizes"
     },
     {
-      "source": "institution_monasterium sancti dominici",
+      "source": "institution_monasterium sancti benedicti",
       "target": "instrumentum_venditionis_1325_01",
       "type": "receives"
     },
@@ -2862,7 +5467,57 @@
     },
     {
       "source": "instrumentum_venditionis_1325_01",
-      "target": "place_in curia casalecchii",
+      "target": "place_in curia montisveglij",
+      "type": "created_in"
+    },
+    {
+      "source": "person_uguicio frater quondam henrici de monteveglio",
+      "target": "instrumentum_venditionis_1327_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_bonaventura quondam guidonis tabellio",
+      "target": "instrumentum_venditionis_1327_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti michaelis",
+      "target": "instrumentum_venditionis_1327_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1327_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1327_01",
+      "target": "place_in strata sancti donati",
+      "type": "created_in"
+    },
+    {
+      "source": "person_lanfrancus filius quondam lanfranci de rovigo",
+      "target": "instrumentum_venditionis_1328_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_albertinus quondam iohannis tabellio",
+      "target": "instrumentum_venditionis_1328_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti michaelis",
+      "target": "instrumentum_venditionis_1328_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1328_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1328_01",
+      "target": "place_in burgo sancti stephani",
       "type": "created_in"
     },
     {
@@ -2891,6 +5546,31 @@
       "type": "created_in"
     },
     {
+      "source": "person_lanfrancus filius quondam lanfranci de rovigo",
+      "target": "instrumentum_venditionis_1331_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_albertus quondam nicholai tabellio",
+      "target": "instrumentum_venditionis_1331_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti petri",
+      "target": "instrumentum_venditionis_1331_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1331_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1331_01",
+      "target": "place_in capella sancte cecilie",
+      "type": "created_in"
+    },
+    {
       "source": "person_nicholaus filius quondam gerardi de savignano",
       "target": "instrumentum_venditionis_1332_01",
       "type": "signs"
@@ -2913,6 +5593,146 @@
     {
       "source": "instrumentum_venditionis_1332_01",
       "target": "place_in capella sancti proculi",
+      "type": "created_in"
+    },
+    {
+      "source": "person_rolandinus filius quondam alberti de solario",
+      "target": "instrumentum_venditionis_1336_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_guizardus filius quondam gerardi tabellio",
+      "target": "instrumentum_venditionis_1336_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti iohannis",
+      "target": "instrumentum_venditionis_1336_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1336_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1336_01",
+      "target": "place_in capella sancti proculi",
+      "type": "created_in"
+    },
+    {
+      "source": "person_azo heres quondam guidonis de lamola",
+      "target": "instrumentum_venditionis_1336_02",
+      "type": "signs"
+    },
+    {
+      "source": "person_guizardus filius quondam gerardi tabellio",
+      "target": "instrumentum_venditionis_1336_02",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti georgii",
+      "target": "instrumentum_venditionis_1336_02",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1336_02",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1336_02",
+      "target": "place_in strata sancti donati",
+      "type": "created_in"
+    },
+    {
+      "source": "person_simon filius quondam rainaldi de zola",
+      "target": "instrumentum_venditionis_1336_03",
+      "type": "signs"
+    },
+    {
+      "source": "person_guizardus filius quondam gerardi tabellio",
+      "target": "instrumentum_venditionis_1336_03",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti laurentii",
+      "target": "instrumentum_venditionis_1336_03",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1336_03",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1336_03",
+      "target": "place_bononie",
+      "type": "created_in"
+    },
+    {
+      "source": "person_gerardus nepos quondam albertini de crevalcore",
+      "target": "instrumentum_venditionis_1339_01",
+      "type": "signs"
+    },
+    {
+      "source": "person_symon quondam ubertini tabellio",
+      "target": "instrumentum_venditionis_1339_01",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti petri",
+      "target": "instrumentum_venditionis_1339_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1339_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1339_01",
+      "target": "place_in curia montisveglij",
+      "type": "created_in"
+    },
+    {
+      "source": "person_petrus filius quondam bonaventure de sancto iohanne",
+      "target": "instrumentum_venditionis_1340_01",
+      "type": "signs"
+    },
+    {
+      "source": "institution_monasterium sancti georgii",
+      "target": "instrumentum_venditionis_1340_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1340_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1340_01",
+      "target": "place_apud ecclesiam sancti petri",
+      "type": "created_in"
+    },
+    {
+      "source": "person_martinus germanus quondam alberti de padua",
+      "target": "instrumentum_venditionis_1340_02",
+      "type": "signs"
+    },
+    {
+      "source": "institution_monasterium sancti petri",
+      "target": "instrumentum_venditionis_1340_02",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1340_02",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1340_02",
+      "target": "place_bononie",
       "type": "created_in"
     },
     {
@@ -2966,17 +5786,37 @@
       "type": "created_in"
     },
     {
-      "source": "person_martinus germanus quondam alberti de padua",
-      "target": "instrumentum_venditionis_1347_01",
+      "source": "person_petrus filius quondam bonaventure de sancto iohanne",
+      "target": "instrumentum_venditionis_1343_01",
       "type": "signs"
     },
     {
-      "source": "person_albertinus quondam iohannis tabellio",
-      "target": "instrumentum_venditionis_1347_01",
+      "source": "person_bonaventura quondam guidonis tabellio",
+      "target": "instrumentum_venditionis_1343_01",
       "type": "notarizes"
     },
     {
       "source": "institution_monasterium sancti georgii",
+      "target": "instrumentum_venditionis_1343_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1343_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1343_01",
+      "target": "place_in capella sancti proculi",
+      "type": "created_in"
+    },
+    {
+      "source": "person_nicholaus filius quondam gerardi de savignano",
+      "target": "instrumentum_venditionis_1347_01",
+      "type": "signs"
+    },
+    {
+      "source": "institution_monasterium sancti benedicti",
       "target": "instrumentum_venditionis_1347_01",
       "type": "receives"
     },
@@ -2987,7 +5827,7 @@
     },
     {
       "source": "instrumentum_venditionis_1347_01",
-      "target": "place_apud ecclesiam sancti petri",
+      "target": "place_in capella sancte marie maioris",
       "type": "created_in"
     },
     {
@@ -3016,6 +5856,51 @@
       "type": "created_in"
     },
     {
+      "source": "person_uguicio frater quondam henrici de monteveglio",
+      "target": "instrumentum_venditionis_1349_01",
+      "type": "signs"
+    },
+    {
+      "source": "institution_monasterium sancti dominici",
+      "target": "instrumentum_venditionis_1349_01",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1349_01",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1349_01",
+      "target": "place_in capella sancte marie maioris",
+      "type": "created_in"
+    },
+    {
+      "source": "person_raynaldus filius quondam ubertini de persiceto",
+      "target": "instrumentum_venditionis_1349_02",
+      "type": "signs"
+    },
+    {
+      "source": "person_albertinus quondam iohannis tabellio",
+      "target": "instrumentum_venditionis_1349_02",
+      "type": "notarizes"
+    },
+    {
+      "source": "institution_monasterium sancti michaelis",
+      "target": "instrumentum_venditionis_1349_02",
+      "type": "receives"
+    },
+    {
+      "source": "instrumentum_venditionis_1349_02",
+      "target": "doctype_instrumentum venditionis",
+      "type": "has_type"
+    },
+    {
+      "source": "instrumentum_venditionis_1349_02",
+      "target": "place_in castro sancti iohannis in persiceto",
+      "type": "created_in"
+    },
+    {
       "source": "person_fredericus filius quondam petri de meledulo",
       "target": "instrumentum_venditionis_1350_01",
       "type": "signs"
@@ -3041,8 +5926,33 @@
       "type": "created_in"
     },
     {
-      "source": "person_martinus germanus quondam alberti de padua",
-      "target": "clan_padua",
+      "source": "person_michael nepos quondam uberti de sancto petro",
+      "target": "clan_sancto",
+      "type": "belongs_to_clan"
+    },
+    {
+      "source": "person_petrus filius quondam bonaventure de sancto iohanne",
+      "target": "clan_sancto",
+      "type": "belongs_to_clan"
+    },
+    {
+      "source": "person_uguicio frater quondam henrici de monteveglio",
+      "target": "clan_monteveglio",
+      "type": "belongs_to_clan"
+    },
+    {
+      "source": "person_azo heres quondam guidonis de lamola",
+      "target": "clan_lamola",
+      "type": "belongs_to_clan"
+    },
+    {
+      "source": "person_raynaldus filius quondam ubertini de persiceto",
+      "target": "clan_persiceto",
+      "type": "belongs_to_clan"
+    },
+    {
+      "source": "person_guido heres quondam albertini de montebello",
+      "target": "clan_montebello",
       "type": "belongs_to_clan"
     },
     {
@@ -3051,28 +5961,18 @@
       "type": "belongs_to_clan"
     },
     {
+      "source": "person_lanfrancus filius quondam lanfranci de rovigo",
+      "target": "clan_rovigo",
+      "type": "belongs_to_clan"
+    },
+    {
       "source": "person_albertus filius quondam guidonis de aon",
       "target": "clan_a",
       "type": "belongs_to_clan"
     },
     {
-      "source": "person_petrus filius quondam bonaventure de sancto iohanne",
-      "target": "clan_sancto",
-      "type": "belongs_to_clan"
-    },
-    {
-      "source": "person_michael nepos quondam uberti de sancto petro",
-      "target": "clan_sancto",
-      "type": "belongs_to_clan"
-    },
-    {
-      "source": "person_rolandinus filius quondam alberti de solario",
-      "target": "clan_solario",
-      "type": "belongs_to_clan"
-    },
-    {
-      "source": "person_iohannes heres ugonis de sablono",
-      "target": "clan_sablono",
+      "source": "person_iacobinus nepos quondam guizardi de castrofranco",
+      "target": "clan_castrofranco",
       "type": "belongs_to_clan"
     },
     {
@@ -3086,8 +5986,8 @@
       "type": "belongs_to_clan"
     },
     {
-      "source": "person_iacobinus nepos quondam guizardi de castrofranco",
-      "target": "clan_castrofranco",
+      "source": "person_bonacursus filius quondam iohannis de crepacorio",
+      "target": "clan_crepacorio",
       "type": "belongs_to_clan"
     },
     {
@@ -3096,28 +5996,18 @@
       "type": "belongs_to_clan"
     },
     {
-      "source": "person_bonacursus filius quondam iohannis de crepacorio",
-      "target": "clan_crepacorio",
-      "type": "belongs_to_clan"
-    },
-    {
       "source": "person_aldrevandinus filius quondam bonacursi de flesso",
       "target": "clan_flesso",
       "type": "belongs_to_clan"
     },
     {
-      "source": "person_ubertinus nepos quondam federici de calcaria",
-      "target": "clan_calcaria",
+      "source": "person_bonincontrus germanus quondam guidonis de casalecchio",
+      "target": "clan_casalecchio",
       "type": "belongs_to_clan"
     },
     {
-      "source": "person_uguicio frater quondam henrici de monteveglio",
-      "target": "clan_monteveglio",
-      "type": "belongs_to_clan"
-    },
-    {
-      "source": "person_raynaldus filius quondam ubertini de persiceto",
-      "target": "clan_persiceto",
+      "source": "person_rolandinus filius quondam alberti de solario",
+      "target": "clan_solario",
       "type": "belongs_to_clan"
     },
     {
@@ -3126,13 +6016,13 @@
       "type": "belongs_to_clan"
     },
     {
-      "source": "person_guido heres quondam albertini de montebello",
-      "target": "clan_montebello",
+      "source": "person_ubertinus nepos quondam federici de calcaria",
+      "target": "clan_calcaria",
       "type": "belongs_to_clan"
     },
     {
-      "source": "person_azo heres quondam guidonis de lamola",
-      "target": "clan_lamola",
+      "source": "person_martinus germanus quondam alberti de padua",
+      "target": "clan_padua",
       "type": "belongs_to_clan"
     },
     {
@@ -3141,13 +6031,8 @@
       "type": "belongs_to_clan"
     },
     {
-      "source": "person_lanfrancus filius quondam lanfranci de rovigo",
-      "target": "clan_rovigo",
-      "type": "belongs_to_clan"
-    },
-    {
-      "source": "person_bonincontrus germanus quondam guidonis de casalecchio",
-      "target": "clan_casalecchio",
+      "source": "person_iohannes heres ugonis de sablono",
+      "target": "clan_sablono",
       "type": "belongs_to_clan"
     }
   ]
