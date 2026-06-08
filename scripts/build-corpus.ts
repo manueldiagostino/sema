@@ -68,6 +68,9 @@ export interface BuildConfig {
 // Helpers
 // ---------------------------------------------------------------------------
 
+import { getActiveTeiDir } from "@/lib/dataDir";
+export { getActiveTeiDir };
+
 /**
  * Recursively extract text content from a DOM node, equivalent to
  * XQuery's string-join($node//text(), ' ').
@@ -197,7 +200,8 @@ export async function buildCorpus(config?: BuildConfig): Promise<void> {
   // Compute paths: use projectRoot from config, or fall back to __dirname
   const root = config?.projectRoot ?? path.resolve(__dirname, "..");
   const columnsYaml = path.join(root, "config", "columns.yaml");
-  const defaultTeiDir = path.join(root, "data", "tei-samples");
+  const defaultTeiDir = getActiveTeiDir(root);
+  console.log(`Active TEI directory: ${defaultTeiDir}`);
   const defaultOutputFile = path.join(root, "public", "corpus-metadata.json");
 
   // 1. Load column definitions from YAML
@@ -207,8 +211,8 @@ export async function buildCorpus(config?: BuildConfig): Promise<void> {
   const columns: ColumnConfig[] = parsed.columns;
   console.log(`  Found ${columns.length} column definitions`);
 
-  // 2. Find all TEI/XML files (default dir + any additional dirs from config)
-  const dataDirs = [defaultTeiDir, ...(config?.dataDirs || [])];
+  // 2. Find all TEI/XML files (explicit dirs override the active directory)
+  const dataDirs = config?.dataDirs && config.dataDirs.length > 0 ? [...config.dataDirs] : [defaultTeiDir];
   const xmlFiles = findXmlFiles(dataDirs);
   console.log(`Found ${xmlFiles.length} XML file(s) across ${dataDirs.length} dir(s)`);
 

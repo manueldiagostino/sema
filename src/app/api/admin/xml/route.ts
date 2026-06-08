@@ -32,6 +32,8 @@ async function getAdminSession() {
   return session;
 }
 
+import { getActiveTeiDir } from "@/lib/dataDir";
+
 // ---------------------------------------------------------------------------
 // GET handler — download a TEI XML file as raw XML
 // Usage: GET /api/admin/xml?filename=instrumentum_venditionis_1318_01.xml
@@ -63,9 +65,9 @@ export async function GET(request: Request) {
     );
   }
 
-  // ── 3. Read the file from data/tei-samples/ ──
+  // ── 3. Read the file from local TEI directory ──
   const cwd = process.cwd();
-  const filePath = join(cwd, "data", "tei-samples", filename);
+  const filePath = join(getActiveTeiDir(cwd), filename);
 
   try {
     const xml = readFileSync(filePath, "utf-8");
@@ -117,7 +119,7 @@ export async function DELETE(request: Request) {
 
   // ── 3. Check file exists and delete it ──
   const cwd = process.cwd();
-  const filePath = join(cwd, "data", "tei-samples", filename);
+  const filePath = join(getActiveTeiDir(cwd), filename);
 
   if (!existsSync(filePath)) {
     return NextResponse.json(
@@ -206,7 +208,7 @@ export async function POST(request: Request) {
     // ── 3. Load form config ──
     const config = loadFormConfig();
     const cwd = process.cwd();
-    const localTeiDir = join(cwd, "data", "tei-samples");
+    const localTeiDir = getActiveTeiDir(cwd);
     mkdirSync(localTeiDir, { recursive: true });
 
     let filename: string;
@@ -263,7 +265,7 @@ export async function POST(request: Request) {
     // ── 4. Generate TEI XML ──
     const xml = generateTeiXml(data, config, docId);
 
-    // ── 5. Write XML to data/tei-samples/ ──
+    // ── 5. Write XML to the active TEI directory ──
     writeFileSync(join(localTeiDir, filename), xml, "utf-8");
     console.log(`[admin/xml] Saved XML: ${filename} (mode: ${mode})`);
 

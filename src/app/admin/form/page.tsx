@@ -3,6 +3,7 @@ import AdminFormPage from "@/components/admin/AdminFormPage";
 import { parseTeiXml } from "@/lib/xmlParser";
 import { readFileSync } from "fs";
 import { join } from "path";
+import { getActiveTeiDir } from "@/lib/dataDir";
 
 export default async function AdminFormRoutePage({
   searchParams,
@@ -25,7 +26,8 @@ export default async function AdminFormRoutePage({
       );
     }
 
-    const filePath = join(process.cwd(), "data", "tei-samples", editFile);
+    const localTeiDir = getActiveTeiDir(process.cwd());
+    const filePath = join(localTeiDir, editFile);
     let xml: string;
     try {
       xml = readFileSync(filePath, "utf-8");

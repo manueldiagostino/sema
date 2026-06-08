@@ -8,6 +8,7 @@
     "build-json": "npm run build-corpus && npm run build-entity-graph",
     "build-corpus": "tsx scripts/build-corpus.ts",
     "build-entity-graph": "tsx scripts/build-entity-graph.ts",
+    "generate-fake": "tsx scripts/generate-fake.ts",
     "start": "next start",
     "lint": "eslint"
   },
@@ -25,6 +26,7 @@
     "xpath": "^0.0.34"
   },
   "devDependencies": {
+    "@faker-js/faker": "^10.4.0",
     "@tailwindcss/postcss": "^4",
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^20",
