@@ -1,15 +1,38 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect, type FormEvent } from "react";
+import AdminDashboard from "@/components/admin/AdminDashboard";
 
-export default function AdminLoginPage() {
-  const router = useRouter();
+export default function AdminPage() {
+  const [authenticated, setAuthenticated] = useState(false);
+  const [checking, setChecking] = useState(true);
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  async function handleSubmit(e: FormEvent) {
+  useEffect(() => {
+    // Check if already authenticated by probing a protected endpoint.
+    // Use redirect: "manual" so the middleware's 307 redirect for
+    // unauthenticated requests is NOT followed — otherwise the fetch
+    // would follow the redirect to /admin (login page) and get a 200,
+    // incorrectly concluding the user is authenticated.
+    fetch("/api/admin/xml?filename=__session_check__", { redirect: "manual" })
+      .then((res) => {
+        // With manual redirect: a valid session passes through the
+        // middleware and the API returns a normal response (404 for
+        // missing file, or 400 for bad filename). An invalid session
+        // gets redirected (type === "opaqueredirect", status 0).
+        if (res.type === "basic") {
+          setAuthenticated(true);
+        }
+      })
+      .catch(() => {
+        // Network error — stay on login
+      })
+      .finally(() => setChecking(false));
+  }, []);
+
+  async function handleLogin(e: FormEvent) {
     e.preventDefault();
     setError("");
     setLoading(true);
@@ -22,7 +45,7 @@ export default function AdminLoginPage() {
       });
 
       if (res.ok) {
-        router.push("/admin/form");
+        setAuthenticated(true);
       } else {
         const data = await res.json();
         setError(data.error || "Invalid password");
@@ -34,6 +57,24 @@ export default function AdminLoginPage() {
     }
   }
 
+  // Checking auth state
+  if (checking) {
+    return (
+      <main className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="mx-auto h-8 w-8 animate-spin rounded-full border-2 border-gray-300 border-t-indigo-600" />
+          <p className="mt-3 text-sm text-gray-500">Loading...</p>
+        </div>
+      </main>
+    );
+  }
+
+  // Authenticated — show dashboard
+  if (authenticated) {
+    return <AdminDashboard />;
+  }
+
+  // Not authenticated — show login form
   return (
     <main className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="w-full max-w-sm bg-white rounded-lg shadow-md p-8">
@@ -41,7 +82,7 @@ export default function AdminLoginPage() {
           Sema Admin
         </h1>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleLogin} className="space-y-4">
           <div>
             <label
               htmlFor="password"

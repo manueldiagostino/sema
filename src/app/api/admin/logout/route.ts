@@ -16,10 +16,5 @@ export async function POST() {
 
   session.destroy();
 
-  return NextResponse.redirect(
-    new URL(
-      "/admin",
-      process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
-    ),
-  );
+  return NextResponse.json({ success: true });
 }

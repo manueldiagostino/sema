@@ -4,12 +4,16 @@ import type { NextRequest } from "next/server";
 export function proxy(request: NextRequest) {
   const path = request.nextUrl.pathname;
 
-  // Only intercept admin-protected routes.
-  // Skip /admin itself (login page) and /api/admin/login (login endpoint).
-  if (
-    path.startsWith("/admin/form") ||
-    path.startsWith("/api/admin/xml")
-  ) {
+  // Guard all admin sub-routes (e.g. /admin/form, /admin/dashboard) and
+  // admin API routes, but allow the bare /admin path (login page) and
+  // the login API endpoint through without auth checks.
+  const isAdminRoute =
+    (path.startsWith("/admin/") || path === "/admin") &&
+    path !== "/admin" &&
+    path !== "/api/admin/login";
+  const isProtectedApi = path.startsWith("/api/admin/xml");
+
+  if (isAdminRoute || isProtectedApi) {
     const sessionCookie = request.cookies.get("admin-session");
 
     if (!sessionCookie?.value) {
@@ -23,7 +27,7 @@ export function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/admin/form/:path*",
+    "/admin/:path*",
     "/api/admin/xml/:path*",
   ],
 };

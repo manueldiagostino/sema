@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useCallback, type FormEvent } from "react";
+import Link from "next/link";
 import type {
   FormSectionsConfig,
   FormSectionConfig,
@@ -16,6 +17,12 @@ import AdHocFields from "./AdHocFields";
 
 interface AdminFormPageProps {
   config: FormSectionsConfig;
+  /** Parsed field values for edit mode (from xmlParser). */
+  initialValues?: Record<string, unknown>;
+  /** Charter type ID locked in edit mode — hides the type selector. */
+  lockedCharterType?: string;
+  /** Original filename when editing an existing document. */
+  editFilename?: string;
 }
 
 function getInitialFieldValue(
@@ -74,13 +81,35 @@ function appliesToCurrentType(
   return false;
 }
 
-export default function AdminFormPage({ config }: AdminFormPageProps) {
+export default function AdminFormPage({
+  config,
+  initialValues,
+  lockedCharterType,
+  editFilename,
+}: AdminFormPageProps) {
   const { types, sections } = config;
 
-  const [charterType, setCharterType] = useState("");
+  // Compute initial charter type and field values, incorporating edit-mode data
+  // when lockedCharterType is provided. This runs once on mount via lazy init.
+  const [charterType, setCharterType] = useState<string>(() => {
+    return lockedCharterType || "";
+  });
   const [fieldValues, setFieldValues] = useState<
     Record<string, string | string[] | DateFieldValue | WitnessEntry[] | undefined>
-  >({});
+  >(() => {
+    if (!lockedCharterType) return {};
+    const defaults = initializeFieldValues(sections, lockedCharterType);
+    if (initialValues) {
+      const merged = { ...defaults };
+      for (const [key, value] of Object.entries(initialValues)) {
+        if (value !== undefined && value !== null) {
+          merged[key] = value as string | string[] | DateFieldValue | WitnessEntry[] | undefined;
+        }
+      }
+      return merged;
+    }
+    return defaults;
+  });
   const [adHoc, setAdHoc] = useState<AdHocField[]>([]);
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState<string | null>(null);
@@ -103,7 +132,7 @@ export default function AdminFormPage({ config }: AdminFormPageProps) {
 
       setFieldValues(newValues);
     },
-    [sections, types],
+    [sections],
   );
 
   const handleFieldChange = useCallback(
@@ -165,6 +194,8 @@ export default function AdminFormPage({ config }: AdminFormPageProps) {
     setValidationErrors({});
   }
 
+  const isEditMode = !!lockedCharterType;
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
@@ -183,11 +214,16 @@ export default function AdminFormPage({ config }: AdminFormPageProps) {
     setError(null);
     setSuccess(null);
 
-    const submissionData: FormSubmissionData = {
+    const submissionData: FormSubmissionData & { mode?: "create" | "update"; filename?: string } = {
       charter_type: charterType,
       fields: { ...fieldValues },
       ad_hoc: adHoc,
     };
+
+    if (isEditMode && editFilename) {
+      submissionData.mode = "update";
+      submissionData.filename = editFilename;
+    }
 
     try {
       const res = await fetch("/api/admin/xml", {
@@ -198,10 +234,14 @@ export default function AdminFormPage({ config }: AdminFormPageProps) {
 
       if (res.ok) {
         const data = await res.json();
-        setSuccess(`Document created: ${data.filename ?? "document.xml"}`);
+        setSuccess(
+          isEditMode
+            ? `Document updated: ${data.filename ?? "document.xml"}`
+            : `Document created: ${data.filename ?? "document.xml"}`,
+        );
       } else {
         const data = await res.json();
-        setError(data.error ?? "Failed to create document.");
+        setError(data.error ?? `Failed to ${isEditMode ? "update" : "create"} document.`);
       }
     } catch {
       setError("Network error. Please try again.");
@@ -215,16 +255,30 @@ export default function AdminFormPage({ config }: AdminFormPageProps) {
     appliesToCurrentType(s.applies_to, charterType),
   );
 
+  // Look up the locked charter type label for display
+  const lockedTypeConfig = types.find((t) => t.id === lockedCharterType);
+
   return (
     <main className="min-h-screen bg-gray-50 py-8 px-4">
       <div className="mx-auto max-w-3xl">
         <div className="mb-8 flex items-start justify-between">
           <div>
+            <Link
+              href="/admin"
+              className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-indigo-600 mb-2"
+            >
+              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+              Dashboard
+            </Link>
             <h1 className="text-2xl font-bold text-primary">
-              Create TEI Document
+              {isEditMode ? "Edit TEI Document" : "Create TEI Document"}
             </h1>
             <p className="mt-1 text-sm text-gray-500">
-              Fill out the form below to generate a new TEI XML document.
+              {isEditMode
+                ? "Modify the document fields below and save your changes."
+                : "Fill out the form below to generate a new TEI XML document."}
             </p>
           </div>
           <button
@@ -241,14 +295,28 @@ export default function AdminFormPage({ config }: AdminFormPageProps) {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Charter Type Selector */}
+          {/* Charter Type Selector or Read-only Label */}
           <div className="border border-border rounded-lg p-6 bg-white">
-            <CharterTypeSelector
-              types={types}
-              value={charterType}
-              onChange={handleCharterTypeChange}
-              disabled={submitting}
-            />
+            {isEditMode ? (
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Charter Type
+                </label>
+                <p className="text-base text-gray-900 py-2">
+                  {lockedTypeConfig?.label ?? lockedCharterType}
+                </p>
+                <p className="text-xs text-gray-400 mt-1">
+                  Charter type cannot be changed when editing an existing document.
+                </p>
+              </div>
+            ) : (
+              <CharterTypeSelector
+                types={types}
+                value={charterType}
+                onChange={handleCharterTypeChange}
+                disabled={submitting}
+              />
+            )}
           </div>
 
           {/* Form Sections */}
@@ -280,10 +348,50 @@ export default function AdminFormPage({ config }: AdminFormPageProps) {
           {/* Status Messages */}
           {success && (
             <div
-              className="rounded-md border border-green-200 bg-green-50 px-4 py-3"
+              className="rounded-md bg-white border border-[var(--border)] border-l-4 border-l-green-500 px-5 py-4 shadow-sm"
               role="alert"
             >
-              <p className="text-sm text-green-800">{success}</p>
+              <div className="flex items-center gap-2 mb-3">
+                <svg
+                  className="h-5 w-5 text-green-500 shrink-0"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                <p className="text-sm text-green-800 font-medium">{success}</p>
+              </div>
+              <div className="flex items-center gap-3 ml-7">
+                <Link
+                  href="/admin"
+                  className="inline-flex items-center rounded-md bg-[var(--primary)] px-4 py-2 text-sm font-medium text-white hover:opacity-90 transition-opacity"
+                >
+                  ← Back to Dashboard
+                </Link>
+                {!isEditMode ? (
+                  <button
+                    type="button"
+                    onClick={handleClearForm}
+                    className="inline-flex items-center rounded-md border border-[var(--border)] bg-white px-4 py-2 text-sm font-medium text-[var(--primary)] hover:bg-gray-50 transition-colors"
+                  >
+                    Create Another
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => setSuccess(null)}
+                    className="inline-flex items-center rounded-md border border-[var(--border)] bg-white px-4 py-2 text-sm font-medium text-[var(--primary)] hover:bg-gray-50 transition-colors"
+                  >
+                    Continue Editing
+                  </button>
+                )}
+              </div>
             </div>
           )}
 
@@ -298,20 +406,28 @@ export default function AdminFormPage({ config }: AdminFormPageProps) {
 
           {/* Submit Buttons */}
           <div className="flex justify-end gap-3">
-            <button
-              type="button"
-              onClick={handleClearForm}
-              disabled={submitting}
-              className="rounded-md border border-border bg-background px-6 py-2.5 text-sm font-medium text-foreground hover:bg-muted focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              Clear Form
-            </button>
+            {!isEditMode && (
+              <button
+                type="button"
+                onClick={handleClearForm}
+                disabled={submitting}
+                className="rounded-md border border-border bg-background px-6 py-2.5 text-sm font-medium text-foreground hover:bg-muted focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Clear Form
+              </button>
+            )}
             <button
               type="submit"
               disabled={submitting || !charterType}
               className="rounded-md bg-indigo-600 px-6 py-2.5 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {submitting ? "Creating document..." : "Create Document"}
+              {submitting
+                ? isEditMode
+                  ? "Saving changes..."
+                  : "Creating document..."
+                : isEditMode
+                  ? "Save Changes"
+                  : "Create Document"}
             </button>
           </div>
         </form>

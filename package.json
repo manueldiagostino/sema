@@ -12,7 +12,6 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@octokit/rest": "^21.1.1",
     "@tanstack/react-table": "^8.21.3",
     "@xmldom/xmldom": "^0.8.10",
     "iron-session": "^8.0.4",

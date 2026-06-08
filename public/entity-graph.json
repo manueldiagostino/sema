@@ -17,18 +17,6 @@
       ]
     },
     {
-      "id": "instrumentum_venditionis_unknown_01",
-      "type": "document",
-      "label": "Instrumentum venditionis",
-      "docType": "Instrumentum venditionis",
-      "fileId": "instrumentum_venditionis_unknown_01"
-    },
-    {
-      "id": "doctype_instrumentum venditionis",
-      "type": "document_type",
-      "label": "Instrumentum venditionis"
-    },
-    {
       "id": "institution_bonfantino a nome della chieda si s vittore e del priore alberio",
       "type": "institution",
       "label": "Bonfantino, a nome della chieda si S. Vittore e del priore Alberio"
@@ -37,19 +25,23 @@
       "id": "place_nel burgo s donati bologna",
       "type": "place",
       "label": "nel burgo S. Donati (Bologna)"
+    },
+    {
+      "id": "instrumentum_venditionis_1136_01",
+      "type": "document",
+      "label": "Instrumentum venditionis",
+      "date": "1136-04-26",
+      "docType": "Instrumentum venditionis",
+      "archive": "ASBo",
+      "fileId": "instrumentum_venditionis_1136_01"
+    },
+    {
+      "id": "doctype_instrumentum venditionis",
+      "type": "document_type",
+      "label": "Instrumentum venditionis"
     }
   ],
   "edges": [
-    {
-      "source": "person_zambono figlio di rodaldo di lovoleto",
-      "target": "instrumentum_venditionis_unknown_01",
-      "type": "signs"
-    },
-    {
-      "source": "instrumentum_venditionis_unknown_01",
-      "target": "doctype_instrumentum venditionis",
-      "type": "has_type"
-    },
     {
       "source": "person_zambono figlio di rodaldo di lovoleto",
       "target": "instrumentum_venditionis_1136_01",
