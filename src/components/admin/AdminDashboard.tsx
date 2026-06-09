@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import DeleteConfirmModal from "./DeleteConfirmModal";
+import PublishPanel from "./PublishPanel";
 import FacetSidebar from "../corpus/FacetSidebar";
 import type { Facets, CharterType, SelectedFacets, DateRange } from "@/types/corpus";
 
@@ -361,6 +362,13 @@ export default function AdminDashboard() {
               </div>
             </div>
           )}
+        </div>
+      </div>
+
+      {/* Publish panel */}
+      <div className="border-t border-gray-200">
+        <div className="mx-auto max-w-6xl px-4 py-6">
+          <PublishPanel />
         </div>
       </div>
 

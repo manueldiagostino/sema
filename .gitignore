@@ -42,6 +42,9 @@ yarn-error.log*
 # generated fake corpus
 /data/fake/
 
+# local GitHub token (set via admin publish UI)
+/data/.github-token
+
 # vercel
 .vercel
 
