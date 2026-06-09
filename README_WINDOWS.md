@@ -35,30 +35,19 @@ The script will:
 - Start the dev server
 - Open the browser
 
-The admin area uses password `dev` by default in development mode. To set a custom password, create a `.env.local` file (see below).
+The admin area is accessible without authentication in local development.
 
 ## Manual Setup
 
-If the batch script doesn't work (restricted PowerShell execution policy), right-click `start.ps1` and select **"Run with PowerShell"**, or open PowerShell and run:
+If the batch script doesn't work, open a terminal in the project folder and run:
 
-```powershell
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-.\start.ps1
+```
+npm install
+npm run build-json
+npm run dev
 ```
 
-## Custom Password (Optional)
-
-By default the admin area uses password `dev` in development mode. To override it, create a `.env.local` file in the project folder:
-
-```env
-ADMIN_PASSWORD=your-password-here
-```
-
-Optional variables:
-
-| Variable | Purpose |
-|----------|---------|
-| `COOKIE_SECRET` | Session encryption secret (auto-generated insecure default if omitted — set a strong one in production) |
+## Generating Fake Data for Testing
 
 ## Generating Fake Data for Testing
 
@@ -68,7 +57,7 @@ To populate the corpus with randomly generated TEI documents:
 npm run generate-fake
 ```
 
-Creates 100 fake charters in `data/fake/` and rebuilds the JSON. The app automatically uses `data/fake/` instead of `data/tei-samples/` when it exists.
+Creates 100 fake charters in `data/fake/` and rebuilds the JSON. The app automatically uses `data/fake/` instead of `data/corpus/` when it exists.
 
 Options:
 
@@ -86,7 +75,7 @@ npm run generate-fake -- --clean        # delete existing data/fake/ first
 After creating or editing documents through the admin panel, push the XML file changes to a shared repository:
 
 ```powershell
-git add data/tei-samples/
+git add data/corpus/
 git commit -m "Add charter: <title-or-id>"
 git push
 ```
@@ -98,4 +87,4 @@ git push
 - **"Node.js is required"**: Install Node.js from https://nodejs.org
 - **Port 3000 already in use**: Close other programs using port 3000, or change the port in `package.json`
 - **Blank page**: Make sure `npm run build-json` ran successfully
-- **"Server configuration error" at login**: If you're running in production, you must set `ADMIN_PASSWORD` in `.env.local`. In development mode, the default password is `dev`.
+

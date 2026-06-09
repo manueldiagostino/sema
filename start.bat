@@ -15,11 +15,38 @@ if %errorlevel% neq 0 (
 REM Navigate to script directory
 cd /d "%~dp0"
 
-REM Install dependencies if needed
-if not exist "node_modules\" (
+REM Always ensure dependencies are installed
+echo Checking dependencies...
+if not exist "node_modules\.package-lock.json" (
     echo Installing dependencies...
     call npm install
+) else (
+    call npm install --prefer-offline
 )
+
+REM ── Git configuration ──
+echo.
+where git >nul 2>&1
+if %errorlevel% neq 0 (
+    echo [INFO] Git not found in PATH. Skipping git configuration.
+    echo       Install Git for Windows from https://git-scm.com to enable commit/push.
+) else (
+    git config user.name >nul 2>&1
+    if %errorlevel% neq 0 (
+        echo === Git Configuration ===
+        echo Git user is not configured yet. Set your name and email for this repository
+        echo to enable commit and push from the admin panel.
+        echo.
+        set /p "GIT_NAME=Enter your git display name (e.g., Mario Rossi): "
+        set /p "GIT_EMAIL=Enter your git email address: "
+        if not "%GIT_NAME%"=="" git config user.name "%GIT_NAME%"
+        if not "%GIT_EMAIL%"=="" git config user.email "%GIT_EMAIL%"
+        if not "%GIT_NAME%"=="" if not "%GIT_EMAIL%"=="" (
+            echo Git configuration saved locally for this repository.
+        )
+    )
+)
+echo.
 
 REM Build corpus JSON
 echo Building corpus data...

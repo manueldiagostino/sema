@@ -2,7 +2,7 @@
 /**
  * build-entity-graph.ts
  *
- * Reads TEI/XML files from data/tei-samples/ and generates
+ * Reads TEI/XML files from data/corpus/ and generates
  * web/public/entity-graph.json — a knowledge graph of persons,
  * institutions, places, documents, and document types with edges
  * representing relationships between them.

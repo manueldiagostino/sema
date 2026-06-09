@@ -2,7 +2,7 @@
 /**
  * build-corpus.ts
  *
- * Reads TEI/XML files from data/tei-samples/ and generates
+ * Reads TEI/XML files from data/corpus/ and generates
  * public/corpus-metadata.json based on column definitions
  * from config/columns.yaml.
  *
