@@ -281,17 +281,7 @@ export default function AdminFormPage({
                 : "Fill out the form below to generate a new TEI XML document."}
             </p>
           </div>
-          <button
-            type="button"
-            onClick={() => {
-              fetch("/api/admin/logout", { method: "POST" }).then(() => {
-                window.location.href = "/admin";
-              });
-            }}
-            className="rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-900 focus:outline-none focus:ring-1 focus:ring-gray-400"
-          >
-            Logout
-          </button>
+
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">

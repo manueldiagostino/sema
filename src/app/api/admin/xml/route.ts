@@ -1,36 +1,9 @@
-import { getIronSession } from "iron-session";
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { writeFileSync, mkdirSync, existsSync, readFileSync, readdirSync, unlinkSync } from "fs";
 import { join } from "path";
 import { loadFormConfig } from "@/lib/formConfig";
 import { generateTeiXml, buildFilename } from "@/lib/xmlBuilder";
 import type { FormSubmissionData } from "@/types/form";
-
-const COOKIE_SECRET =
-  process.env.COOKIE_SECRET || "default-cookie-secret-change-me-in-production";
-
-// ---------------------------------------------------------------------------
-// Helper: get admin session (returns null if not authenticated)
-// ---------------------------------------------------------------------------
-
-async function getAdminSession() {
-  const session = await getIronSession<{ isAdmin: boolean }>(
-    await cookies(),
-    {
-      cookieName: "admin-session",
-      password: COOKIE_SECRET,
-      ttl: 60 * 60 * 8,
-      cookieOptions: {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
-        path: "/",
-      },
-    },
-  );
-  return session;
-}
 
 import { getActiveTeiDir } from "@/lib/dataDir";
 
@@ -40,13 +13,7 @@ import { getActiveTeiDir } from "@/lib/dataDir";
 // ---------------------------------------------------------------------------
 
 export async function GET(request: Request) {
-  // ── 1. Check admin session ──
-  const session = await getAdminSession();
-  if (!session.isAdmin) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  // ── 2. Parse filename from query ──
+  // ── 1. Parse filename from query ──
   const { searchParams } = new URL(request.url);
   const filename = searchParams.get("filename");
 
@@ -65,7 +32,7 @@ export async function GET(request: Request) {
     );
   }
 
-  // ── 3. Read the file from local TEI directory ──
+  // ── 2. Read the file from local TEI directory ──
   const cwd = process.cwd();
   const filePath = join(getActiveTeiDir(cwd), filename);
 
@@ -92,13 +59,7 @@ export async function GET(request: Request) {
 // ---------------------------------------------------------------------------
 
 export async function DELETE(request: Request) {
-  // ── 1. Check admin session ──
-  const session = await getAdminSession();
-  if (!session.isAdmin) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  // ── 2. Parse filename from query ──
+  // ── 1. Parse filename from query ──
   const { searchParams } = new URL(request.url);
   const filename = searchParams.get("filename");
 
@@ -117,7 +78,7 @@ export async function DELETE(request: Request) {
     );
   }
 
-  // ── 3. Check file exists and delete it ──
+  // ── 2. Check file exists and delete it ──
   const cwd = process.cwd();
   const filePath = join(getActiveTeiDir(cwd), filename);
 
@@ -139,7 +100,7 @@ export async function DELETE(request: Request) {
     );
   }
 
-  // ── 4. Rebuild JSON artifacts ──
+  // ── 3. Rebuild JSON artifacts ──
   try {
     const corpusModule = await import(
       "../../../../../scripts/build-corpus"
@@ -177,13 +138,7 @@ export async function DELETE(request: Request) {
 // ---------------------------------------------------------------------------
 
 export async function POST(request: Request) {
-  // ── 1. Check admin session ──
-  const session = await getAdminSession();
-  if (!session.isAdmin) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  // ── 2. Parse JSON body ──
+  // ── 1. Parse JSON body ──
   let data: FormSubmissionData & { mode?: "create" | "update"; filename?: string };
   try {
     const body = await request.json();
@@ -205,7 +160,7 @@ export async function POST(request: Request) {
   const mode = data.mode ?? "create";
 
   try {
-    // ── 3. Load form config ──
+    // ── 2. Load form config ──
     const config = loadFormConfig();
     const cwd = process.cwd();
     const localTeiDir = getActiveTeiDir(cwd);
@@ -262,14 +217,14 @@ export async function POST(request: Request) {
       docId = `${filenameBase}_${numStr}`;
     }
 
-    // ── 4. Generate TEI XML ──
+    // ── 3. Generate TEI XML ──
     const xml = generateTeiXml(data, config, docId);
 
-    // ── 5. Write XML to the active TEI directory ──
+    // ── 4. Write XML to the active TEI directory ──
     writeFileSync(join(localTeiDir, filename), xml, "utf-8");
     console.log(`[admin/xml] Saved XML: ${filename} (mode: ${mode})`);
 
-    // ── 6. Regenerate JSON artifacts via build scripts ──
+    // ── 5. Regenerate JSON artifacts via build scripts ──
     let buildCorpus: (config?: { projectRoot?: string }) => Promise<void>;
     let buildEntityGraph: (config?: { projectRoot?: string }) => Promise<void>;
 
@@ -311,7 +266,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // ── 7. Return success ──
+    // ── 6. Return success ──
     return NextResponse.json(
       { success: true, filename, mode },
       { status: 200 },

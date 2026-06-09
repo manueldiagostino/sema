@@ -242,17 +242,7 @@ export default function AdminDashboard() {
           >
             + New Document
           </Link>
-          <button
-            type="button"
-            onClick={() => {
-              fetch("/api/admin/logout", { method: "POST" }).then(() => {
-                window.location.href = "/admin";
-              });
-            }}
-            className="rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-900 focus:outline-none focus:ring-1 focus:ring-gray-400"
-          >
-            Logout
-          </button>
+
         </div>
       </div>
 
