@@ -857,8 +857,11 @@ export async function buildEntityGraph(config?: BuildConfig): Promise<void> {
   console.log("  Node types:", typeCounts);
 }
 
-// CLI entry point
+// ESM-safe equivalents of CJS __filename / __dirname
 const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// CLI entry point
 if (process.argv[1] && fs.realpathSync(process.argv[1]) === fs.realpathSync(__filename)) {
   buildEntityGraph().catch((err) => {
     console.error("buildEntityGraph failed:", err);

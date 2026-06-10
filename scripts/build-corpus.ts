@@ -316,8 +316,11 @@ export async function buildCorpus(config?: BuildConfig): Promise<void> {
   console.log(`Wrote ${items.length} item(s) to ${outputFile}`);
 }
 
-// CLI entry point
+// ESM-safe equivalents of CJS __filename / __dirname
 const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// CLI entry point
 if (process.argv[1] && fs.realpathSync(process.argv[1]) === fs.realpathSync(__filename)) {
   buildCorpus().catch((err) => {
     console.error("buildCorpus failed:", err);
