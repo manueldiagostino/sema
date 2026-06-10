@@ -249,7 +249,7 @@ function extractPersons(
 
   // Witnesses: listWitness/witness/name
   const witnessNodes = select(
-    "//tei:text/tei:body/tei:listWitness/tei:witness/tei:name",
+    "//tei:text/tei:body//tei:listWitness/tei:witness/tei:name",
     doc,
   ) as Node[];
   for (const node of witnessNodes) {
@@ -663,10 +663,14 @@ export async function buildEntityGraph(config?: BuildConfig): Promise<void> {
   }
 
   // 4. Deduplication — Phase 1: exact normalized name + type match
-  console.log("\nDeduplication Phase 1: exact name match + same type");
-  const phase1Nodes = deduplicatePhase1(allRawNodes);
+  // Document nodes are unique per file — exclude them from deduplication.
+  console.log("\nDeduplication Phase 1: exact name match + same type (documents excluded)");
+  const docNodes = allRawNodes.filter((n) => n.type === "document");
+  const nonDocNodes = allRawNodes.filter((n) => n.type !== "document");
+  const dedupedNonDocs = deduplicatePhase1(nonDocNodes);
+  const phase1Nodes = [...dedupedNonDocs, ...docNodes];
   console.log(
-    `  Reduced from ${allRawNodes.length} to ${phase1Nodes.length} nodes`,
+    `  Reduced from ${allRawNodes.length} to ${phase1Nodes.length} nodes (${docNodes.length} documents kept as-is)`,
   );
 
   // 5. Deduplication — Phase 2: Levenshtein + date proximity for persons
