@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useMemo } from "react";
 import dynamic from "next/dynamic";
 import CorpusTable from "@/components/CorpusTable";
 import { useGraphUrlState } from "@/hooks/useGraphUrlState";
@@ -13,6 +13,13 @@ const EntityGraphView = dynamic(
 function GraphViewRouter() {
   const { state, setState, clearGraphParams } = useGraphUrlState();
 
+  // Memoize so .split() doesn't create a new array reference on every render,
+  // which would cause EntityGraphView to re-fetch and reset the network.
+  const initialDocFilter = useMemo(
+    () => (state.graphDocs ? state.graphDocs.split(",") : undefined),
+    [state.graphDocs],
+  );
+
   if (state.view === "graph") {
     return (
       <EntityGraphView
@@ -20,7 +27,7 @@ function GraphViewRouter() {
         initialVisibleTypes={state.graphTypes ?? undefined}
         initialDateFrom={state.graphDateFrom ?? undefined}
         initialDateTo={state.graphDateTo ?? undefined}
-        initialDocFilter={state.graphDocs ? state.graphDocs.split(",") : undefined}
+        initialDocFilter={initialDocFilter}
         onBackToTable={clearGraphParams}
         onStateChange={(graphState) => {
           setState({

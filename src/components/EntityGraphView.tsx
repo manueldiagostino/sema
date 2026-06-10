@@ -27,12 +27,12 @@ interface EntityGraphViewProps {
 // ---------------------------------------------------------------------------
 
 const NODE_GROUPS: Record<EntityType, Record<string, unknown>> = {
-  person: { color: { background: "#d97706", border: "#b45309" }, shape: "dot", size: 20, font: { color: "#ffffff", size: 14 } },
-  clan: { color: { background: "#7c3aed", border: "#6d28d9" }, shape: "diamond", size: 18, font: { color: "#ffffff", size: 14 } },
-  institution: { color: { background: "#2563eb", border: "#1d4ed8" }, shape: "square", size: 22, font: { color: "#ffffff", size: 14 } },
-  document: { color: { background: "#059669", border: "#047857" }, shape: "square", size: 28, font: { color: "#ffffff", size: 14 } },
-  document_type: { color: { background: "#4b5563", border: "#374151" }, shape: "hexagon", size: 16, font: { color: "#ffffff", size: 14 } },
-  place: { color: { background: "#0d9488", border: "#0f766e" }, shape: "triangle", size: 18, font: { color: "#ffffff", size: 14 } },
+  person: { color: { background: "#ea580c", border: "#c2410c" }, shape: "dot", size: 28, font: { color: "#fdba74", size: 20 } },
+  clan: { color: { background: "#8b5cf6", border: "#7c3aed" }, shape: "diamond", size: 26, font: { color: "#c4b5fd", size: 20 } },
+  institution: { color: { background: "#3b82f6", border: "#2563eb" }, shape: "square", size: 30, font: { color: "#93c5fd", size: 20 } },
+  document: { color: { background: "#10b981", border: "#059669" }, shape: "square", size: 38, font: { color: "#6ee7b7", size: 20 } },
+  document_type: { color: { background: "#6b7280", border: "#4b5563" }, shape: "hexagon", size: 22, font: { color: "#d1d5db", size: 20 } },
+  place: { color: { background: "#14b8a6", border: "#0d9488" }, shape: "triangle", size: 26, font: { color: "#5eead4", size: 20 } },
 };
 
 const ALL_TYPES: EntityType[] = ["person", "clan", "institution", "document", "document_type", "place"];
@@ -144,7 +144,7 @@ export default function EntityGraphView({
   const clickTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const themeRef = useRef({
     foreground: "#ffffff",
-    dimmed: "rgba(229,231,235,0.55)",
+    dimmed: "rgba(229,231,235,0.2)",
     edgeLabel: "#d1d5db",
   });
 
@@ -263,16 +263,25 @@ export default function EntityGraphView({
 
     if (!visNodes || !visEdges) return;
 
-    // Restore all nodes to full opacity and remove glow in one batch
+    // Restore all nodes to full opacity, unhide, remove glow, reset border in one batch
     const nodeIds = visNodes.getIds();
     const nodeUpdates: Record<string, unknown>[] = [];
     for (const id of nodeIds) {
       const node = visNodes.get(id);
-      const update: Record<string, unknown> = { id, borderWidth: 0, shadow: false };
-      if (node.hidden !== true) {
-        update.font = { color: themeRef.current.foreground };
-      }
-      nodeUpdates.push(update);
+      const group = node.group as EntityType;
+      const groupColors = NODE_GROUPS[group]?.color as { background: string; border: string } | undefined;
+      const groupFont = NODE_GROUPS[group]?.font as { color: string; size: number } | undefined;
+      const baseSize = (NODE_GROUPS[group]?.size as number) || 20;
+      nodeUpdates.push({
+        id,
+        hidden: false,
+        size: baseSize,
+        color: groupColors,
+        borderWidth: 0,
+        borderColor: groupColors?.border,
+        shadow: false,
+        font: groupFont || { color: themeRef.current.foreground, size: 20 },
+      });
     }
     visNodes.update(nodeUpdates);
 
@@ -311,12 +320,24 @@ export default function EntityGraphView({
     // Dim non-neighbor nodes in one batch
     const allNodeIds = visNodes.getIds();
     const nodeUpdates: Record<string, unknown>[] = [];
+    const hollowColor = { background: "rgba(0,0,0,0)", border: "#6b7280" };
     for (const id of allNodeIds) {
       const node = visNodes.get(id);
       if (node.hidden === true) continue;
+      const group = node.group as EntityType;
+      const groupColors = NODE_GROUPS[group]?.color as { background: string; border: string } | undefined;
+      const groupFont = NODE_GROUPS[group]?.font as { color: string; size: number } | undefined;
+      const baseSize = (NODE_GROUPS[group]?.size as number) || 20;
+      const isHighlighted = highlightIds.has(id);
+      const ghostFontColor = hexToRgba(groupFont?.color || themeRef.current.foreground, 0.2);
       nodeUpdates.push({
         id,
-        font: { color: highlightIds.has(id) ? themeRef.current.foreground : themeRef.current.dimmed, size: 14 },
+        size: isHighlighted ? baseSize : Math.round(baseSize * 0.55),
+        color: isHighlighted ? groupColors : hollowColor,
+        font: {
+          color: isHighlighted ? groupFont?.color || themeRef.current.foreground : ghostFontColor,
+          size: 20,
+        },
       });
     }
     visNodes.update(nodeUpdates);
@@ -398,8 +419,19 @@ export default function EntityGraphView({
     // Hide nodes outside 2-hop in one batch
     const nodeUpdates: Record<string, unknown>[] = [];
     for (const id of allNodeIds) {
+      const node = visNodes.get(id);
       if (twoHopIds.has(id)) {
-        nodeUpdates.push({ id, hidden: false, font: { color: themeRef.current.foreground, size: 14 } });
+        const group = node.group as EntityType;
+        const groupColors = NODE_GROUPS[group]?.color as { background: string; border: string } | undefined;
+        const groupFont = NODE_GROUPS[group]?.font as { color: string; size: number } | undefined;
+        const baseSize = (NODE_GROUPS[group]?.size as number) || 20;
+        nodeUpdates.push({
+          id,
+          hidden: false,
+          size: baseSize,
+          color: groupColors,
+          font: groupFont || { color: themeRef.current.foreground, size: 20 },
+        });
       } else {
         nodeUpdates.push({ id, hidden: true });
       }
@@ -480,7 +512,7 @@ export default function EntityGraphView({
         getComputedStyle(document.documentElement).getPropertyValue("--foreground").trim() || "#ffffff";
       themeRef.current = {
         foreground,
-        dimmed: hexToRgba(foreground, 0.55),
+        dimmed: hexToRgba(foreground, 0.2),
         edgeLabel: hexToRgba(foreground, 0.6),
       };
 
@@ -491,7 +523,6 @@ export default function EntityGraphView({
             label: n.label,
             group: n.type,
             ...NODE_GROUPS[n.type],
-            font: { color: themeRef.current.foreground, size: 14 },
           };
 
           // Position document nodes in a circle to create hub-and-spoke layout
@@ -555,20 +586,34 @@ export default function EntityGraphView({
       });
 
       // -------------------------------------------------------------------
-      // Click handler — debounced to distinguish from double-click
+      // Deselect handler — fires whenever vis-network deselects a node
+      // (including empty-canvas clicks). When the resulting selection is
+      // empty, sync React state and restore visual styles.
+      // -------------------------------------------------------------------
+      network.on("deselectNode", (params: { nodes: string[] }) => {
+        const remaining = (params && params.nodes) || [];
+        if (remaining.length === 0) {
+          if (clickTimeoutRef.current !== null) {
+            clearTimeout(clickTimeoutRef.current);
+            clickTimeoutRef.current = null;
+          }
+          deselectAll();
+        }
+      });
+
+      // -------------------------------------------------------------------
+      // Click handler — debounced node selection
       // -------------------------------------------------------------------
       network.on("click", (params: { nodes: string[]; event: unknown }) => {
-        // Clear any pending timeout (e.g., rapid successive single-clicks)
+        if (!params.nodes || params.nodes.length === 0) return;
+
+        // Debounce to distinguish from double-click
         if (clickTimeoutRef.current !== null) {
           clearTimeout(clickTimeoutRef.current);
         }
         clickTimeoutRef.current = setTimeout(() => {
           clickTimeoutRef.current = null;
-          if (params.nodes.length === 0) {
-            deselectAll();
-          } else {
-            handleNodeClick(params.nodes[0]);
-          }
+          handleNodeClick(params.nodes[0]);
         }, 250);
       });
 
