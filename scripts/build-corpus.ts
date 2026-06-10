@@ -12,6 +12,7 @@
 
 import * as fs from "fs";
 import * as path from "path";
+import { fileURLToPath } from "url";
 import yaml from "js-yaml";
 import xpath from "xpath";
 import { DOMParser } from "@xmldom/xmldom";
@@ -155,7 +156,7 @@ function computeFacets(
 
 /**
  * Extract charter types from document ids and map them to human-readable labels.
- * Id pattern: <type_prefix>_<year>_<sequence>
+ * Id pattern: TYPE_YEAR_SEQ (type_prefix, year, sequence joined by underscore)
  * The prefix is everything before the last two underscore-separated segments.
  */
 function extractCharterTypes(
@@ -215,6 +216,10 @@ export async function buildCorpus(config?: BuildConfig): Promise<void> {
   const dataDirs = config?.dataDirs && config.dataDirs.length > 0 ? [...config.dataDirs] : [defaultTeiDir];
   const xmlFiles = findXmlFiles(dataDirs);
   console.log(`Found ${xmlFiles.length} XML file(s) across ${dataDirs.length} dir(s)`);
+
+  if (xmlFiles.length === 0) {
+    throw new Error(`No XML files found in: ${dataDirs.join(", ")}. Ensure data/corpus/ or data/fake/ contains .xml files.`);
+  }
 
   // 3. Process each file
   const items: CorpusItem[] = [];
@@ -312,7 +317,8 @@ export async function buildCorpus(config?: BuildConfig): Promise<void> {
 }
 
 // CLI entry point
-if (import.meta.url === `file://${process.argv[1]}`) {
+const __filename = fileURLToPath(import.meta.url);
+if (process.argv[1] && fs.realpathSync(process.argv[1]) === fs.realpathSync(__filename)) {
   buildCorpus().catch((err) => {
     console.error("buildCorpus failed:", err);
     process.exit(1);

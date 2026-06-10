@@ -13,6 +13,7 @@
 
 import * as fs from "fs";
 import * as path from "path";
+import { fileURLToPath } from "url";
 import yaml from "js-yaml";
 import xpath from "xpath";
 import { DOMParser } from "@xmldom/xmldom";
@@ -168,16 +169,16 @@ function extractYear(isoDate: string): number | null {
 
 /**
  * Derive clan name from a person's name.
- * - Pattern `de <Word>` where Word starts with uppercase → clan name
- * - Pattern `filius <Word>` → patronymic clan (only if no `de` pattern matched)
+ * - Pattern `de [Word]` where Word starts with uppercase → clan name
+ * - Pattern `filius [Word]` → patronymic clan (only if no `de` pattern matched)
  */
 function deriveClan(name: string): string | null {
-  // Try "de <Word>" pattern first
+  // Try "de [Word]" pattern first
   const deMatch = name.match(/\bde\s+([A-Z]\w*)/);
   if (deMatch) {
     return deMatch[1];
   }
-  // Try "filius <Word>" pattern
+  // Try "filius [Word]" pattern
   const filiusMatch = name.match(/\bfilius\s+([A-Z]\w*)/);
   if (filiusMatch) {
     return filiusMatch[1];
@@ -527,6 +528,10 @@ export async function buildEntityGraph(config?: BuildConfig): Promise<void> {
   const xmlFiles = findXmlFiles(dataDirs);
   console.log(`Found ${xmlFiles.length} XML file(s) across ${dataDirs.length} dir(s)`);
 
+  if (xmlFiles.length === 0) {
+    throw new Error(`No XML files found in: ${dataDirs.join(", ")}. Ensure data/corpus/ or data/fake/ contains .xml files.`);
+  }
+
   // 3. Process each file — collect raw nodes and edges
   const allRawNodes: PartialEntityNode[] = [];
   const allEdges: EntityEdge[] = [];
@@ -853,7 +858,8 @@ export async function buildEntityGraph(config?: BuildConfig): Promise<void> {
 }
 
 // CLI entry point
-if (import.meta.url === `file://${process.argv[1]}`) {
+const __filename = fileURLToPath(import.meta.url);
+if (process.argv[1] && fs.realpathSync(process.argv[1]) === fs.realpathSync(__filename)) {
   buildEntityGraph().catch((err) => {
     console.error("buildEntityGraph failed:", err);
     process.exit(1);
