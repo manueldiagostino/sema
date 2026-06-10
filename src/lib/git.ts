@@ -196,9 +196,21 @@ export function publishChanges(root: string, token: string): PublishResult {
 
   try {
     git(["commit", "-m", commitMsg], root);
-  } catch {
-    // Nothing staged (files may have been excluded)
-    return { success: true, message: "No changes to publish" };
+  } catch (err: unknown) {
+    const stderr =
+      err instanceof Error && "stderr" in err
+        ? (err as any).stderr?.toString() ?? err.message
+        : String(err);
+
+    // "nothing to commit" is harmless — files may have been filtered out
+    if (stderr.includes("nothing to commit")) {
+      return { success: true, message: "No changes to publish" };
+    }
+
+    return {
+      success: false,
+      message: `Commit failed: ${stderr}`,
+    };
   }
 
   // 5. Pull remote changes (uses existing SSH remote — no token needed)
