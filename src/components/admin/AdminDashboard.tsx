@@ -191,10 +191,10 @@ export default function AdminDashboard() {
   // Loading state
   if (loading && items.length === 0) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-gray-50">
+      <main className="flex min-h-screen items-center justify-center bg-background">
         <div className="text-center">
-          <div className="mx-auto h-8 w-8 animate-spin rounded-full border-2 border-gray-300 border-t-indigo-600" />
-          <p className="mt-3 text-sm text-gray-500">Loading documents...</p>
+          <div className="mx-auto h-8 w-8 animate-spin rounded-full border-2 border-border border-t-indigo-600" />
+          <p className="mt-3 text-sm text-muted-foreground">Loading documents...</p>
         </div>
       </main>
     );
@@ -203,9 +203,9 @@ export default function AdminDashboard() {
   // Error state
   if (error && items.length === 0) {
     return (
-      <main className="min-h-screen bg-gray-50 px-4 py-8">
+      <main className="min-h-screen bg-background px-4 py-8">
         <div className="mx-auto max-w-6xl">
-          <div className="rounded-md border border-red-200 bg-red-50 px-4 py-3" role="alert">
+          <div className="rounded-md border border-red-200/50 bg-red-50/80 px-4 py-3" role="alert">
             <p className="text-sm text-red-800">{error}</p>
           </div>
         </div>
@@ -214,14 +214,14 @@ export default function AdminDashboard() {
   }
 
   return (
-    <main className="flex h-screen flex-col bg-gray-50">
+    <main className="flex h-screen flex-col bg-background">
       {/* Toolbar */}
-      <div className="flex items-center justify-between border-b border-gray-200 bg-white px-6 py-3 shadow-sm">
+      <div className="flex items-center justify-between border-b border-border bg-background px-6 py-3 shadow-sm">
         <div className="flex items-center gap-3">
-          <h1 className="text-xl font-bold text-gray-900">Admin Dashboard</h1>
+          <h1 className="text-xl font-bold text-foreground">Admin Dashboard</h1>
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm text-gray-700 transition-colors hover:bg-gray-50"
+            className="rounded-md border border-border bg-background px-3 py-1.5 text-sm text-foreground transition-colors hover:bg-muted"
           >
             {sidebarOpen ? "✕ Filters" : "☰ Filters"}
           </button>
@@ -230,9 +230,9 @@ export default function AdminDashboard() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search documents..."
-            className="w-64 rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm shadow-sm placeholder:text-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+            className="w-64 rounded-md border border-border bg-background px-3 py-1.5 text-sm shadow-sm placeholder:text-muted-foreground focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
           />
-          <span className="text-sm text-gray-500">
+          <span className="text-sm text-muted-foreground">
             {filteredItems.length} of {items.length} document{items.length !== 1 ? "s" : ""}
           </span>
         </div>
@@ -277,7 +277,7 @@ export default function AdminDashboard() {
         <div className="flex flex-1 flex-col overflow-hidden">
           {/* Error banner (non-fatal — shown when items exist but refresh fails) */}
           {error && (
-            <div className="mx-4 mt-2 rounded-md border border-red-200 bg-red-50 px-4 py-2" role="alert">
+            <div className="mx-4 mt-2 rounded-md border border-red-200/50 bg-red-50/80 px-4 py-2" role="alert">
               <p className="text-sm text-red-800">{error}</p>
             </div>
           )}
@@ -285,7 +285,7 @@ export default function AdminDashboard() {
           {filteredItems.length === 0 ? (
             <div className="flex flex-1 items-center justify-center px-4">
               <div className="text-center">
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-muted-foreground">
                   {items.length === 0
                     ? "No documents found. Create your first document."
                     : "No documents match your search or filters."}
@@ -294,47 +294,47 @@ export default function AdminDashboard() {
             </div>
           ) : (
             <div className="flex-1 overflow-auto p-4">
-              <div className="rounded-lg border border-gray-200 bg-white shadow-sm">
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="sticky top-0 z-10 bg-gray-50">
+              <div className="rounded-lg border border-border bg-background shadow-sm">
+                <table className="min-w-full divide-y divide-border">
+                  <thead className="sticky top-0 z-10 bg-muted">
                     <tr>
-                      <th scope="col" className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                      <th scope="col" className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">
                         Actions
                       </th>
                       {DISPLAY_COLUMNS.map((col) => (
                         <th
                           key={col.id}
                           scope="col"
-                          className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
+                          className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground"
                         >
                           {col.label}
                         </th>
                       ))}
-                      <th scope="col" className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                      <th scope="col" className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">
                         Type
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-gray-200">
+                  <tbody className="divide-y divide-border">
                     {filteredItems.map((item, idx) => {
                       const docId = String(item.id ?? "");
                       const filename = docId + ".xml";
                       const charterType = deriveCharterType(docId);
 
                       return (
-                        <tr key={docId || idx} className="hover:bg-gray-50">
+                        <tr key={docId || idx} className="hover:bg-muted">
                           <td className="whitespace-nowrap px-4 py-3 text-sm">
                             <div className="flex items-center gap-2">
                               <Link
                                 href={`/admin/form?edit=${encodeURIComponent(filename)}`}
-                                className="rounded-md border border-gray-300 bg-white px-3 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                                className="rounded-md border border-indigo-200/50 bg-background px-3 py-1.5 text-xs font-medium text-indigo-600 hover:bg-indigo-50/80 focus:outline-none focus:ring-1 focus:ring-indigo-500"
                               >
                                 Edit
                               </Link>
                               <button
                                 type="button"
                                 onClick={() => setDeleteTarget(filename)}
-                                className="rounded-md border border-red-200 bg-white px-3 py-1.5 text-xs font-medium text-red-600 hover:bg-red-50 focus:outline-none focus:ring-1 focus:ring-red-500"
+                                className="rounded-md border border-red-300 bg-background px-3 py-1.5 text-xs font-medium text-red-600 hover:bg-red-600 hover:text-white focus:outline-none focus:ring-1 focus:ring-red-500"
                               >
                                 Delete
                               </button>
@@ -343,14 +343,14 @@ export default function AdminDashboard() {
                           {DISPLAY_COLUMNS.map((col) => (
                             <td
                               key={col.id}
-                              className="whitespace-nowrap px-4 py-3 text-sm text-gray-900"
+                              className="whitespace-nowrap px-4 py-3 text-sm text-foreground"
                               title={String(item[col.id] ?? "")}
                             >
                               {displayValue(item[col.id])}
                             </td>
                           ))}
-                          <td className="whitespace-nowrap px-4 py-3 text-sm text-gray-600">
-                            <span className="inline-flex items-center rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700">
+                          <td className="whitespace-nowrap px-4 py-3 text-sm text-muted-foreground">
+                            <span className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary">
                               {charterType.replace(/_/g, " ")}
                             </span>
                           </td>
@@ -366,7 +366,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* Publish panel */}
-      <div className="border-t border-gray-200">
+      <div className="border-t border-border">
         <div className="mx-auto max-w-6xl px-4 py-6">
           <PublishPanel />
         </div>

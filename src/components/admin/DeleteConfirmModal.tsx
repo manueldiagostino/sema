@@ -53,19 +53,19 @@ export default function DeleteConfirmModal({
       aria-labelledby="delete-modal-title"
     >
       <div
-        className="w-full max-w-md rounded-lg bg-white p-6 shadow-xl"
+        className="w-full max-w-md rounded-lg bg-background p-6 shadow-xl"
         onClick={(e) => e.stopPropagation()}
       >
         <h2
           id="delete-modal-title"
-          className="text-lg font-semibold text-gray-900"
+          className="text-lg font-semibold text-foreground"
         >
           Delete Document
         </h2>
 
-        <p className="mt-3 text-sm text-gray-600">
+        <p className="mt-3 text-sm text-muted-foreground">
           Are you sure you want to delete{" "}
-          <span className="font-mono font-medium text-gray-900">{filename}</span>
+          <span className="font-mono font-medium text-foreground">{filename}</span>
           ? This action cannot be undone.
         </p>
 
@@ -83,7 +83,7 @@ export default function DeleteConfirmModal({
             type="button"
             onClick={onClose}
             disabled={deleting}
-            className="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50"
+            className="rounded-md border border-border bg-background px-4 py-2 text-sm font-medium text-foreground hover:bg-muted focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50"
           >
             Cancel
           </button>

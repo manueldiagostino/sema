@@ -259,13 +259,13 @@ export default function AdminFormPage({
   const lockedTypeConfig = types.find((t) => t.id === lockedCharterType);
 
   return (
-    <main className="min-h-screen bg-gray-50 py-8 px-4">
+    <main className="min-h-screen bg-background py-8 px-4">
       <div className="mx-auto max-w-3xl">
         <div className="mb-8 flex items-start justify-between">
           <div>
             <Link
               href="/admin"
-              className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-indigo-600 mb-2"
+              className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-indigo-600 mb-2"
             >
               <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -275,7 +275,7 @@ export default function AdminFormPage({
             <h1 className="text-2xl font-bold text-primary">
               {isEditMode ? "Edit TEI Document" : "Create TEI Document"}
             </h1>
-            <p className="mt-1 text-sm text-gray-500">
+            <p className="mt-1 text-sm text-muted-foreground">
               {isEditMode
                 ? "Modify the document fields below and save your changes."
                 : "Fill out the form below to generate a new TEI XML document."}
@@ -286,16 +286,16 @@ export default function AdminFormPage({
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Charter Type Selector or Read-only Label */}
-          <div className="border border-border rounded-lg p-6 bg-white">
+          <div className="border border-border rounded-lg p-6 bg-background">
             {isEditMode ? (
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-foreground mb-1">
                   Charter Type
                 </label>
-                <p className="text-base text-gray-900 py-2">
+                <p className="text-base text-foreground py-2">
                   {lockedTypeConfig?.label ?? lockedCharterType}
                 </p>
-                <p className="text-xs text-gray-400 mt-1">
+                <p className="text-xs text-muted-foreground mt-1">
                   Charter type cannot be changed when editing an existing document.
                 </p>
               </div>
@@ -324,7 +324,7 @@ export default function AdminFormPage({
             ))}
 
           {/* Ad-Hoc Custom Properties */}
-          <div className="border border-border rounded-lg p-6 bg-white">
+          <div className="border border-border rounded-lg p-6 bg-background">
             <h2 className="text-lg font-semibold text-primary mb-4 pb-2 border-b border-border">
               Custom Properties
             </h2>
@@ -338,7 +338,7 @@ export default function AdminFormPage({
           {/* Status Messages */}
           {success && (
             <div
-              className="rounded-md bg-white border border-[var(--border)] border-l-4 border-l-green-500 px-5 py-4 shadow-sm"
+              className="rounded-md bg-background border border-[var(--border)] border-l-4 border-l-green-500 px-5 py-4 shadow-sm"
               role="alert"
             >
               <div className="flex items-center gap-2 mb-3">
@@ -368,7 +368,7 @@ export default function AdminFormPage({
                   <button
                     type="button"
                     onClick={handleClearForm}
-                    className="inline-flex items-center rounded-md border border-[var(--border)] bg-white px-4 py-2 text-sm font-medium text-[var(--primary)] hover:bg-gray-50 transition-colors"
+                    className="inline-flex items-center rounded-md border border-[var(--border)] bg-background px-4 py-2 text-sm font-medium text-[var(--primary)] hover:bg-muted transition-colors"
                   >
                     Create Another
                   </button>
@@ -376,7 +376,7 @@ export default function AdminFormPage({
                   <button
                     type="button"
                     onClick={() => setSuccess(null)}
-                    className="inline-flex items-center rounded-md border border-[var(--border)] bg-white px-4 py-2 text-sm font-medium text-[var(--primary)] hover:bg-gray-50 transition-colors"
+                    className="inline-flex items-center rounded-md border border-[var(--border)] bg-background px-4 py-2 text-sm font-medium text-[var(--primary)] hover:bg-muted transition-colors"
                   >
                     Continue Editing
                   </button>

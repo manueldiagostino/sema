@@ -240,7 +240,7 @@ function MultipleValueInput({
             type="button"
             onClick={() => removeItem(index)}
             disabled={disabled}
-            className="rounded-md border border-border bg-background px-3 py-2 text-sm text-red-600 hover:bg-red-50 hover:border-red-200 focus:outline-none focus:ring-1 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="rounded-md border border-border bg-background px-3 py-2 text-sm text-red-600 hover:bg-red-500/10 hover:border-red-500/30 focus:outline-none focus:ring-1 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed"
             aria-label={`Remove ${field.label} item ${index + 1}`}
           >
             Remove
@@ -251,7 +251,7 @@ function MultipleValueInput({
         type="button"
         onClick={addItem}
         disabled={disabled}
-        className="rounded-md border border-dashed border-border bg-background px-3 py-2 text-sm text-indigo-600 hover:bg-indigo-50 hover:border-indigo-300 focus:outline-none focus:ring-1 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="rounded-md border border-dashed border-border bg-background px-3 py-2 text-sm text-indigo-600 hover:bg-indigo-500/10 hover:border-indigo-500/30 focus:outline-none focus:ring-1 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         + Add
       </button>
@@ -300,7 +300,7 @@ export default function FormField({
         </p>
       )}
       {field.note && !validationError && (
-        <p className="text-xs text-gray-500 mt-1">{field.note}</p>
+        <p className="text-xs text-muted-foreground mt-1">{field.note}</p>
       )}
     </div>
   );

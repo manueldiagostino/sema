@@ -74,7 +74,7 @@ function statusColor(status: string): string {
     case "deleted":
       return "text-red-600";
     default:
-      return "text-gray-600";
+      return "text-muted-foreground";
   }
 }
 
@@ -221,13 +221,13 @@ export default function PublishPanel() {
   // -----------------------------------------------------------------------
 
   return (
-    <div className="rounded-lg border border-gray-200 bg-white shadow-sm">
+    <div className="rounded-lg border border-border bg-background shadow-sm">
       {/* Header */}
-      <div className="border-b border-gray-200 px-5 py-4">
-        <h2 className="text-base font-semibold text-gray-900">
+      <div className="border-b border-border px-5 py-4">
+        <h2 className="text-base font-semibold text-foreground">
           Publish to GitHub
         </h2>
-        <p className="mt-0.5 text-sm text-gray-500">
+        <p className="mt-0.5 text-sm text-muted-foreground">
           Makes changes available on the public site
         </p>
       </div>
@@ -236,20 +236,20 @@ export default function PublishPanel() {
       <div className="px-5 py-4">
         {/* Loading state */}
         {loading && (
-          <div className="flex items-center gap-2 text-sm text-gray-500">
-            <div className="h-4 w-4 animate-spin rounded-full border-2 border-gray-300 border-t-indigo-600" />
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <div className="h-4 w-4 animate-spin rounded-full border-2 border-border border-t-indigo-600" />
             Loading status...
           </div>
         )}
 
         {/* Error state */}
         {error && !loading && (
-          <div className="rounded-md border border-red-200 bg-red-50 px-4 py-3">
+          <div className="rounded-md border border-red-200/50 bg-red-50/80 px-4 py-3">
             <p className="text-sm text-red-800">{error}</p>
             <button
               type="button"
               onClick={fetchStatus}
-              className="mt-2 text-sm font-medium text-red-700 hover:text-red-900"
+              className="mt-2 text-sm font-medium text-red-700 hover:text-red-400"
             >
               Retry
             </button>
@@ -261,7 +261,7 @@ export default function PublishPanel() {
           <div className="space-y-4">
             {/* Token status */}
             {!status.tokenConfigured && (
-              <div className="rounded-md border border-amber-200 bg-amber-50 px-4 py-3">
+              <div className="rounded-md border border-amber-200/50 bg-amber-50/80 px-4 py-3">
                 <p className="text-sm text-amber-800">
                   <span className="font-medium">GitHub token not configured.</span>{" "}
                   A token is required to publish to GitHub.
@@ -271,10 +271,10 @@ export default function PublishPanel() {
 
             {/* Last commit info */}
             {status.lastCommit && (
-              <div className="text-sm text-gray-600">
-                <span className="font-medium text-gray-700">Last commit:</span>{" "}
+              <div className="text-sm text-muted-foreground">
+                <span className="font-medium text-foreground">Last commit:</span>{" "}
                 {status.lastCommit.message}{" "}
-                <span className="text-gray-400">
+                <span className="text-muted-foreground">
                   ({status.lastCommit.hash},{" "}
                   {formatDate(status.lastCommit.date)})
                 </span>
@@ -283,8 +283,8 @@ export default function PublishPanel() {
 
             {/* Branch */}
             {status.branch && (
-              <div className="text-sm text-gray-600">
-                <span className="font-medium text-gray-700">Branch:</span>{" "}
+              <div className="text-sm text-muted-foreground">
+                <span className="font-medium text-foreground">Branch:</span>{" "}
                 {status.branch}
               </div>
             )}
@@ -292,7 +292,7 @@ export default function PublishPanel() {
             {/* File changes summary */}
             {totalChanges > 0 ? (
               <div>
-                <p className="mb-2 text-sm font-medium text-gray-700">
+                <p className="mb-2 text-sm font-medium text-foreground">
                   Pending changes ({totalChanges} file{totalChanges !== 1 ? "s" : ""}):
                 </p>
                 <div className="flex flex-wrap gap-3">
@@ -303,10 +303,10 @@ export default function PublishPanel() {
                           key={type}
                           className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium ${
                             type === "added"
-                              ? "bg-green-50 text-green-700"
+                              ? "bg-green-50/80 text-green-700"
                               : type === "modified"
-                                ? "bg-amber-50 text-amber-700"
-                                : "bg-red-50 text-red-700"
+                                ? "bg-amber-50/80 text-amber-700"
+                                : "bg-red-50/80 text-red-700"
                           }`}
                         >
                           {fileCounts?.[type]} {statusLabel(type)}
@@ -316,10 +316,10 @@ export default function PublishPanel() {
                 </div>
                 {/* File list (truncated) */}
                 <details className="mt-2">
-                  <summary className="cursor-pointer text-xs text-gray-400 hover:text-gray-600">
+                  <summary className="cursor-pointer text-xs text-muted-foreground hover:text-foreground">
                     Show files
                   </summary>
-                  <ul className="mt-1 max-h-32 space-y-0.5 overflow-y-auto text-xs text-gray-500">
+                  <ul className="mt-1 max-h-32 space-y-0.5 overflow-y-auto text-xs text-muted-foreground">
                     {status.files.map((f) => (
                       <li key={f.path} className={statusColor(f.status)}>
                         [{f.status}] {f.path}
@@ -329,8 +329,8 @@ export default function PublishPanel() {
                 </details>
               </div>
             ) : (
-              <div className="rounded-md bg-gray-50 px-4 py-3">
-                <p className="text-sm text-gray-500">
+              <div className="rounded-md bg-muted px-4 py-3">
+                <p className="text-sm text-muted-foreground">
                   All up to date &mdash; no changes to publish.
                 </p>
               </div>
@@ -355,7 +355,7 @@ export default function PublishPanel() {
                 type="button"
                 onClick={fetchStatus}
                 disabled={publishing}
-                className="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                className="rounded-md border border-border bg-background px-4 py-2 text-sm font-medium text-foreground hover:bg-muted focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 Refresh
               </button>
@@ -366,8 +366,8 @@ export default function PublishPanel() {
               <div
                 className={`rounded-md border px-4 py-3 ${
                   publishResult.success
-                    ? "border-green-200 bg-green-50"
-                    : "border-red-200 bg-red-50"
+                    ? "border-green-200/50 bg-green-50/80"
+                    : "border-red-200/50 bg-red-50/80"
                 }`}
               >
                 {publishResult.success ? (
@@ -407,16 +407,16 @@ export default function PublishPanel() {
       {/* ── Token setup modal ── */}
       {showTokenModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-          <div className="mx-4 w-full max-w-md rounded-lg bg-white p-6 shadow-xl">
-            <h3 className="text-lg font-semibold text-gray-900">
+          <div className="mx-4 w-full max-w-md rounded-lg bg-background p-6 shadow-xl">
+            <h3 className="text-lg font-semibold text-foreground">
               Configure GitHub token
             </h3>
-            <p className="mt-2 text-sm text-gray-600">
+            <p className="mt-2 text-sm text-muted-foreground">
               To publish to GitHub you need a Personal Access Token with write
               permissions on the repository.
             </p>
 
-            <ol className="mt-3 list-inside list-decimal space-y-1 text-sm text-gray-600">
+            <ol className="mt-3 list-inside list-decimal space-y-1 text-sm text-muted-foreground">
               <li>
                 Go to{" "}
                 <a
@@ -436,7 +436,7 @@ export default function PublishPanel() {
             <div className="mt-4">
               <label
                 htmlFor="github-token"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-medium text-foreground"
               >
                 GitHub Personal Access Token
               </label>
@@ -449,7 +449,7 @@ export default function PublishPanel() {
                   setTokenError(null);
                 }}
                 placeholder="ghp_..."
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm placeholder:text-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                className="mt-1 block w-full rounded-md border border-border px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
               />
               {tokenError && (
                 <p className="mt-1 text-sm text-red-600">{tokenError}</p>
@@ -465,7 +465,7 @@ export default function PublishPanel() {
                   setTokenError(null);
                 }}
                 disabled={tokenSaving}
-                className="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
+                className="rounded-md border border-border bg-background px-4 py-2 text-sm font-medium text-foreground hover:bg-muted disabled:cursor-not-allowed disabled:opacity-50"
               >
                 Cancel
               </button>
@@ -485,11 +485,11 @@ export default function PublishPanel() {
       {/* ── Confirm dialog ── */}
       {showConfirm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-          <div className="mx-4 w-full max-w-sm rounded-lg bg-white p-6 shadow-xl">
-            <h3 className="text-lg font-semibold text-gray-900">
+          <div className="mx-4 w-full max-w-sm rounded-lg bg-background p-6 shadow-xl">
+            <h3 className="text-lg font-semibold text-foreground">
               Confirm publish
             </h3>
-            <p className="mt-2 text-sm text-gray-600">
+            <p className="mt-2 text-sm text-muted-foreground">
               You are about to publish{" "}
               <strong>{totalChanges} file{totalChanges !== 1 ? "s" : ""}</strong> to GitHub.
               {status?.branch && (
@@ -498,7 +498,7 @@ export default function PublishPanel() {
                 </>
               )}
             </p>
-            <p className="mt-1 text-sm text-gray-500">
+            <p className="mt-1 text-sm text-muted-foreground">
               This will commit and push. Continue?
             </p>
 
@@ -506,7 +506,7 @@ export default function PublishPanel() {
               <button
                 type="button"
                 onClick={() => setShowConfirm(false)}
-                className="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                className="rounded-md border border-border bg-background px-4 py-2 text-sm font-medium text-foreground hover:bg-muted"
               >
                 Cancel
               </button>
