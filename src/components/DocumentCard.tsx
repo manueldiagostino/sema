@@ -1,6 +1,10 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
+import hljs from "highlight.js/lib/core";
+import xml from "highlight.js/lib/languages/xml";
+
+hljs.registerLanguage("xml", xml);
 
 interface ColumnConfig {
   id: string;
@@ -249,7 +253,7 @@ export default function DocumentCard({
         )}
 
         {activeTab === "xml" && (
-          <div className="max-h-[600px] min-h-[300px] overflow-y-auto rounded border border-border bg-muted/30 p-4">
+          <div className="max-h-[600px] min-h-[300px] overflow-y-auto rounded border border-border p-4">
             {xmlLoading && (
               <p className="text-sm text-muted-foreground">Loading XML…</p>
             )}
@@ -257,8 +261,8 @@ export default function DocumentCard({
               <p className="text-sm text-red-500">Error: {xmlError}</p>
             )}
             {xmlContent && !xmlLoading && !xmlError && (
-              <pre className="text-xs leading-relaxed text-foreground font-mono" style={{ whiteSpace: "pre-wrap", wordBreak: "break-word", margin: 0 }}>
-                {xmlContent}
+              <pre className="text-xs leading-relaxed font-mono" style={{ whiteSpace: "pre-wrap", wordBreak: "break-word", margin: 0 }}>
+                <code className="hljs" dangerouslySetInnerHTML={{ __html: hljs.highlight(xmlContent, { language: "xml" }).value }} />
               </pre>
             )}
           </div>
