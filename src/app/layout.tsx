@@ -33,7 +33,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-background text-foreground" suppressHydrationWarning>
         <header className="sticky top-0 z-10 border-b border-border bg-background px-4 py-3 sm:px-6 sm:py-4">
-          <div className="mx-auto flex max-w-6xl items-center justify-between">
+          <div className="flex items-center justify-between">
             <Link href="/" className="text-lg font-bold text-primary sm:text-xl">
               Sema
             </Link>

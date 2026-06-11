@@ -531,7 +531,6 @@ export default function CorpusTable() {
       {/* TOOLBAR: search + sidebar toggle + existing buttons */}
       <div className="flex items-center justify-between border-b border-border pb-4">
         <div className="flex items-center gap-2">
-          <h1 className="text-2xl font-semibold text-primary">Corpus</h1>
           {/* Sidebar toggle button */}
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
