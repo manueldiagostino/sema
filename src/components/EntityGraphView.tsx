@@ -909,7 +909,7 @@ export default function EntityGraphView({
 
         <button
           onClick={() => setShowFilters((p) => !p)}
-          className={`rounded border px-3 py-1.5 text-sm transition-colors ${
+          className={`rounded border px-3 py-1.5 text-sm transition-all duration-200 ${
             showFilters
               ? "border-accent bg-accent/10 text-accent"
               : "border-border bg-background text-foreground hover:bg-muted"
@@ -920,7 +920,7 @@ export default function EntityGraphView({
 
         <button
           onClick={() => setShowLegend((p) => !p)}
-          className={`rounded border px-3 py-1.5 text-sm transition-colors ${
+          className={`rounded border px-3 py-1.5 text-sm transition-all duration-200 ${
             showLegend
               ? "border-accent bg-accent/10 text-accent"
               : "border-border bg-background text-foreground hover:bg-muted"
@@ -938,114 +938,130 @@ export default function EntityGraphView({
       </div>
 
       {/* ── Filter Panel ─────────────────────────────────────────────── */}
-      {showFilters && (
-        <div className="bg-background border-b border-border px-4 py-3">
-          <div className="flex flex-wrap items-center gap-4">
-            {/* Type toggles */}
-            <div className="flex flex-wrap items-center gap-3">
-              <span className="text-sm font-medium text-muted">Types:</span>
-              {ALL_TYPES.map((type) => (
-                <label
-                  key={type}
-                  className="flex items-center gap-1.5 cursor-pointer text-sm"
-                >
-                  <input
-                    type="checkbox"
-                    checked={visibleTypes.includes(type)}
-                    onChange={() => handleTypeToggle(type)}
-                    className="h-4 w-4 rounded border-border text-primary focus:ring-primary"
-                  />
-                  <span
-                    className="inline-block h-3 w-3 rounded-full"
-                    style={{
-                      backgroundColor: (NODE_GROUPS[type].color as Record<string, string>).background,
-                    }}
-                  />
-                  {TYPE_LABELS[type]}
-                </label>
-              ))}
-            </div>
+      <div
+        className={`grid transition-all duration-300 ease-in-out motion-reduce:transition-none ${
+          showFilters
+            ? "grid-rows-[1fr] opacity-100"
+            : "grid-rows-[0fr] opacity-0"
+        }`}
+      >
+        <div className="overflow-hidden">
+          <div className="bg-background border-b border-border px-4 py-3">
+            <div className="flex flex-wrap items-center gap-4">
+              {/* Type toggles */}
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="text-sm font-medium text-muted">Types:</span>
+                {ALL_TYPES.map((type) => (
+                  <label
+                    key={type}
+                    className="flex items-center gap-1.5 cursor-pointer text-sm"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={visibleTypes.includes(type)}
+                      onChange={() => handleTypeToggle(type)}
+                      className="h-4 w-4 rounded border-border text-primary focus:ring-primary"
+                    />
+                    <span
+                      className="inline-block h-3 w-3 rounded-full"
+                      style={{
+                        backgroundColor: (NODE_GROUPS[type].color as Record<string, string>).background,
+                      }}
+                    />
+                    {TYPE_LABELS[type]}
+                  </label>
+                ))}
+              </div>
 
-            {/* Date range */}
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-medium text-foreground">Date:</span>
-              <input
-                type="text"
-                placeholder="From (YYYY-MM-DD)"
-                value={dateFrom}
-                onChange={(e) => handleDateFromChange(e.target.value)}
-                className="rounded border border-border bg-background px-2 py-1 text-sm text-foreground placeholder:text-muted-foreground focus:border-accent focus:outline-none"
-              />
-              <span className="text-muted">—</span>
-              <input
-                type="text"
-                placeholder="To (YYYY-MM-DD)"
-                value={dateTo}
-                onChange={(e) => handleDateToChange(e.target.value)}
-                className="rounded border border-border bg-background px-2 py-1 text-sm text-foreground placeholder:text-muted-foreground focus:border-accent focus:outline-none"
-              />
-            </div>
+              {/* Date range */}
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-medium text-foreground">Date:</span>
+                <input
+                  type="text"
+                  placeholder="From (YYYY-MM-DD)"
+                  value={dateFrom}
+                  onChange={(e) => handleDateFromChange(e.target.value)}
+                  className="rounded border border-border bg-background px-2 py-1 text-sm text-foreground placeholder:text-muted-foreground focus:border-accent focus:outline-none"
+                />
+                <span className="text-muted">—</span>
+                <input
+                  type="text"
+                  placeholder="To (YYYY-MM-DD)"
+                  value={dateTo}
+                  onChange={(e) => handleDateToChange(e.target.value)}
+                  className="rounded border border-border bg-background px-2 py-1 text-sm text-foreground placeholder:text-muted-foreground focus:border-accent focus:outline-none"
+                />
+              </div>
 
-            {/* Reset */}
-            <button
-              onClick={handleResetFilters}
-              className="rounded border border-border bg-background px-3 py-1.5 text-sm text-foreground transition-colors hover:bg-muted"
-            >
-              Reset
-            </button>
+              {/* Reset */}
+              <button
+                onClick={handleResetFilters}
+                className="rounded border border-border bg-background px-3 py-1.5 text-sm text-foreground transition-colors hover:bg-muted"
+              >
+                Reset
+              </button>
+            </div>
           </div>
         </div>
-      )}
+      </div>
 
       {/* ── Legend Panel ─────────────────────────────────────────────── */}
-      {showLegend && (
-        <div className="bg-background border-b border-border px-4 py-3">
-          <div className="flex flex-wrap items-center gap-4">
-            {ALL_TYPES.map((type) => {
-              const group = NODE_GROUPS[type];
-              const color = (group.color as Record<string, string>).background;
-              const shape = group.shape as string;
-              return (
-                <div key={type} className="flex items-center gap-2">
-                  <div
-                    className="h-4 w-4"
-                    style={{
-                      backgroundColor: color,
-                      borderRadius:
-                        shape === "dot"
-                          ? "50%"
-                          : shape === "diamond"
-                            ? "2px"
-                            : shape === "square"
+      <div
+        className={`grid transition-all duration-300 ease-in-out motion-reduce:transition-none ${
+          showLegend
+            ? "grid-rows-[1fr] opacity-100"
+            : "grid-rows-[0fr] opacity-0"
+        }`}
+      >
+        <div className="overflow-hidden">
+          <div className="bg-background border-b border-border px-4 py-3">
+            <div className="flex flex-wrap items-center gap-4">
+              {ALL_TYPES.map((type) => {
+                const group = NODE_GROUPS[type];
+                const color = (group.color as Record<string, string>).background;
+                const shape = group.shape as string;
+                return (
+                  <div key={type} className="flex items-center gap-2">
+                    <div
+                      className="h-4 w-4"
+                      style={{
+                        backgroundColor: color,
+                        borderRadius:
+                          shape === "dot"
+                            ? "50%"
+                            : shape === "diamond"
                               ? "2px"
-                              : shape === "hexagon"
+                              : shape === "square"
                                 ? "2px"
-                                : shape === "triangle"
-                                  ? "0"
-                                  : "2px",
-                      clipPath:
-                        shape === "diamond"
-                          ? "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)"
-                          : shape === "triangle"
-                            ? "polygon(50% 0%, 0% 100%, 100% 100%)"
-                          : shape === "hexagon"
-                            ? "polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)"
-                            : undefined,
-                    }}
-                  />
-                  <span className="text-sm text-foreground">{TYPE_LABELS[type]}</span>
-                </div>
-              );
-            })}
-            <div className="flex items-center gap-2 ml-4">
-              <div className="h-0.5 w-6 bg-gray-400" />
-              <span className="text-sm text-muted">Direct</span>
-              <div className="h-0.5 w-6 border-t-2 border-dashed border-gray-300" />
-              <span className="text-sm text-muted">Co-occurs</span>
+                                : shape === "hexagon"
+                                  ? "2px"
+                                  : shape === "triangle"
+                                    ? "0"
+                                    : "2px",
+                        clipPath:
+                          shape === "diamond"
+                            ? "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)"
+                            : shape === "triangle"
+                              ? "polygon(50% 0%, 0% 100%, 100% 100%)"
+                            : shape === "hexagon"
+                              ? "polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)"
+                              : undefined,
+                      }}
+                    />
+                    <span className="text-sm text-foreground">{TYPE_LABELS[type]}</span>
+                  </div>
+                );
+              })}
+              <div className="flex items-center gap-2 ml-4">
+                <div className="h-0.5 w-6 bg-gray-400" />
+                <span className="text-sm text-muted">Direct</span>
+                <div className="h-0.5 w-6 border-t-2 border-dashed border-gray-300" />
+                <span className="text-sm text-muted">Co-occurs</span>
+              </div>
             </div>
           </div>
         </div>
-      )}
+      </div>
 
       {/* ── Graph Canvas ─────────────────────────────────────────────── */}
       <div className="flex-1 min-h-0 relative">

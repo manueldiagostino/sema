@@ -268,6 +268,7 @@ export default function AdminFormPage({
           <div>
             <Link
               href="/admin"
+              transitionTypes={["page"]}
               className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-accent mb-2"
             >
               <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -349,55 +350,57 @@ export default function AdminFormPage({
               </div>
 
               {/* Tab content */}
-              {activeFormTab === "formulary" && (
-                <div className="space-y-6">
-                  {visibleSections.filter(s => s.id !== "properties").map((section) => (
-                    <FormSection
-                      key={section.id}
-                      section={section}
-                      fieldValues={fieldValues}
-                      onFieldChange={handleFieldChange}
-                      disabled={submitting}
-                      validationErrors={validationErrors}
-                      depth={0}
-                    />
-                  ))}
-                  {/* Ad-Hoc Custom Properties - only in Formulary Analysis */}
+              <div key={activeFormTab} className="animate-fade-in">
+                {activeFormTab === "formulary" && (
+                  <div className="space-y-6">
+                    {visibleSections.filter(s => s.id !== "properties").map((section) => (
+                      <FormSection
+                        key={section.id}
+                        section={section}
+                        fieldValues={fieldValues}
+                        onFieldChange={handleFieldChange}
+                        disabled={submitting}
+                        validationErrors={validationErrors}
+                        depth={0}
+                      />
+                    ))}
+                    {/* Ad-Hoc Custom Properties - only in Formulary Analysis */}
+                    <div className="border border-border rounded-lg p-6 bg-background">
+                      <h2 className="text-lg font-semibold text-primary mb-4 pb-2 border-b border-border">
+                        Custom Properties
+                      </h2>
+                      <AdHocFields
+                        fields={adHoc}
+                        onChange={setAdHoc}
+                        disabled={submitting}
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {activeFormTab === "fulltext" && (
                   <div className="border border-border rounded-lg p-6 bg-background">
-                    <h2 className="text-lg font-semibold text-primary mb-4 pb-2 border-b border-border">
-                      Custom Properties
-                    </h2>
-                    <AdHocFields
-                      fields={adHoc}
-                      onChange={setAdHoc}
+                    <label htmlFor="full_text" className="block text-sm font-medium text-foreground mb-2">
+                      Integral Text
+                    </label>
+                    <textarea
+                      id="full_text"
+                      value={typeof fieldValues.full_text === "string" ? fieldValues.full_text : ""}
+                      onChange={(e) => handleFieldChange("full_text", e.target.value)}
+                      rows={15}
+                      className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground focus:border-accent focus:outline-none"
+                      placeholder="Enter the integral text of the charter…"
                       disabled={submitting}
                     />
                   </div>
-                </div>
-              )}
+                )}
 
-              {activeFormTab === "fulltext" && (
-                <div className="border border-border rounded-lg p-6 bg-background">
-                  <label htmlFor="full_text" className="block text-sm font-medium text-foreground mb-2">
-                    Integral Text
-                  </label>
-                  <textarea
-                    id="full_text"
-                    value={typeof fieldValues.full_text === "string" ? fieldValues.full_text : ""}
-                    onChange={(e) => handleFieldChange("full_text", e.target.value)}
-                    rows={15}
-                    className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground focus:border-accent focus:outline-none"
-                    placeholder="Enter the integral text of the charter…"
-                    disabled={submitting}
-                  />
-                </div>
-              )}
-
-              {activeFormTab === "image" && (
-                <div className="border border-border rounded-lg p-6 bg-background text-center">
-                  <p className="text-sm text-muted-foreground">Image upload coming soon</p>
-                </div>
-              )}
+                {activeFormTab === "image" && (
+                  <div className="border border-border rounded-lg p-6 bg-background text-center">
+                    <p className="text-sm text-muted-foreground">Image upload coming soon</p>
+                  </div>
+                )}
+              </div>
             </>
           )}
 
@@ -426,6 +429,7 @@ export default function AdminFormPage({
               <div className="flex items-center gap-3 ml-7">
                 <Link
                   href="/admin"
+                  transitionTypes={["page"]}
                   className="inline-flex items-center rounded-md bg-[var(--primary)] px-4 py-2 text-sm font-medium text-white hover:opacity-90 transition-opacity"
                 >
                   ← Back to Dashboard

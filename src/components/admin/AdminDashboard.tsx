@@ -192,6 +192,7 @@ export default function AdminDashboard() {
         <div className="flex items-center gap-2">
           <Link
             href={`/admin/form?edit=${encodeURIComponent(String(row.original.id ?? "") + ".xml")}`}
+            transitionTypes={["page"]}
             className="rounded-md border border-primary/30 bg-background px-3 py-1.5 text-xs font-medium text-primary hover:bg-accent/10"
           >
             Edit
@@ -304,6 +305,7 @@ export default function AdminDashboard() {
         <div className="flex items-center gap-3">
           <Link
             href="/admin/form"
+            transitionTypes={["page"]}
             className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2"
           >
             + New Document

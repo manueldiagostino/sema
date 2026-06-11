@@ -205,44 +205,52 @@ export default function FacetSidebar({
   const dateSelectedCount =
     hasDates && (dateRange.min > 0 || dateRange.max > 0) ? 1 : 0;
 
-  // When closed, show only the toggle button
-  if (!isOpen) {
-    return (
+  return (
+    <>
+      {/* Toggle button — fades out when sidebar opens */}
       <button
         onClick={onToggle}
-        className="fixed left-0 top-1/2 z-40 flex -translate-y-1/2 items-center gap-1 rounded-r-md border border-l-0 border-border bg-background px-2 py-3 text-xs font-medium text-foreground shadow-sm transition-colors hover:bg-muted"
-        title="Open filters"
+        className={`fixed left-0 top-1/2 z-40 flex -translate-y-1/2 items-center gap-1 rounded-r-md border border-l-0 border-border bg-background px-2 py-3 text-xs font-medium text-foreground shadow-sm transition-all duration-300 ease-in-out motion-reduce:transition-none ${
+          isOpen
+            ? "pointer-events-none opacity-0"
+            : "opacity-100"
+        }`}
+        title={isOpen ? "Close filters" : "Open filters"}
       >
         <span>☰</span>
         <span className="hidden sm:inline">Filters</span>
       </button>
-    );
-  }
 
-  return (
-    <div className="flex h-full w-[280px] shrink-0 flex-col border-r border-border bg-background">
-      {/* Header */}
-      <div className="flex items-center justify-between border-b border-border px-3 py-2">
-        <div className="flex items-center gap-2">
-          <button
-            onClick={onToggle}
-            className="rounded p-1 text-foreground transition-colors hover:bg-muted"
-            title="Close filters"
-          >
-            ✕
-          </button>
-          <span className="text-sm font-semibold text-primary">Filters</span>
-        </div>
-        <button
-          onClick={onClearAll}
-          className="rounded px-2 py-1 text-xs font-medium text-accent transition-colors hover:bg-muted"
-        >
-          Clear all
-        </button>
-      </div>
+      {/* Sidebar with width transition */}
+      <div
+        className={`shrink-0 overflow-hidden border-r border-border transition-all duration-300 ease-in-out motion-reduce:transition-none ${
+          isOpen ? "w-[280px]" : "w-0"
+        }`}
+      >
+        {/* Inner content at fixed width */}
+        <div className="flex h-full w-[280px] flex-col bg-background">
+          {/* Header */}
+          <div className="flex items-center justify-between border-b border-border px-3 py-2">
+            <div className="flex items-center gap-2">
+              <button
+                onClick={onToggle}
+                className="rounded p-1 text-foreground transition-colors hover:bg-muted"
+                title="Close filters"
+              >
+                ✕
+              </button>
+              <span className="text-sm font-semibold text-primary">Filters</span>
+            </div>
+            <button
+              onClick={onClearAll}
+              className="rounded px-2 py-1 text-xs font-medium text-accent transition-colors hover:bg-muted"
+            >
+              Clear all
+            </button>
+          </div>
 
-      {/* Scrollable content */}
-      <div className="flex-1 overflow-y-auto">
+          {/* Scrollable content */}
+          <div className="flex-1 overflow-y-auto">
         {/* Charter Type */}
         <FacetSection
           title="Charter Type"
@@ -437,7 +445,9 @@ export default function FacetSidebar({
             )}
           </div>
         </FacetSection>
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 }

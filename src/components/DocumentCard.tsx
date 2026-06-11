@@ -222,57 +222,59 @@ export default function DocumentCard({
 
       {/* Content panel */}
       <div className="min-h-[300px]">
-        {activeTab === "fulltext" && (
-          <div className="max-h-[600px] min-h-[300px] overflow-y-auto rounded border border-border bg-muted/30 p-4">
-            {fullText ? (
-              <pre className="text-sm leading-relaxed text-foreground font-sans" style={{ whiteSpace: "pre-wrap", wordBreak: "break-word", margin: 0 }}>
-                {fullText}
-              </pre>
-            ) : (
-              <p className="text-sm text-muted-foreground">Full text not available.</p>
-            )}
-          </div>
-        )}
+        <div key={activeTab} className="animate-fade-in">
+          {activeTab === "fulltext" && (
+            <div className="max-h-[600px] min-h-[300px] overflow-y-auto rounded border border-border bg-muted/30 p-4">
+              {fullText ? (
+                <pre className="text-sm leading-relaxed text-foreground font-sans" style={{ whiteSpace: "pre-wrap", wordBreak: "break-word", margin: 0 }}>
+                  {fullText}
+                </pre>
+              ) : (
+                <p className="text-sm text-muted-foreground">Full text not available.</p>
+              )}
+            </div>
+          )}
 
-        {activeTab === "formulary" && (
-          <div className="min-h-[300px] space-y-4">
-            {longTextConfig.map((col) => {
-              const val = item[col.id];
-              const text = Array.isArray(val) ? val.join(" ") : (val as string) || "—";
-              return (
-                <div key={col.id} className="rounded border border-border bg-muted/30 p-4">
-                  <h3 className="mb-2 text-sm font-semibold text-primary">{col.label}</h3>
-                  <pre
-                    className="text-sm leading-relaxed text-foreground font-sans"
-                    style={{ whiteSpace: "pre-wrap", wordBreak: "break-word", overflowWrap: "break-word", margin: 0 }}
-                  >{text}</pre>
-                </div>
-              );
-            })}
-          </div>
-        )}
+          {activeTab === "formulary" && (
+            <div className="min-h-[300px] space-y-4">
+              {longTextConfig.map((col) => {
+                const val = item[col.id];
+                const text = Array.isArray(val) ? val.join(" ") : (val as string) || "—";
+                return (
+                  <div key={col.id} className="rounded border border-border bg-muted/30 p-4">
+                    <h3 className="mb-2 text-sm font-semibold text-primary">{col.label}</h3>
+                    <pre
+                      className="text-sm leading-relaxed text-foreground font-sans"
+                      style={{ whiteSpace: "pre-wrap", wordBreak: "break-word", overflowWrap: "break-word", margin: 0 }}
+                    >{text}</pre>
+                  </div>
+                );
+              })}
+            </div>
+          )}
 
-        {activeTab === "xml" && (
-          <div className="max-h-[600px] min-h-[300px] overflow-y-auto rounded border border-border p-4">
-            {xmlLoading && (
-              <p className="text-sm text-muted-foreground">Loading XML…</p>
-            )}
-            {xmlError && (
-              <p className="text-sm text-red-500">Error: {xmlError}</p>
-            )}
-            {xmlContent && !xmlLoading && !xmlError && (
-              <pre className="text-xs leading-relaxed font-mono" style={{ whiteSpace: "pre-wrap", wordBreak: "break-word", margin: 0 }}>
-                <code className="hljs" dangerouslySetInnerHTML={{ __html: hljs.highlight(xmlContent, { language: "xml" }).value }} />
-              </pre>
-            )}
-          </div>
-        )}
+          {activeTab === "xml" && (
+            <div className="max-h-[600px] min-h-[300px] overflow-y-auto rounded border border-border p-4">
+              {xmlLoading && (
+                <p className="text-sm text-muted-foreground">Loading XML…</p>
+              )}
+              {xmlError && (
+                <p className="text-sm text-red-500">Error: {xmlError}</p>
+              )}
+              {xmlContent && !xmlLoading && !xmlError && (
+                <pre className="text-xs leading-relaxed font-mono" style={{ whiteSpace: "pre-wrap", wordBreak: "break-word", margin: 0 }}>
+                  <code className="hljs" dangerouslySetInnerHTML={{ __html: hljs.highlight(xmlContent, { language: "xml" }).value }} />
+                </pre>
+              )}
+            </div>
+          )}
 
-        {activeTab === "photo" && (
-          <div className="min-h-[300px] rounded border border-border bg-muted/30 p-8 text-center flex items-center justify-center">
-            <p className="text-sm text-muted-foreground">Coming soon</p>
-          </div>
-        )}
+          {activeTab === "photo" && (
+            <div className="min-h-[300px] rounded border border-border bg-muted/30 p-8 text-center flex items-center justify-center">
+              <p className="text-sm text-muted-foreground">Coming soon</p>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Post-content sections */}

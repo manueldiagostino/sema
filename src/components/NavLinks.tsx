@@ -11,6 +11,7 @@ export default function NavLinks() {
     <>
       <Link
         href="/"
+        transitionTypes={["page"]}
         className="text-sm text-secondary transition-colors hover:text-foreground"
       >
         Home
@@ -18,6 +19,7 @@ export default function NavLinks() {
       {!isAdminPage && (
         <Link
           href="/admin"
+          transitionTypes={["page"]}
           className="text-sm text-secondary transition-colors hover:text-foreground"
         >
           Admin

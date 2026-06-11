@@ -11,6 +11,7 @@ export default function MobileNav() {
     <nav className="flex gap-4 sm:hidden">
       <Link
         href="/"
+        transitionTypes={["page"]}
         className="text-xs font-medium text-muted transition-colors hover:text-foreground"
       >
         Home
@@ -18,6 +19,7 @@ export default function MobileNav() {
       {!isAdminPage && (
         <Link
           href="/admin"
+          transitionTypes={["page"]}
           className="text-xs font-medium text-muted transition-colors hover:text-foreground"
         >
           Admin
