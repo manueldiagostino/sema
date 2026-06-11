@@ -34,7 +34,6 @@ function PreliminaryInfo({
   item: Record<string, string | string[]> & { id: string };
   metadataCols: ColumnConfig[];
 }) {
-  const investitorName = typeof item.investitor_name === "string" ? item.investitor_name : "";
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
       {metadataCols.map((c) => {
@@ -49,12 +48,6 @@ function PreliminaryInfo({
           </div>
         );
       })}
-      {investitorName && (
-        <div>
-          <dt className="text-xs font-semibold text-muted-foreground">Investitore</dt>
-          <dd className="mt-1 text-sm text-foreground">{investitorName}</dd>
-        </div>
-      )}
     </div>
   );
 }
@@ -76,7 +69,9 @@ export default function DocumentCard({
   const title = (item.title as string) || "Document";
   const id = item.id;
 
-  const metadataCols = columnConfig.filter((c) => !c.truncateWords || c.truncateWords <= 0);
+  const metadataCols = columnConfig.filter(
+    (c) => (!c.truncateWords || c.truncateWords <= 0) && c.id !== "full_text"
+  );
   const longTextConfig = columnConfig.filter((c) => c.truncateWords && c.truncateWords > 0);
 
   // Handle click outside download menu
@@ -106,7 +101,7 @@ export default function DocumentCard({
           setXmlContent(text);
         })
         .catch((err) => {
-          setXmlError(err instanceof Error ? err.message : "Impossibile caricare l'XML");
+          setXmlError(err instanceof Error ? err.message : "Failed to load XML");
         })
         .finally(() => {
           setXmlLoading(false);
@@ -115,10 +110,10 @@ export default function DocumentCard({
   }, [id]);
 
   const tabs = [
-    { id: "fulltext", label: "Testo integrale", action: () => setActiveTab("fulltext") },
-    { id: "formulary", label: "Analisi formulare", action: () => setActiveTab("formulary") },
+    { id: "fulltext", label: "Full Text", action: () => setActiveTab("fulltext") },
+    { id: "formulary", label: "Formulary Analysis", action: () => setActiveTab("formulary") },
     { id: "xml", label: "XML TEI", action: handleXmlTab },
-    { id: "photo", label: "Riproduzione fotografica", action: () => setActiveTab("photo") },
+    { id: "photo", label: "Photographic Reproduction", action: () => setActiveTab("photo") },
   ];
 
   const fullText = typeof item.full_text === "string" ? item.full_text : "";
@@ -175,36 +170,46 @@ export default function DocumentCard({
           <button
             onClick={() => setShowDownload(!showDownload)}
             className="rounded-md border border-border p-2 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
-            aria-label="Scarica"
+             aria-label="Download"
           >
             <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3" />
             </svg>
           </button>
           {showDownload && (
-            <div className="absolute right-0 z-50 mt-1 w-56 rounded border border-border bg-background shadow-lg">
+            <div className="absolute right-0 z-50 mt-1 w-48 rounded border border-border bg-background shadow-lg">
               <button
                 onClick={handleDownloadTxt}
                 disabled={!fullText}
-                className={`block w-full px-3 py-2 text-left text-sm ${
+                className={`flex items-center gap-2 w-full px-3 py-2 text-left text-sm ${
                   fullText
                     ? "text-foreground hover:bg-muted"
                     : "text-muted-foreground cursor-not-allowed"
                 }`}
               >
-                Testo integrale (.txt)
+                <svg className="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                </svg>
+                Full Text
               </button>
               <button
                 onClick={handleDownloadXml}
-                className="block w-full px-3 py-2 text-left text-sm text-foreground hover:bg-muted"
+                className="flex items-center gap-2 w-full px-3 py-2 text-left text-sm text-foreground hover:bg-muted"
               >
-                XML TEI (.xml)
+                <svg className="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                </svg>
+                XML TEI
               </button>
               <button
                 onClick={handleDownloadPdf}
-                className="block w-full px-3 py-2 text-left text-sm text-foreground hover:bg-muted"
+                className="flex items-center gap-2 w-full px-3 py-2 text-left text-sm text-foreground hover:bg-muted"
               >
-                Analisi formulare (PDF)
+                <svg className="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 13l3 3 7-7" />
+                </svg>
+                Formulary Analysis
               </button>
             </div>
           )}
@@ -212,21 +217,21 @@ export default function DocumentCard({
       </div>
 
       {/* Content panel */}
-      <div>
+      <div className="min-h-[300px]">
         {activeTab === "fulltext" && (
-          <div className="max-h-[600px] overflow-y-auto rounded border border-border bg-muted/30 p-4">
+          <div className="max-h-[600px] min-h-[300px] overflow-y-auto rounded border border-border bg-muted/30 p-4">
             {fullText ? (
               <pre className="text-sm leading-relaxed text-foreground font-sans" style={{ whiteSpace: "pre-wrap", wordBreak: "break-word", margin: 0 }}>
                 {fullText}
               </pre>
             ) : (
-              <p className="text-sm text-muted-foreground">Testo integrale non disponibile.</p>
+              <p className="text-sm text-muted-foreground">Full text not available.</p>
             )}
           </div>
         )}
 
         {activeTab === "formulary" && (
-          <div className="space-y-4">
+          <div className="min-h-[300px] space-y-4">
             {longTextConfig.map((col) => {
               const val = item[col.id];
               const text = Array.isArray(val) ? val.join(" ") : (val as string) || "—";
@@ -244,12 +249,12 @@ export default function DocumentCard({
         )}
 
         {activeTab === "xml" && (
-          <div className="max-h-[600px] overflow-y-auto rounded border border-border bg-muted/30 p-4">
+          <div className="max-h-[600px] min-h-[300px] overflow-y-auto rounded border border-border bg-muted/30 p-4">
             {xmlLoading && (
-              <p className="text-sm text-muted-foreground">Caricamento XML…</p>
+              <p className="text-sm text-muted-foreground">Loading XML…</p>
             )}
             {xmlError && (
-              <p className="text-sm text-red-500">Errore: {xmlError}</p>
+              <p className="text-sm text-red-500">Error: {xmlError}</p>
             )}
             {xmlContent && !xmlLoading && !xmlError && (
               <pre className="text-xs leading-relaxed text-foreground font-mono" style={{ whiteSpace: "pre-wrap", wordBreak: "break-word", margin: 0 }}>
@@ -260,29 +265,29 @@ export default function DocumentCard({
         )}
 
         {activeTab === "photo" && (
-          <div className="rounded border border-border bg-muted/30 p-8 text-center">
-            <p className="text-sm text-muted-foreground">Prossimamente</p>
+          <div className="min-h-[300px] rounded border border-border bg-muted/30 p-8 text-center flex items-center justify-center">
+            <p className="text-sm text-muted-foreground">Coming soon</p>
           </div>
         )}
       </div>
 
       {/* Post-content sections */}
       <div className="space-y-4 border-t border-border pt-6">
-        {["Edizione", "Traduzioni", "Descrizione fisica", "Commento", "Bibliografia"].map((section) => (
+        {["Edition", "Translations", "Physical Description", "Commentary", "Bibliography"].map((section) => (
           <div key={section}>
             <h3 className="text-sm font-semibold text-primary mb-1">{section}</h3>
             <p className="text-sm text-muted-foreground">—</p>
           </div>
         ))}
         <div>
-          <h3 className="text-sm font-semibold text-primary mb-2">Citazione e stato editoriale</h3>
+          <h3 className="text-sm font-semibold text-primary mb-2">Citation & Editorial Status</h3>
           <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
             <div>
-              <dt className="text-xs font-semibold text-muted-foreground">Curatore</dt>
+              <dt className="text-xs font-semibold text-muted-foreground">Editor</dt>
               <dd className="text-sm text-foreground">—</dd>
             </div>
             <div>
-              <dt className="text-xs font-semibold text-muted-foreground">Contributore principale</dt>
+              <dt className="text-xs font-semibold text-muted-foreground">Principal Contributor</dt>
               <dd className="text-sm text-foreground">—</dd>
             </div>
             <div>
@@ -290,7 +295,7 @@ export default function DocumentCard({
               <dd className="text-sm text-foreground">—</dd>
             </div>
             <div>
-              <dt className="text-xs font-semibold text-muted-foreground">Ultima revisione</dt>
+              <dt className="text-xs font-semibold text-muted-foreground">Last Revision</dt>
               <dd className="text-sm text-foreground">—</dd>
             </div>
           </div>

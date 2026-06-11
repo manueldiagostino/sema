@@ -72,6 +72,13 @@ columns:
     cardinality: multiple
     join: "; "
 
+  - id: investitor_name
+    label: Investitor
+    xpath: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptiones']/tei:listWitness/tei:witness[@ana='#investitor']/tei:name
+    sortable: false
+    filterable: true
+    cardinality: single
+
   - id: repository
     label: Archive
     xpath: tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msIdentifier/tei:repository
@@ -83,13 +90,6 @@ columns:
     xpath: tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msIdentifier/tei:idno
     sortable: true
     filterable: true
-
-  - id: investitor_name
-    label: Investitor
-    xpath: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptiones']/tei:listWitness/tei:witness[@ana='#investitor']/tei:name
-    sortable: false
-    filterable: true
-    cardinality: single
 
   # --- Body-text columns (diplomatic clauses) ---
   # These extract text from <body> divisions.

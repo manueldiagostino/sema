@@ -38,7 +38,7 @@ export default function AdHocFields({
             onChange={(e) => updateField(index, "key", e.target.value)}
             placeholder="Key (becomes @type attribute)"
             disabled={disabled}
-            className="flex-1 rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex-1 rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground shadow-sm focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent/50 disabled:opacity-50 disabled:cursor-not-allowed"
             aria-label={`Custom property key ${index + 1}`}
           />
           <input
@@ -47,7 +47,7 @@ export default function AdHocFields({
             onChange={(e) => updateField(index, "value", e.target.value)}
             placeholder="Value"
             disabled={disabled}
-            className="flex-1 rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex-1 rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground shadow-sm focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent/50 disabled:opacity-50 disabled:cursor-not-allowed"
             aria-label={`Custom property value ${index + 1}`}
           />
           <button
@@ -65,7 +65,7 @@ export default function AdHocFields({
         type="button"
         onClick={addField}
         disabled={disabled}
-        className="rounded-md border border-dashed border-border bg-background px-3 py-2 text-sm text-indigo-600 hover:bg-indigo-500/10 hover:border-indigo-500/30 focus:outline-none focus:ring-1 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="rounded-md border border-dashed border-border bg-background px-3 py-2 text-sm text-accent hover:bg-accent/10 hover:border-accent/30 focus:outline-none focus:ring-1 focus:ring-accent/50 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         + Add custom property
       </button>

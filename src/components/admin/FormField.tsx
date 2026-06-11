@@ -175,7 +175,7 @@ function MultipleValueInput({
               checked={selectedValues.includes(opt.value)}
               onChange={() => toggleOption(opt.value)}
               disabled={disabled}
-              className="h-4 w-4 rounded border-border text-indigo-600 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="h-4 w-4 rounded border-border text-accent focus:ring-accent/50 disabled:opacity-50 disabled:cursor-not-allowed"
             />
             {opt.label}
           </label>
@@ -251,7 +251,7 @@ function MultipleValueInput({
         type="button"
         onClick={addItem}
         disabled={disabled}
-        className="rounded-md border border-dashed border-border bg-background px-3 py-2 text-sm text-indigo-600 hover:bg-indigo-500/10 hover:border-indigo-500/30 focus:outline-none focus:ring-1 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="rounded-md border border-dashed border-border bg-background px-3 py-2 text-sm text-accent hover:bg-accent/10 hover:border-accent/30 focus:outline-none focus:ring-1 focus:ring-accent/50 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         + Add
       </button>

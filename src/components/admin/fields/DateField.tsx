@@ -57,7 +57,7 @@ export default function DateField({
           className={`flex-1 rounded-md border bg-background px-3 py-2 text-sm text-foreground shadow-sm focus:outline-none focus:ring-1 disabled:opacity-50 disabled:cursor-not-allowed ${
             invalid
               ? "border-red-500 focus:border-red-500 focus:ring-red-500"
-              : "border-border focus:border-indigo-500 focus:ring-indigo-500"
+              : "border-border focus:border-accent focus:ring-accent/50"
           }`}
           aria-label="Date (ISO)"
           aria-invalid={invalid || undefined}
@@ -70,7 +70,7 @@ export default function DateField({
           placeholder="e.g. 15 March 1318"
           disabled={disabled}
           required={required}
-          className="flex-1 rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex-1 rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground shadow-sm focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent/50 disabled:opacity-50 disabled:cursor-not-allowed"
           aria-label="Date (display text)"
         />
       </div>

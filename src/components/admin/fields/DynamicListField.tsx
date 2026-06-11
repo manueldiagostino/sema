@@ -64,7 +64,7 @@ export default function DynamicListField(props: DynamicListFieldProps) {
               placeholder={placeholder}
               disabled={disabled}
               required={required && index === 0}
-              className="flex-1 rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground shadow-sm focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent/50 disabled:opacity-50 disabled:cursor-not-allowed"
             />
             <button
               type="button"
@@ -81,7 +81,7 @@ export default function DynamicListField(props: DynamicListFieldProps) {
           type="button"
           onClick={addItem}
           disabled={disabled}
-          className="rounded-md border border-dashed border-border bg-background px-3 py-2 text-sm text-indigo-600 hover:bg-indigo-500/10 hover:border-indigo-500/30 focus:outline-none focus:ring-1 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="rounded-md border border-dashed border-border bg-background px-3 py-2 text-sm text-accent hover:bg-accent/10 hover:border-accent/30 focus:outline-none focus:ring-1 focus:ring-accent/50 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           + Add
         </button>
@@ -128,7 +128,7 @@ export default function DynamicListField(props: DynamicListFieldProps) {
             placeholder={placeholder}
             disabled={disabled}
             required={required && index === 0}
-            className="flex-1 rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex-1 rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground shadow-sm focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent/50 disabled:opacity-50 disabled:cursor-not-allowed"
           />
           <label className="flex items-center gap-1 text-sm text-foreground whitespace-nowrap">
             <input
@@ -137,7 +137,7 @@ export default function DynamicListField(props: DynamicListFieldProps) {
               checked={entry.is_investitor}
               onChange={() => setInvestitor(index)}
               disabled={disabled}
-              className="h-3.5 w-3.5 border-border text-indigo-600 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="h-3.5 w-3.5 border-border text-accent focus:ring-accent/50 disabled:opacity-50 disabled:cursor-not-allowed"
             />
             {exclusiveOption.label}
           </label>
@@ -156,7 +156,7 @@ export default function DynamicListField(props: DynamicListFieldProps) {
         type="button"
         onClick={addItem}
         disabled={disabled}
-        className="rounded-md border border-dashed border-border bg-background px-3 py-2 text-sm text-indigo-600 hover:bg-indigo-500/10 hover:border-indigo-500/30 focus:outline-none focus:ring-1 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="rounded-md border border-dashed border-border bg-background px-3 py-2 text-sm text-accent hover:bg-accent/10 hover:border-accent/30 focus:outline-none focus:ring-1 focus:ring-accent/50 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         + Add
       </button>

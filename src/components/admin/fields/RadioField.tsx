@@ -35,7 +35,7 @@ export default function RadioField({
             onChange={() => onChange(opt.value)}
             disabled={disabled}
             required={required}
-            className="h-4 w-4 border-border text-indigo-600 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="h-4 w-4 border-border text-accent focus:ring-accent/50 disabled:opacity-50 disabled:cursor-not-allowed"
           />
           {opt.label}
         </label>

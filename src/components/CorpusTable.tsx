@@ -42,9 +42,18 @@ const MAX_SELECTION = 20;
 
 /** Metadata columns visible by default in the table (allowlist). Body-text clause columns are hidden. */
 const DEFAULT_VISIBLE_COLUMNS = new Set([
+  "currentLocation",
+  "notarius",
   "datatio_chronica",
   "datatio_topica",
+]);
+
+/** Columns treated as "defaults" in the column menu — shown first with a divider. */
+const DEFAULT_COLUMN_IDS = new Set([
+  "currentLocation",
   "notarius",
+  "datatio_chronica",
+  "datatio_topica",
 ]);
 
 function downloadBlob(content: string, filename: string, type: string) {
@@ -605,17 +614,24 @@ export default function CorpusTable() {
               Export ▼
             </button>
             {showExportMenu && (
-              <div className="absolute right-0 z-50 mt-2 w-36 rounded border border-border bg-background shadow-lg">
+              <div className="absolute right-0 z-50 mt-2 w-40 rounded border border-border bg-background shadow-lg">
                 <button
                   onClick={() => { handleExport("csv"); setShowExportMenu(false); }}
-                  className="block w-full px-3 py-2 text-left text-sm text-foreground hover:bg-muted"
+                  className="flex items-center gap-2 w-full px-3 py-2 text-left text-sm text-foreground hover:bg-muted"
                 >
+                  <svg className="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
                   Export CSV
                 </button>
                 <button
                   onClick={() => { handleExport("json"); setShowExportMenu(false); }}
-                  className="block w-full px-3 py-2 text-left text-sm text-foreground hover:bg-muted"
+                  className="flex items-center gap-2 w-full px-3 py-2 text-left text-sm text-foreground hover:bg-muted"
                 >
+                  <svg className="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 11v4m0 0l-2-2m2 2l2-2" />
+                  </svg>
                   Export JSON
                 </button>
               </div>
@@ -647,9 +663,40 @@ export default function CorpusTable() {
                 (col) => col.id !== "actions" && col.id !== "displayId" && col.id !== "charterType"
               );
               const allVisible = visibleLeafColumns.every((c) => c.getIsVisible());
+              const defaultColumns = visibleLeafColumns.filter((c) => DEFAULT_COLUMN_IDS.has(c.id));
+              const otherColumns = visibleLeafColumns.filter((c) => !DEFAULT_COLUMN_IDS.has(c.id));
               return (
-                <div className="absolute right-0 z-50 mt-2 w-48 rounded border border-border bg-background shadow-lg">
-                  <label className="flex items-center gap-2 border-b border-border px-3 py-2 hover:bg-muted cursor-pointer">
+                <div className="absolute right-0 z-50 mt-2 w-52 rounded border border-border bg-background shadow-lg">
+                  <div className="border-b border-border">
+                    <button
+                      onClick={() => {
+                        const defaults: VisibilityState = {};
+                        for (const col of visibleLeafColumns) {
+                          defaults[col.id] = DEFAULT_COLUMN_IDS.has(col.id);
+                        }
+                        setColumnVisibility(defaults);
+                        setShowColumnMenu(false);
+                      }}
+                      className="flex items-center gap-2 w-full px-3 py-2 text-left text-sm text-accent hover:bg-muted font-medium"
+                    >
+                      <svg className="h-3.5 w-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                      </svg>
+                      Reset to defaults
+                    </button>
+                  </div>
+                  {defaultColumns.map((column) => (
+                    <label key={column.id} className="flex items-center gap-2 px-3 py-2 hover:bg-muted cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={column.getIsVisible()}
+                        onChange={column.getToggleVisibilityHandler()}
+                      />
+                      <span className="text-sm">{columnConfig?.find((c) => c.id === column.id)?.label ?? column.id}</span>
+                    </label>
+                  ))}
+                  <div className="border-t border-border" />
+                  <label className="flex items-center gap-2 px-3 py-2 hover:bg-muted cursor-pointer">
                     <input
                       type="checkbox"
                       checked={allVisible}
@@ -661,9 +708,9 @@ export default function CorpusTable() {
                         }
                       }}
                     />
-                    <span className="text-sm font-medium">All</span>
+                    <span className="text-sm font-medium">Show all</span>
                   </label>
-                  {visibleLeafColumns.map((column) => (
+                  {otherColumns.map((column) => (
                     <label key={column.id} className="flex items-center gap-2 px-3 py-2 hover:bg-muted cursor-pointer">
                       <input
                         type="checkbox"
