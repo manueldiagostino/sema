@@ -91,21 +91,41 @@ export default function DocumentCard({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [showDownload]);
 
-  // Lazy-fetch XML when XML TEI tab is activated
+  // Lazy-fetch XML when XML TEI tab is activated.
+  // For static exports (GitHub Pages), fetch the pre-copied XML from /xml/.
+  // In dev mode, fall back to the API route.
   const handleXmlTab = useCallback(() => {
     setActiveTab("xml");
     if (!xmlFetched.current) {
       xmlFetched.current = true;
       setXmlLoading(true);
       setXmlError(null);
-      fetch(`/api/admin/xml?filename=${encodeURIComponent(id)}.xml`)
+
+      // Prefer static XML copy (available on static exports), fall back to API route
+      const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
+      const staticUrl = `${basePath}/xml/${encodeURIComponent(id)}.xml`;
+      const apiUrl = `/api/admin/xml?filename=${encodeURIComponent(id)}.xml`;
+
+      fetch(staticUrl)
         .then(async (res) => {
-          if (!res.ok) throw new Error(`Failed to load XML (${res.status})`);
-          const text = await res.text();
+          if (!res.ok) throw new Error(`Static XML not available`);
+          return res.text();
+        })
+        .catch(() => {
+          // Fall back to API route
+          return fetch(apiUrl).then(async (res) => {
+            if (!res.ok)
+              throw new Error(`Failed to load XML (${res.status})`);
+            return res.text();
+          });
+        })
+        .then((text) => {
           setXmlContent(text);
         })
         .catch((err) => {
-          setXmlError(err instanceof Error ? err.message : "Failed to load XML");
+          setXmlError(
+            err instanceof Error ? err.message : "Failed to load XML",
+          );
         })
         .finally(() => {
           setXmlLoading(false);
@@ -130,13 +150,16 @@ export default function DocumentCard({
   }, [fullText, id]);
 
   const handleDownloadXml = useCallback(() => {
-    // Direct browser navigation triggers download
-    window.open(`/api/admin/xml?filename=${encodeURIComponent(id)}.xml`, "_blank");
+    // Prefer static XML copy, fall back to API route for download
+    const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
+    window.open(`${basePath}/xml/${encodeURIComponent(id)}.xml`, "_blank");
     setShowDownload(false);
   }, [id]);
 
   const handleDownloadPdf = useCallback(() => {
-    window.open(`/api/pdf/formulary?filename=${encodeURIComponent(id)}.xml`, "_blank");
+    // Prefer static PDF copy (available on static exports), fall back to API route
+    const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
+    window.open(`${basePath}/pdf/${encodeURIComponent(id)}_formulary.pdf`, "_blank");
     setShowDownload(false);
   }, [id]);
 

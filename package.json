@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "npm run build-json && next build",
-    "build-json": "npm run build-corpus && npm run build-entity-graph",
+    "build-json": "npm run build-corpus && npm run build-entity-graph && npm run build-xml-copy && npm run build-pdf-copy",
+    "build-xml-copy": "tsx scripts/build-xml-copy.ts",
+    "build-pdf-copy": "tsx scripts/build-pdf-copy.ts",
     "build-corpus": "tsx scripts/build-corpus.ts",
     "build-entity-graph": "tsx scripts/build-entity-graph.ts",
     "generate-fake": "tsx scripts/generate-fake.ts",

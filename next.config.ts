@@ -13,7 +13,14 @@ const nextConfig: NextConfig = isExport
       images: {
         unoptimized: true,
       },
+      env: {
+        NEXT_PUBLIC_BASE_PATH: `/${repoName}`,
+      },
     }
-  : {};
+  : {
+      env: {
+        NEXT_PUBLIC_BASE_PATH: "",
+      },
+    };
 
 export default nextConfig;

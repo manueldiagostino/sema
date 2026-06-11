@@ -26,6 +26,8 @@ Root package-lock.json
 # generated corpus metadata
 /public/corpus-metadata.json
 /public/entity-graph.json
+/public/xml/
+/public/pdf/
 
 # misc
 .DS_Store
