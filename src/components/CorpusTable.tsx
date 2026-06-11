@@ -700,8 +700,8 @@ export default function CorpusTable() {
         {/* Table area — takes remaining space */}
         <div className="flex min-w-0 flex-1 flex-col">
           {/* Scrollable table wrapper */}
-          <div className="flex-1 overflow-auto">
-            <div className="rounded-lg border border-border bg-background shadow-sm">
+          <div className="flex-1 min-h-0">
+            <div className="h-full overflow-auto rounded-lg border border-border bg-background shadow-sm">
               <table className="w-full text-sm">
                 <thead className="sticky top-0 z-10">
                   {table.getHeaderGroups().map((headerGroup) => (
