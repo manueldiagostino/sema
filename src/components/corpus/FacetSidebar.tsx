@@ -79,7 +79,7 @@ function FacetSection({
           {title}
         </span>
         {!isOpen && selectedCount > 0 && (
-          <span className="rounded-full bg-primary/10 px-1.5 py-0.5 text-xs font-medium text-primary">
+          <span className="rounded-full bg-primary-container px-1.5 py-0.5 text-xs font-medium text-primary-on-container">
             {selectedCount}
           </span>
         )}

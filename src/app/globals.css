@@ -1,9 +1,25 @@
 @import "tailwindcss";
 
+/*
+ * Color token system uses Material 3 container pattern:
+ *   --{role}              — Base/text color (e.g., headings, labels on background)
+ *   --{role}-container    — Surface/background for that role (badges, pills, callouts)
+ *   --{role}-on-container — Foreground text on the container background
+ *
+ * Initially applies to --primary. Will extend to entity-type tokens in the future
+ * (e.g., --entity-witness-container, --entity-witness-on-container).
+ *
+ * Usage in components:
+ *   Badges/pills: bg-primary-container text-primary-on-container
+ *   Headings on background/muted: text-primary (NOT bg-primary/10 text-primary)
+ */
+
 :root {
   --background: #faf9f6;
   --foreground: #1a1a1a;
   --primary: #2c3e50;
+  --primary-container: #eef2f6;
+  --primary-on-container: #2c3e50;
   --secondary: #8b7355;
   --accent: #c9a96e;
   --muted: #f0ebe3;
@@ -14,6 +30,8 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
+  --color-primary-container: var(--primary-container);
+  --color-primary-on-container: var(--primary-on-container);
   --color-secondary: var(--secondary);
   --color-accent: var(--accent);
   --color-muted: var(--muted);
@@ -26,7 +44,9 @@
   :root {
     --background: #1a1a1a;
     --foreground: #f0ebe3;
-    --primary: #3d566e;
+    --primary: #b8a07a;
+    --primary-container: #2a2418;
+    --primary-on-container: #d4c4a4;
     --secondary: #a0896d;
     --accent: #d4b87a;
     --muted: #2a2a2a;

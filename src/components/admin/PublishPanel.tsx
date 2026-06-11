@@ -68,11 +68,11 @@ function statusLabel(status: string): string {
 function statusColor(status: string): string {
   switch (status) {
     case "added":
-      return "text-green-600";
+      return "text-primary";
     case "modified":
-      return "text-amber-600";
+      return "text-secondary";
     case "deleted":
-      return "text-red-600";
+      return "text-accent";
     default:
       return "text-muted-foreground";
   }
@@ -237,19 +237,19 @@ export default function PublishPanel() {
         {/* Loading state */}
         {loading && (
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <div className="h-4 w-4 animate-spin rounded-full border-2 border-border border-t-indigo-600" />
+            <div className="h-4 w-4 animate-spin rounded-full border-2 border-border border-t-primary" />
             Loading status...
           </div>
         )}
 
         {/* Error state */}
         {error && !loading && (
-          <div className="rounded-md border border-red-200/50 bg-red-50/80 px-4 py-3">
-            <p className="text-sm text-red-800">{error}</p>
+          <div className="rounded-md border border-accent/30 bg-accent/10 px-4 py-3">
+            <p className="text-sm text-accent">{error}</p>
             <button
               type="button"
               onClick={fetchStatus}
-              className="mt-2 text-sm font-medium text-red-700 hover:text-red-400"
+              className="mt-2 text-sm font-medium text-accent hover:text-accent/70"
             >
               Retry
             </button>
@@ -261,8 +261,8 @@ export default function PublishPanel() {
           <div className="space-y-4">
             {/* Token status */}
             {!status.tokenConfigured && (
-              <div className="rounded-md border border-amber-200/50 bg-amber-50/80 px-4 py-3">
-                <p className="text-sm text-amber-800">
+              <div className="rounded-md border border-accent/30 bg-accent/10 px-4 py-3">
+                <p className="text-sm text-accent">
                   <span className="font-medium">GitHub token not configured.</span>{" "}
                   A token is required to publish to GitHub.
                 </p>
@@ -303,10 +303,10 @@ export default function PublishPanel() {
                           key={type}
                           className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium ${
                             type === "added"
-                              ? "bg-green-50/80 text-green-700"
+                              ? "bg-primary-container text-primary-on-container"
                               : type === "modified"
-                                ? "bg-amber-50/80 text-amber-700"
-                                : "bg-red-50/80 text-red-700"
+                                ? "bg-muted text-secondary"
+                                : "bg-muted text-accent"
                           }`}
                         >
                           {fileCounts?.[type]} {statusLabel(type)}
@@ -342,7 +342,7 @@ export default function PublishPanel() {
                 type="button"
                 onClick={handlePublishClick}
                 disabled={totalChanges === 0 || publishing}
-                className="rounded-md bg-indigo-600 px-5 py-2 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                className="rounded-md bg-primary px-5 py-2 text-sm font-medium text-white hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {publishing
                   ? "Publishing..."
@@ -355,7 +355,7 @@ export default function PublishPanel() {
                 type="button"
                 onClick={fetchStatus}
                 disabled={publishing}
-                className="rounded-md border border-border bg-background px-4 py-2 text-sm font-medium text-foreground hover:bg-muted focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                className="rounded-md border border-border bg-background px-4 py-2 text-sm font-medium text-foreground hover:bg-muted focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 Refresh
               </button>
@@ -366,34 +366,34 @@ export default function PublishPanel() {
               <div
                 className={`rounded-md border px-4 py-3 ${
                   publishResult.success
-                    ? "border-green-200/50 bg-green-50/80"
-                    : "border-red-200/50 bg-red-50/80"
+                    ? "border-primary/30 bg-primary-container"
+                    : "border-accent/30 bg-accent/10"
                 }`}
               >
                 {publishResult.success ? (
                   <div>
-                    <p className="text-sm font-medium text-green-800">
+                    <p className="text-sm font-medium text-primary-on-container">
                       {publishResult.message ?? "Publish completed!"}
                     </p>
                     {publishResult.commitHash && (
-                      <p className="mt-1 text-xs text-green-600">
+                      <p className="mt-1 text-xs text-primary-on-container">
                         Commit: {publishResult.commitHash}
                         {publishResult.commitMessage &&
                           ` — ${publishResult.commitMessage}`}
                       </p>
                     )}
                     {publishResult.files && (
-                      <p className="mt-1 text-xs text-green-600">
+                      <p className="mt-1 text-xs text-primary-on-container">
                         {publishResult.files.length} file{publishResult.files.length !== 1 ? "s" : ""} published
                       </p>
                     )}
                   </div>
                 ) : (
                   <div>
-                    <p className="text-sm font-medium text-red-800">
+                    <p className="text-sm font-medium text-accent">
                       Publish failed
                     </p>
-                    <p className="mt-1 text-sm text-red-700">
+                    <p className="mt-1 text-sm text-accent">
                       {publishResult.error ?? publishResult.message}
                     </p>
                   </div>
@@ -423,7 +423,7 @@ export default function PublishPanel() {
                   href="https://github.com/settings/tokens?type=beta"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-medium text-indigo-600 hover:text-indigo-800"
+                  className="font-medium text-primary hover:text-accent"
                 >
                   GitHub &rarr; Settings &rarr; Tokens
                 </a>
@@ -449,10 +449,10 @@ export default function PublishPanel() {
                   setTokenError(null);
                 }}
                 placeholder="ghp_..."
-                className="mt-1 block w-full rounded-md border border-border px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                className="mt-1 block w-full rounded-md border border-border px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent/50"
               />
               {tokenError && (
-                <p className="mt-1 text-sm text-red-600">{tokenError}</p>
+                <p className="mt-1 text-sm text-accent">{tokenError}</p>
               )}
             </div>
 
@@ -473,7 +473,7 @@ export default function PublishPanel() {
                 type="button"
                 onClick={handleSaveToken}
                 disabled={tokenSaving || !tokenInput.trim()}
-                className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {tokenSaving ? "Saving..." : "Save & publish"}
               </button>
@@ -513,7 +513,7 @@ export default function PublishPanel() {
               <button
                 type="button"
                 onClick={handleConfirmPublish}
-                className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2"
               >
                 Confirm &amp; publish
               </button>

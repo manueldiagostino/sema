@@ -361,6 +361,14 @@ export default function CorpusTable() {
       enableSorting: true,
       enableColumnFilter: false,
       meta: { minWidth: 220 },
+      cell: ({ getValue }: CellContext<CorpusItem, unknown>) => {
+        const label = (getValue() as string) ?? "";
+        return (
+          <span className="inline-flex items-center justify-center rounded-md bg-primary-container px-2.5 py-0.5 text-xs font-medium text-primary-on-container">
+            {label}
+          </span>
+        );
+      },
     };
 
     const mappedColumns = columnConfig.map((col) => ({
@@ -399,7 +407,7 @@ export default function CorpusTable() {
         cell: ({ row }: CellContext<CorpusItem, unknown>) => (
           <button
             onClick={() => setSelectedDocument(row.original)}
-            className="rounded bg-primary px-2 py-1 text-xs text-white hover:bg-primary/90"
+            className="rounded-md px-3 py-1.5 text-xs font-medium border border-accent/30 text-accent bg-background hover:bg-accent/10"
           >
             View
           </button>
@@ -521,7 +529,7 @@ export default function CorpusTable() {
   return (
     <div className="flex flex-col gap-4 p-6">
       {/* TOOLBAR: search + sidebar toggle + existing buttons */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between border-b border-border pb-4">
         <div className="flex items-center gap-2">
           <h1 className="text-2xl font-semibold text-primary">Corpus</h1>
           {/* Sidebar toggle button */}
@@ -540,7 +548,7 @@ export default function CorpusTable() {
               setPagination((prev) => ({ ...prev, pageIndex: 0 }));
             }}
             placeholder="Search all fields…"
-            className="w-64 rounded border border-border bg-background px-3 py-1.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-accent focus:outline-none"
+            className="w-64 rounded-md border border-border bg-background px-3 py-1.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-accent focus:outline-none"
           />
         </div>
         <div className="flex items-center gap-2">
@@ -694,7 +702,7 @@ export default function CorpusTable() {
         <div className="flex min-w-0 flex-1 flex-col">
           {/* Scrollable table wrapper */}
           <div className="flex-1 overflow-auto">
-            <div className="rounded-lg border border-border">
+            <div className="rounded-lg border border-border bg-background shadow-sm">
               <table className="w-full text-sm">
                 <thead className="sticky top-0 z-10">
                   {table.getHeaderGroups().map((headerGroup) => (
@@ -702,7 +710,6 @@ export default function CorpusTable() {
                       {headerGroup.headers.map((header) => {
                         return (
                           <th key={header.id} className="px-4 py-3 text-left font-medium text-primary" style={{ minWidth: (header.column.columnDef.meta as any)?.minWidth }}>
-                            <div className="flex flex-col gap-2">
                               {header.isPlaceholder ? null : (
                                 <button
                                   className="flex items-center gap-1 font-semibold hover:text-accent"
@@ -718,7 +725,6 @@ export default function CorpusTable() {
                                   }[header.column.getIsSorted() as string] ?? null}
                                 </button>
                               )}
-                            </div>
                           </th>
                         );
                       })}

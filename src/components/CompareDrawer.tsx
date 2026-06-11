@@ -127,7 +127,7 @@ export default function CompareDrawer({
                   onClick={() => setLayout("stacked")}
                   className={`rounded border px-2 py-1 text-xs transition-colors ${
                     layout === "stacked"
-                      ? "border-primary bg-primary/10 text-primary"
+                      ? "border-primary bg-primary-container text-primary-on-container"
                       : "border-border text-muted-foreground hover:bg-muted/50"
                   }`}
                   aria-pressed={layout === "stacked"}
@@ -139,7 +139,7 @@ export default function CompareDrawer({
                   onClick={() => setLayout("side-by-side")}
                   className={`rounded border px-2 py-1 text-xs transition-colors ${
                     layout === "side-by-side"
-                      ? "border-primary bg-primary/10 text-primary"
+                      ? "border-primary bg-primary-container text-primary-on-container"
                       : "border-border text-muted-foreground hover:bg-muted/50"
                   }`}
                   aria-pressed={layout === "side-by-side"}
