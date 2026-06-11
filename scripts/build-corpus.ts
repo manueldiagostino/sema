@@ -155,26 +155,42 @@ function computeFacets(
 }
 
 /**
- * Extract charter types from document ids and map them to human-readable labels.
- * Id pattern: TYPE_YEAR_SEQ (type_prefix, year, sequence joined by underscore)
- * The prefix is everything before the last two underscore-separated segments.
+ * Derive a short code from a charter type ID (same algorithm as xmlBuilder).
+ * Multi-word IDs: first letter of each word. Single-word: first two letters.
+ */
+function deriveCode(typeId: string): string {
+  const parts = typeId.split("_");
+  if (parts.length >= 2) {
+    return parts.map((p) => p[0]).join("").toLowerCase();
+  }
+  return typeId.slice(0, 2).toLowerCase();
+}
+
+/**
+ * Extract charter types from document IDs and map them to human-readable labels.
+ * New ID format: <code>_<NNNNNN> where prefix (before last _) is the charter code.
  */
 function extractCharterTypes(
   items: CorpusItem[],
   formConfig: TypesConfig,
 ): { id: string; label: string; count: number }[] {
+  // Build code → typeId lookup
+  const codeToTypeId = new Map<string, string>();
+  for (const t of formConfig.types) {
+    const code = deriveCode(t.id);
+    codeToTypeId.set(code, t.id);
+  }
+
   const typeCounts = new Map<string, number>();
 
   for (const item of items) {
     const docId = typeof item.id === "string" ? item.id : "";
-    const parts = docId.split("_");
-    // Need at least 3 segments to have a prefix + year + sequence
-    const prefix =
-      parts.length >= 3 ? parts.slice(0, -2).join("_") : docId;
+    // New format: <code>_<NNNNNN>
+    const lastUnderscore = docId.lastIndexOf("_");
+    const prefix = lastUnderscore >= 0 ? docId.slice(0, lastUnderscore) : docId;
     typeCounts.set(prefix, (typeCounts.get(prefix) || 0) + 1);
   }
 
-  // Build a lookup from formConfig.types
   const typeLookup = new Map<string, string>();
   for (const t of formConfig.types) {
     typeLookup.set(t.id, t.label);
@@ -182,11 +198,16 @@ function extractCharterTypes(
 
   const result: { id: string; label: string; count: number }[] = [];
   for (const [prefix, count] of typeCounts) {
-    const label =
-      typeLookup.get(prefix) ??
-      prefix
+    // Map code back to type ID
+    const typeId = codeToTypeId.get(prefix);
+    let label: string;
+    if (typeId) {
+      label = typeLookup.get(typeId) ?? typeId;
+    } else {
+      label = prefix
         .replace(/_/g, " ")
         .replace(/\b\w/g, (ch) => ch.toUpperCase());
+    }
     result.push({ id: prefix, label, count });
   }
 

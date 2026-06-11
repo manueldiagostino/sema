@@ -68,9 +68,7 @@ export default function FormSection({
                     <FormField
                       field={{
                         ...field,
-                        label: nextField.label.includes("normalized")
-                          ? "Context"
-                          : "Text",
+                        label: "", // redundant — box heading provides context
                       }}
                       value={fieldValues[field.id]}
                       onChange={(value) => onFieldChange(field.id, value)}

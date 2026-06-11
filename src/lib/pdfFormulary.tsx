@@ -1,0 +1,250 @@
+import React from "react";
+import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
+
+// Styles
+const styles = StyleSheet.create({
+  page: {
+    padding: 40,
+    fontSize: 11,
+    fontFamily: "Helvetica",
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 8,
+  },
+  subtitle: {
+    fontSize: 12,
+    color: "#555",
+    marginBottom: 20,
+  },
+  sectionTitle: {
+    fontSize: 13,
+    fontWeight: "bold",
+    marginTop: 14,
+    marginBottom: 6,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+    paddingBottom: 3,
+  },
+  clause: {
+    marginBottom: 10,
+    lineHeight: 1.5,
+  },
+  clauseLabel: {
+    fontSize: 10,
+    fontWeight: "bold",
+    color: "#666",
+    marginBottom: 2,
+  },
+  clauseText: {
+    fontSize: 11,
+    lineHeight: 1.5,
+  },
+  metadataRow: {
+    flexDirection: "row",
+    marginBottom: 4,
+  },
+  metadataLabel: {
+    fontSize: 10,
+    fontWeight: "bold",
+    width: 120,
+    color: "#555",
+  },
+  metadataValue: {
+    fontSize: 10,
+    flex: 1,
+  },
+  header: {
+    marginBottom: 20,
+    borderBottomWidth: 2,
+    borderBottomColor: "#333",
+    paddingBottom: 10,
+  },
+});
+
+interface Clause {
+  type: string;
+  subtype?: string;
+  content: string;
+}
+
+function parseClauses(xmlContent: string): Clause[] {
+  const clauses: Clause[] = [];
+  const divRegex = /<div\s+type="([^"]+)"(?:\s+subtype="([^"]*)")?[^>]*>\s*<p>([\s\S]*?)<\/p>\s*<\/div>/g;
+  let match;
+  while ((match = divRegex.exec(xmlContent)) !== null) {
+    clauses.push({
+      type: match[1],
+      subtype: match[2] || undefined,
+      content: match[3].trim(),
+    });
+  }
+  return clauses;
+}
+
+function extractTitle(xmlContent: string): string {
+  const titleMatch = /<title>([^<]+)<\/title>/.exec(xmlContent);
+  return titleMatch ? titleMatch[1].trim() : "Unknown Document";
+}
+
+function extractField(xmlContent: string, field: string): string {
+  const patterns: Record<string, RegExp> = {
+    repository: /<repository>([^<]+)<\/repository>/,
+    shelfmark: /<idno>([^<]+)<\/idno>/,
+    author: /<author>([^<]+)<\/author>/,
+    recipient: /<recipient>([^<]+)<\/recipient>/,
+    date: /<date[^>]*>([^<]*)<\/date>/,
+    notary: /<name>([^<]+)<\/name>/,
+    origPlace: /<origPlace>([^<]+)<\/origPlace>/,
+  };
+  const regex = patterns[field];
+  if (!regex) return "";
+  const match = regex.exec(xmlContent);
+  return match ? match[1].trim() : "";
+}
+
+const typeLabels: Record<string, string> = {
+  invocatio: "Invocatio",
+  datatio_chronica: "Datatio Chronica",
+  author_context: "Author Context",
+  verba_dispositiva: "Verba Dispositiva",
+  recipient_context: "Recipient Context",
+  clausula_perpetuitatis: "Clausula Perpetuitatis",
+  property_description: "Property Description",
+  clausula_servitutis_passagii: "Clausula Servitutis Passagii",
+  clausula_integritatis: "Clausula Integritatis",
+  clausula_quietantiae_pretii: "Clausula Quietantiae Pretii",
+  formula_confinium: "Formula Confinium",
+  formula_mensurationum: "Formula Mensurationum",
+  formula_transmissionis: "Formula Transmissionis",
+  formula_libere_fruitionis: "Formula Libere Fruitionis",
+  formula_legitimae_defensionis: "Formula Legitimae Defensionis",
+  sanctio: "Sanctio",
+  datatio_topica: "Datatio Topica",
+  completio: "Completio",
+};
+
+export default function FormularyPdf({ xmlContent }: { xmlContent: string }) {
+  const title = extractTitle(xmlContent);
+  const repository = extractField(xmlContent, "repository");
+  const shelfmark = extractField(xmlContent, "shelfmark");
+  const author = extractField(xmlContent, "author");
+  const recipient = extractField(xmlContent, "recipient");
+  const date = extractField(xmlContent, "date");
+  const notary = extractField(xmlContent, "notary");
+  const origPlace = extractField(xmlContent, "origPlace");
+
+  const clauses = parseClauses(xmlContent);
+
+  // Group clauses by parent section
+  const protocolClauses = clauses.filter((c) =>
+    ["invocatio", "datatio_chronica"].includes(c.type),
+  );
+  const textusClauses = clauses.filter(
+    (c) =>
+      !["invocatio", "datatio_chronica", "datatio_topica", "completio"].includes(
+        c.type,
+      ) && c.type !== "full_text",
+  );
+  const eschatocolClauses = clauses.filter((c) =>
+    ["datatio_topica", "completio"].includes(c.type),
+  );
+
+  return (
+    <Document>
+      <Page size="A4" style={styles.page}>
+        {/* Title */}
+        <View style={styles.header}>
+          <Text style={styles.title}>{title}</Text>
+          <View style={styles.metadataRow}>
+            <Text style={styles.metadataLabel}>Repository:</Text>
+            <Text style={styles.metadataValue}>{repository || "—"}</Text>
+          </View>
+          <View style={styles.metadataRow}>
+            <Text style={styles.metadataLabel}>Shelfmark:</Text>
+            <Text style={styles.metadataValue}>{shelfmark || "—"}</Text>
+          </View>
+          {author && (
+            <View style={styles.metadataRow}>
+              <Text style={styles.metadataLabel}>Author:</Text>
+              <Text style={styles.metadataValue}>{author}</Text>
+            </View>
+          )}
+          {recipient && (
+            <View style={styles.metadataRow}>
+              <Text style={styles.metadataLabel}>Recipient:</Text>
+              <Text style={styles.metadataValue}>{recipient}</Text>
+            </View>
+          )}
+          {date && (
+            <View style={styles.metadataRow}>
+              <Text style={styles.metadataLabel}>Date:</Text>
+              <Text style={styles.metadataValue}>{date}</Text>
+            </View>
+          )}
+          {origPlace && (
+            <View style={styles.metadataRow}>
+              <Text style={styles.metadataLabel}>Place:</Text>
+              <Text style={styles.metadataValue}>{origPlace}</Text>
+            </View>
+          )}
+          {notary && (
+            <View style={styles.metadataRow}>
+              <Text style={styles.metadataLabel}>Notary:</Text>
+              <Text style={styles.metadataValue}>{notary}</Text>
+            </View>
+          )}
+        </View>
+
+        {/* Protocol */}
+        {protocolClauses.length > 0 && (
+          <>
+            <Text style={styles.sectionTitle}>Protocol</Text>
+            {protocolClauses.map((clause, i) => (
+              <View key={`proto-${i}`} style={styles.clause}>
+                <Text style={styles.clauseLabel}>
+                  {typeLabels[clause.type] || clause.type}
+                  {clause.subtype ? ` (${clause.subtype})` : ""}
+                </Text>
+                <Text style={styles.clauseText}>{clause.content}</Text>
+              </View>
+            ))}
+          </>
+        )}
+
+        {/* Textus */}
+        {textusClauses.length > 0 && (
+          <>
+            <Text style={styles.sectionTitle}>Textus</Text>
+            {textusClauses.map((clause, i) => (
+              <View key={`text-${i}`} style={styles.clause}>
+                <Text style={styles.clauseLabel}>
+                  {typeLabels[clause.type] || clause.type}
+                  {clause.subtype ? ` (${clause.subtype})` : ""}
+                </Text>
+                <Text style={styles.clauseText}>{clause.content}</Text>
+              </View>
+            ))}
+          </>
+        )}
+
+        {/* Eschatocol */}
+        {eschatocolClauses.length > 0 && (
+          <>
+            <Text style={styles.sectionTitle}>Eschatocol</Text>
+            {eschatocolClauses.map((clause, i) => (
+              <View key={`esch-${i}`} style={styles.clause}>
+                <Text style={styles.clauseLabel}>
+                  {typeLabels[clause.type] || clause.type}
+                  {clause.subtype ? ` (${clause.subtype})` : ""}
+                </Text>
+                <Text style={styles.clauseText}>{clause.content}</Text>
+              </View>
+            ))}
+          </>
+        )}
+      </Page>
+    </Document>
+  );
+}

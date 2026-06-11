@@ -49,12 +49,39 @@ export default async function AdminFormRoutePage({
     const initialValues = parseTeiXml(xml, config);
 
     // Extract charter type from filename
-    // Filename format: <type_id>_<year>_<number>.xml
-    // e.g. "instrumentum_venditionis_1136_01.xml" → type_id = "instrumentum_venditionis"
-    // Match known types from config against the filename stem
+    // New format: <code>_<NNNNNN>.xml (e.g. "iv_000001.xml")
+    // Old format: <type_id>_<year>_<number>.xml
+    // Build a code→typeId lookup from config types
+    function deriveCode(typeId: string): string {
+      const parts = typeId.split("_");
+      if (parts.length >= 2) {
+        return parts.map((p) => p[0]).join("").toLowerCase();
+      }
+      return typeId.slice(0, 2).toLowerCase();
+    }
+    const codeToTypeId = new Map<string, string>();
+    for (const t of config.types) {
+      codeToTypeId.set(deriveCode(t.id), t.id);
+    }
+
     const stem = editFile.replace(/\.xml$/, "");
-    const charterType =
-      config.types.find((t) => stem.startsWith(t.id + "_"))?.id || "";
+    let charterType = "";
+
+    // Try new format: <code>_<NNNNNN>
+    const lastUnderscore = stem.lastIndexOf("_");
+    if (lastUnderscore >= 0) {
+      const code = stem.slice(0, lastUnderscore);
+      const typeId = codeToTypeId.get(code);
+      if (typeId && config.types.some((t) => t.id === typeId)) {
+        charterType = typeId;
+      }
+    }
+
+    // Fallback: try old format <type_id>_<year>_<number>
+    if (!charterType) {
+      charterType =
+        config.types.find((t) => stem.startsWith(t.id + "_"))?.id || "";
+    }
 
     return (
       <AdminFormPage

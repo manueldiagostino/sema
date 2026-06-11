@@ -42,17 +42,9 @@ const MAX_SELECTION = 20;
 
 /** Metadata columns visible by default in the table (allowlist). Body-text clause columns are hidden. */
 const DEFAULT_VISIBLE_COLUMNS = new Set([
-  "author_name",
-  "recipient_name",
-  "dating_chronological",
-  "dating_topical",
-  "pretium",
-  "property_location",
-  "locus_redactionis",
+  "datatio_chronica",
+  "datatio_topica",
   "notarius",
-  "testes_names",
-  "repository",
-  "shelfmark",
 ]);
 
 function downloadBlob(content: string, filename: string, type: string) {
@@ -268,8 +260,8 @@ export default function CorpusTable() {
 
   /** Extract charter type label from a document ID */
   function getCharterTypeLabel(itemId: string, ctList: CharterType[]): string | null {
-    const parts = itemId.split("_");
-    const prefix = parts.length >= 3 ? parts.slice(0, -2).join("_") : itemId;
+    const lastUnderscore = itemId.lastIndexOf("_");
+    const prefix = lastUnderscore >= 0 ? itemId.slice(0, lastUnderscore) : itemId;
     const ct = ctList.find((c) => c.id === prefix);
     return ct?.label ?? null;
   }
@@ -354,6 +346,18 @@ export default function CorpusTable() {
   const columns = useMemo<ColumnDef<CorpusItem>[]>(() => {
     if (!columnConfig) return [];
 
+    const idColumn: ColumnDef<CorpusItem> = {
+      id: "displayId",
+      header: "ID",
+      accessorFn: (row) => row.id,
+      enableSorting: true,
+      enableColumnFilter: false,
+      meta: { minWidth: 140 },
+      cell: ({ getValue }: CellContext<CorpusItem, unknown>) => {
+        return <span className="font-mono text-xs">{getValue() as string}</span>;
+      },
+    };
+
     const charterTypeColumn: ColumnDef<CorpusItem> = {
       id: "charterType",
       header: "Charter Type",
@@ -397,6 +401,25 @@ export default function CorpusTable() {
       },
     }));
 
+    const currentLocationColumn: ColumnDef<CorpusItem> = {
+      id: "currentLocation",
+      header: "Current Location",
+      accessorFn: (row) => {
+        const repo = typeof row.repository === "string" ? row.repository : "";
+        const shelf = typeof row.shelfmark === "string" ? row.shelfmark : "";
+        if (repo && shelf) return `${repo}, ${shelf}`;
+        if (repo) return repo;
+        if (shelf) return shelf;
+        return "—";
+      },
+      enableSorting: true,
+      enableColumnFilter: false,
+      meta: { minWidth: 180 },
+      cell: ({ getValue }: CellContext<CorpusItem, unknown>) => {
+        return <span>{getValue() as string}</span>;
+      },
+    };
+
     return [
       {
         id: "actions",
@@ -413,8 +436,10 @@ export default function CorpusTable() {
           </button>
         ),
       },
+      idColumn,
       charterTypeColumn,
       ...mappedColumns,
+      currentLocationColumn,
     ];
   }, [columnConfig, charterTypes]);
 
@@ -524,7 +549,7 @@ export default function CorpusTable() {
   );
 
   // Total column count for colSpan (actions + charterType + mapped columns)
-  const totalColumnCount = 2 + (columnConfig?.length ?? 0);
+  const totalColumnCount = 4 + (columnConfig?.length ?? 0);
 
   return (
     <div className="flex flex-col gap-4 p-6">
@@ -619,7 +644,7 @@ export default function CorpusTable() {
             </button>
             {showColumnMenu && (() => {
               const visibleLeafColumns = table.getAllLeafColumns().filter(
-                (col) => col.id !== "actions" && col.id !== "charterType"
+                (col) => col.id !== "actions" && col.id !== "displayId" && col.id !== "charterType"
               );
               const allVisible = visibleLeafColumns.every((c) => c.getIsVisible());
               return (

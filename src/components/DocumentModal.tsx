@@ -31,7 +31,7 @@ export default function DocumentModal({ item, columnConfig, onClose }: DocumentM
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div className="max-h-[90vh] w-full max-w-4xl overflow-y-auto rounded-lg border border-border bg-background p-6 shadow-lg">
+      <div className="max-h-[90vh] w-full max-w-6xl overflow-y-auto rounded-lg border border-border bg-background p-6 shadow-lg">
         <div className="mb-4 flex items-center justify-end">
           <button
             onClick={onClose}

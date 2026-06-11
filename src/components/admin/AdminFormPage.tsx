@@ -115,6 +115,7 @@ export default function AdminFormPage({
   const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
+  const [activeFormTab, setActiveFormTab] = useState<string>("formulary");
 
   const handleCharterTypeChange = useCallback(
     (typeId: string) => {
@@ -129,6 +130,8 @@ export default function AdminFormPage({
 
       // Initialize all field values with defaults
       const newValues = initializeFieldValues(sections, typeId);
+      // Initialize full_text to empty string
+      newValues.full_text = "";
 
       setFieldValues(newValues);
     },
@@ -265,7 +268,7 @@ export default function AdminFormPage({
           <div>
             <Link
               href="/admin"
-              className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-indigo-600 mb-2"
+              className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-accent mb-2"
             >
               <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -310,30 +313,93 @@ export default function AdminFormPage({
           </div>
 
           {/* Form Sections */}
-          {charterType &&
-            visibleSections.map((section) => (
-              <FormSection
-                key={section.id}
-                section={section}
-                fieldValues={fieldValues}
-                onFieldChange={handleFieldChange}
-                disabled={submitting}
-                validationErrors={validationErrors}
-                depth={0}
-              />
-            ))}
+          {charterType && (
+            <>
+              {/* Properties section - always visible above tabs */}
+              {visibleSections.filter(s => s.id === "properties").map((section) => (
+                <FormSection
+                  key={section.id}
+                  section={section}
+                  fieldValues={fieldValues}
+                  onFieldChange={handleFieldChange}
+                  disabled={submitting}
+                  validationErrors={validationErrors}
+                  depth={0}
+                />
+              ))}
 
-          {/* Ad-Hoc Custom Properties */}
-          <div className="border border-border rounded-lg p-6 bg-background">
-            <h2 className="text-lg font-semibold text-primary mb-4 pb-2 border-b border-border">
-              Custom Properties
-            </h2>
-            <AdHocFields
-              fields={adHoc}
-              onChange={setAdHoc}
-              disabled={submitting}
-            />
-          </div>
+              {/* Tab bar */}
+              <div className="border-b border-border">
+                <div className="flex gap-0 -mb-px">
+                  {(["formulary", "fulltext", "image"] as const).map((tabId) => (
+                    <button
+                      key={tabId}
+                      type="button"
+                      onClick={() => setActiveFormTab(tabId)}
+                      className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
+                        activeFormTab === tabId
+                          ? "border-accent text-accent"
+                          : "border-transparent text-muted-foreground hover:text-foreground hover:border-border"
+                      }`}
+                    >
+                      {tabId === "formulary" ? "Formulary Analysis" : tabId === "fulltext" ? "Full Text" : "Image"}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Tab content */}
+              {activeFormTab === "formulary" && (
+                <div className="space-y-6">
+                  {visibleSections.filter(s => s.id !== "properties").map((section) => (
+                    <FormSection
+                      key={section.id}
+                      section={section}
+                      fieldValues={fieldValues}
+                      onFieldChange={handleFieldChange}
+                      disabled={submitting}
+                      validationErrors={validationErrors}
+                      depth={0}
+                    />
+                  ))}
+                  {/* Ad-Hoc Custom Properties - only in Formulary Analysis */}
+                  <div className="border border-border rounded-lg p-6 bg-background">
+                    <h2 className="text-lg font-semibold text-primary mb-4 pb-2 border-b border-border">
+                      Custom Properties
+                    </h2>
+                    <AdHocFields
+                      fields={adHoc}
+                      onChange={setAdHoc}
+                      disabled={submitting}
+                    />
+                  </div>
+                </div>
+              )}
+
+              {activeFormTab === "fulltext" && (
+                <div className="border border-border rounded-lg p-6 bg-background">
+                  <label htmlFor="full_text" className="block text-sm font-medium text-foreground mb-2">
+                    Integral Text
+                  </label>
+                  <textarea
+                    id="full_text"
+                    value={typeof fieldValues.full_text === "string" ? fieldValues.full_text : ""}
+                    onChange={(e) => handleFieldChange("full_text", e.target.value)}
+                    rows={15}
+                    className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground focus:border-accent focus:outline-none"
+                    placeholder="Enter the integral text of the charter…"
+                    disabled={submitting}
+                  />
+                </div>
+              )}
+
+              {activeFormTab === "image" && (
+                <div className="border border-border rounded-lg p-6 bg-background text-center">
+                  <p className="text-sm text-muted-foreground">Image upload coming soon</p>
+                </div>
+              )}
+            </>
+          )}
 
           {/* Status Messages */}
           {success && (
@@ -401,7 +467,7 @@ export default function AdminFormPage({
                 type="button"
                 onClick={handleClearForm}
                 disabled={submitting}
-                className="rounded-md border border-border bg-background px-6 py-2.5 text-sm font-medium text-foreground hover:bg-muted focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="rounded-md border border-border bg-background px-6 py-2.5 text-sm font-medium text-foreground hover:bg-muted focus:outline-none focus:ring-2 focus:ring-accent/50 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Clear Form
               </button>
@@ -409,7 +475,7 @@ export default function AdminFormPage({
             <button
               type="submit"
               disabled={submitting || !charterType}
-              className="rounded-md bg-indigo-600 px-6 py-2.5 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="rounded-md bg-primary px-6 py-2.5 text-sm font-medium text-white hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-accent/50 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {submitting
                 ? isEditMode

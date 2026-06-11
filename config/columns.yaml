@@ -10,6 +10,12 @@
 # To hide a column, remove it from this list.
 
 columns:
+  - id: full_text
+    label: Full Text
+    xpath: tei:text/tei:body/tei:div[@type='full_text']
+    sortable: false
+    filterable: false
+
   - id: author_name
     label: Author
     xpath: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords/tei:term[@type='author_name']
@@ -77,6 +83,13 @@ columns:
     xpath: tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msIdentifier/tei:idno
     sortable: true
     filterable: true
+
+  - id: investitor_name
+    label: Investitor
+    xpath: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptiones']/tei:listWitness/tei:witness[@ana='#investitor']/tei:name
+    sortable: false
+    filterable: true
+    cardinality: single
 
   # --- Body-text columns (diplomatic clauses) ---
   # These extract text from <body> divisions.
@@ -197,13 +210,6 @@ columns:
   - id: datatio_topica
     label: Dating (Topica)
     xpath: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='datatio_topica']
-    sortable: false
-    filterable: false
-    truncateWords: 20
-
-  - id: testes_text
-    label: Testes
-    xpath: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptiones']/tei:div[@type='testes']
     sortable: false
     filterable: false
     truncateWords: 20

@@ -9,7 +9,7 @@ import { getActiveTeiDir } from "@/lib/dataDir";
 
 // ---------------------------------------------------------------------------
 // GET handler — download a TEI XML file as raw XML
-// Usage: GET /api/admin/xml?filename=instrumentum_venditionis_1318_01.xml
+// Usage: GET /api/admin/xml?filename=iv_000001.xml
 // ---------------------------------------------------------------------------
 
 export async function GET(request: Request) {
@@ -55,7 +55,7 @@ export async function GET(request: Request) {
 
 // ---------------------------------------------------------------------------
 // DELETE handler — delete a TEI XML file
-// Usage: DELETE /api/admin/xml?filename=instrumentum_venditionis_1318_01.xml
+// Usage: DELETE /api/admin/xml?filename=iv_000001.xml
 // ---------------------------------------------------------------------------
 
 export async function DELETE(request: Request) {
@@ -194,15 +194,15 @@ export async function POST(request: Request) {
       docId = filename.replace(/\.xml$/, "");
     } else {
       // ── Create mode: generate new filename with progressive numbering ──
-      const filenameBase = buildFilename(data);
-      const prefix = filenameBase + "_";
+      const charterCode = buildFilename(data);
+      const prefix = charterCode + "_";
       let maxNum = 0;
 
       try {
         const existing = readdirSync(localTeiDir);
         for (const f of existing) {
           if (f.startsWith(prefix) && f.endsWith(".xml")) {
-            const numStr = f.slice(prefix.length, f.length - 4);
+            const numStr = f.slice(prefix.length, -4); // remove prefix + ".xml"
             const num = parseInt(numStr, 10);
             if (!isNaN(num) && num > maxNum) maxNum = num;
           }
@@ -212,9 +212,9 @@ export async function POST(request: Request) {
       }
 
       const nextNum = maxNum + 1;
-      const numStr = String(nextNum).padStart(2, "0");
-      filename = `${filenameBase}_${numStr}.xml`;
-      docId = `${filenameBase}_${numStr}`;
+      const numStr = String(nextNum).padStart(6, "0");
+      filename = `${charterCode}_${numStr}.xml`;
+      docId = `${charterCode}_${numStr}`;
     }
 
     // ── 3. Generate TEI XML ──

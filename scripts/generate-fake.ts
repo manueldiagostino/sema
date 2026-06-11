@@ -242,10 +242,6 @@ function generateFakeDocument(sparseRate: number): FormSubmissionData {
     { PLACE: locusRedactionis, AUTHOR: authorName },
   );
 
-  const testesText = skipTestes
-    ? ""
-    : faker.helpers.arrayElement(ESCHATOCOL_TEMPLATES.testes_text);
-
   const completio = fillTemplate(
     faker.helpers.arrayElement(ESCHATOCOL_TEMPLATES.completio),
     { NOTARIUS: skipNotarius ? "" : notarius },
@@ -303,7 +299,7 @@ function generateFakeDocument(sparseRate: number): FormSubmissionData {
       formula_legitimae_defensionis: formulaLegitimaeDefensionis,
       sanctio_text: sanctioText,
       datatio_topica: datatioTopica,
-      testes_text: testesText,
+      full_text: faker.lorem.paragraphs(faker.number.int({ min: 1, max: 5 }), "\n\n"),
       completio,
       property_location: skipPropertyLocation ? "" : propertyLocation,
       pretium: skipPretium ? "" : pretium,
@@ -353,7 +349,7 @@ async function main() {
     const counter = (filenameCounters.get(baseName) || 0) + 1;
     filenameCounters.set(baseName, counter);
 
-    const seqStr = counter.toString().padStart(2, "0");
+    const seqStr = counter.toString().padStart(6, "0");
     const docId = `${baseName}_${seqStr}`;
     const filename = `${docId}.xml`;
     const filePath = path.join(fakeDir, filename);

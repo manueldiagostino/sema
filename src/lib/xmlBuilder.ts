@@ -88,8 +88,21 @@ function makeDivContainer(
 }
 
 /**
+ * Derive a short charter code from a charter type ID.
+ * Multi-word IDs (underscore-separated): first letter of each word.
+ * Single-word IDs: first two letters.
+ */
+export function deriveCharterCode(typeId: string): string {
+  const parts = typeId.split("_");
+  if (parts.length >= 2) {
+    return parts.map((p) => p[0]).join("").toLowerCase();
+  }
+  return typeId.slice(0, 2).toLowerCase();
+}
+
+/**
  * Generate the complete TEI P5 XML document from form submission data.
- * Builds a three-part diplomatic formulary: Protocol, Text, Eschatocol.
+ * Builds a diplomatic formulary with optional full text div.
  * @param docId Optional document ID (filename stem) for xml:id on <TEI> root.
  */
 export function generateTeiXml(
@@ -228,6 +241,13 @@ export function generateTeiXml(
   const textusDiv = makeDivContainer("textus", textusChildren, undefined, "      ");
   const textusContent = textusDiv ? [textusDiv] : [];
 
+  // Full text (before protocol, but protocol may already be present)
+  const fullTextContent = getStr(data, "full_text");
+  let fullTextDiv = "";
+  if (fullTextContent) {
+    fullTextDiv = makeDiv("full_text", fullTextContent, undefined, "      ");
+  }
+
   // Eschatocol
   const eschatocolChildren: string[] = [];
   const dtDiv = makeDiv("datatio_topica", getStr(data, "datatio_topica"));
@@ -241,9 +261,6 @@ export function generateTeiXml(
       `          <div type="emittens" subtype="${esc(emittensType)}" />`,
     );
   }
-  const testesDiv = makeDiv("testes", getStr(data, "testes_text"), undefined, "          ");
-  if (testesDiv) subscriptionsChildren.push(testesDiv);
-
   // Witness list
   const witnesses = getWitnesses(data, "testes_names");
   const witnessLines: string[] = [];
@@ -271,7 +288,12 @@ export function generateTeiXml(
   const eschatocolDiv = makeDivContainer("eschatocol", eschatocolChildren, undefined, "      ");
   const eschatocolContent = eschatocolDiv ? [eschatocolDiv] : [];
 
-  const bodyContent = [...protocolContent, ...textusContent, ...eschatocolContent];
+  const bodyContent = [
+    ...(fullTextDiv ? [fullTextDiv] : []),
+    ...protocolContent,
+    ...textusContent,
+    ...eschatocolContent,
+  ];
 
   // ── Assemble document ──
   const lines: string[] = [
@@ -346,25 +368,9 @@ export function generateTeiXml(
 }
 
 /**
- * Generates a filename base like `instrumentum_venditionis_1318` from charter type and date.
- * The progressive number and .xml extension are appended by the API route.
- * Format: <type_id>_<year>
+ * Derive the charter code from form submission data.
+ * The API route handles progressive numbering.
  */
 export function buildFilename(data: FormSubmissionData): string {
-  const charterType = data.charter_type || "unknown";
-  const dateVal = data.fields["date_modern"];
-
-  let year = "unknown";
-  if (
-    dateVal &&
-    typeof dateVal === "object" &&
-    "iso" in dateVal &&
-    typeof (dateVal as DateFieldValue).iso === "string"
-  ) {
-    const iso = (dateVal as DateFieldValue).iso;
-    const match = iso.match(/^(\d{4})/);
-    if (match) year = match[1];
-  }
-
-  return `${charterType}_${year}`;
+  return deriveCharterCode(data.charter_type || "unknown");
 }
