@@ -15,6 +15,20 @@ if %errorlevel% neq 0 (
 REM Navigate to script directory
 cd /d "%~dp0"
 
+REM ── Pull latest changes from remote ──
+echo.
+echo Pulling latest changes from remote...
+git pull
+if %errorlevel% neq 0 (
+    echo [WARNING] git pull failed. You may have uncommitted local changes.
+    echo           To fix: git stash  (to temporarily set them aside)
+    echo           or:     git commit -m "message"  (to commit them)
+    echo.
+    choice /c YN /n /m "Continue anyway? [Y/N] "
+    if errorlevel 2 exit /b 1
+    echo.
+)
+
 REM Always ensure dependencies are installed
 echo Checking dependencies...
 if not exist "node_modules\.package-lock.json" (
@@ -50,11 +64,6 @@ if %errorlevel% neq 0 (
         echo Git user: %GIT_NAME% ^< %GIT_EMAIL% ^>
     )
 )
-echo.
-
-REM ── Pull latest changes ──
-echo Pulling latest changes from remote...
-git pull
 echo.
 
 REM Build corpus JSON
