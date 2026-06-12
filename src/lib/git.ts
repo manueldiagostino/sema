@@ -37,7 +37,7 @@ export interface PublishResult {
 // ---------------------------------------------------------------------------
 
 const TOKEN_FILE = "data/.github-token";
-const CORPUS_PATHS = ["data/corpus/"];
+const CORPUS_PATHS = ["data/corpus/", "data/fake/"];
 
 // ---------------------------------------------------------------------------
 // Git command runner (execFileSync — no shell, no injection risk)
@@ -82,8 +82,29 @@ export function getGitStatus(root: string): GitFile[] {
   for (const line of raw.split("\n")) {
     if (!line.trim()) continue;
 
-    const xy = line.slice(0, 2);
-    const filePath = line.slice(3).trim();
+    // Parse porcelain format: XY<space><path> where XY is exactly 2 chars
+    //   Staged:    "M  path"   (X=M, Y=space, separator space, path)
+    //   Unstaged:  " M path"   (X=space, Y=M, separator space, path)
+    //   Untracked: "?? path"   (X=?, Y=?, separator space, path)
+    //
+    // The git() helper applies .trim() which strips the leading space
+    // from unstaged entries (" M path" → "M path"), shifting indexes.
+    // Handle both trimmed and untrimmed porcelain output robustly.
+
+    let xy: string;
+    let filePath: string;
+
+    if (line.length > 2 && line[2] === " ") {
+      // Standard/untrimmed format: XY is at [0,2), path at [3,)
+      xy = line.slice(0, 2);
+      filePath = line.slice(3);
+    } else if (line.length > 1 && line[1] === " ") {
+      // Trimmed unstaged output: "M path" → reconstruct XY as " M"
+      xy = " " + line[0];
+      filePath = line.slice(2);
+    } else {
+      continue; // malformed line
+    }
 
     // Only include corpus-related paths
     const isRelevant = CORPUS_PATHS.some((p) => filePath.startsWith(p));

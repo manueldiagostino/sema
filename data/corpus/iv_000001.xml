@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="instrumentum_venditionis_1136_01">
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="iv_000001">
   <teiHeader>
     <fileDesc>
       <titleStmt>
@@ -60,7 +60,7 @@
     <body>
       <div type="protocol">
         <div type="invocatio" subtype="symbolica verbalis">
-          <p>+ In nomine sancte et individue Trinitatis.</p>
+          <p>+ In nomine sancte et individue Trinitatis..</p>
         </div>
         <div type="datatio_chronica">
           <p>Anno Domini millesimo centesimo trigesimo sexto, / sexto kalendas madii, indicione quartadecima.</p>
@@ -112,9 +112,6 @@ homine prescriptam rem legittime defendere et / auctorizare promitto.</p>
         </div>
         <div type="subscriptiones">
           <div type="emittens" subtype="auctor" />
-          <div type="testes">
-            <p>Taurellus de Villola</p>
-          </div>
           <listWitness>
           <witness ana="#investitor"><name>Petrus de [T]eutio</name></witness>
           <witness><name>Ambrosius filius Domin&lt;i&gt;ce</name></witness>

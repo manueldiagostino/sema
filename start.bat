@@ -44,8 +44,17 @@ if %errorlevel% neq 0 (
         if not "%GIT_NAME%"=="" if not "%GIT_EMAIL%"=="" (
             echo Git configuration saved locally for this repository.
         )
+    ) else (
+        for /f "usebackq tokens=*" %%a in (`git config user.name`) do set "GIT_NAME=%%a"
+        for /f "usebackq tokens=*" %%b in (`git config user.email`) do set "GIT_EMAIL=%%b"
+        echo Git user: %GIT_NAME% ^< %GIT_EMAIL% ^>
     )
 )
+echo.
+
+REM ── Pull latest changes ──
+echo Pulling latest changes from remote...
+git pull
 echo.
 
 REM Build corpus JSON
