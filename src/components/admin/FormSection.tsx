@@ -23,25 +23,27 @@ export default function FormSection({
 }: FormSectionProps) {
   const sectionClass =
     depth >= 3
-      ? "ml-4 pl-2 border-l-2 border-border/40 bg-transparent"
+      ? "mt-3 ml-2 pl-3 border-l-2 border-l-accent/40"
       : depth >= 2
-        ? "border border-border/60 rounded-lg p-4 bg-muted/30"
-        : "border border-border rounded-lg p-6 bg-background";
+        ? "mt-4 border-l-2 border-l-accent/70 bg-muted/40 p-4 rounded-r-md"
+        : depth >= 1
+          ? "mt-5 border border-border/70 rounded-lg p-5 bg-primary-container/50 border-l-[3px] border-l-secondary"
+          : "border border-border rounded-lg p-6 bg-background";
 
   const headingClass =
     depth >= 3
-      ? "text-sm font-medium text-muted-foreground"
+      ? "text-xs font-semibold text-secondary/80 uppercase tracking-wider mb-2"
       : depth >= 2
-        ? "text-base font-semibold"
-        : "text-lg font-semibold";
+        ? "text-sm font-semibold text-secondary uppercase tracking-wide mb-3"
+        : depth >= 1
+          ? "text-base font-semibold text-primary mb-3 pb-2 border-b border-secondary/30"
+          : "text-lg font-semibold text-primary mb-4 pb-2 border-b border-border";
 
   const HeadingTag = depth >= 3 ? "h4" : depth >= 2 ? "h3" : "h2";
 
   return (
     <section className={sectionClass}>
-      <HeadingTag
-        className={`${headingClass} ${depth >= 3 ? "" : "text-primary"} mb-4 pb-2 border-b border-border`}
-      >
+      <HeadingTag className={headingClass}>
         {section.label}
       </HeadingTag>
       <div className="space-y-4">
