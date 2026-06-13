@@ -71,35 +71,35 @@
           <p>Bonofan/tino, accipienti in honore Dei et ecclesie Sancti Victoris et d(om)n(o) Alberio priori eiusdem / ecclesie et eius fratribus ac
 successoribus</p>
         </diploPart>
-        <diploPart type="clausulae">
-          <p>CLAUSULA</p>
+        <diploPart type="clausulae" subtype="perpetuitatis">
+          <p>---</p>
         </diploPart>
         <diploPart type="dispositio">
           <p>presenti die vendo et huius rei gratia trado tibi</p>
         </diploPart>
-        <diploPart type="clausulae">
-          <p>in perpetuum,</p>
+        <diploPart type="clausulae" subtype="de_servitute_itineris">
+          <p>de servitute itineris text</p>
         </diploPart>
-        <diploPart type="clausulae">
-          <p>in perpetuum,</p>
+        <diploPart type="clausulae" subtype="integritatis_rei">
+          <p>integritatis rei text</p>
         </diploPart>
-        <diploPart type="clausulae">
-          <p>in perpetuum,</p>
+        <diploPart type="clausulae" subtype="quietantiae_pretii">
+          <p>quietantiae pretii text</p>
         </diploPart>
-        <diploPart type="clausulae">
-          <p>in perpetuum,</p>
+        <diploPart type="clausulae" subtype="confinium">
+          <p>confinium text</p>
         </diploPart>
-        <diploPart type="clausulae">
-          <p>in perpetuum,</p>
+        <diploPart type="clausulae" subtype="mensurarum">
+          <p>mensurarum text</p>
         </diploPart>
-        <diploPart type="clausulae">
-          <p>in perpetuum,</p>
+        <diploPart type="clausulae" subtype="translationis_iuris">
+          <p>translationis iuris text</p>
         </diploPart>
-        <diploPart type="clausulae">
-          <p>in perpetuum,</p>
+        <diploPart type="clausulae" subtype="liberi_gaudii">
+          <p>liberi gaudii text</p>
         </diploPart>
-        <diploPart type="clausulae">
-          <p>in perpetuum,</p>
+        <diploPart type="clausulae" subtype="legitimae_defensionis">
+          <p>legitimae defensionis text</p>
         </diploPart>
         <diploPart type="sanctio" subtype="dupli_pena">
           <p>Et si ego vel mei heredes de hac re exinde / aliquo modo agere aut litigare presumpsero aut si contra quemlibet agentem le/gittimam defensionem non exibuero, pene nomine predicte rei duplum eiusdem bo/nitatis et extimationis dare omneque dannum prenominatus prior et eius successoribus / resarcire promitto et insuper hoc venditionis instrumentum ut supra legitur semper / incorruptum tenere spondeo.</p>
