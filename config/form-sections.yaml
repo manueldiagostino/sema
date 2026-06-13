@@ -190,6 +190,7 @@ sections:
               type: property_description
             xpath_parent: tei:text/tei:body/tei:div[@type='textus']
             applies_to: all
+            field_pair: property
 
           - id: property_type
             label: Property Type
@@ -203,6 +204,7 @@ sections:
                 label: Immobile
               - value: mobile
                 label: Mobile
+            field_pair: property
 
           - id: clausula_servitutis_passagii
             label: Clausula servitutis passagii
@@ -312,6 +314,7 @@ sections:
               type: sanctio
             xpath_parent: tei:text/tei:body/tei:div[@type='textus']
             applies_to: all
+            field_pair: sanctio
 
           - id: sanctio_type
             label: Sanctio Type
@@ -325,6 +328,7 @@ sections:
                 label: Penalty of Double
               - value: pecunia_numerata
                 label: Numbered Pecunia
+            field_pair: sanctio
 
           - id: property_location
             label: Property Location
@@ -351,6 +355,7 @@ sections:
               type: datatio_topica
             xpath_parent: tei:text/tei:body/tei:div[@type='eschatocol']
             applies_to: all
+            field_pair: datatio_topica
 
           - id: locus_redactionis
             label: Place of Redaction
@@ -361,15 +366,39 @@ sections:
               type: locus_redactionis
             xpath_parent: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords
             applies_to: all
+            field_pair: datatio_topica
 
         subsections:
-          # ── SUBSCRIPTIONS ─────────────────────────────
+          # ── SUBSCRIPTIONES ─────────────────────────────
           - id: subscriptions
-            label: Subscriptions
+            label: Subscriptiones
             applies_to: all
             fields:
+              - id: subscriptiones_testium
+                label: Subscriptiones testium
+                input: textarea
+                cardinality: single
+                tei_element: p
+                tei_wrapper: div
+                tei_wrapper_attributes:
+                  type: subscriptiones_testium
+                xpath_parent: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptiones']
+                applies_to: all
+
+              - id: subscriptio_emittentis
+                label: Subscriptio emittentis
+                input: text
+                cardinality: single
+                tei_element: name
+                tei_wrapper: div
+                tei_wrapper_attributes:
+                  type: emittens
+                xpath_parent: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptiones']
+                applies_to: all
+                field_pair: emittens
+
               - id: emittens_type
-                label: Emitter
+                label: Role
                 input: radio
                 cardinality: single
                 tei_element: div
@@ -382,9 +411,10 @@ sections:
                     label: Author
                   - value: destinatarius
                     label: Recipient
+                field_pair: emittens
 
               - id: testes_names
-                label: Witness Names
+                label: Testes
                 input: dynamic-list
                 cardinality: multiple
                 tei_element: name
@@ -405,6 +435,7 @@ sections:
                   type: completio
                 xpath_parent: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptiones']
                 applies_to: all
+                field_pair: completio
 
               - id: notarius
                 label: Notary
@@ -414,3 +445,4 @@ sections:
                 tei_wrapper: respStmt
                 xpath_parent: tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msContents/tei:msItem
                 applies_to: all
+                field_pair: completio

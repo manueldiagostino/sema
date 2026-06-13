@@ -174,9 +174,12 @@ export function parseTeiXml(
           const nodes = select(buildElementXPath(field), doc) as Node[];
           if (nodes.length > 0) {
             const el = nodes[0] as unknown as Element;
+            const iso = el.getAttribute("when") || "";
+            const rawText = getTextContent(nodes[0]).trim();
+            // Don't duplicate the ISO value as display text
             result[field.id] = {
-              iso: el.getAttribute("when") || "",
-              text: getTextContent(nodes[0]).trim(),
+              iso,
+              text: rawText === iso ? "" : rawText,
             } as DateFieldValue;
           } else {
             result[field.id] = { iso: "", text: "" } as DateFieldValue;
@@ -288,6 +291,22 @@ export function parseTeiXml(
 
   for (const section of config.sections) {
     processSection(section);
+  }
+
+  // ── Full text (not config-driven; rendered in a separate form tab) ──
+  try {
+    const ftNodes = select(
+      "//tei:text/tei:body/tei:div[@type='full_text']",
+      doc,
+    ) as Node[];
+    result.full_text =
+      ftNodes.length > 0 ? getTextContent(ftNodes[0]).trim() : "";
+  } catch (err) {
+    console.warn(
+      "[xmlParser] Error parsing full_text:",
+      err instanceof Error ? err.message : err,
+    );
+    result.full_text = "";
   }
 
   return result;

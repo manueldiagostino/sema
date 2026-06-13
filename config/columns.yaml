@@ -65,7 +65,7 @@ columns:
     filterable: true
 
   - id: testes_names
-    label: Witnesses
+    label: Testes
     xpath: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptiones']/tei:listWitness/tei:witness/tei:name
     sortable: false
     filterable: true

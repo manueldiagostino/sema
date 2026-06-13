@@ -56,37 +56,52 @@ export default function FormSection({
               section.fields[i + 1].field_pair === field.field_pair
             ) {
               const nextField = section.fields[i + 1];
+              // Inline layout for compact pairs (text + radio), stacked for textareas
+              const compactInputs = new Set(["text", "radio", "date", "select"]);
+              const isInline =
+                compactInputs.has(field.input) && compactInputs.has(nextField.input);
+
               elements.push(
                 <div
                   key={`pair-${field.field_pair}`}
-                  className="space-y-3 p-3 rounded-md border border-dashed border-primary/20 bg-primary/5"
+                  className={
+                    isInline
+                      ? "space-y-3"
+                      : "space-y-3 p-3 rounded-md border border-dashed border-primary/20 bg-primary/5"
+                  }
                 >
                   <p className="text-sm font-medium text-foreground">
                     {field.label}
                   </p>
-                  <div className="space-y-2">
-                    <FormField
-                      field={{
-                        ...field,
-                        label: "", // redundant — box heading provides context
-                      }}
-                      value={fieldValues[field.id]}
-                      onChange={(value) => onFieldChange(field.id, value)}
-                      disabled={disabled}
-                      validationError={validationErrors[field.id]}
-                    />
-                    <FormField
-                      field={{
-                        ...nextField,
-                        label: nextField.label.includes("normalized")
-                          ? "Name (normalized)"
-                          : nextField.label,
-                      }}
-                      value={fieldValues[nextField.id]}
-                      onChange={(value) => onFieldChange(nextField.id, value)}
-                      disabled={disabled}
-                      validationError={validationErrors[nextField.id]}
-                    />
+                  <div className={isInline ? "flex items-center gap-4" : "space-y-2"}>
+                    <div className={isInline ? "flex-1" : ""}>
+                      <FormField
+                        field={{
+                          ...field,
+                          label: "",
+                        }}
+                        value={fieldValues[field.id]}
+                        onChange={(value) => onFieldChange(field.id, value)}
+                        disabled={disabled}
+                        validationError={validationErrors[field.id]}
+                      />
+                    </div>
+                    <div className={isInline ? "shrink-0" : ""}>
+                      <FormField
+                        field={{
+                          ...nextField,
+                          label: isInline
+                            ? ""
+                            : nextField.label.includes("normalized")
+                              ? "Name (normalized)"
+                              : nextField.label,
+                        }}
+                        value={fieldValues[nextField.id]}
+                        onChange={(value) => onFieldChange(nextField.id, value)}
+                        disabled={disabled}
+                        validationError={validationErrors[nextField.id]}
+                      />
+                    </div>
                   </div>
                 </div>
               );

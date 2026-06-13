@@ -255,11 +255,28 @@ export function generateTeiXml(
 
   // Subscriptions
   const subscriptionsChildren: string[] = [];
+  const subTestiumDiv = makeDiv(
+    "subscriptiones_testium",
+    getStr(data, "subscriptiones_testium"),
+    undefined,
+    "          ",
+  );
+  if (subTestiumDiv) subscriptionsChildren.push(subTestiumDiv);
+  const emittensName = getStr(data, "subscriptio_emittentis");
   const emittensType = getStr(data, "emittens_type");
-  if (emittensType) {
-    subscriptionsChildren.push(
-      `          <div type="emittens" subtype="${esc(emittensType)}" />`,
-    );
+  if (emittensName || emittensType) {
+    const subtypeAttr = emittensType ? ` subtype="${esc(emittensType)}"` : "";
+    if (emittensName) {
+      subscriptionsChildren.push(
+        `          <div type="emittens"${subtypeAttr}>\n` +
+        `            <name>${esc(emittensName)}</name>\n` +
+        `          </div>`,
+      );
+    } else {
+      subscriptionsChildren.push(
+        `          <div type="emittens"${subtypeAttr} />`,
+      );
+    }
   }
   // Witness list
   const witnesses = getWitnesses(data, "testes_names");
