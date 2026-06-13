@@ -19,10 +19,6 @@
           <msContents>
             <msItem>
               <recipient>Bonfantino, a nome della chieda si S. Vittore e del priore Alberio</recipient>
-              <respStmt>
-                <resp>notary</resp>
-                <name>Gerardus tabellio</name>
-              </respStmt>
             </msItem>
           </msContents>
           <physDesc>
@@ -38,7 +34,7 @@
     <profileDesc>
       <creation>
         <date when="1136-04-26">1136-04-26</date>
-        <origPlace>nel burgo S. Donati (Bologna)</origPlace>
+        <term type="datatio_topica_analysis">nel burgo S. Donati (Bologna)</term>
       </creation>
       <langUsage>
         <language ident="la">Latin</language>
@@ -50,8 +46,6 @@
           <term type="intitulatio_analysis">Zambono, figlio di Rodaldo di Lovoleto</term>
           <term type="inscriptio_analysis">Bonfantino, a nome della chieda si S. Vittore e del priore Alberio</term>
           <term type="property_location">nella braida detta Flumexello</term>
-          <term type="datatio_topica_analysis">nel burgo S. Donati (Bologna)</term>
-          <term type="subscriptio_emittentis_analysis">auctor</term>
         </keywords>
       </textClass>
     </profileDesc>
@@ -59,7 +53,7 @@
   <text>
     <body>
       <div type="protocol">
-        <diploPart type="invocatio" subtype="symbolico_verbalis">
+        <diploPart type="invocatio">
           <p>+ In nomine sancte et individue Trinitatis.</p>
         </diploPart>
         <diploPart type="datatio" subtype="chronica">
@@ -77,30 +71,35 @@
           <p>Bonofan/tino, accipienti in honore Dei et ecclesie Sancti Victoris et d(om)n(o) Alberio priori eiusdem / ecclesie et eius fratribus ac
 successoribus</p>
         </diploPart>
-        <diploPart type="clausulae" subtype="perpetuitatis">
+        <diploPart type="clausulae">
+          <p>CLAUSULA</p>
+        </diploPart>
+        <diploPart type="dispositio">
+          <p>presenti die vendo et huius rei gratia trado tibi</p>
+        </diploPart>
+        <diploPart type="clausulae">
           <p>in perpetuum,</p>
         </diploPart>
-        <diploPart type="dispositio" subtype="descriptio_rei">
-          <p>peciam unam terræ arat(oriae) quam habeo in brai/da vestra in loco qui dicitur Flumexello,</p>
+        <diploPart type="clausulae">
+          <p>in perpetuum,</p>
         </diploPart>
-        <diploPart type="clausulae" subtype="de_servitute_itineris">
-          <p>um ingressu et egressu suo usque in via pu/blica e</p>
+        <diploPart type="clausulae">
+          <p>in perpetuum,</p>
         </diploPart>
-        <diploPart type="clausulae" subtype="integritatis_rei">
-          <p>et cum omnibus super se et infra &lt;se&gt; habentem in integrum.</p>
+        <diploPart type="clausulae">
+          <p>in perpetuum,</p>
         </diploPart>
-        <diploPart type="clausulae" subtype="confinium">
-          <p>Confines vero eius a totis / quattuor lateribus ex omni parte detinet vos emptores et si qui alii fine sunt.</p>
+        <diploPart type="clausulae">
+          <p>in perpetuum,</p>
         </diploPart>
-        <diploPart type="clausulae" subtype="translationis_iuris">
-          <p>Omnia que / michi pertinet in integrum in presenti vendo iam dicte ecclesie ad habendum, tenendum / ac possidendum</p>
+        <diploPart type="clausulae">
+          <p>in perpetuum,</p>
         </diploPart>
-        <diploPart type="clausulae" subtype="liberi_gaudii">
-          <p>et quicquid sibi iamdicto priori et eius fratribus ac successoribus deinceps / placuerint ad utilitatem eiusdem ecclesie faciendum.</p>
+        <diploPart type="clausulae">
+          <p>in perpetuum,</p>
         </diploPart>
-        <diploPart type="clausulae" subtype="legitimae_defensionis">
-          <p>Ut nullam litem / nullamque controversiam huius rei nomine a me vel a meis heredibus, quo/libet modo aliquo in tempore, prenominatus prior et eius fratribus ac successoribus de cetero / sustineas, ab omni quoque
-homine prescriptam rem legittime defendere et / auctorizare promitto.</p>
+        <diploPart type="clausulae">
+          <p>in perpetuum,</p>
         </diploPart>
         <diploPart type="sanctio" subtype="dupli_pena">
           <p>Et si ego vel mei heredes de hac re exinde / aliquo modo agere aut litigare presumpsero aut si contra quemlibet agentem le/gittimam defensionem non exibuero, pene nomine predicte rei duplum eiusdem bo/nitatis et extimationis dare omneque dannum prenominatus prior et eius successoribus / resarcire promitto et insuper hoc venditionis instrumentum ut supra legitur semper / incorruptum tenere spondeo.</p>
@@ -111,7 +110,9 @@ homine prescriptam rem legittime defendere et / auctorizare promitto.</p>
           <p>Actum in burgo Sancti Donati, indicione predicta.</p>
         </diploPart>
         <div type="subscriptio">
-          <diploPart type="subscriptio" subtype="emittens" />
+          <diploPart type="subscriptio" subtype="testium">
+            <p>Ego Gerardus tabellio hoc venditionis instrumentum ut supra legitur / scripsi et conplevi.</p>
+          </diploPart>
           <listWitness>
           <witness ana="#investitor"><name>Petrus de [T]eutio</name></witness>
           <witness><name>Ambrosius filius Domin&lt;i&gt;ce</name></witness>
