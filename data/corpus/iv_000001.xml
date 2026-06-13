@@ -79,16 +79,13 @@
 successoribus</p>
         </diploPart>
         <diploPart type="clausulae" subtype="perpetuitatis">
-          <p>Clausula perpetuitatis</p>
+          <p>in perpetuum</p>
         </diploPart>
         <diploPart type="clausulae" subtype="de_servitute_itineris">
           <p>de servitute itineris text</p>
         </diploPart>
         <diploPart type="clausulae" subtype="integritatis_rei">
           <p>integritatis rei text</p>
-        </diploPart>
-        <diploPart type="clausulae" subtype="quietantiae_pretii">
-          <p>quietantiae pretii text</p>
         </diploPart>
         <diploPart type="clausulae" subtype="confinium">
           <p>confinium text</p>
