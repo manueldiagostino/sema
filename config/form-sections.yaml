@@ -382,7 +382,6 @@ sections:
             field_pair: datatio_topica
             level_field:
               key: level
-              label: Level
 
         subsections:
           # ── SUBSCRIPTIONES ─────────────────────────────

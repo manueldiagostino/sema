@@ -44,7 +44,7 @@ export default function DynamicListField(props: DynamicListFieldProps) {
 
   // --- PlaceEntry[] mode (level_field present) ---
   if (hasLevelField) {
-    const { values, onChange, levelField } = props as DynamicListFieldPlaceProps;
+    const { values, onChange } = props as DynamicListFieldPlaceProps;
 
     const addItem = useCallback(() => {
       onChange([...values, { name: "", level: "" }]);
@@ -61,17 +61,52 @@ export default function DynamicListField(props: DynamicListFieldProps) {
       onChange(updated);
     }, [values, onChange]);
 
-    const updateLevel = useCallback((index: number, newLevel: string) => {
-      const updated = values.map((entry, i) =>
-        i === index ? { ...entry, level: newLevel } : entry
-      );
+    const handleDragStart = useCallback((e: React.DragEvent, index: number) => {
+      e.dataTransfer.effectAllowed = "move";
+      e.dataTransfer.setData("text/plain", String(index));
+      (e.currentTarget as HTMLElement).closest("[data-draggable]")?.classList.add("opacity-50");
+    }, []);
+
+    const handleDragEnd = useCallback((e: React.DragEvent) => {
+      (e.currentTarget as HTMLElement).closest("[data-draggable]")?.classList.remove("opacity-50");
+    }, []);
+
+    const handleDragOver = useCallback((e: React.DragEvent) => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = "move";
+    }, []);
+
+    const handleDrop = useCallback((e: React.DragEvent, dropIndex: number) => {
+      e.preventDefault();
+      const dragIndex = parseInt(e.dataTransfer.getData("text/plain"), 10);
+      if (dragIndex === dropIndex || isNaN(dragIndex)) return;
+      const updated = [...values];
+      const [removed] = updated.splice(dragIndex, 1);
+      updated.splice(dropIndex, 0, removed);
       onChange(updated);
     }, [values, onChange]);
 
     return (
       <div className="space-y-2">
         {values.map((entry, index) => (
-          <div key={index} className="flex items-center gap-2">
+          <div
+            key={index}
+            data-draggable
+            draggable={!disabled}
+            onDragStart={(e) => handleDragStart(e, index)}
+            onDragEnd={handleDragEnd}
+            onDragOver={handleDragOver}
+            onDrop={(e) => handleDrop(e, index)}
+            className="flex items-center gap-2 cursor-default"
+          >
+            <span
+              className="cursor-grab active:cursor-grabbing text-muted-foreground hover:text-foreground p-1"
+              aria-label={`Drag to reorder item ${index + 1}`}
+            >
+              <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8 6a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm8-16a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+              </svg>
+            </span>
             <input
               id={id ? `${id}-${index}` : undefined}
               type="text"
@@ -80,22 +115,13 @@ export default function DynamicListField(props: DynamicListFieldProps) {
               placeholder={placeholder}
               disabled={disabled}
               required={required && index === 0}
-              className="flex-1 rounded-md border border-border bg-background px-3 py-1.5 text-sm text-foreground placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/50 disabled:opacity-50"
-            />
-            <input
-              id={id ? `${id}-level-${index}` : undefined}
-              type="text"
-              value={entry.level}
-              onChange={(e) => updateLevel(index, e.target.value)}
-              placeholder={levelField.label}
-              disabled={disabled}
-              className="w-28 rounded-md border border-border bg-background px-2 py-1.5 text-sm text-foreground placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/50 disabled:opacity-50"
+              className="flex-1 rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground shadow-sm focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent/50 disabled:opacity-50 disabled:cursor-not-allowed"
             />
             <button
               type="button"
               onClick={() => removeItem(index)}
               disabled={disabled}
-              className="rounded-md px-2 py-1 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-950 disabled:opacity-50"
+              className="rounded-md border border-border bg-background px-3 py-2 text-sm text-red-600 hover:bg-red-500/10 hover:border-red-500/30 focus:outline-none focus:ring-1 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed"
               aria-label={`Remove item ${index + 1}`}
             >
               Remove
@@ -106,7 +132,7 @@ export default function DynamicListField(props: DynamicListFieldProps) {
           type="button"
           onClick={addItem}
           disabled={disabled}
-          className="rounded-md border border-dashed border-border px-3 py-1 text-sm text-muted hover:border-primary hover:text-primary disabled:opacity-50"
+          className="rounded-md border border-dashed border-border bg-background px-3 py-2 text-sm text-accent hover:bg-accent/10 hover:border-accent/30 focus:outline-none focus:ring-1 focus:ring-accent/50 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           + Add
         </button>
@@ -217,7 +243,7 @@ export default function DynamicListField(props: DynamicListFieldProps) {
               type="radio"
               name={radioName}
               checked={entry.is_investitor}
-              onClick={() => setInvestitor(index)}
+              onChange={() => setInvestitor(index)}
               disabled={disabled}
               className="h-3.5 w-3.5 border-border text-accent focus:ring-accent/50 disabled:opacity-50 disabled:cursor-not-allowed"
             />

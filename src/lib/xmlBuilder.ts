@@ -176,9 +176,8 @@ export function generateTeiXml(
   }
   for (const place of locusRedactionis) {
     if (isEmpty(place.name)) continue;
-    const subtypeAttr = place.level ? ` subtype="${esc(place.level)}"` : "";
     creation.push(
-      `${I(4)}<term type="datatio_topica_analysis"${subtypeAttr}>${esc(place.name)}</term>`,
+      `${I(4)}<term type="datatio_topica_analysis">${esc(place.name)}</term>`,
     );
   }
 

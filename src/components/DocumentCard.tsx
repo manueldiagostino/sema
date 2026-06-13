@@ -268,10 +268,9 @@ export default function DocumentCard({
             <div className="min-h-[300px] space-y-6">
               {/* Section 1 — Protocol */}
               {(() => {
-                const protocolFields: { label: string; id: string; badge?: string }[] = [
-                  { label: "Invocatio", id: "invocatio_text", badge: "invocatio_analysis" },
+                const protocolFields: { label: string; id: string }[] = [
+                  { label: "Invocatio", id: "invocatio_text" },
                   { label: "Datatio Chronica", id: "datatio_chronica_text" },
-                  { label: "Datatio Chronica", id: "dating_chronological" },
                 ];
                 const visibleProtocol = protocolFields.filter((f) => getVal(f.id));
                 if (visibleProtocol.length === 0) return null;
@@ -279,20 +278,12 @@ export default function DocumentCard({
                   <div>
                     <h2 className="text-base font-semibold text-primary border-b border-border pb-2 mb-2">Protocol</h2>
                     <div className="space-y-4">
-                      {visibleProtocol.map((f) => {
-                        const badgeVal = f.badge ? getVal(f.badge) : "";
-                        return (
+                      {visibleProtocol.map((f) => (
                           <div key={f.id} className="rounded border border-border bg-muted/30 p-4">
-                            <h3 className="mb-2 text-sm font-semibold text-primary">
-                              {f.label}
-                              {badgeVal && (
-                                <span className="ml-2 rounded bg-accent/10 px-1.5 py-0.5 text-xs text-accent">{badgeVal}</span>
-                              )}
-                            </h3>
+                            <h3 className="mb-2 text-sm font-semibold text-primary">{f.label}</h3>
                             <pre className="text-sm leading-relaxed text-foreground font-sans" style={{ whiteSpace: "pre-wrap", wordBreak: "break-word", margin: 0 }}>{getVal(f.id) || "—"}</pre>
                           </div>
-                        );
-                      })}
+                        ))}
                     </div>
                   </div>
                 );
@@ -300,25 +291,21 @@ export default function DocumentCard({
 
               {/* Section 2 — Text */}
               {(() => {
-                const textFieldDefs: { label: string; id: string; badge?: string }[] = [
-                  { label: "Auctor", id: "intitulatio_text" },
-                  { label: "Name (normalized)", id: "intitulatio_analysis" },
+                const textFieldDefs: { label: string; id: string }[] = [
+                  { label: "Intitulatio", id: "intitulatio_text" },
                   { label: "Verba dispositiva", id: "dispositio_text" },
-                  { label: "Destinatarius", id: "inscriptio_text" },
-                  { label: "Name (normalized)", id: "inscriptio_analysis" },
+                  { label: "Inscriptio", id: "inscriptio_text" },
                   { label: "Clausula perpetuitatis", id: "perpetuitatis_text" },
-                  { label: "Descriptio rei", id: "descriptio_rei_text", badge: "descriptio_rei_analysis" },
-                  { label: "Property Location", id: "property_location" },
+                  { label: "Descriptio rei", id: "descriptio_rei_text" },
                   { label: "Clausula de servitute itineris", id: "de_servitute_itineris_text" },
                   { label: "Clausula integritatis rei", id: "integritatis_rei_text" },
                   { label: "Clausula quietantiae pretii", id: "quietantiae_pretii_text" },
-                  { label: "Price", id: "pretium" },
                   { label: "Formula confinium", id: "confinium_text" },
                   { label: "Formula mensurarum", id: "mensurarum_text" },
                   { label: "Formula translationis iuris", id: "translationis_iuris_text" },
                   { label: "Formula liberi gaudii", id: "liberi_gaudii_text" },
                   { label: "Formula legitimae defensionis", id: "legitimae_defensionis_text" },
-                  { label: "Sanctio", id: "sanctio_text", badge: "sanctio_analysis" },
+                  { label: "Sanctio", id: "sanctio_text" },
                 ];
                 const visibleText = textFieldDefs.filter((f) => getVal(f.id));
                 if (visibleText.length === 0) return null;
@@ -326,20 +313,12 @@ export default function DocumentCard({
                   <div>
                     <h2 className="text-base font-semibold text-primary border-b border-border pb-2 mb-2">Text</h2>
                     <div className="space-y-4">
-                      {visibleText.map((f) => {
-                        const badgeVal = f.badge ? getVal(f.badge) : "";
-                        return (
+                      {visibleText.map((f) => (
                           <div key={f.id} className="rounded border border-border bg-muted/30 p-4">
-                            <h3 className="mb-2 text-sm font-semibold text-primary">
-                              {f.label}
-                              {badgeVal && (
-                                <span className="ml-2 rounded bg-accent/10 px-1.5 py-0.5 text-xs text-accent">{badgeVal}</span>
-                              )}
-                            </h3>
+                            <h3 className="mb-2 text-sm font-semibold text-primary">{f.label}</h3>
                             <pre className="text-sm leading-relaxed text-foreground font-sans" style={{ whiteSpace: "pre-wrap", wordBreak: "break-word", margin: 0 }}>{getVal(f.id) || "—"}</pre>
                           </div>
-                        );
-                      })}
+                        ))}
                     </div>
                   </div>
                 );
@@ -347,14 +326,11 @@ export default function DocumentCard({
 
               {/* Section 3 — Eschatocol */}
               {(() => {
-                const eschatocolFields: { label: string; id: string; badge?: string }[] = [
+                const eschatocolFields: { label: string; id: string }[] = [
                   { label: "Datatio topica", id: "datatio_topica_text" },
-                  { label: "Place of reduction", id: "datatio_topica_analysis" },
                   { label: "Subscriptiones testium", id: "subscriptiones_testium_text" },
-                  { label: "Subscriptio emittentis", id: "subscriptio_emittentis_text", badge: "subscriptio_emittentis_analysis" },
-                  { label: "Testes", id: "testes_names" },
+                  { label: "Subscriptio emittentis", id: "subscriptio_emittentis_text" },
                   { label: "Completio", id: "completio_text" },
-                  { label: "Notary", id: "completio_analysis" },
                 ];
                 const visibleEschatocol = eschatocolFields.filter((f) => getVal(f.id));
                 if (visibleEschatocol.length === 0) return null;
@@ -362,20 +338,12 @@ export default function DocumentCard({
                   <div>
                     <h2 className="text-base font-semibold text-primary border-b border-border pb-2 mb-2">Eschatocol</h2>
                     <div className="space-y-4">
-                      {visibleEschatocol.map((f) => {
-                        const badgeVal = f.badge ? getVal(f.badge) : "";
-                        return (
+                      {visibleEschatocol.map((f) => (
                           <div key={f.id} className="rounded border border-border bg-muted/30 p-4">
-                            <h3 className="mb-2 text-sm font-semibold text-primary">
-                              {f.label}
-                              {badgeVal && (
-                                <span className="ml-2 rounded bg-accent/10 px-1.5 py-0.5 text-xs text-accent">{badgeVal}</span>
-                              )}
-                            </h3>
+                            <h3 className="mb-2 text-sm font-semibold text-primary">{f.label}</h3>
                             <pre className="text-sm leading-relaxed text-foreground font-sans" style={{ whiteSpace: "pre-wrap", wordBreak: "break-word", margin: 0 }}>{getVal(f.id) || "—"}</pre>
                           </div>
-                        );
-                      })}
+                        ))}
                     </div>
                   </div>
                 );
@@ -384,14 +352,14 @@ export default function DocumentCard({
               {/* Empty state */}
               {(() => {
                 const allIds = [
-                  "invocatio_text", "invocatio_analysis", "datatio_chronica_text", "dating_chronological",
-                  "intitulatio_text", "intitulatio_analysis", "dispositio_text", "inscriptio_text",
-                  "inscriptio_analysis", "perpetuitatis_text", "descriptio_rei_text", "descriptio_rei_analysis",
-                  "property_location", "de_servitute_itineris_text", "integritatis_rei_text", "quietantiae_pretii_text",
-                  "pretium", "confinium_text", "mensurarum_text", "translationis_iuris_text",
-                  "liberi_gaudii_text", "legitimae_defensionis_text", "sanctio_text", "sanctio_analysis",
-                  "datatio_topica_text", "datatio_topica_analysis", "subscriptiones_testium_text",
-                  "subscriptio_emittentis_text", "subscriptio_emittentis_analysis", "testes_names", "completio_text", "completio_analysis",
+                  "invocatio_text", "datatio_chronica_text",
+                  "intitulatio_text", "dispositio_text", "inscriptio_text",
+                  "perpetuitatis_text", "descriptio_rei_text",
+                  "de_servitute_itineris_text", "integritatis_rei_text", "quietantiae_pretii_text",
+                  "confinium_text", "mensurarum_text", "translationis_iuris_text",
+                  "liberi_gaudii_text", "legitimae_defensionis_text", "sanctio_text",
+                  "datatio_topica_text", "subscriptiones_testium_text",
+                  "subscriptio_emittentis_text", "completio_text",
                 ];
                 const hasAny = allIds.some((id) => getVal(id));
                 if (hasAny) return null;
