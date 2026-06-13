@@ -1,6 +1,7 @@
 import { execFileSync } from "child_process";
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from "fs";
-import { join } from "path";
+import { join, relative } from "path";
+import { getActiveTeiDir } from "./dataDir";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -178,6 +179,79 @@ export function saveGitHubToken(root: string, token: string): void {
     mkdirSync(dir, { recursive: true });
   }
   writeFileSync(fp, token, { encoding: "utf-8", mode: 0o600 });
+}
+
+// ---------------------------------------------------------------------------
+// autoCommitCorpus
+// ---------------------------------------------------------------------------
+
+export interface AutoCommitResult {
+  committed: boolean;
+  error?: string;
+}
+
+/**
+ * Stages all changes in the active TEI directory and commits with an
+ * auto-save message. Uses `git add -A` so that additions, modifications,
+ * and deletions are all captured.
+ *
+ * Checks git availability and change presence first, so it never attempts
+ * a commit when there's nothing to stage — no locale-dependent string
+ * matching against git output.
+ *
+ * @param root - Project root directory (process.cwd())
+ * @param detail - Short description for the commit message (e.g. filename + mode)
+ */
+export function autoCommitCorpus(root: string, detail: string): AutoCommitResult {
+  // 1. Check git availability
+  try {
+    git(["--version"], root);
+  } catch {
+    return { committed: false, error: "git not available" };
+  }
+
+  // 2. Determine active corpus directory (respects fake mode)
+  const teiDir = getActiveTeiDir(root);
+  const relPath = relative(root, teiDir);
+
+  // 3. Stage all changes — adds, modifications, and deletions
+  try {
+    git(["add", "-A", "--", relPath], root);
+  } catch (err) {
+    return { committed: false, error: `git add failed: ${extractStderr(err)}` };
+  }
+
+  // 4. Bail out early if nothing was staged
+  try {
+    const staged = git(["diff", "--cached", "--name-only", "--", relPath], root);
+    if (staged.length === 0) {
+      return { committed: false };
+    }
+  } catch (err) {
+    return { committed: false, error: `git diff failed: ${extractStderr(err)}` };
+  }
+
+  // 5. Commit
+  const now = new Date();
+  const pad = (n: number) => String(n).padStart(2, "0");
+  const dateStr = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
+  const commitMsg = `Auto-save: ${detail} [${dateStr}]`;
+
+  try {
+    git(["commit", "-m", commitMsg], root);
+    console.log(`[git.ts] ${commitMsg}`);
+    return { committed: true };
+  } catch (err) {
+    return { committed: false, error: extractStderr(err) };
+  }
+}
+
+/** Extract stderr from an execFileSync error, or the message as fallback. */
+function extractStderr(err: unknown): string {
+  if (err instanceof Error && "stderr" in err) {
+    return (err as any).stderr?.toString() ?? err.message;
+  }
+  return String(err);
 }
 
 // ---------------------------------------------------------------------------

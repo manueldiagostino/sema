@@ -6,6 +6,7 @@ import { generateTeiXml, buildFilename } from "@/lib/xmlBuilder";
 import type { FormSubmissionData } from "@/types/form";
 
 import { getActiveTeiDir } from "@/lib/dataDir";
+import { autoCommitCorpus } from "@/lib/git";
 
 // ---------------------------------------------------------------------------
 // GET handler — download a TEI XML file as raw XML
@@ -125,6 +126,12 @@ export async function DELETE(request: Request) {
       },
       { status: 500 },
     );
+  }
+
+  // ── 4. Auto-commit to keep working tree clean ──
+  const commitResult = autoCommitCorpus(cwd, `${filename} [delete]`);
+  if (commitResult.error) {
+    console.warn("[admin/xml] Auto-commit after delete failed:", commitResult.error);
   }
 
   return NextResponse.json(
@@ -266,7 +273,13 @@ export async function POST(request: Request) {
       );
     }
 
-    // ── 6. Return success ──
+    // ── 6. Auto-commit to keep working tree clean ──
+    const commitResult = autoCommitCorpus(cwd, `${filename} [${mode}]`);
+    if (commitResult.error) {
+      console.warn("[admin/xml] Auto-commit after save failed:", commitResult.error);
+    }
+
+    // ── 7. Return success ──
     return NextResponse.json(
       { success: true, filename, mode },
       { status: 200 },

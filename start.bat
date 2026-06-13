@@ -18,7 +18,7 @@ cd /d "%~dp0"
 REM ── Pull latest changes from remote ──
 echo.
 echo Pulling latest changes from remote...
-git pull
+git pull --rebase --autostash
 if %errorlevel% neq 0 (
     echo [WARNING] git pull failed. You may have uncommitted local changes.
     echo           To fix: git stash  (to temporarily set them aside)

@@ -12,7 +12,8 @@ package-lock.json -text
 *.gif binary
 *.ico binary
 *.webp binary
-*.svg text   # SVG is text/xml
+# SVG is text/xml
+*.svg text
 *.woff binary
 *.woff2 binary
 *.eot binary
