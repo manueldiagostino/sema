@@ -28,18 +28,6 @@ columns:
     sortable: true
     filterable: true
 
-  - id: dating_chronological
-    label: Dating (Chronological)
-    xpath: tei:teiHeader/tei:profileDesc/tei:creation/tei:date
-    sortable: true
-    filterable: true
-
-  - id: dating_topical
-    label: Dating (Topical)
-    xpath: tei:teiHeader/tei:profileDesc/tei:creation/tei:origPlace
-    sortable: true
-    filterable: true
-
   - id: pretium
     label: Price
     xpath: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords/tei:term[@type='price']
@@ -57,6 +45,13 @@ columns:
     xpath: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords/tei:term[@type='locus_redactionis']
     sortable: true
     filterable: true
+
+  - id: datatio_topica
+    label: Dating (Topica)
+    xpath: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='datatio_topica']
+    sortable: false
+    filterable: false
+    truncateWords: 20
 
   - id: notarius
     label: Notary
@@ -88,6 +83,59 @@ columns:
   - id: shelfmark
     label: Shelfmark
     xpath: tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msIdentifier/tei:idno
+    sortable: true
+    filterable: true
+
+  - id: invocatio_type
+    label: Invocatio Type
+    xpath: tei:text/tei:body/tei:div[@type='protocol']/tei:div[@type='invocatio']
+    attribute: subtype
+    sortable: false
+    filterable: false
+
+  - id: property_type
+    label: Property Type
+    xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='property_description']
+    attribute: subtype
+    sortable: false
+    filterable: false
+
+  - id: sanctio_type
+    label: Sanctio Type
+    xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='sanctio']
+    attribute: subtype
+    sortable: false
+    filterable: false
+
+  - id: emittens_type
+    label: Emittens Type
+    xpath: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords/tei:term[@type='emittens']
+    sortable: false
+    filterable: false
+
+  - id: subscriptiones_testium
+    label: Subscriptiones Testium
+    xpath: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptiones']/tei:div[@type='subscriptiones_testium']
+    sortable: false
+    filterable: false
+    truncateWords: 20
+
+  - id: subscriptio_emittentis
+    label: Subscriptio Emittentis
+    xpath: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptiones']/tei:div[@type='emittens']/tei:name
+    sortable: false
+    filterable: false
+
+  - id: dating_chronological
+    label: Dating (Chronological)
+    xpath: tei:teiHeader/tei:profileDesc/tei:creation/tei:date
+    attribute: when
+    sortable: true
+    filterable: true
+
+  - id: dating_topical
+    label: Dating (Topical)
+    xpath: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords/tei:term[@type='locus_redactionis']
     sortable: true
     filterable: true
 
@@ -203,13 +251,6 @@ columns:
   - id: sanctio
     label: Sanctio
     xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='sanctio']
-    sortable: false
-    filterable: false
-    truncateWords: 20
-
-  - id: datatio_topica
-    label: Dating (Topica)
-    xpath: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='datatio_topica']
     sortable: false
     filterable: false
     truncateWords: 20

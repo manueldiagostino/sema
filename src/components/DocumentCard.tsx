@@ -76,7 +76,6 @@ export default function DocumentCard({
   const metadataCols = columnConfig.filter(
     (c) => (!c.truncateWords || c.truncateWords <= 0) && c.id !== "full_text"
   );
-  const longTextConfig = columnConfig.filter((c) => c.truncateWords && c.truncateWords > 0);
 
   // Handle click outside download menu
   useEffect(() => {
@@ -141,6 +140,13 @@ export default function DocumentCard({
   ];
 
   const fullText = typeof item.full_text === "string" ? item.full_text : "";
+
+  function getVal(colId: string): string {
+    const v = item[colId];
+    if (v === undefined || v === null) return "";
+    if (Array.isArray(v)) return v.join("; ");
+    return String(v);
+  }
 
   const handleDownloadTxt = useCallback(() => {
     if (fullText) {
@@ -259,20 +265,140 @@ export default function DocumentCard({
           )}
 
           {activeTab === "formulary" && (
-            <div className="min-h-[300px] space-y-4">
-              {longTextConfig.map((col) => {
-                const val = item[col.id];
-                const text = Array.isArray(val) ? val.join(" ") : (val as string) || "—";
+            <div className="min-h-[300px] space-y-6">
+              {/* Section 1 — Protocol */}
+              {(() => {
+                const protocolFields: { label: string; id: string; badge?: string }[] = [
+                  { label: "Invocatio", id: "invocatio", badge: "invocatio_type" },
+                  { label: "Datatio Chronica", id: "datatio_chronica" },
+                  { label: "Modern Date", id: "dating_chronological" },
+                ];
+                const visibleProtocol = protocolFields.filter((f) => getVal(f.id));
+                if (visibleProtocol.length === 0) return null;
                 return (
-                  <div key={col.id} className="rounded border border-border bg-muted/30 p-4">
-                    <h3 className="mb-2 text-sm font-semibold text-primary">{col.label}</h3>
-                    <pre
-                      className="text-sm leading-relaxed text-foreground font-sans"
-                      style={{ whiteSpace: "pre-wrap", wordBreak: "break-word", overflowWrap: "break-word", margin: 0 }}
-                    >{text}</pre>
+                  <div>
+                    <h2 className="text-base font-semibold text-primary border-b border-border pb-2 mb-2">Protocol</h2>
+                    <div className="space-y-4">
+                      {visibleProtocol.map((f) => {
+                        const badgeVal = f.badge ? getVal(f.badge) : "";
+                        return (
+                          <div key={f.id} className="rounded border border-border bg-muted/30 p-4">
+                            <h3 className="mb-2 text-sm font-semibold text-primary">
+                              {f.label}
+                              {badgeVal && (
+                                <span className="ml-2 rounded bg-accent/10 px-1.5 py-0.5 text-xs text-accent">{badgeVal}</span>
+                              )}
+                            </h3>
+                            <pre className="text-sm leading-relaxed text-foreground font-sans" style={{ whiteSpace: "pre-wrap", wordBreak: "break-word", margin: 0 }}>{getVal(f.id) || "—"}</pre>
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
                 );
-              })}
+              })()}
+
+              {/* Section 2 — Text */}
+              {(() => {
+                const textFieldDefs: { label: string; id: string; badge?: string }[] = [
+                  { label: "Author", id: "author_context" },
+                  { label: "Author (normalized)", id: "author_name" },
+                  { label: "Verba Dispositiva", id: "verba_dispositiva" },
+                  { label: "Recipient", id: "recipient_context" },
+                  { label: "Recipient (normalized)", id: "recipient_name" },
+                  { label: "Clausula Perpetuitatis", id: "clausula_perpetuitatis" },
+                  { label: "Property / Assets", id: "property_description", badge: "property_type" },
+                  { label: "Clausula Servitutis Passagii", id: "clausula_servitutis_passagii" },
+                  { label: "Clausula Integritatis", id: "clausula_integritatis" },
+                  { label: "Clausula Quietantiae Pretii", id: "clausula_quietantiae_pretii" },
+                  { label: "Price", id: "pretium" },
+                  { label: "Formula Confinium", id: "formula_confinium" },
+                  { label: "Formula Mensurationum", id: "formula_mensurationum" },
+                  { label: "Formula Transmissionis", id: "formula_transmissionis" },
+                  { label: "Formula Libere Fruitionis", id: "formula_libere_fruitionis" },
+                  { label: "Formula Legitimae Defensionis", id: "formula_legitimae_defensionis" },
+                  { label: "Sanctio", id: "sanctio", badge: "sanctio_type" },
+                  { label: "Property Location", id: "property_location" },
+                ];
+                const visibleText = textFieldDefs.filter((f) => getVal(f.id));
+                if (visibleText.length === 0) return null;
+                return (
+                  <div>
+                    <h2 className="text-base font-semibold text-primary border-b border-border pb-2 mb-2">Text</h2>
+                    <div className="space-y-4">
+                      {visibleText.map((f) => {
+                        const badgeVal = f.badge ? getVal(f.badge) : "";
+                        return (
+                          <div key={f.id} className="rounded border border-border bg-muted/30 p-4">
+                            <h3 className="mb-2 text-sm font-semibold text-primary">
+                              {f.label}
+                              {badgeVal && (
+                                <span className="ml-2 rounded bg-accent/10 px-1.5 py-0.5 text-xs text-accent">{badgeVal}</span>
+                              )}
+                            </h3>
+                            <pre className="text-sm leading-relaxed text-foreground font-sans" style={{ whiteSpace: "pre-wrap", wordBreak: "break-word", margin: 0 }}>{getVal(f.id) || "—"}</pre>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })()}
+
+              {/* Section 3 — Eschatocol */}
+              {(() => {
+                const eschatocolFields: { label: string; id: string; badge?: string }[] = [
+                  { label: "Datatio Topica", id: "datatio_topica" },
+                  { label: "Place of Redaction", id: "locus_redactionis" },
+                  { label: "Subscriptiones Testium", id: "subscriptiones_testium" },
+                  { label: "Subscriptio Emittentis", id: "subscriptio_emittentis", badge: "emittens_type" },
+                  { label: "Testes", id: "testes_names" },
+                  { label: "Completio", id: "completio" },
+                  { label: "Notary", id: "notarius" },
+                ];
+                const visibleEschatocol = eschatocolFields.filter((f) => getVal(f.id));
+                if (visibleEschatocol.length === 0) return null;
+                return (
+                  <div>
+                    <h2 className="text-base font-semibold text-primary border-b border-border pb-2 mb-2">Eschatocol</h2>
+                    <div className="space-y-4">
+                      {visibleEschatocol.map((f) => {
+                        const badgeVal = f.badge ? getVal(f.badge) : "";
+                        return (
+                          <div key={f.id} className="rounded border border-border bg-muted/30 p-4">
+                            <h3 className="mb-2 text-sm font-semibold text-primary">
+                              {f.label}
+                              {badgeVal && (
+                                <span className="ml-2 rounded bg-accent/10 px-1.5 py-0.5 text-xs text-accent">{badgeVal}</span>
+                              )}
+                            </h3>
+                            <pre className="text-sm leading-relaxed text-foreground font-sans" style={{ whiteSpace: "pre-wrap", wordBreak: "break-word", margin: 0 }}>{getVal(f.id) || "—"}</pre>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })()}
+
+              {/* Empty state */}
+              {(() => {
+                const allIds = [
+                  "invocatio", "invocatio_type", "datatio_chronica", "dating_chronological",
+                  "author_context", "author_name", "verba_dispositiva", "recipient_context",
+                  "recipient_name", "clausula_perpetuitatis", "property_description", "property_type",
+                  "clausula_servitutis_passagii", "clausula_integritatis", "clausula_quietantiae_pretii",
+                  "pretium", "formula_confinium", "formula_mensurationum", "formula_transmissionis",
+                  "formula_libere_fruitionis", "formula_legitimae_defensionis", "sanctio", "sanctio_type",
+                  "property_location", "datatio_topica", "locus_redactionis", "subscriptiones_testium",
+                  "subscriptio_emittentis", "emittens_type", "testes_names", "completio", "notarius",
+                ];
+                const hasAny = allIds.some((id) => getVal(id));
+                if (hasAny) return null;
+                return (
+                  <p className="text-sm text-muted-foreground text-center py-8">No formulary data available for this document.</p>
+                );
+              })()}
             </div>
           )}
 

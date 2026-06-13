@@ -25,6 +25,7 @@ interface ColumnConfig {
   id: string;
   label: string;
   xpath: string;
+  attribute?: string;
   sortable?: boolean;
   filterable?: boolean;
   cardinality?: "single" | "multiple";
@@ -278,14 +279,35 @@ export async function buildCorpus(config?: BuildConfig): Promise<void> {
           : `//${col.xpath}`;
         const nodes = select(xpathExpr, doc) as Node[];
 
-        if (col.cardinality === "multiple") {
-          // Collect ALL matching nodes into a string[]
-          let values: string[] = nodes.map(extractText).map((t) => t.trim());
-          item[col.id] = values;
+        if (col.attribute) {
+          // Extract attribute value from the matched element(s)
+          if (col.cardinality === "multiple") {
+            let values: string[] = nodes.map((node) => {
+              const el = node as any;
+              const attrVal = el.getAttribute?.(col.attribute!);
+              return attrVal ? attrVal.trim() : "";
+            });
+            item[col.id] = values;
+          } else {
+            let value = "";
+            if (nodes.length > 0) {
+              const el = nodes[0] as any;
+              const attrVal = el.getAttribute?.(col.attribute!);
+              value = attrVal ? attrVal.trim() : "";
+            }
+            item[col.id] = value;
+          }
         } else {
-          // Take the FIRST matching node as string (empty string if no match)
-          let value = nodes.length > 0 ? extractText(nodes[0]).trim() : "";
-          item[col.id] = value;
+          // Extract text content from the matched node(s)
+          if (col.cardinality === "multiple") {
+            // Collect ALL matching nodes into a string[]
+            let values: string[] = nodes.map(extractText).map((t) => t.trim());
+            item[col.id] = values;
+          } else {
+            // Take the FIRST matching node as string (empty string if no match)
+            let value = nodes.length > 0 ? extractText(nodes[0]).trim() : "";
+            item[col.id] = value;
+          }
         }
       } catch (err) {
         console.warn(

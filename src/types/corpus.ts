@@ -9,6 +9,7 @@ export interface ColumnConfig {
   id: string;
   label: string;
   xpath: string;
+  attribute?: string;
   sortable: boolean;
   filterable: boolean;
   cardinality: "single" | "multiple";

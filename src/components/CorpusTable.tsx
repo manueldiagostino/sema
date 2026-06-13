@@ -44,16 +44,16 @@ const MAX_SELECTION = 20;
 const DEFAULT_VISIBLE_COLUMNS = new Set([
   "currentLocation",
   "notarius",
-  "datatio_chronica",
-  "datatio_topica",
+  "dating_chronological",
+  "dating_topical",
 ]);
 
 /** Columns treated as "defaults" in the column menu — shown first with a divider. */
 const DEFAULT_COLUMN_IDS = new Set([
   "currentLocation",
   "notarius",
-  "datatio_chronica",
-  "datatio_topica",
+  "dating_chronological",
+  "dating_topical",
 ]);
 
 function downloadBlob(content: string, filename: string, type: string) {
