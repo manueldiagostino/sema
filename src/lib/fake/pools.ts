@@ -113,7 +113,7 @@ export const REPOSITORIES: readonly string[] = [
 
 export const PROTOCOL_TEMPLATES: {
   readonly invocatio: readonly string[];
-  readonly datatio_chronica: readonly string[];
+  readonly datatio_chronica_text: readonly string[];
 } = {
   invocatio: [
     "In nomine Domini nostri Iesu Christi, amen.",
@@ -121,7 +121,7 @@ export const PROTOCOL_TEMPLATES: {
     "In nomine sancte et individue Trinitatis, amen.",
     "In nomine Patris et Filii et Spiritus Sancti, amen.",
   ],
-  datatio_chronica: [
+  datatio_chronica_text: [
     "Anno Domini $YEAR, indictione $INDICTIO, die $DAY mensis $MONTH.",
     "Anno ab incarnatione Domini $YEAR, indictione $INDICTIO, $DAY $MONTH.",
     "In Christi nomine, anno eiusdem nativitatis $YEAR, indictione $INDICTIO.",
@@ -131,29 +131,29 @@ export const PROTOCOL_TEMPLATES: {
 // --- Textus templates (body of the charter) ---
 
 export const TEXTUS_TEMPLATES: {
-  readonly author_context: readonly string[];
-  readonly verba_dispositiva: readonly string[];
-  readonly recipient_context: readonly string[];
-  readonly property_description: readonly string[];
+  readonly intitulatio_text: readonly string[];
+  readonly dispositio_text: readonly string[];
+  readonly inscriptio_text: readonly string[];
+  readonly descriptio_rei_text: readonly string[];
   readonly sanctio: readonly string[];
-  readonly formula_confinium: readonly string[];
+  readonly confinium_text: readonly string[];
 } = {
-  author_context: [
+  intitulatio_text: [
     "Ibique $AUTHOR in nostra presentia constitutus, per se suosque heredes, iure proprio in perpetuum vendidit et tradidit $RECIPIENT [...]",
     "Cum $AUTHOR ad hec presentialiter accessisset, sponte et ex certa scientia vendidit atque concessit $RECIPIENT [...]",
     "$AUTHOR, in presentia testium infrascriptorum, per se et suos heredes vendidit, dedit et tradidit $RECIPIENT [...]",
   ],
-  verba_dispositiva: [
+  dispositio_text: [
     "unam petiam terre iuris sui, positam $PLACE, cui coheret ab uno latere via publica, ab alio $AUTHOR ipse, a tertio $RECIPIENT, a quarto fluvius Rhenus.",
     "integrum suum ius quod habet in una petia terre posita $PLACE, cum omnibus suis iuribus et pertinentiis.",
     "totum illud suum casamentum positum $PLACE, cum curia, orto et hedificiis superpositis.",
   ],
-  recipient_context: [
+  inscriptio_text: [
     "Quam venditionem $RECIPIENT pro se suisque heredibus recepit et acceptavit, dans pro ea pretium infrascriptum.",
     "$RECIPIENT, emens pro se et suis heredibus, acceptavit dictam venditionem cum omnibus suprascriptis.",
     "Et $RECIPIENT eandem venditionem pro se suisque heredibus suscipiens, solvit pretium sicut inferius continetur.",
   ],
-  property_description: [
+  descriptio_rei_text: [
     "Que petia terre iacet $PLACE et est pertice $SIZE, cum accessibus et egressibus suis.",
     "Dictum casamentum cum omnibus hedificiis, curte et pertinentibus suis positum $PLACE.",
     "Cuius rei mensura est perticarum $SIZE vel circa, cum omnibus iuribus et actionibus suis.",
@@ -163,7 +163,7 @@ export const TEXTUS_TEMPLATES: {
     "Si quis autem hanc cartam venditionis infringere presumpserit, solvat penam $PENALTY librarum bononinorum, et nichilominus hec venditio in sua firmitate permaneat.",
     "Et ad hec omnia observanda obligavit $AUTHOR se suosque heredes et bona sua omnia presentia et futura.",
   ],
-  formula_confinium: [
+  confinium_text: [
     "Ab una parte coheret $AUTHOR ipse, ab altera via publica, a tercia $RECIPIENT, a quarta fluvius.",
     "Cui coheret a mane via publica, a meridie heredes quondam $NEIGHBOR, a sera fluvius, a septentrione ortus communis.",
     "Quibus coheret ab oriente $AUTHOR ipse, ab occidente $RECIPIENT, a meridie strata publica, a septentrione fossatum commune.",
@@ -173,16 +173,16 @@ export const TEXTUS_TEMPLATES: {
 // --- Eschatocol templates (closing section) ---
 
 export const ESCHATOCOL_TEMPLATES: {
-  readonly datatio_topica: readonly string[];
-  readonly completio: readonly string[];
+  readonly datatio_topica_text: readonly string[];
+  readonly completio_text: readonly string[];
   readonly testes_text: readonly string[];
 } = {
-  datatio_topica: [
+  datatio_topica_text: [
     "Actum $PLACE, in domo $AUTHOR, presentibus testibus infrascriptis.",
     "Actum in civitate Bononie, in capella $PLACE, sub porticu domus $AUTHOR.",
     "Actum $PLACE, in curia episcopali, anno, indictione et die suprascriptis.",
   ],
-  completio: [
+  completio_text: [
     "Ego $NOTARIUS, imperiali auctoritate notarius, hiis omnibus interfui et hanc cartam rogatus scripsi et subscripsi.",
     "Et ego $NOTARIUS, notarius publicus, predictis interfui et rogatus scribere scripsi.",
     "Ego $NOTARIUS, notarius sacri palatii, hec omnia vidi et audivi et in hanc publicam formam redegi.",

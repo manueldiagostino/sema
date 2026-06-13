@@ -64,18 +64,18 @@ sections:
             input: textarea
             cardinality: single
             tei_element: p
-            tei_wrapper: div
+            tei_wrapper: diploPart
             tei_wrapper_attributes:
               type: invocatio
             xpath_parent: tei:text/tei:body/tei:div[@type='protocol']
             applies_to: all
             field_pair: invocatio
 
-          - id: invocatio_type
-            label: Type
+          - id: invocatio_analysis
+            label: Invocatio Analysis
             input: radio
             cardinality: multiple
-            tei_element: div
+            tei_element: diploPart
             xpath_parent: tei:text/tei:body/tei:div[@type='protocol']
             applies_to: all
             options:
@@ -85,20 +85,21 @@ sections:
                 label: Verbale
             field_pair: invocatio
 
-          - id: datatio_chronica
+          - id: datatio_chronica_text
             label: Datatio chronica
             input: textarea
             cardinality: single
             tei_element: p
-            tei_wrapper: div
+            tei_wrapper: diploPart
             tei_wrapper_attributes:
-              type: datatio_chronica
+              type: datatio
+              subtype: chronica
             xpath_parent: tei:text/tei:body/tei:div[@type='protocol']
             applies_to: all
             field_pair: datatio
 
-          - id: date_modern
-            label: Modern Date
+          - id: datatio_chronica_analysis
+            label: Datatio Chronica Analysis
             input: date
             cardinality: single
             tei_element: date
@@ -107,97 +108,98 @@ sections:
             field_pair: datatio
             default_value: "1200-01-01"
 
-      # ── TEXT ──────────────────────────────────────────
+      # ── CONTEXTUS ─────────────────────────────────────
       - id: text
-        label: Text
+        label: Contextus
         applies_to: all
         fields:
-          - id: author_text
-            label: Auctor
+          - id: intitulatio_text
+            label: Auctor (Intitulatio)
             input: textarea
             cardinality: single
             tei_element: p
-            tei_wrapper: div
+            tei_wrapper: diploPart
             tei_wrapper_attributes:
-              type: author_context
-            xpath_parent: tei:text/tei:body/tei:div[@type='textus']
+              type: intitulatio
+            xpath_parent: tei:text/tei:body/tei:div[@type='contextus']
             applies_to: all
             field_pair: author
 
-          - id: author_name
-            label: Author (normalized)
+          - id: intitulatio_analysis
+            label: Auctor Analysis
             input: text
             cardinality: single
             tei_element: term
             tei_attributes:
-              type: author_name
+              type: intitulatio_analysis
             xpath_parent: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords
             applies_to: all
             field_pair: author
 
-          - id: verba_dispositiva
-            label: Verba dispositiva
+          - id: dispositio_text
+            label: Verba dispositiva (Dispositio)
             input: textarea
             cardinality: single
             tei_element: p
-            tei_wrapper: div
+            tei_wrapper: diploPart
             tei_wrapper_attributes:
-              type: verba_dispositiva
-            xpath_parent: tei:text/tei:body/tei:div[@type='textus']
+              type: dispositio
+            xpath_parent: tei:text/tei:body/tei:div[@type='contextus']
             applies_to: all
 
-          - id: recipient_text
-            label: Destinatarius
+          - id: inscriptio_text
+            label: Destinatarius (Inscriptio)
             input: textarea
             cardinality: single
             tei_element: p
-            tei_wrapper: div
+            tei_wrapper: diploPart
             tei_wrapper_attributes:
-              type: recipient_context
-            xpath_parent: tei:text/tei:body/tei:div[@type='textus']
+              type: inscriptio
+            xpath_parent: tei:text/tei:body/tei:div[@type='contextus']
             applies_to: all
             field_pair: recipient
 
-          - id: recipient_name
-            label: Recipient (normalized)
+          - id: inscriptio_analysis
+            label: Destinatarius Analysis
             input: text
             cardinality: single
             tei_element: term
             tei_attributes:
-              type: recipient_name
+              type: inscriptio_analysis
             xpath_parent: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords
             applies_to: all
             field_pair: recipient
 
-          - id: clausula_perpetuitatis
+          - id: perpetuitatis_text
             label: Clausula perpetuitatis
             input: textarea
             cardinality: single
             tei_element: p
-            tei_wrapper: div
+            tei_wrapper: diploPart
             tei_wrapper_attributes:
-              type: clausula_perpetuitatis
-            xpath_parent: tei:text/tei:body/tei:div[@type='textus']
+              type: clausulae
+              subtype: perpetuitatis
+            xpath_parent: tei:text/tei:body/tei:div[@type='contextus']
             applies_to: all
 
-          - id: property_description
+          - id: descriptio_rei_text
             label: Descriptio rei
             input: textarea
             cardinality: single
             tei_element: p
-            tei_wrapper: div
+            tei_wrapper: diploPart
             tei_wrapper_attributes:
-              type: property_description
-            xpath_parent: tei:text/tei:body/tei:div[@type='textus']
+              type: dispositio
+            xpath_parent: tei:text/tei:body/tei:div[@type='contextus']
             applies_to: all
             field_pair: property
 
-          - id: property_type
-            label: Property Type
+          - id: descriptio_rei_analysis
+            label: Descriptio Rei Analysis
             input: radio
             cardinality: single
-            tei_element: div
-            xpath_parent: tei:text/tei:body/tei:div[@type='textus']
+            tei_element: diploPart
+            xpath_parent: tei:text/tei:body/tei:div[@type='contextus']
             applies_to: all
             options:
               - value: immobile
@@ -206,37 +208,40 @@ sections:
                 label: Mobile
             field_pair: property
 
-          - id: clausula_de_servitute_itineris
+          - id: de_servitute_itineris_text
             label: Clausula de servitute itineris
             input: textarea
             cardinality: single
             tei_element: p
-            tei_wrapper: div
+            tei_wrapper: diploPart
             tei_wrapper_attributes:
-              type: clausula_de_servitute_itineris
-            xpath_parent: tei:text/tei:body/tei:div[@type='textus']
+              type: clausulae
+              subtype: de_servitute_itineris
+            xpath_parent: tei:text/tei:body/tei:div[@type='contextus']
             applies_to: all
 
-          - id: clausula_integritatis_rei
+          - id: integritatis_rei_text
             label: Clausula integritatis rei
             input: textarea
             cardinality: single
             tei_element: p
-            tei_wrapper: div
+            tei_wrapper: diploPart
             tei_wrapper_attributes:
-              type: clausula_integritatis_rei
-            xpath_parent: tei:text/tei:body/tei:div[@type='textus']
+              type: clausulae
+              subtype: integritatis_rei
+            xpath_parent: tei:text/tei:body/tei:div[@type='contextus']
             applies_to: all
 
-          - id: clausula_quietantiae_pretii
+          - id: quietantiae_pretii_text
             label: Clausula quietantiae pretii
             input: textarea
             cardinality: single
             tei_element: p
-            tei_wrapper: div
+            tei_wrapper: diploPart
             tei_wrapper_attributes:
-              type: clausula_quietantiae_pretii
-            xpath_parent: tei:text/tei:body/tei:div[@type='textus']
+              type: clausulae
+              subtype: quietantiae_pretii
+            xpath_parent: tei:text/tei:body/tei:div[@type='contextus']
             applies_to: all
 
           - id: pretium
@@ -249,59 +254,64 @@ sections:
             xpath_parent: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords
             applies_to: all
 
-          - id: formula_confinium
+          - id: confinium_text
             label: Formula confinium
             input: textarea
             cardinality: single
             tei_element: p
-            tei_wrapper: div
+            tei_wrapper: diploPart
             tei_wrapper_attributes:
-              type: formula_confinium
-            xpath_parent: tei:text/tei:body/tei:div[@type='textus']
+              type: clausulae
+              subtype: confinium
+            xpath_parent: tei:text/tei:body/tei:div[@type='contextus']
             applies_to: all
 
-          - id: formula_mensurarum
+          - id: mensurarum_text
             label: Formula mensurarum
             input: textarea
             cardinality: single
             tei_element: p
-            tei_wrapper: div
+            tei_wrapper: diploPart
             tei_wrapper_attributes:
-              type: formula_mensurarum
-            xpath_parent: tei:text/tei:body/tei:div[@type='textus']
+              type: clausulae
+              subtype: mensurarum
+            xpath_parent: tei:text/tei:body/tei:div[@type='contextus']
             applies_to: all
 
-          - id: formula_translationis_iuris
+          - id: translationis_iuris_text
             label: Formula translationis iuris
             input: textarea
             cardinality: single
             tei_element: p
-            tei_wrapper: div
+            tei_wrapper: diploPart
             tei_wrapper_attributes:
-              type: formula_translationis_iuris
-            xpath_parent: tei:text/tei:body/tei:div[@type='textus']
+              type: clausulae
+              subtype: translationis_iuris
+            xpath_parent: tei:text/tei:body/tei:div[@type='contextus']
             applies_to: all
 
-          - id: formula_liberi_gaudii
+          - id: liberi_gaudii_text
             label: Formula liberi gaudii
             input: textarea
             cardinality: single
             tei_element: p
-            tei_wrapper: div
+            tei_wrapper: diploPart
             tei_wrapper_attributes:
-              type: formula_liberi_gaudii
-            xpath_parent: tei:text/tei:body/tei:div[@type='textus']
+              type: clausulae
+              subtype: liberi_gaudii
+            xpath_parent: tei:text/tei:body/tei:div[@type='contextus']
             applies_to: all
 
-          - id: formula_legitimae_defensionis
+          - id: legitimae_defensionis_text
             label: Formula legitimae defensionis
             input: textarea
             cardinality: single
             tei_element: p
-            tei_wrapper: div
+            tei_wrapper: diploPart
             tei_wrapper_attributes:
-              type: formula_legitimae_defensionis
-            xpath_parent: tei:text/tei:body/tei:div[@type='textus']
+              type: clausulae
+              subtype: legitimae_defensionis
+            xpath_parent: tei:text/tei:body/tei:div[@type='contextus']
             applies_to: all
 
           - id: sanctio_text
@@ -309,19 +319,19 @@ sections:
             input: textarea
             cardinality: single
             tei_element: p
-            tei_wrapper: div
+            tei_wrapper: diploPart
             tei_wrapper_attributes:
               type: sanctio
-            xpath_parent: tei:text/tei:body/tei:div[@type='textus']
+            xpath_parent: tei:text/tei:body/tei:div[@type='contextus']
             applies_to: all
             field_pair: sanctio
 
-          - id: sanctio_type
-            label: Sanctio Type
+          - id: sanctio_analysis
+            label: Sanctio Analysis
             input: radio
             cardinality: single
-            tei_element: div
-            xpath_parent: tei:text/tei:body/tei:div[@type='textus']
+            tei_element: diploPart
+            xpath_parent: tei:text/tei:body/tei:div[@type='contextus']
             applies_to: all
             options:
               - value: dupli_pena
@@ -345,25 +355,26 @@ sections:
         label: Eschatocol
         applies_to: all
         fields:
-          - id: datatio_topica
+          - id: datatio_topica_text
             label: Datatio topica
             input: textarea
             cardinality: single
             tei_element: p
-            tei_wrapper: div
+            tei_wrapper: diploPart
             tei_wrapper_attributes:
-              type: datatio_topica
+              type: datatio
+              subtype: topica
             xpath_parent: tei:text/tei:body/tei:div[@type='eschatocol']
             applies_to: all
             field_pair: datatio_topica
 
-          - id: locus_redactionis
-            label: Place of Redaction
+          - id: datatio_topica_analysis
+            label: Datatio Topica Analysis
             input: text
             cardinality: single
             tei_element: term
             tei_attributes:
-              type: locus_redactionis
+              type: datatio_topica_analysis
             xpath_parent: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords
             applies_to: all
             field_pair: datatio_topica
@@ -374,26 +385,27 @@ sections:
             label: Subscriptiones
             applies_to: all
             fields:
-              - id: subscriptio_emittentis
+              - id: subscriptio_emittentis_text
                 label: Subscriptio emittentis
                 input: text
                 cardinality: single
                 tei_element: name
-                tei_wrapper: div
+                tei_wrapper: diploPart
                 tei_wrapper_attributes:
-                  type: emittens
-                xpath_parent: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptiones']
+                  type: subscriptio
+                  subtype: emittens
+                xpath_parent: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptio']
                 applies_to: all
                 field_pair: emittens
 
-              - id: emittens_type
-                label: Role
+              - id: subscriptio_emittentis_analysis
+                label: Subscriptio Emittentis Analysis
                 input: radio
                 cardinality: single
-                tei_element: div
+                tei_element: diploPart
                 tei_wrapper_attributes:
                   type: emittens
-                xpath_parent: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptiones']
+                xpath_parent: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptio']
                 applies_to: all
                 options:
                   - value: auctor
@@ -402,15 +414,16 @@ sections:
                     label: Recipient
                 field_pair: emittens
 
-              - id: subscriptiones_testium
+              - id: subscriptiones_testium_text
                 label: Subscriptiones testium
                 input: textarea
                 cardinality: single
                 tei_element: p
-                tei_wrapper: div
+                tei_wrapper: diploPart
                 tei_wrapper_attributes:
-                  type: subscriptiones_testium
-                xpath_parent: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptiones']
+                  type: subscriptio
+                  subtype: testium
+                xpath_parent: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptio']
                 applies_to: all
 
               - id: testes_names
@@ -419,29 +432,32 @@ sections:
                 cardinality: multiple
                 tei_element: name
                 tei_wrapper: witness
-                xpath_parent: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptiones']/tei:listWitness
+                xpath_parent: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptio']/tei:listWitness
                 applies_to: all
                 exclusive_option:
                   label: Investitor
                   fieldKey: is_investitor
 
-              - id: completio
+              - id: completio_text
                 label: Completio
                 input: textarea
                 cardinality: single
                 tei_element: p
-                tei_wrapper: div
+                tei_wrapper: diploPart
                 tei_wrapper_attributes:
-                  type: completio
-                xpath_parent: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptiones']
+                  type: subscriptio
+                  subtype: completio
+                xpath_parent: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptio']
                 applies_to: all
                 field_pair: completio
 
-              - id: notarius
-                label: Notary
+              - id: completio_analysis
+                label: Completio Analysis
                 input: text
                 cardinality: single
                 tei_element: name
+                tei_attributes:
+                  type: completio_analysis
                 tei_wrapper: respStmt
                 xpath_parent: tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msContents/tei:msItem
                 applies_to: all

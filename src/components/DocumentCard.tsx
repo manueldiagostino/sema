@@ -269,8 +269,8 @@ export default function DocumentCard({
               {/* Section 1 — Protocol */}
               {(() => {
                 const protocolFields: { label: string; id: string; badge?: string }[] = [
-                  { label: "Invocatio", id: "invocatio", badge: "invocatio_type" },
-                  { label: "Datatio Chronica", id: "datatio_chronica" },
+                  { label: "Invocatio", id: "invocatio_text", badge: "invocatio_analysis" },
+                  { label: "Datatio Chronica", id: "datatio_chronica_text" },
                   { label: "Modern Date", id: "dating_chronological" },
                 ];
                 const visibleProtocol = protocolFields.filter((f) => getVal(f.id));
@@ -301,23 +301,23 @@ export default function DocumentCard({
               {/* Section 2 — Text */}
               {(() => {
                 const textFieldDefs: { label: string; id: string; badge?: string }[] = [
-                  { label: "Auctor", id: "author_context" },
-                  { label: "Author (normalized)", id: "author_name" },
-                  { label: "Verba Dispositiva", id: "verba_dispositiva" },
-                  { label: "Destinatarius", id: "recipient_context" },
-                  { label: "Recipient (normalized)", id: "recipient_name" },
-                  { label: "Clausula Perpetuitatis", id: "clausula_perpetuitatis" },
-                  { label: "Descriptio rei", id: "property_description", badge: "property_type" },
-                  { label: "Clausula de Servitute Itineris", id: "clausula_de_servitute_itineris" },
-                  { label: "Clausula Integritatis Rei", id: "clausula_integritatis_rei" },
-                  { label: "Clausula Quietantiae Pretii", id: "clausula_quietantiae_pretii" },
+                  { label: "Auctor (Intitulatio)", id: "intitulatio_text" },
+                  { label: "Auctor Analysis", id: "intitulatio_analysis" },
+                  { label: "Verba dispositiva (Dispositio)", id: "dispositio_text" },
+                  { label: "Destinatarius (Inscriptio)", id: "inscriptio_text" },
+                  { label: "Destinatarius Analysis", id: "inscriptio_analysis" },
+                  { label: "Clausula perpetuitatis", id: "perpetuitatis_text" },
+                  { label: "Descriptio rei", id: "descriptio_rei_text", badge: "descriptio_rei_analysis" },
+                  { label: "Clausula de servitute itineris", id: "de_servitute_itineris_text" },
+                  { label: "Clausula integritatis rei", id: "integritatis_rei_text" },
+                  { label: "Clausula quietantiae pretii", id: "quietantiae_pretii_text" },
                   { label: "Price", id: "pretium" },
-                  { label: "Formula Confinium", id: "formula_confinium" },
-                  { label: "Formula Mensurarum", id: "formula_mensurarum" },
-                  { label: "Formula Translationis Iuris", id: "formula_translationis_iuris" },
-                  { label: "Formula Liberi Gaudii", id: "formula_liberi_gaudii" },
-                  { label: "Formula Legitimae Defensionis", id: "formula_legitimae_defensionis" },
-                  { label: "Sanctio", id: "sanctio", badge: "sanctio_type" },
+                  { label: "Formula confinium", id: "confinium_text" },
+                  { label: "Formula mensurarum", id: "mensurarum_text" },
+                  { label: "Formula translationis iuris", id: "translationis_iuris_text" },
+                  { label: "Formula liberi gaudii", id: "liberi_gaudii_text" },
+                  { label: "Formula legitimae defensionis", id: "legitimae_defensionis_text" },
+                  { label: "Sanctio", id: "sanctio_text", badge: "sanctio_analysis" },
                   { label: "Property Location", id: "property_location" },
                 ];
                 const visibleText = textFieldDefs.filter((f) => getVal(f.id));
@@ -348,13 +348,13 @@ export default function DocumentCard({
               {/* Section 3 — Eschatocol */}
               {(() => {
                 const eschatocolFields: { label: string; id: string; badge?: string }[] = [
-                  { label: "Datatio Topica", id: "datatio_topica" },
-                  { label: "Place of Redaction", id: "locus_redactionis" },
-                  { label: "Subscriptiones Testium", id: "subscriptiones_testium" },
-                  { label: "Subscriptio Emittentis", id: "subscriptio_emittentis", badge: "emittens_type" },
+                  { label: "Datatio topica", id: "datatio_topica_text" },
+                  { label: "Datatio Topica Analysis", id: "datatio_topica_analysis" },
+                  { label: "Subscriptiones testium", id: "subscriptiones_testium_text" },
+                  { label: "Subscriptio emittentis", id: "subscriptio_emittentis_text", badge: "subscriptio_emittentis_analysis" },
                   { label: "Testes", id: "testes_names" },
-                  { label: "Completio", id: "completio" },
-                  { label: "Notary", id: "notarius" },
+                  { label: "Completio", id: "completio_text" },
+                  { label: "Completio Analysis", id: "completio_analysis" },
                 ];
                 const visibleEschatocol = eschatocolFields.filter((f) => getVal(f.id));
                 if (visibleEschatocol.length === 0) return null;
@@ -384,14 +384,14 @@ export default function DocumentCard({
               {/* Empty state */}
               {(() => {
                 const allIds = [
-                  "invocatio", "invocatio_type", "datatio_chronica", "dating_chronological",
-                  "author_context", "author_name", "verba_dispositiva", "recipient_context",
-                  "recipient_name", "clausula_perpetuitatis", "property_description", "property_type",
-                  "clausula_de_servitute_itineris", "clausula_integritatis_rei", "clausula_quietantiae_pretii",
-                  "pretium", "formula_confinium", "formula_mensurarum", "formula_translationis_iuris",
-                  "formula_liberi_gaudii", "formula_legitimae_defensionis", "sanctio", "sanctio_type",
-                  "property_location", "datatio_topica", "locus_redactionis", "subscriptiones_testium",
-                  "subscriptio_emittentis", "emittens_type", "testes_names", "completio", "notarius",
+                  "invocatio_text", "invocatio_analysis", "datatio_chronica_text", "dating_chronological",
+                  "intitulatio_text", "intitulatio_analysis", "dispositio_text", "inscriptio_text",
+                  "inscriptio_analysis", "perpetuitatis_text", "descriptio_rei_text", "descriptio_rei_analysis",
+                  "de_servitute_itineris_text", "integritatis_rei_text", "quietantiae_pretii_text",
+                  "pretium", "confinium_text", "mensurarum_text", "translationis_iuris_text",
+                  "liberi_gaudii_text", "legitimae_defensionis_text", "sanctio_text", "sanctio_analysis",
+                  "property_location", "datatio_topica_text", "datatio_topica_analysis", "subscriptiones_testium_text",
+                  "subscriptio_emittentis_text", "subscriptio_emittentis_analysis", "testes_names", "completio_text", "completio_analysis",
                 ];
                 const hasAny = allIds.some((id) => getVal(id));
                 if (hasAny) return null;

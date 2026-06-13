@@ -168,7 +168,7 @@ function generateFakeDocument(sparseRate: number): FormSubmissionData {
   );
 
   const datatioChronica = fillTemplate(
-    faker.helpers.arrayElement(PROTOCOL_TEMPLATES.datatio_chronica),
+    faker.helpers.arrayElement(PROTOCOL_TEMPLATES.datatio_chronica_text),
     {
       YEAR: yearStr,
       INDICTIO: indiction.toString(),
@@ -178,17 +178,17 @@ function generateFakeDocument(sparseRate: number): FormSubmissionData {
   );
 
   const authorText = fillTemplate(
-    faker.helpers.arrayElement(TEXTUS_TEMPLATES.author_context),
+    faker.helpers.arrayElement(TEXTUS_TEMPLATES.intitulatio_text),
     { AUTHOR: authorName, RECIPIENT: recipientName },
   );
 
   const verbaDispositiva = fillTemplate(
-    faker.helpers.arrayElement(TEXTUS_TEMPLATES.verba_dispositiva),
+    faker.helpers.arrayElement(TEXTUS_TEMPLATES.dispositio_text),
     { PLACE: placeForTemplates, AUTHOR: authorName, RECIPIENT: recipientName },
   );
 
   const recipientText = fillTemplate(
-    faker.helpers.arrayElement(TEXTUS_TEMPLATES.recipient_context),
+    faker.helpers.arrayElement(TEXTUS_TEMPLATES.inscriptio_text),
     { RECIPIENT: recipientName },
   );
 
@@ -205,7 +205,7 @@ function generateFakeDocument(sparseRate: number): FormSubmissionData {
   );
 
   const propertyDescription = fillTemplate(
-    faker.helpers.arrayElement(TEXTUS_TEMPLATES.property_description),
+    faker.helpers.arrayElement(TEXTUS_TEMPLATES.descriptio_rei_text),
     {
       PLACE: placeForTemplates,
       SIZE: faker.number.int({ min: 1, max: 50 }).toString(),
@@ -213,7 +213,7 @@ function generateFakeDocument(sparseRate: number): FormSubmissionData {
   );
 
   const formulaConfinium = fillTemplate(
-    faker.helpers.arrayElement(TEXTUS_TEMPLATES.formula_confinium),
+    faker.helpers.arrayElement(TEXTUS_TEMPLATES.confinium_text),
     { AUTHOR: authorName, RECIPIENT: recipientName, NEIGHBOR: neighbor },
   );
 
@@ -238,12 +238,12 @@ function generateFakeDocument(sparseRate: number): FormSubmissionData {
   );
 
   const datatioTopica = fillTemplate(
-    faker.helpers.arrayElement(ESCHATOCOL_TEMPLATES.datatio_topica),
+    faker.helpers.arrayElement(ESCHATOCOL_TEMPLATES.datatio_topica_text),
     { PLACE: locusRedactionis, AUTHOR: authorName },
   );
 
   const completio = fillTemplate(
-    faker.helpers.arrayElement(ESCHATOCOL_TEMPLATES.completio),
+    faker.helpers.arrayElement(ESCHATOCOL_TEMPLATES.completio_text),
     { NOTARIUS: skipNotarius ? "" : notarius },
   );
 
@@ -271,36 +271,36 @@ function generateFakeDocument(sparseRate: number): FormSubmissionData {
   return {
     charter_type: "instrumentum_venditionis",
     fields: {
-      date_modern: dateFieldValue,
-      author_name: authorName,
+      datatio_chronica_analysis: dateFieldValue,
+      intitulatio_analysis: authorName,
       repository,
       shelfmark,
-      locus_redactionis: locusRedactionis,
-      recipient_name: recipientName,
-      notarius: skipNotarius ? "" : notarius,
-      invocatio_type: invocatioType,
-      property_type: propertyType,
-      emittens_type: emittensType,
-      sanctio_type: sanctioType,
+      datatio_topica_analysis: locusRedactionis,
+      inscriptio_analysis: recipientName,
+      completio_analysis: skipNotarius ? "" : notarius,
+      invocatio_analysis: invocatioType,
+      descriptio_rei_analysis: propertyType,
+      subscriptio_emittentis_analysis: emittensType,
+      sanctio_analysis: sanctioType,
       invocatio_text: invocatioText,
-      datatio_chronica: datatioChronica,
-      author_text: authorText,
-      verba_dispositiva: verbaDispositiva,
-      recipient_text: recipientText,
-      clausula_perpetuitatis: clausulaPerpetuitatis,
+      datatio_chronica_text: datatioChronica,
+      intitulatio_text: authorText,
+      dispositio_text: verbaDispositiva,
+      inscriptio_text: recipientText,
+      perpetuitatis_text: clausulaPerpetuitatis,
       clausula_servitutis_passagii: clausulaServitutisPassagii,
       clausula_integritatis: clausulaIntegritatis,
       clausula_quietantiae_pretii: clausulaQuietantiaePretii,
-      property_description: propertyDescription,
-      formula_confinium: formulaConfinium,
+      descriptio_rei_text: propertyDescription,
+      confinium_text: formulaConfinium,
       formula_mensurationum: formulaMensurationum,
       formula_transmissionis: formulaTransmissionis,
       formula_libere_fruitionis: formulaLibereFruitionis,
       formula_legitimae_defensionis: formulaLegitimaeDefensionis,
       sanctio_text: sanctioText,
-      datatio_topica: datatioTopica,
+      datatio_topica_text: datatioTopica,
       full_text: faker.lorem.paragraphs(faker.number.int({ min: 1, max: 5 }), "\n\n"),
-      completio,
+      completio_text: completio,
       property_location: skipPropertyLocation ? "" : propertyLocation,
       pretium: skipPretium ? "" : pretium,
       testes_names: skipTestes ? "" : witnesses,

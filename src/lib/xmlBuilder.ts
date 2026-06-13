@@ -50,10 +50,10 @@ function getWitnesses(data: FormSubmissionData, id: string): WitnessEntry[] {
 }
 
 /**
- * Build a div with optional @subtype and a <p> child.
+ * Build a diploPart with optional @subtype and a <p> child.
  * Returns empty string if textContent is empty.
  */
-function makeDiv(
+function makeDiploPart(
   type: string,
   textContent: string,
   subtype?: string,
@@ -62,9 +62,9 @@ function makeDiv(
   if (isEmpty(textContent)) return "";
   const subtypeAttr = subtype ? ` subtype="${esc(subtype)}"` : "";
   return (
-    `${indent}<div type="${esc(type)}"${subtypeAttr}>\n` +
+    `${indent}<diploPart type="${esc(type)}"${subtypeAttr}>\n` +
     `${indent}  <p>${esc(textContent)}</p>\n` +
-    `${indent}</div>`
+    `${indent}</diploPart>`
   );
 }
 
@@ -118,7 +118,7 @@ export function generateTeiXml(
   // ── teiHeader lines ──
 
   // titleStmt
-  const authorName = getStr(data, "author_name");
+  const authorName = getStr(data, "intitulatio_analysis");
   const titleStmt: string[] = [];
   titleStmt.push(`${I(4)}<title>${esc(charterTypeConfig?.label || data.charter_type)}</title>`);
   if (authorName) {
@@ -133,8 +133,8 @@ export function generateTeiXml(
   if (shelfmark) msId.push(`${I(6)}<idno>${esc(shelfmark)}</idno>`);
 
   // msItem
-  const recipientName = getStr(data, "recipient_name");
-  const notaryName = getStr(data, "notarius");
+  const recipientName = getStr(data, "inscriptio_analysis");
+  const notaryName = getStr(data, "completio_analysis");
   const msItem: string[] = [];
   if (recipientName) {
     msItem.push(`${I(7)}<recipient>${esc(recipientName)}</recipient>`);
@@ -149,8 +149,8 @@ export function generateTeiXml(
   }
 
   // creation
-  const dateVal = getVal(data, "date_modern");
-  const locusRedactionis = getStr(data, "locus_redactionis");
+  const dateVal = getVal(data, "datatio_chronica_analysis");
+  const locusRedactionis = getStr(data, "datatio_topica_analysis");
   const creation: string[] = [];
   if (dateVal && typeof dateVal === "object" && "iso" in dateVal) {
     const dv = dateVal as DateFieldValue;
@@ -167,12 +167,12 @@ export function generateTeiXml(
 
   // keywords
   const kwFields: [string, string][] = [
-    ["author_name", "author_name"],
-    ["recipient_name", "recipient_name"],
+    ["intitulatio_analysis", "intitulatio_analysis"],
+    ["inscriptio_analysis", "inscriptio_analysis"],
     ["pretium", "price"],
     ["property_location", "property_location"],
-    ["locus_redactionis", "locus_redactionis"],
-    ["emittens_type", "emittens"],
+    ["datatio_topica_analysis", "datatio_topica_analysis"],
+    ["subscriptio_emittentis_analysis", "subscriptio_emittentis_analysis"],
   ];
   const kwTerms: string[] = [];
   if (charterTypeConfig?.object_value) {
@@ -197,84 +197,84 @@ export function generateTeiXml(
   // Protocol
   const protocolChildren: string[] = [];
   const invocatioText = getStr(data, "invocatio_text");
-  const invocatioTypeVal = getVal(data, "invocatio_type");
+  const invocatioTypeVal = getVal(data, "invocatio_analysis");
   const invocatioType = Array.isArray(invocatioTypeVal)
-    ? (invocatioTypeVal as string[]).join(" ")
+    ? (invocatioTypeVal as string[]).join("_")
     : typeof invocatioTypeVal === "string" ? invocatioTypeVal : "";
   if (invocatioText) {
     protocolChildren.push(
       invocatioType
-        ? `        <div type="invocatio" subtype="${esc(invocatioType)}">\n          <p>${esc(invocatioText)}</p>\n        </div>`
-        : `        <div type="invocatio">\n          <p>${esc(invocatioText)}</p>\n        </div>`,
+        ? `        <diploPart type="invocatio" subtype="${esc(invocatioType)}">\n          <p>${esc(invocatioText)}</p>\n        </diploPart>`
+        : `        <diploPart type="invocatio">\n          <p>${esc(invocatioText)}</p>\n        </diploPart>`,
     );
   }
-  const dcDiv = makeDiv("datatio_chronica", getStr(data, "datatio_chronica"));
+  const dcDiv = makeDiploPart("datatio", getStr(data, "datatio_chronica_text"), "chronica");
   if (dcDiv) protocolChildren.push(dcDiv);
 
   const protocolDiv = makeDivContainer("protocol", protocolChildren);
   const protocolContent = protocolDiv ? [protocolDiv] : [];
 
-  // Textus
-  const textusChildren: string[] = [];
+  // Contextus
+  const contextusChildren: string[] = [];
   const textusDivs: [string, string, string?][] = [
-    ["author_context", "author_text"],
-    ["verba_dispositiva", "verba_dispositiva"],
-    ["recipient_context", "recipient_text"],
-    ["clausula_perpetuitatis", "clausula_perpetuitatis"],
-    ["property_description", "property_description", "property_type"],
-    ["clausula_de_servitute_itineris", "clausula_de_servitute_itineris"],
-    ["clausula_integritatis_rei", "clausula_integritatis_rei"],
-    ["clausula_quietantiae_pretii", "clausula_quietantiae_pretii"],
-    ["formula_confinium", "formula_confinium"],
-    ["formula_mensurarum", "formula_mensurarum"],
-    ["formula_translationis_iuris", "formula_translationis_iuris"],
-    ["formula_liberi_gaudii", "formula_liberi_gaudii"],
-    ["formula_legitimae_defensionis", "formula_legitimae_defensionis"],
-    ["sanctio", "sanctio_text", "sanctio_type"],
+    ["intitulatio", "intitulatio_text"],
+    ["dispositio", "dispositio_text"],
+    ["inscriptio", "inscriptio_text"],
+    ["clausulae", "perpetuitatis_text"],
+    ["dispositio", "descriptio_rei_text", "descriptio_rei_analysis"],
+    ["clausulae", "de_servitute_itineris_text"],
+    ["clausulae", "integritatis_rei_text"],
+    ["clausulae", "quietantiae_pretii_text"],
+    ["clausulae", "confinium_text"],
+    ["clausulae", "mensurarum_text"],
+    ["clausulae", "translationis_iuris_text"],
+    ["clausulae", "liberi_gaudii_text"],
+    ["clausulae", "legitimae_defensionis_text"],
+    ["sanctio", "sanctio_text", "sanctio_analysis"],
   ];
   for (const [divType, fieldId, subtypeField] of textusDivs) {
     const text = getStr(data, fieldId);
     const subtype = subtypeField ? getStr(data, subtypeField) : undefined;
-    const div = makeDiv(divType, text, subtype);
-    if (div) textusChildren.push(div);
+    const div = makeDiploPart(divType, text, subtype);
+    if (div) contextusChildren.push(div);
   }
-  const textusDiv = makeDivContainer("textus", textusChildren, undefined, "      ");
-  const textusContent = textusDiv ? [textusDiv] : [];
+  const contextusDiv = makeDivContainer("contextus", contextusChildren, undefined, "      ");
+  const contextusContent = contextusDiv ? [contextusDiv] : [];
 
   // Full text (before protocol, but protocol may already be present)
   const fullTextContent = getStr(data, "full_text");
   let fullTextDiv = "";
   if (fullTextContent) {
-    fullTextDiv = makeDiv("full_text", fullTextContent, undefined, "      ");
+    fullTextDiv = makeDiploPart("full_text", fullTextContent, undefined, "      ");
   }
 
   // Eschatocol
   const eschatocolChildren: string[] = [];
-  const dtDiv = makeDiv("datatio_topica", getStr(data, "datatio_topica"));
+  const dtDiv = makeDiploPart("datatio", getStr(data, "datatio_topica_text"), "topica");
   if (dtDiv) eschatocolChildren.push(dtDiv);
 
   // Subscriptions
-  const subscriptionsChildren: string[] = [];
-  const subTestiumDiv = makeDiv(
-    "subscriptiones_testium",
-    getStr(data, "subscriptiones_testium"),
-    undefined,
+  const subscriptioChildren: string[] = [];
+  const subTestiumDiv = makeDiploPart(
+    "subscriptio",
+    getStr(data, "subscriptiones_testium_text"),
+    "testium",
     "          ",
   );
-  if (subTestiumDiv) subscriptionsChildren.push(subTestiumDiv);
-  const emittensName = getStr(data, "subscriptio_emittentis");
-  const emittensType = getStr(data, "emittens_type");
+  if (subTestiumDiv) subscriptioChildren.push(subTestiumDiv);
+  const emittensName = getStr(data, "subscriptio_emittentis_text");
+  const emittensType = getStr(data, "subscriptio_emittentis_analysis");
   if (emittensName || emittensType) {
     const subtypeAttr = emittensType ? ` subtype="${esc(emittensType)}"` : "";
     if (emittensName) {
-      subscriptionsChildren.push(
-        `          <div type="emittens"${subtypeAttr}>\n` +
+      subscriptioChildren.push(
+        `          <diploPart type="subscriptio"${subtypeAttr}>\n` +
         `            <name>${esc(emittensName)}</name>\n` +
-        `          </div>`,
+        `          </diploPart>`,
       );
     } else {
-      subscriptionsChildren.push(
-        `          <div type="emittens"${subtypeAttr} />`,
+      subscriptioChildren.push(
+        `          <diploPart type="subscriptio"${subtypeAttr} />`,
       );
     }
   }
@@ -289,18 +289,18 @@ export function generateTeiXml(
     );
   }
   if (witnessLines.length > 0) {
-    subscriptionsChildren.push(
+    subscriptioChildren.push(
       `          <listWitness>\n` +
         witnessLines.join("\n") +
         `\n          </listWitness>`,
     );
   }
 
-  const completioDiv = makeDiv("completio", getStr(data, "completio"), undefined, "          ");
-  if (completioDiv) subscriptionsChildren.push(completioDiv);
+  const completioDiv = makeDiploPart("subscriptio", getStr(data, "completio_text"), "completio", "          ");
+  if (completioDiv) subscriptioChildren.push(completioDiv);
 
-  const subscriptionsDiv = makeDivContainer("subscriptiones", subscriptionsChildren, undefined, "        ");
-  if (subscriptionsDiv) eschatocolChildren.push(subscriptionsDiv);
+  const subscriptioDiv = makeDivContainer("subscriptio", subscriptioChildren, undefined, "        ");
+  if (subscriptioDiv) eschatocolChildren.push(subscriptioDiv);
 
   const eschatocolDiv = makeDivContainer("eschatocol", eschatocolChildren, undefined, "      ");
   const eschatocolContent = eschatocolDiv ? [eschatocolDiv] : [];
@@ -308,7 +308,7 @@ export function generateTeiXml(
   const bodyContent = [
     ...(fullTextDiv ? [fullTextDiv] : []),
     ...protocolContent,
-    ...textusContent,
+    ...contextusContent,
     ...eschatocolContent,
   ];
 

@@ -16,15 +16,15 @@ columns:
     sortable: false
     filterable: false
 
-  - id: author_name
-    label: Author
-    xpath: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords/tei:term[@type='author_name']
+  - id: intitulatio_analysis
+    label: Auctor
+    xpath: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords/tei:term[@type='intitulatio_analysis']
     sortable: true
     filterable: true
 
-  - id: recipient_name
-    label: Recipient
-    xpath: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords/tei:term[@type='recipient_name']
+  - id: inscriptio_analysis
+    label: Destinatarius
+    xpath: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords/tei:term[@type='inscriptio_analysis']
     sortable: true
     filterable: true
 
@@ -40,28 +40,28 @@ columns:
     sortable: true
     filterable: true
 
-  - id: locus_redactionis
-    label: Place of Redaction
-    xpath: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords/tei:term[@type='locus_redactionis']
+  - id: datatio_topica_analysis
+    label: Datatio Topica Analysis
+    xpath: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords/tei:term[@type='datatio_topica_analysis']
     sortable: true
     filterable: true
 
-  - id: datatio_topica
-    label: Dating (Topica)
-    xpath: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='datatio_topica']
+  - id: datatio_topica_text
+    label: Datatio topica
+    xpath: tei:text/tei:body/tei:div[@type='eschatocol']/tei:diploPart[@type='datatio']
     sortable: false
     filterable: false
     truncateWords: 20
 
-  - id: notarius
-    label: Notary
+  - id: completio_analysis
+    label: Completio Analysis
     xpath: tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msContents/tei:msItem/tei:respStmt/tei:name
     sortable: true
     filterable: true
 
   - id: testes_names
     label: Testes
-    xpath: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptiones']/tei:listWitness/tei:witness/tei:name
+    xpath: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptio']/tei:listWitness/tei:witness/tei:name
     sortable: false
     filterable: true
     cardinality: multiple
@@ -69,7 +69,7 @@ columns:
 
   - id: investitor_name
     label: Investitor
-    xpath: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptiones']/tei:listWitness/tei:witness[@ana='#investitor']/tei:name
+    xpath: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptio']/tei:listWitness/tei:witness[@ana='#investitor']/tei:name
     sortable: false
     filterable: true
     cardinality: single
@@ -86,43 +86,43 @@ columns:
     sortable: true
     filterable: true
 
-  - id: invocatio_type
-    label: Invocatio Type
-    xpath: tei:text/tei:body/tei:div[@type='protocol']/tei:div[@type='invocatio']
+  - id: invocatio_analysis
+    label: Invocatio Analysis
+    xpath: tei:text/tei:body/tei:div[@type='protocol']/tei:diploPart[@type='invocatio']
     attribute: subtype
     sortable: false
     filterable: false
 
-  - id: property_type
-    label: Property Type
-    xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='property_description']
+  - id: descriptio_rei_analysis
+    label: Descriptio Rei Analysis
+    xpath: tei:text/tei:body/tei:div[@type='contextus']/tei:diploPart[@type='dispositio']
     attribute: subtype
     sortable: false
     filterable: false
 
-  - id: sanctio_type
-    label: Sanctio Type
-    xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='sanctio']
+  - id: sanctio_analysis
+    label: Sanctio Analysis
+    xpath: tei:text/tei:body/tei:div[@type='contextus']/tei:diploPart[@type='sanctio']
     attribute: subtype
     sortable: false
     filterable: false
 
-  - id: emittens_type
-    label: Emittens Type
-    xpath: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords/tei:term[@type='emittens']
+  - id: subscriptio_emittentis_analysis
+    label: Subscriptio Emittentis Analysis
+    xpath: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords/tei:term[@type='subscriptio_emittentis_analysis']
     sortable: false
     filterable: false
 
-  - id: subscriptiones_testium
-    label: Subscriptiones Testium
-    xpath: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptiones']/tei:div[@type='subscriptiones_testium']
+  - id: subscriptiones_testium_text
+    label: Subscriptiones testium
+    xpath: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptio']/tei:diploPart[@type='subscriptio']
     sortable: false
     filterable: false
     truncateWords: 20
 
-  - id: subscriptio_emittentis
-    label: Subscriptio Emittentis
-    xpath: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptiones']/tei:div[@type='emittens']/tei:name
+  - id: subscriptio_emittentis_text
+    label: Subscriptio emittentis
+    xpath: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptio']/tei:diploPart[@type='subscriptio']/tei:name
     sortable: false
     filterable: false
 
@@ -135,7 +135,7 @@ columns:
 
   - id: dating_topical
     label: Dating (Topical)
-    xpath: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords/tei:term[@type='locus_redactionis']
+    xpath: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords/tei:term[@type='datatio_topica_analysis']
     sortable: true
     filterable: true
 
@@ -143,121 +143,121 @@ columns:
   # These extract text from <body> divisions.
   # truncateWords limits table display; full text shown in View modal.
 
-  - id: invocatio
+  - id: invocatio_text
     label: Invocatio
-    xpath: tei:text/tei:body/tei:div[@type='protocol']/tei:div[@type='invocatio']
+    xpath: tei:text/tei:body/tei:div[@type='protocol']/tei:diploPart[@type='invocatio']
     sortable: false
     filterable: false
     truncateWords: 20
 
-  - id: datatio_chronica
-    label: Dating (Chronica)
-    xpath: tei:text/tei:body/tei:div[@type='protocol']/tei:div[@type='datatio_chronica']
+  - id: datatio_chronica_text
+    label: Datatio Chronica
+    xpath: tei:text/tei:body/tei:div[@type='protocol']/tei:diploPart[@type='datatio']
     sortable: false
     filterable: false
     truncateWords: 20
 
-  - id: author_context
-    label: Auctor
-    xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='author_context']
+  - id: intitulatio_text
+    label: Auctor (Intitulatio)
+    xpath: tei:text/tei:body/tei:div[@type='contextus']/tei:diploPart[@type='intitulatio']
     sortable: false
     filterable: false
     truncateWords: 20
 
-  - id: verba_dispositiva
-    label: Verba Dispositiva
-    xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='verba_dispositiva']
+  - id: dispositio_text
+    label: Verba dispositiva (Dispositio)
+    xpath: tei:text/tei:body/tei:div[@type='contextus']/tei:diploPart[@type='dispositio']
     sortable: false
     filterable: false
     truncateWords: 20
 
-  - id: recipient_context
-    label: Destinatarius
-    xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='recipient_context']
+  - id: inscriptio_text
+    label: Destinatarius (Inscriptio)
+    xpath: tei:text/tei:body/tei:div[@type='contextus']/tei:diploPart[@type='inscriptio']
     sortable: false
     filterable: false
     truncateWords: 20
 
-  - id: clausula_perpetuitatis
-    label: Clausula Perpetuitatis
-    xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='clausula_perpetuitatis']
+  - id: perpetuitatis_text
+    label: Clausula perpetuitatis
+    xpath: tei:text/tei:body/tei:div[@type='contextus']/tei:diploPart[@type='clausulae']
     sortable: false
     filterable: false
     truncateWords: 20
 
-  - id: property_description
+  - id: descriptio_rei_text
     label: Descriptio rei
-    xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='property_description']
+    xpath: tei:text/tei:body/tei:div[@type='contextus']/tei:diploPart[@type='dispositio']
     sortable: false
     filterable: false
     truncateWords: 20
 
-  - id: clausula_de_servitute_itineris
-    label: Clausula de Servitute Itineris
-    xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='clausula_de_servitute_itineris']
+  - id: de_servitute_itineris_text
+    label: Clausula de servitute itineris
+    xpath: tei:text/tei:body/tei:div[@type='contextus']/tei:diploPart[@type='clausulae']
     sortable: false
     filterable: false
     truncateWords: 20
 
-  - id: clausula_integritatis_rei
-    label: Clausula Integritatis Rei
-    xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='clausula_integritatis_rei']
+  - id: integritatis_rei_text
+    label: Clausula integritatis rei
+    xpath: tei:text/tei:body/tei:div[@type='contextus']/tei:diploPart[@type='clausulae']
     sortable: false
     filterable: false
     truncateWords: 20
 
-  - id: clausula_quietantiae_pretii
-    label: Clausula Quietantiae Pretii
-    xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='clausula_quietantiae_pretii']
+  - id: quietantiae_pretii_text
+    label: Clausula quietantiae pretii
+    xpath: tei:text/tei:body/tei:div[@type='contextus']/tei:diploPart[@type='clausulae']
     sortable: false
     filterable: false
     truncateWords: 20
 
-  - id: formula_confinium
-    label: Formula Confinium
-    xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='formula_confinium']
+  - id: confinium_text
+    label: Formula confinium
+    xpath: tei:text/tei:body/tei:div[@type='contextus']/tei:diploPart[@type='clausulae']
     sortable: false
     filterable: false
     truncateWords: 20
 
-  - id: formula_mensurarum
-    label: Formula Mensurarum
-    xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='formula_mensurarum']
+  - id: mensurarum_text
+    label: Formula mensurarum
+    xpath: tei:text/tei:body/tei:div[@type='contextus']/tei:diploPart[@type='clausulae']
     sortable: false
     filterable: false
     truncateWords: 20
 
-  - id: formula_translationis_iuris
-    label: Formula Translationis Iuris
-    xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='formula_translationis_iuris']
+  - id: translationis_iuris_text
+    label: Formula translationis iuris
+    xpath: tei:text/tei:body/tei:div[@type='contextus']/tei:diploPart[@type='clausulae']
     sortable: false
     filterable: false
     truncateWords: 20
 
-  - id: formula_liberi_gaudii
-    label: Formula Liberi Gaudii
-    xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='formula_liberi_gaudii']
+  - id: liberi_gaudii_text
+    label: Formula liberi gaudii
+    xpath: tei:text/tei:body/tei:div[@type='contextus']/tei:diploPart[@type='clausulae']
     sortable: false
     filterable: false
     truncateWords: 20
 
-  - id: formula_legitimae_defensionis
-    label: Formula Legitimae Defensionis
-    xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='formula_legitimae_defensionis']
+  - id: legitimae_defensionis_text
+    label: Formula legitimae defensionis
+    xpath: tei:text/tei:body/tei:div[@type='contextus']/tei:diploPart[@type='clausulae']
     sortable: false
     filterable: false
     truncateWords: 20
 
-  - id: sanctio
+  - id: sanctio_text
     label: Sanctio
-    xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='sanctio']
+    xpath: tei:text/tei:body/tei:div[@type='contextus']/tei:diploPart[@type='sanctio']
     sortable: false
     filterable: false
     truncateWords: 20
 
-  - id: completio
+  - id: completio_text
     label: Completio
-    xpath: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptiones']/tei:div[@type='completio']
+    xpath: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptio']/tei:diploPart[@type='subscriptio']
     sortable: false
     filterable: false
     truncateWords: 20

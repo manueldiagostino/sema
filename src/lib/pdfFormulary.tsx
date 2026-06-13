@@ -71,7 +71,7 @@ interface Clause {
 
 function parseClauses(xmlContent: string): Clause[] {
   const clauses: Clause[] = [];
-  const divRegex = /<div\s+type="([^"]+)"(?:\s+subtype="([^"]*)")?[^>]*>\s*<p>([\s\S]*?)<\/p>\s*<\/div>/g;
+  const divRegex = /<(?:div|diploPart)\s+type="([^"]+)"(?:\s+subtype="([^"]*)")?[^>]*>\s*<p>([\s\S]*?)<\/p>\s*<\/(?:div|diploPart)>/g;
   let match;
   while ((match = divRegex.exec(xmlContent)) !== null) {
     clauses.push({
@@ -106,22 +106,13 @@ function extractField(xmlContent: string, field: string): string {
 
 const typeLabels: Record<string, string> = {
   invocatio: "Invocatio",
-  datatio_chronica: "Datatio Chronica",
-  author_context: "Auctor Context",
-  verba_dispositiva: "Verba Dispositiva",
-  recipient_context: "Destinatarius Context",
-  clausula_perpetuitatis: "Clausula Perpetuitatis",
-  property_description: "Descriptio rei",
-  clausula_de_servitute_itineris: "Clausula de Servitute Itineris",
-  clausula_integritatis_rei: "Clausula Integritatis Rei",
-  clausula_quietantiae_pretii: "Clausula Quietantiae Pretii",
-  formula_confinium: "Formula Confinium",
-  formula_mensurarum: "Formula Mensurarum",
-  formula_translationis_iuris: "Formula Translationis Iuris",
-  formula_liberi_gaudii: "Formula Liberi Gaudii",
-  formula_legitimae_defensionis: "Formula Legitimae Defensionis",
+  datatio: "Datatio",
+  intitulatio: "Auctor (Intitulatio)",
+  dispositio: "Verba dispositiva (Dispositio)",
+  inscriptio: "Destinatarius (Inscriptio)",
+  clausulae: "Clausulae",
   sanctio: "Sanctio",
-  datatio_topica: "Datatio Topica",
+  subscriptio: "Subscriptio",
   completio: "Completio",
 };
 
@@ -139,16 +130,14 @@ export default function FormularyPdf({ xmlContent }: { xmlContent: string }) {
 
   // Group clauses by parent section
   const protocolClauses = clauses.filter((c) =>
-    ["invocatio", "datatio_chronica"].includes(c.type),
+    ["invocatio"].includes(c.type) || (c.type === "datatio" && c.subtype === "chronica"),
   );
   const textusClauses = clauses.filter(
     (c) =>
-      !["invocatio", "datatio_chronica", "datatio_topica", "completio"].includes(
-        c.type,
-      ) && c.type !== "full_text",
+      !["invocatio", "datatio", "subscriptio"].includes(c.type) && c.type !== "full_text",
   );
   const eschatocolClauses = clauses.filter((c) =>
-    ["datatio_topica", "completio"].includes(c.type),
+    (c.type === "datatio" && c.subtype === "topica") || c.type === "subscriptio",
   );
 
   return (
@@ -216,7 +205,7 @@ export default function FormularyPdf({ xmlContent }: { xmlContent: string }) {
         {/* Textus */}
         {textusClauses.length > 0 && (
           <>
-            <Text style={styles.sectionTitle}>Textus</Text>
+            <Text style={styles.sectionTitle}>Contextus</Text>
             {textusClauses.map((clause, i) => (
               <View key={`text-${i}`} style={styles.clause}>
                 <Text style={styles.clauseLabel}>
