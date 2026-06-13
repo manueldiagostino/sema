@@ -19,6 +19,10 @@
           <msContents>
             <msItem>
               <recipient>Bonfantino, a nome della chieda si S. Vittore e del priore Alberio</recipient>
+              <respStmt>
+                <resp>notary</resp>
+                <name type="completio_analysis">Gerardus tabellio</name>
+              </respStmt>
             </msItem>
           </msContents>
           <physDesc>
@@ -76,9 +80,6 @@ successoribus</p>
         </diploPart>
         <diploPart type="clausulae" subtype="perpetuitatis">
           <p>Clausula perpetuitatis</p>
-        </diploPart>
-        <diploPart type="dispositio">
-          <p>presenti die vendo et huius rei gratia trado tibi</p>
         </diploPart>
         <diploPart type="clausulae" subtype="de_servitute_itineris">
           <p>de servitute itineris text</p>
