@@ -38,7 +38,8 @@
     <profileDesc>
       <creation>
         <date when="1136-04-26">1136-04-26</date>
-        <term type="datatio_topica_analysis">nel burgo S. Donati (Bologna)</term>
+        <term type="datatio_topica_analysis">Burgo S. Donati </term>
+        <term type="datatio_topica_analysis">Bologna</term>
       </creation>
       <langUsage>
         <language ident="la">Latin</language>
@@ -50,6 +51,7 @@
           <term type="intitulatio_analysis">Zambono, figlio di Rodaldo di Lovoleto</term>
           <term type="inscriptio_analysis">Bonfantino, a nome della chieda si S. Vittore e del priore Alberio</term>
           <term type="property_location">nella braida detta Flumexello</term>
+          <term type="subscriptio_emittentis_analysis">auctor</term>
         </keywords>
       </textClass>
     </profileDesc>
@@ -57,11 +59,29 @@
   <text>
     <body>
       <diploPart type="full_text">
-        <p>This is full text.</p>
+        <p>(SC) In nomine sancte et individue Trinitatis. Anno Domini millesimo centesimo trigesimo sexto, /
+sexto kalendas madii, indicione quartadecima. Constat me quidem Iohannesbonus, filius / Rodaldi de
+Lupolito, presenti die vendo et huius rei gratia trado tibi Bonofan/tino, accipienti in honore Dei et
+ecclesie Sancti Victoris et d(om)n(o) Alberio priori eiusdem / ecclesie et eius fratribus ac successoribus in perpetuum, peciam unam terræ arat(oriae) quam habeo in brai/da vestra in loco qui
+dicitur Flumexello, cum ingressu et egressu suo usque in via pu/blica et cum omnibus super se et
+infra &lt;se&gt; habentem in integrum. Confines vero eius a totis / quattuor lateribus ex omni parte detinet
+vos emptores et si qui alii fine sunt. Omnia que / michi pertinet in integrum in presenti vendo iam
+dicte ecclesie ad habendum, tenendum / ac possidendum et quicquid sibi iamdicto priori et eius
+fratribus ac successoribus deinceps / placuerint ad utilitatem eiusdem ecclesie faciendum. Ut nullam
+litem / nullamque controversiam huius rei nomine a me vel a meis heredibus, quo/libet modo aliquo
+in tempore, prenominatus prior et eius fratribus ac successoribus de cetero / sustineas, ab omni quoque homine prescriptam rem legittime defendere et / auctorizare promitto. Et si ego vel mei heredes de hac re exinde / aliquo modo agere aut litigare presumpsero aut si contra quemlibet agentem le/gittimam defensionem non exibuero, pene nomine predicte rei duplum eiusdem bo/nitatis et extimationis dare omneque dannum prenominatus prior et eius successoribus / resarcire promitto et insuper hoc venditionis instrumentum ut supra legitur semper / incoruptum tenere spondeo.
+
+Actum in burgo Sancti Donati, indicione predicta. /
+
+Prenominatus venditor hoc venditionis instrumentum ut supra legitur scribere rogavit. /
+
+Taurellus de Villola, Petrus de [T]eutio, Ambrosius filius Domin&lt;i&gt;ce / rogati sunt testes. /
+
+Ego Gerardus tabellio hoc venditionis instrumentum ut supra legitur / scripsi et conplevi</p>
       </diploPart>
       <div type="protocol">
         <diploPart type="invocatio" subtype="symbolica verbalis">
-          <p>+ In nomine sancte et individue Trinitatis.</p>
+          <p>(SC) In nomine sancte et individue Trinitatis.</p>
         </diploPart>
         <diploPart type="datatio" subtype="chronica">
           <p>Anno Domini millesimo centesimo trigesimo sexto, / sexto kalendas madii, indicione quartadecima.</p>
@@ -75,32 +95,32 @@
           <p>presenti die vendo et huius rei gratia trado tibi</p>
         </diploPart>
         <diploPart type="inscriptio">
-          <p>Bonofan/tino, accipienti in honore Dei et ecclesie Sancti Victoris et d(om)n(o) Alberio priori eiusdem / ecclesie et eius fratribus ac
-successoribus</p>
+          <p>Bonofan/tino, accipienti in honore Dei et ecclesie Sancti Victoris et d(om)n(o) Alberio priori eiusdem / ecclesie et eius fratribus ac successoribus</p>
         </diploPart>
         <diploPart type="clausulae" subtype="perpetuitatis">
-          <p>in perpetuum</p>
+          <p>in perpetuum,</p>
+        </diploPart>
+        <diploPart type="dispositio" subtype="immobile">
+          <p>peciam unam terræ arat(oriae) quam habeo in brai/da vestra in loco qui
+dicitur Flumexello,</p>
         </diploPart>
         <diploPart type="clausulae" subtype="de_servitute_itineris">
-          <p>de servitute itineris text</p>
+          <p>cum ingressu et egressu suo usque in via pu/blica </p>
         </diploPart>
         <diploPart type="clausulae" subtype="integritatis_rei">
-          <p>integritatis rei text</p>
+          <p> et cum omnibus super se et infra &lt;se&gt; habentem in integrum. </p>
         </diploPart>
         <diploPart type="clausulae" subtype="confinium">
-          <p>confinium text</p>
-        </diploPart>
-        <diploPart type="clausulae" subtype="mensurarum">
-          <p>mensurarum text</p>
+          <p>Confines vero eius a totis / quattuor lateribus ex omni parte detinet vos emptores et si qui alii fine sunt.</p>
         </diploPart>
         <diploPart type="clausulae" subtype="translationis_iuris">
-          <p>translationis iuris text</p>
+          <p>Omnia que / michi pertinet in integrum in presenti vendo iam dicte ecclesie ad habendum, tenendum / ac possidendum </p>
         </diploPart>
         <diploPart type="clausulae" subtype="liberi_gaudii">
-          <p>liberi gaudii text</p>
+          <p>et quicquid sibi iamdicto priori et eius fratribus ac successoribus deinceps / placuerint ad utilitatem eiusdem ecclesie faciendum.</p>
         </diploPart>
         <diploPart type="clausulae" subtype="legitimae_defensionis">
-          <p>legitimae defensionis text</p>
+          <p>Ut nullam litem / nullamque controversiam huius rei nomine a me vel a meis heredibus, quo/libet modo aliquo in tempore, prenominatus prior et eius fratribus ac successoribus de cetero / sustineas, ab omni quoque homine prescriptam rem legittime defendere et / auctorizare promitto. </p>
         </diploPart>
         <diploPart type="sanctio" subtype="dupli_pena">
           <p>Et si ego vel mei heredes de hac re exinde / aliquo modo agere aut litigare presumpsero aut si contra quemlibet agentem le/gittimam defensionem non exibuero, pene nomine predicte rei duplum eiusdem bo/nitatis et extimationis dare omneque dannum prenominatus prior et eius successoribus / resarcire promitto et insuper hoc venditionis instrumentum ut supra legitur semper / incorruptum tenere spondeo.</p>
@@ -112,9 +132,13 @@ successoribus</p>
         </diploPart>
         <div type="subscriptio">
           <diploPart type="subscriptio" subtype="testium">
-            <p>Ego Gerardus tabellio hoc venditionis instrumentum ut supra legitur / scripsi et conplevi.</p>
+            <p>Taurellus de Villola, Petrus de [T]eutio, Ambrosius filius Domin&lt;i&gt;ce / rogati sunt testes. /</p>
+          </diploPart>
+          <diploPart type="subscriptio" subtype="auctor">
+            <name>Prenominatus venditor hoc venditionis instrumentum ut supra legitur scribere rogavit. /</name>
           </diploPart>
           <listWitness>
+          <witness><name>Taurellus de Villola</name></witness>
           <witness><name>Petrus de [T]eutio</name></witness>
           <witness><name>Ambrosius filius Domin&lt;i&gt;ce</name></witness>
           </listWitness>
