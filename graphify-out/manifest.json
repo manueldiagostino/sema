@@ -670,9 +670,9 @@
     "semantic_hash": "01d478432c75257e102eb5639b0c2c59"
   },
   "openspec/specs/corpus-table-default-columns/spec.md": {
-    "mtime": 1780946654.3373313,
-    "ast_hash": "5746f8aaefb14cdfaa8e39b1f9e007c0",
-    "semantic_hash": "5746f8aaefb14cdfaa8e39b1f9e007c0"
+    "mtime": 1781339721.4737525,
+    "ast_hash": "6a7c8922896f395b30e0c9eecabbadd0",
+    "semantic_hash": ""
   },
   "openspec/specs/fake-corpus-generation/spec.md": {
     "mtime": 1780945920.9017887,
@@ -2369,39 +2369,59 @@
     "ast_hash": "1932e0d7c26239d41d11043c32103d76",
     "semantic_hash": ""
   },
-  "openspec/changes/cei2tei-alignment/.openspec.yaml": {
+  ".opencode/knowledge/cei2tei-reference.md": {
+    "mtime": 1781339778.288953,
+    "ast_hash": "7ba711ec34d3cc3176755c29f06da149",
+    "semantic_hash": ""
+  },
+  "data/corpus/README.md": {
+    "mtime": 1781339861.9293525,
+    "ast_hash": "4f5d2785de3fd5bdc6e49c4a4e178bce",
+    "semantic_hash": ""
+  },
+  "openspec/changes/archive/2026-06-13-cei2tei-alignment/.openspec.yaml": {
     "mtime": 1781338385.455748,
     "ast_hash": "1f312a7bd7149a67c677f67a6b030c23",
     "semantic_hash": ""
   },
-  "openspec/changes/cei2tei-alignment/design.md": {
+  "openspec/changes/archive/2026-06-13-cei2tei-alignment/design.md": {
     "mtime": 1781338465.6468747,
     "ast_hash": "3e3d43e3ba89ec2a4e3c9f92e5e5d222",
     "semantic_hash": ""
   },
-  "openspec/changes/cei2tei-alignment/proposal.md": {
+  "openspec/changes/archive/2026-06-13-cei2tei-alignment/proposal.md": {
     "mtime": 1781338413.4391406,
     "ast_hash": "08cd949086edef309c5ec46498e55557",
     "semantic_hash": ""
   },
-  "openspec/changes/cei2tei-alignment/specs/corpus-table-default-columns/spec.md": {
+  "openspec/changes/archive/2026-06-13-cei2tei-alignment/specs/corpus-table-default-columns/spec.md": {
     "mtime": 1781338514.795568,
     "ast_hash": "dc27442dbbf9d7691240d8a6e70385df",
     "semantic_hash": ""
   },
-  "openspec/changes/cei2tei-alignment/specs/standardized-field-ids/spec.md": {
+  "openspec/changes/archive/2026-06-13-cei2tei-alignment/specs/standardized-field-ids/spec.md": {
     "mtime": 1781338507.6534672,
     "ast_hash": "8b0b1e42816959fd6ec0638ce9011bb5",
     "semantic_hash": ""
   },
-  "openspec/changes/cei2tei-alignment/specs/tei-cei2tei-conformance/spec.md": {
+  "openspec/changes/archive/2026-06-13-cei2tei-alignment/specs/tei-cei2tei-conformance/spec.md": {
     "mtime": 1781338493.1352623,
     "ast_hash": "e43cdda8a23643e94d5d4a6a0cde6d43",
     "semantic_hash": ""
   },
-  "openspec/changes/cei2tei-alignment/tasks.md": {
+  "openspec/changes/archive/2026-06-13-cei2tei-alignment/tasks.md": {
     "mtime": 1781339507.599841,
     "ast_hash": "4ff6e7c412bc2737f114e290802f6066",
+    "semantic_hash": ""
+  },
+  "openspec/specs/standardized-field-ids/spec.md": {
+    "mtime": 1781339732.6697872,
+    "ast_hash": "5b98e8b73bf43dc4143e730779f61e66",
+    "semantic_hash": ""
+  },
+  "openspec/specs/tei-cei2tei-conformance/spec.md": {
+    "mtime": 1781339733.4607897,
+    "ast_hash": "46f6e7a58e5ddf718ff8d6aa2f8972f2",
     "semantic_hash": ""
   }
 }
