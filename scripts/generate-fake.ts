@@ -36,8 +36,9 @@ import { buildEntityGraph } from "./build-entity-graph";
 
 import type {
   FormSubmissionData,
-  DateFieldValue,
   WitnessEntry,
+  DateFieldValue,
+  PlaceEntry,
 } from "@/types/form";
 
 // ---------------------------------------------------------------------------
@@ -115,16 +116,6 @@ function parseArgs(): Args {
 // ---------------------------------------------------------------------------
 
 function generateFakeDocument(sparseRate: number): FormSubmissionData {
-  // ── Date ──
-  const year = faker.number.int({ min: 1100, max: 1350 });
-  const day = faker.number.int({ min: 1, max: 28 });
-  const dayPadded = day.toString().padStart(2, "0");
-  const yearPadded = year.toString().padStart(4, "0");
-  const dateFieldValue: DateFieldValue = {
-    iso: `${yearPadded}-06-${dayPadded}`,
-    text: `${day} Iunii ${year}`,
-  };
-
   // ── Always-populated fields ──
   const authorName = faker.helpers.arrayElement(AUTHOR_NAMES);
   const repository = faker.helpers.arrayElement(REPOSITORIES);
@@ -142,6 +133,16 @@ function generateFakeDocument(sparseRate: number): FormSubmissionData {
 
   // Property location: 2nd element of PLACE_NAMES (different from locus_redactionis)
   const propertyLocation = PLACE_NAMES[1];
+
+  // ── Date fields ──
+  const year = faker.number.int({ min: 1000, max: 1200 });
+  const yearPadded = year.toString().padStart(4, "0");
+  const day = faker.number.int({ min: 1, max: 28 });
+  const dayPadded = day.toString().padStart(2, "0");
+  const dateFieldValue: DateFieldValue = {
+    iso: `${yearPadded}-06-${dayPadded}`,
+    text: `${day} Iunii ${year}`,
+  };
 
   // ── Template variables ──
   const yearStr = year.toString();
@@ -271,11 +272,11 @@ function generateFakeDocument(sparseRate: number): FormSubmissionData {
   return {
     charter_type: "instrumentum_venditionis",
     fields: {
-      datatio_chronica_analysis: dateFieldValue,
       intitulatio_analysis: authorName,
       repository,
       shelfmark,
-      datatio_topica_analysis: locusRedactionis,
+      datatio_chronica_analysis: dateFieldValue,
+      datatio_topica_analysis: [{ name: locusRedactionis, level: "civitas" }],
       inscriptio_analysis: recipientName,
       completio_analysis: skipNotarius ? "" : notarius,
       invocatio_analysis: invocatioType,

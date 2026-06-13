@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import type { FormFieldConfig, DateFieldValue, WitnessEntry } from "@/types/form";
+import type { FormFieldConfig, DateFieldValue, WitnessEntry, PlaceEntry } from "@/types/form";
 import TextField from "./fields/TextField";
 import TextAreaField from "./fields/TextAreaField";
 import DateField from "./fields/DateField";
@@ -11,8 +11,8 @@ import RadioField from "./fields/RadioField";
 
 interface FormFieldProps {
   field: FormFieldConfig;
-  value: string | string[] | DateFieldValue | WitnessEntry[] | undefined;
-  onChange: (value: string | string[] | DateFieldValue | WitnessEntry[]) => void;
+  value: string | string[] | DateFieldValue | WitnessEntry[] | PlaceEntry[] | undefined;
+  onChange: (value: string | string[] | DateFieldValue | WitnessEntry[] | PlaceEntry[]) => void;
   disabled?: boolean;
   validationError?: string;
 }
@@ -25,8 +25,8 @@ function SingleValueInput({
   required,
 }: {
   field: FormFieldConfig;
-  value: string | string[] | DateFieldValue | WitnessEntry[] | undefined;
-  onChange: (value: string | string[] | DateFieldValue | WitnessEntry[]) => void;
+  value: string | string[] | DateFieldValue | WitnessEntry[] | PlaceEntry[] | undefined;
+  onChange: (value: string | string[] | DateFieldValue | WitnessEntry[] | PlaceEntry[]) => void;
   disabled?: boolean;
   required?: boolean;
 }) {
@@ -94,6 +94,22 @@ function SingleValueInput({
         />
       );
     case "dynamic-list": {
+      if (field.level_field) {
+        const placeValues: PlaceEntry[] = Array.isArray(value) && value.length > 0 && typeof value[0] === "object" && "name" in value[0] && "level" in value[0]
+          ? value as PlaceEntry[]
+          : [];
+        return (
+          <DynamicListField
+            id={field.id}
+            values={placeValues}
+            onChange={(v: PlaceEntry[]) => onChange(v)}
+            placeholder={field.label}
+            disabled={disabled}
+            required={required}
+            levelField={field.level_field}
+          />
+        );
+      }
       if (field.exclusive_option) {
         const witnessValues: WitnessEntry[] = Array.isArray(value) && value.length > 0 && typeof value[0] === "object" && "name" in value[0]
           ? value as WitnessEntry[]
@@ -102,7 +118,7 @@ function SingleValueInput({
           <DynamicListField
             id={field.id}
             values={witnessValues}
-            onChange={(v) => onChange(v)}
+            onChange={(v: WitnessEntry[]) => onChange(v)}
             placeholder={field.label}
             disabled={disabled}
             required={required}
@@ -115,7 +131,7 @@ function SingleValueInput({
         <DynamicListField
           id={field.id}
           values={listValues}
-          onChange={(v) => onChange(v)}
+          onChange={(v: string[]) => onChange(v)}
           placeholder={field.label}
           disabled={disabled}
           required={required}
@@ -135,8 +151,8 @@ function MultipleValueInput({
   required,
 }: {
   field: FormFieldConfig;
-  value: string | string[] | DateFieldValue | WitnessEntry[] | undefined;
-  onChange: (value: string | string[] | DateFieldValue | WitnessEntry[]) => void;
+  value: string | string[] | DateFieldValue | WitnessEntry[] | PlaceEntry[] | undefined;
+  onChange: (value: string | string[] | DateFieldValue | WitnessEntry[] | PlaceEntry[]) => void;
   disabled?: boolean;
   required?: boolean;
 }) {

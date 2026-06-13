@@ -41,7 +41,7 @@ columns:
     filterable: true
 
   - id: datatio_topica_analysis
-    label: Datatio Topica Analysis
+    label: Place of reduction
     xpath: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords/tei:term[@type='datatio_topica_analysis']
     sortable: true
     filterable: true
@@ -54,7 +54,7 @@ columns:
     truncateWords: 20
 
   - id: completio_analysis
-    label: Completio Analysis
+    label: Notary
     xpath: tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msContents/tei:msItem/tei:respStmt/tei:name
     sortable: true
     filterable: true
@@ -158,21 +158,21 @@ columns:
     truncateWords: 20
 
   - id: intitulatio_text
-    label: Auctor (Intitulatio)
+    label: Auctor
     xpath: tei:text/tei:body/tei:div[@type='contextus']/tei:diploPart[@type='intitulatio']
     sortable: false
     filterable: false
     truncateWords: 20
 
   - id: dispositio_text
-    label: Verba dispositiva (Dispositio)
+    label: Verba dispositiva
     xpath: tei:text/tei:body/tei:div[@type='contextus']/tei:diploPart[@type='dispositio']
     sortable: false
     filterable: false
     truncateWords: 20
 
   - id: inscriptio_text
-    label: Destinatarius (Inscriptio)
+    label: Destinatarius
     xpath: tei:text/tei:body/tei:div[@type='contextus']/tei:diploPart[@type='inscriptio']
     sortable: false
     filterable: false

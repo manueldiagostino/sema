@@ -1,13 +1,13 @@
 "use client";
 
 import React, { type ReactNode } from "react";
-import type { FormSectionConfig, DateFieldValue, WitnessEntry } from "@/types/form";
+import type { FormSectionConfig, DateFieldValue, WitnessEntry, PlaceEntry } from "@/types/form";
 import FormField from "./FormField";
 
 interface FormSectionProps {
   section: FormSectionConfig;
-  fieldValues: Record<string, string | string[] | DateFieldValue | WitnessEntry[] | undefined>;
-  onFieldChange: (fieldId: string, value: string | string[] | DateFieldValue | WitnessEntry[]) => void;
+  fieldValues: Record<string, string | string[] | DateFieldValue | WitnessEntry[] | PlaceEntry[] | undefined>;
+  onFieldChange: (fieldId: string, value: string | string[] | DateFieldValue | WitnessEntry[] | PlaceEntry[]) => void;
   disabled?: boolean;
   validationErrors?: Record<string, string>;
   depth?: number;

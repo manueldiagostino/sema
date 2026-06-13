@@ -1,8 +1,9 @@
 import type {
   FormSubmissionData,
   FormSectionsConfig,
-  DateFieldValue,
   WitnessEntry,
+  PlaceEntry,
+  DateFieldValue,
 } from "@/types/form";
 
 /** Escape special XML characters in text content. */
@@ -45,6 +46,18 @@ function getWitnesses(data: FormSubmissionData, id: string): WitnessEntry[] {
   const v = getVal(data, id);
   if (Array.isArray(v) && v.length > 0 && v[0] && typeof v[0] === "object" && "name" in v[0]) {
     return v as WitnessEntry[];
+  }
+  return [];
+}
+
+/** Get PlaceEntry[] value, or empty array. */
+function getPlaceEntries(
+  data: FormSubmissionData,
+  fieldName: string,
+): PlaceEntry[] {
+  const val = data.fields[fieldName];
+  if (Array.isArray(val) && val.length > 0 && typeof val[0] === "object" && "name" in val[0]) {
+    return val as PlaceEntry[];
   }
   return [];
 }
@@ -150,19 +163,23 @@ export function generateTeiXml(
 
   // creation
   const dateVal = getVal(data, "datatio_chronica_analysis");
-  const locusRedactionis = getStr(data, "datatio_topica_analysis");
+  const locusRedactionis = getPlaceEntries(data, "datatio_topica_analysis");
   const creation: string[] = [];
   if (dateVal && typeof dateVal === "object" && "iso" in dateVal) {
     const dv = dateVal as DateFieldValue;
-    const text = dv.text || dv.iso;
+    const text = dv.iso;
     if (!isEmpty(dv.iso) || !isEmpty(text)) {
       creation.push(
         `${I(4)}<date when="${esc(dv.iso)}">${esc(text)}</date>`,
       );
     }
   }
-  if (locusRedactionis) {
-    creation.push(`${I(4)}<origPlace>${esc(locusRedactionis)}</origPlace>`);
+  for (const place of locusRedactionis) {
+    if (isEmpty(place.name)) continue;
+    const subtypeAttr = place.level ? ` subtype="${esc(place.level)}"` : "";
+    creation.push(
+      `${I(4)}<term type="datatio_topica_analysis"${subtypeAttr}>${esc(place.name)}</term>`,
+    );
   }
 
   // keywords

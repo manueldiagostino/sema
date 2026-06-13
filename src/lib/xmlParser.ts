@@ -6,6 +6,7 @@ import type {
   FormFieldConfig,
   DateFieldValue,
   WitnessEntry,
+  PlaceEntry,
 } from "@/types/form";
 
 const TEI_NS = "http://www.tei-c.org/ns/1.0";
@@ -153,6 +154,25 @@ export function parseTeiXml(
 
   function extractField(field: FormFieldConfig): void {
     try {
+      // ── Special case: datatio_topica_analysis is PlaceEntry[] ─────
+      if (field.id === "datatio_topica_analysis") {
+        const termNodes = select(
+          "//tei:teiHeader//tei:term[@type='datatio_topica_analysis']",
+          doc,
+        ) as Node[];
+        const entries: PlaceEntry[] = [];
+        for (const node of termNodes) {
+          const el = node as unknown as Element;
+          const name = getTextContent(node).trim();
+          const level = el.getAttribute("subtype") || "";
+          if (name) {
+            entries.push({ name, level });
+          }
+        }
+        result[field.id] = entries;
+        return;
+      }
+
       switch (field.input) {
         // ── text / textarea ──────────────────────────────────────────
         case "text":
@@ -174,13 +194,7 @@ export function parseTeiXml(
           const nodes = select(buildElementXPath(field), doc) as Node[];
           if (nodes.length > 0) {
             const el = nodes[0] as unknown as Element;
-            const iso = el.getAttribute("when") || "";
-            const rawText = getTextContent(nodes[0]).trim();
-            // Don't duplicate the ISO value as display text
-            result[field.id] = {
-              iso,
-              text: rawText === iso ? "" : rawText,
-            } as DateFieldValue;
+            result[field.id] = { iso: el.getAttribute("when") || "", text: "" } as DateFieldValue;
           } else {
             result[field.id] = { iso: "", text: "" } as DateFieldValue;
           }

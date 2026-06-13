@@ -108,13 +108,14 @@ sections:
             field_pair: datatio
             default_value: "1200-01-01"
 
+
       # ── CONTEXTUS ─────────────────────────────────────
       - id: text
-        label: Contextus
+        label: Text
         applies_to: all
         fields:
           - id: intitulatio_text
-            label: Auctor (Intitulatio)
+            label: Auctor
             input: textarea
             cardinality: single
             tei_element: p
@@ -126,7 +127,7 @@ sections:
             field_pair: author
 
           - id: intitulatio_analysis
-            label: Auctor Analysis
+            label: Name (normalized)
             input: text
             cardinality: single
             tei_element: term
@@ -137,7 +138,7 @@ sections:
             field_pair: author
 
           - id: dispositio_text
-            label: Verba dispositiva (Dispositio)
+            label: Verba dispositiva
             input: textarea
             cardinality: single
             tei_element: p
@@ -148,7 +149,7 @@ sections:
             applies_to: all
 
           - id: inscriptio_text
-            label: Destinatarius (Inscriptio)
+            label: Destinatarius
             input: textarea
             cardinality: single
             tei_element: p
@@ -160,7 +161,7 @@ sections:
             field_pair: recipient
 
           - id: inscriptio_analysis
-            label: Destinatarius Analysis
+            label: Name (normalized)
             input: text
             cardinality: single
             tei_element: term
@@ -207,6 +208,16 @@ sections:
               - value: mobile
                 label: Mobile
             field_pair: property
+
+          - id: property_location
+            label: Property Location
+            input: text
+            cardinality: single
+            tei_element: term
+            tei_attributes:
+              type: property_location
+            xpath_parent: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords
+            applies_to: all
 
           - id: de_servitute_itineris_text
             label: Clausula de servitute itineris
@@ -340,15 +351,6 @@ sections:
                 label: Numbered Pecunia
             field_pair: sanctio
 
-          - id: property_location
-            label: Property Location
-            input: text
-            cardinality: single
-            tei_element: term
-            tei_attributes:
-              type: property_location
-            xpath_parent: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords
-            applies_to: all
 
       # ── ESCHATOCOL ────────────────────────────────────
       - id: eschatocol
@@ -369,15 +371,18 @@ sections:
             field_pair: datatio_topica
 
           - id: datatio_topica_analysis
-            label: Datatio Topica Analysis
-            input: text
-            cardinality: single
+            label: Place of reduction
+            input: dynamic-list
+            cardinality: multiple
             tei_element: term
             tei_attributes:
               type: datatio_topica_analysis
             xpath_parent: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords
             applies_to: all
             field_pair: datatio_topica
+            level_field:
+              key: level
+              label: Level
 
         subsections:
           # ── SUBSCRIPTIONES ─────────────────────────────
@@ -452,7 +457,7 @@ sections:
                 field_pair: completio
 
               - id: completio_analysis
-                label: Completio Analysis
+                label: Notary
                 input: text
                 cardinality: single
                 tei_element: name

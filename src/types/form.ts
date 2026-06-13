@@ -36,6 +36,18 @@ export interface WitnessEntry {
   is_investitor: boolean;
 }
 
+/** A place entry with name and granularity level. */
+export interface PlaceEntry {
+  name: string;
+  level: string;
+}
+
+/** Configuration for a per-entry level field on dynamic lists. */
+export interface LevelFieldConfig {
+  key: string;
+  label: string;
+}
+
 /** Configuration for an exclusive option (radio) per dynamic list entry. */
 export interface ExclusiveOptionConfig {
   label: string;
@@ -78,6 +90,7 @@ export interface FormFieldConfig {
   field_pair?: string;
   /** Exclusive radio option config for dynamic list entries (e.g. investitor flag). */
   exclusive_option?: ExclusiveOptionConfig;
+  level_field?: LevelFieldConfig;
 }
 
 /** A section groups related fields under a common label. */
@@ -119,7 +132,7 @@ export interface FormSubmissionData {
   /** Selected charter type ID (e.g. "emphyteusis"). */
   charter_type: string;
   /** Values for canonical and type-specific fields, keyed by field id. */
-  fields: Record<string, string | string[] | DateFieldValue | WitnessEntry[] | undefined>;
+  fields: Record<string, string | string[] | DateFieldValue | WitnessEntry[] | PlaceEntry[] | undefined>;
   /** Ad-hoc custom properties added at the bottom of the form. */
   ad_hoc: AdHocField[];
 }

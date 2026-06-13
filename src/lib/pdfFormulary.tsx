@@ -107,9 +107,9 @@ function extractField(xmlContent: string, field: string): string {
 const typeLabels: Record<string, string> = {
   invocatio: "Invocatio",
   datatio: "Datatio",
-  intitulatio: "Auctor (Intitulatio)",
-  dispositio: "Verba dispositiva (Dispositio)",
-  inscriptio: "Destinatarius (Inscriptio)",
+  intitulatio: "Auctor",
+  dispositio: "Verba dispositiva",
+  inscriptio: "Destinatarius",
   clausulae: "Clausulae",
   sanctio: "Sanctio",
   subscriptio: "Subscriptio",
@@ -205,7 +205,7 @@ export default function FormularyPdf({ xmlContent }: { xmlContent: string }) {
         {/* Textus */}
         {textusClauses.length > 0 && (
           <>
-            <Text style={styles.sectionTitle}>Contextus</Text>
+            <Text style={styles.sectionTitle}>Text</Text>
             {textusClauses.map((clause, i) => (
               <View key={`text-${i}`} style={styles.clause}>
                 <Text style={styles.clauseLabel}>

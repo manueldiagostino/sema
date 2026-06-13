@@ -8,6 +8,7 @@ import type {
   FormFieldConfig,
   DateFieldValue,
   WitnessEntry,
+  PlaceEntry,
   AdHocField,
   FormSubmissionData,
 } from "@/types/form";
@@ -28,7 +29,7 @@ interface AdminFormPageProps {
 function getInitialFieldValue(
   field: FormFieldConfig,
   charterType: string,
-): string | string[] | DateFieldValue | WitnessEntry[] {
+): string | string[] | DateFieldValue | WitnessEntry[] | PlaceEntry[] {
   // Determine default value
   let defaultStr = "";
   if (field.default_by_type && field.default_by_type[charterType]) {
@@ -52,6 +53,10 @@ function getInitialFieldValue(
     return "";
   }
 
+  if (field.input === "dynamic-list" && field.level_field) {
+    return [] as PlaceEntry[];
+  }
+
   if (field.input === "dynamic-list" && field.exclusive_option) {
     return [] as WitnessEntry[];
   }
@@ -62,8 +67,8 @@ function getInitialFieldValue(
 function initializeFieldValues(
   sections: FormSectionConfig[],
   charterType: string,
-): Record<string, string | string[] | DateFieldValue | WitnessEntry[] | undefined> {
-  const values: Record<string, string | string[] | DateFieldValue | WitnessEntry[] | undefined> = {};
+): Record<string, string | string[] | DateFieldValue | WitnessEntry[] | PlaceEntry[] | undefined> {
+  const values: Record<string, string | string[] | DateFieldValue | WitnessEntry[] | PlaceEntry[] | undefined> = {};
   for (const section of sections) {
     for (const field of section.fields) {
       values[field.id] = getInitialFieldValue(field, charterType);
@@ -95,7 +100,7 @@ export default function AdminFormPage({
     return lockedCharterType || "";
   });
   const [fieldValues, setFieldValues] = useState<
-    Record<string, string | string[] | DateFieldValue | WitnessEntry[] | undefined>
+    Record<string, string | string[] | DateFieldValue | WitnessEntry[] | PlaceEntry[] | undefined>
   >(() => {
     if (!lockedCharterType) return {};
     const defaults = initializeFieldValues(sections, lockedCharterType);
@@ -103,7 +108,7 @@ export default function AdminFormPage({
       const merged = { ...defaults };
       for (const [key, value] of Object.entries(initialValues)) {
         if (value !== undefined && value !== null) {
-          merged[key] = value as string | string[] | DateFieldValue | WitnessEntry[] | undefined;
+          merged[key] = value as string | string[] | DateFieldValue | WitnessEntry[] | PlaceEntry[] | undefined;
         }
       }
       return merged;
@@ -139,7 +144,7 @@ export default function AdminFormPage({
   );
 
   const handleFieldChange = useCallback(
-    (fieldId: string, value: string | string[] | DateFieldValue | WitnessEntry[]) => {
+    (fieldId: string, value: string | string[] | DateFieldValue | WitnessEntry[] | PlaceEntry[]) => {
       setFieldValues((prev) => ({ ...prev, [fieldId]: value }));
       // Clear validation error for this field when user edits it
       setValidationErrors((prev) => {
@@ -151,11 +156,15 @@ export default function AdminFormPage({
     [],
   );
 
-  function isValueEmpty(value: string | string[] | DateFieldValue | WitnessEntry[] | undefined): boolean {
+  function isValueEmpty(value: string | string[] | DateFieldValue | WitnessEntry[] | PlaceEntry[] | undefined): boolean {
     if (value === undefined || value === "") return true;
     if (Array.isArray(value)) {
       const first = value[0];
       if (first && typeof first === "object" && "name" in first) {
+        if ("level" in first) {
+          const entries = value as PlaceEntry[];
+          return entries.length === 0 || entries.every((e) => e.name.trim() === "");
+        }
         const entries = value as WitnessEntry[];
         return entries.length === 0 || entries.every((e) => e.name.trim() === "");
       }
