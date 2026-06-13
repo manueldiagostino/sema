@@ -31,6 +31,93 @@ function downloadBlob(content: string, filename: string, type: string) {
   URL.revokeObjectURL(url);
 }
 
+const HISTORICAL_IDS = [
+  "intitulatio_analysis",
+  "inscriptio_analysis",
+  "repository",
+  "shelfmark",
+  "dating_chronological",
+  "dating_topical",
+  "completio_analysis",
+  "testes_names",
+  "investitor_name",
+];
+
+const EXTRACTED_IDS = [
+  "invocatio_analysis",
+  "descriptio_rei_analysis",
+  "sanctio_analysis",
+  "subscriptio_emittentis_analysis",
+  "pretium",
+  "property_location",
+  "datatio_topica_analysis",
+];
+
+const BADGE_FIELDS = new Set([
+  "invocatio_analysis",
+  "descriptio_rei_analysis",
+  "sanctio_analysis",
+  "subscriptio_emittentis_analysis",
+]);
+
+const BADGE_LABELS: Record<string, Record<string, string>> = {
+  invocatio_analysis: { symbolica: "Simbolica", verbalis: "Verbale" },
+  descriptio_rei_analysis: { immobile: "Immobile", mobile: "Mobile" },
+  sanctio_analysis: { dupli_pena: "Penalty of Double", pecunia_numerata: "Numbered Pecunia" },
+  subscriptio_emittentis_analysis: { auctor: "Author", destinatarius: "Recipient" },
+};
+
+function Badge({ value, fieldId }: { value: string; fieldId: string }) {
+  const labels = BADGE_LABELS[fieldId];
+  const label = labels?.[value];
+  if (!label) return null;
+  return (
+    <span className="inline-block rounded-full bg-accent/15 px-2.5 py-0.5 text-xs font-medium text-accent">
+      {label}
+    </span>
+  );
+}
+
+function FieldValue({
+  fieldId,
+  val,
+}: {
+  fieldId: string;
+  val: string | string[] | undefined;
+}) {
+  if (val === undefined || val === null) {
+    return BADGE_FIELDS.has(fieldId) ? null : <span>—</span>;
+  }
+
+  const values = Array.isArray(val) ? val : [val];
+  const nonEmpty = values.filter((v) => v !== "");
+
+  if (nonEmpty.length === 0) {
+    return BADGE_FIELDS.has(fieldId) ? null : <span>—</span>;
+  }
+
+  if (BADGE_FIELDS.has(fieldId)) {
+    const badges = nonEmpty
+      .map((v) => {
+        const labels = BADGE_LABELS[fieldId];
+        const label = labels?.[v];
+        return label ? v : null;
+      })
+      .filter((v): v is string => v !== null);
+    if (badges.length === 0) return null;
+    return (
+      <span className="flex flex-wrap gap-1">
+        {badges.map((v) => (
+          <Badge key={v} value={v} fieldId={fieldId} />
+        ))}
+      </span>
+    );
+  }
+
+  const display = Array.isArray(val) ? val.join("; ") : String(val);
+  return <span>{display || "—"}</span>;
+}
+
 function PreliminaryInfo({
   item,
   metadataCols,
@@ -38,20 +125,59 @@ function PreliminaryInfo({
   item: Record<string, string | string[]> & { id: string };
   metadataCols: ColumnConfig[];
 }) {
+  const historicalCols = metadataCols.filter((c) => HISTORICAL_IDS.includes(c.id));
+  const extractedCols = metadataCols.filter((c) => EXTRACTED_IDS.includes(c.id));
+
+  const hasValue = (colId: string): boolean => {
+    const v = item[colId];
+    if (v === undefined || v === null) return false;
+    if (Array.isArray(v)) return v.length > 0 && v.some((x) => x !== "");
+    return String(v) !== "";
+  };
+
+  const hasExtracted = extractedCols.some((c) => hasValue(c.id));
+
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-      {metadataCols.map((c) => {
-        const val = item[c.id];
-        const display = Array.isArray(val) ? val.join(", ") : (val as string) || "—";
-        // Sentence-case label: capitalize first letter, rest lowercase
-        const label = c.label.charAt(0).toUpperCase() + c.label.slice(1).toLowerCase();
-        return (
-          <div key={c.id}>
-            <dt className="text-xs font-semibold text-muted-foreground">{label}</dt>
-            <dd className="mt-1 text-sm text-foreground">{display}</dd>
-          </div>
-        );
-      })}
+    <div className="space-y-4">
+      {/* Historical Information */}
+      <div>
+        <h3 className="text-sm font-semibold text-primary mb-3">Historical Information</h3>
+        <dl className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          {historicalCols.map((c) => {
+            const val = item[c.id];
+            const label = c.label.charAt(0).toUpperCase() + c.label.slice(1).toLowerCase();
+            return (
+              <div key={c.id}>
+                <dt className="text-xs font-semibold text-muted-foreground">{label}</dt>
+                <dd className="mt-1 text-sm text-foreground">
+                  <FieldValue fieldId={c.id} val={val} />
+                </dd>
+              </div>
+            );
+          })}
+        </dl>
+      </div>
+
+      {/* Extracted from Text */}
+      {hasExtracted && (
+        <div>
+          <h3 className="text-sm font-semibold text-primary mb-3">Extracted from Text</h3>
+          <dl className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            {extractedCols.map((c) => {
+              const val = item[c.id];
+              const label = c.label.charAt(0).toUpperCase() + c.label.slice(1).toLowerCase();
+              return (
+                <div key={c.id}>
+                  <dt className="text-xs font-semibold text-muted-foreground">{label}</dt>
+                  <dd className="mt-1 text-sm text-foreground">
+                    <FieldValue fieldId={c.id} val={val} />
+                  </dd>
+                </div>
+              );
+            })}
+          </dl>
+        </div>
+      )}
     </div>
   );
 }
@@ -269,7 +395,7 @@ export default function DocumentCard({
               {/* Section 1 — Protocol */}
               {(() => {
                 const protocolFields: { label: string; id: string }[] = [
-                  { label: "Invocatio", id: "invocatio_text" },
+                  { label: "Auctor", id: "invocatio_text" },
                   { label: "Datatio Chronica", id: "datatio_chronica_text" },
                 ];
                 const visibleProtocol = protocolFields.filter((f) => getVal(f.id));
@@ -292,7 +418,7 @@ export default function DocumentCard({
               {/* Section 2 — Text */}
               {(() => {
                 const textFieldDefs: { label: string; id: string }[] = [
-                  { label: "Intitulatio", id: "intitulatio_text" },
+                  { label: "Destinatarius", id: "intitulatio_text" },
                   { label: "Verba dispositiva", id: "dispositio_text" },
                   { label: "Inscriptio", id: "inscriptio_text" },
                   { label: "Clausula perpetuitatis", id: "perpetuitatis_text" },

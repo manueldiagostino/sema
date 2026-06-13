@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback } from "react";
 import type { ExclusiveOptionConfig, LevelFieldConfig, PlaceEntry, WitnessEntry } from "@/types/form";
 
 interface DynamicListFieldBaseProps {
@@ -197,7 +197,6 @@ export default function DynamicListField(props: DynamicListFieldProps) {
 
   // --- WitnessEntry[] mode (exclusiveOption present) ---
   const { values, onChange, exclusiveOption } = props as DynamicListFieldWitnessProps;
-  const radioName = useMemo(() => `exclusive-${exclusiveOption.fieldKey}-${id ?? "list"}`, [exclusiveOption.fieldKey, id]);
 
   const addItem = useCallback(() => {
     onChange([...values, { name: "", is_investitor: false }]);
@@ -240,25 +239,13 @@ export default function DynamicListField(props: DynamicListFieldProps) {
           />
           <label className="flex items-center gap-1 text-sm text-foreground whitespace-nowrap">
             <input
-              type="radio"
-              name={radioName}
+              type="checkbox"
               checked={entry.is_investitor}
               onChange={() => setInvestitor(index)}
               disabled={disabled}
               className="h-3.5 w-3.5 border-border text-accent focus:ring-accent/50 disabled:opacity-50 disabled:cursor-not-allowed"
             />
             {exclusiveOption.label}
-            <span
-              role="button"
-              tabIndex={0}
-              onClick={(e) => { e.preventDefault(); setInvestitor(index); }}
-              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setInvestitor(index); }}}
-              className={`ml-0.5 text-xs leading-none select-none ${entry.is_investitor ? "text-muted cursor-pointer hover:text-red-600" : "invisible pointer-events-none"}`}
-              aria-label={`Clear ${exclusiveOption.label}`}
-              title={`Clear ${exclusiveOption.label}`}
-            >
-              ✕
-            </span>
           </label>
           <button
             type="button"
