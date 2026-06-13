@@ -74,9 +74,6 @@
           <p>Bonofan/tino, accipienti in honore Dei et ecclesie Sancti Victoris et d(om)n(o) Alberio priori eiusdem / ecclesie et eius fratribus ac
 successoribus</p>
         </diploPart>
-        <diploPart type="clausulae" subtype="perpetuitatis">
-          <p>---</p>
-        </diploPart>
         <diploPart type="dispositio">
           <p>presenti die vendo et huius rei gratia trado tibi</p>
         </diploPart>
@@ -117,7 +114,7 @@ successoribus</p>
             <p>Ego Gerardus tabellio hoc venditionis instrumentum ut supra legitur / scripsi et conplevi.</p>
           </diploPart>
           <listWitness>
-          <witness ana="#investitor"><name>Petrus de [T]eutio</name></witness>
+          <witness><name>Petrus de [T]eutio</name></witness>
           <witness><name>Ambrosius filius Domin&lt;i&gt;ce</name></witness>
           </listWitness>
           <diploPart type="subscriptio" subtype="completio">
