@@ -659,10 +659,70 @@
       "norm_label": "downloadblob()"
     },
     {
-      "label": "PreliminaryInfo()",
+      "label": "HISTORICAL_IDS",
       "file_type": "code",
       "source_file": "src/components/DocumentCard.tsx",
       "source_location": "L34",
+      "_origin": "ast",
+      "id": "components_documentcard_historical_ids",
+      "community": 55,
+      "norm_label": "historical_ids"
+    },
+    {
+      "label": "EXTRACTED_IDS",
+      "file_type": "code",
+      "source_file": "src/components/DocumentCard.tsx",
+      "source_location": "L46",
+      "_origin": "ast",
+      "id": "components_documentcard_extracted_ids",
+      "community": 55,
+      "norm_label": "extracted_ids"
+    },
+    {
+      "label": "BADGE_FIELDS",
+      "file_type": "code",
+      "source_file": "src/components/DocumentCard.tsx",
+      "source_location": "L56",
+      "_origin": "ast",
+      "id": "components_documentcard_badge_fields",
+      "community": 55,
+      "norm_label": "badge_fields"
+    },
+    {
+      "label": "BADGE_LABELS",
+      "file_type": "code",
+      "source_file": "src/components/DocumentCard.tsx",
+      "source_location": "L63",
+      "_origin": "ast",
+      "id": "components_documentcard_badge_labels",
+      "community": 55,
+      "norm_label": "badge_labels"
+    },
+    {
+      "label": "Badge()",
+      "file_type": "code",
+      "source_file": "src/components/DocumentCard.tsx",
+      "source_location": "L70",
+      "_origin": "ast",
+      "id": "components_documentcard_badge",
+      "community": 55,
+      "norm_label": "badge()"
+    },
+    {
+      "label": "FieldValue()",
+      "file_type": "code",
+      "source_file": "src/components/DocumentCard.tsx",
+      "source_location": "L81",
+      "_origin": "ast",
+      "id": "components_documentcard_fieldvalue",
+      "community": 55,
+      "norm_label": "fieldvalue()"
+    },
+    {
+      "label": "PreliminaryInfo()",
+      "file_type": "code",
+      "source_file": "src/components/DocumentCard.tsx",
+      "source_location": "L121",
       "_origin": "ast",
       "id": "components_documentcard_preliminaryinfo",
       "community": 55,
@@ -672,7 +732,7 @@
       "label": "DocumentCard()",
       "file_type": "code",
       "source_file": "src/components/DocumentCard.tsx",
-      "source_location": "L59",
+      "source_location": "L185",
       "_origin": "ast",
       "id": "components_documentcard_documentcard",
       "community": 55,
@@ -685,7 +745,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "fields_dynamiclistfield",
-      "community": 15,
+      "community": 14,
       "norm_label": "dynamiclistfield.tsx"
     },
     {
@@ -695,7 +755,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "fields_dynamiclistfield_dynamiclistfieldbaseprops",
-      "community": 15,
+      "community": 14,
       "norm_label": "dynamiclistfieldbaseprops"
     },
     {
@@ -705,7 +765,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "fields_dynamiclistfield_dynamiclistfieldstringprops",
-      "community": 15,
+      "community": 14,
       "norm_label": "dynamiclistfieldstringprops"
     },
     {
@@ -715,7 +775,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "fields_dynamiclistfield_dynamiclistfieldwitnessprops",
-      "community": 15,
+      "community": 14,
       "norm_label": "dynamiclistfieldwitnessprops"
     },
     {
@@ -725,7 +785,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "fields_dynamiclistfield_dynamiclistfieldplaceprops",
-      "community": 15,
+      "community": 14,
       "norm_label": "dynamiclistfieldplaceprops"
     },
     {
@@ -735,7 +795,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "fields_dynamiclistfield_dynamiclistfieldprops",
-      "community": 15,
+      "community": 14,
       "norm_label": "dynamiclistfieldprops"
     },
     {
@@ -745,7 +805,7 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "fields_dynamiclistfield_dynamiclistfield",
-      "community": 15,
+      "community": 14,
       "norm_label": "dynamiclistfield()"
     },
     {
@@ -754,9 +814,9 @@
       "source_file": "src/lib/xmlBuilder.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "lib_xmlbuilder",
       "community": 50,
-      "norm_label": "xmlbuilder.ts"
+      "norm_label": "xmlbuilder.ts",
+      "id": "lib_xmlbuilder"
     },
     {
       "label": "esc()",
@@ -764,9 +824,9 @@
       "source_file": "src/lib/xmlBuilder.ts",
       "source_location": "L10",
       "_origin": "ast",
-      "id": "lib_xmlbuilder_esc",
       "community": 50,
-      "norm_label": "esc()"
+      "norm_label": "esc()",
+      "id": "lib_xmlbuilder_esc"
     },
     {
       "label": "attr()",
@@ -774,9 +834,9 @@
       "source_file": "src/lib/xmlBuilder.ts",
       "source_location": "L19",
       "_origin": "ast",
-      "id": "lib_xmlbuilder_attr",
       "community": 50,
-      "norm_label": "attr()"
+      "norm_label": "attr()",
+      "id": "lib_xmlbuilder_attr"
     },
     {
       "label": "isEmpty()",
@@ -784,9 +844,9 @@
       "source_file": "src/lib/xmlBuilder.ts",
       "source_location": "L27",
       "_origin": "ast",
-      "id": "lib_xmlbuilder_isempty",
       "community": 50,
-      "norm_label": "isempty()"
+      "norm_label": "isempty()",
+      "id": "lib_xmlbuilder_isempty"
     },
     {
       "label": "getVal()",
@@ -794,9 +854,9 @@
       "source_file": "src/lib/xmlBuilder.ts",
       "source_location": "L34",
       "_origin": "ast",
-      "id": "lib_xmlbuilder_getval",
       "community": 50,
-      "norm_label": "getval()"
+      "norm_label": "getval()",
+      "id": "lib_xmlbuilder_getval"
     },
     {
       "label": "getStr()",
@@ -804,9 +864,9 @@
       "source_file": "src/lib/xmlBuilder.ts",
       "source_location": "L39",
       "_origin": "ast",
-      "id": "lib_xmlbuilder_getstr",
       "community": 50,
-      "norm_label": "getstr()"
+      "norm_label": "getstr()",
+      "id": "lib_xmlbuilder_getstr"
     },
     {
       "label": "getWitnesses()",
@@ -814,9 +874,9 @@
       "source_file": "src/lib/xmlBuilder.ts",
       "source_location": "L45",
       "_origin": "ast",
-      "id": "lib_xmlbuilder_getwitnesses",
       "community": 50,
-      "norm_label": "getwitnesses()"
+      "norm_label": "getwitnesses()",
+      "id": "lib_xmlbuilder_getwitnesses"
     },
     {
       "label": "getPlaceEntries()",
@@ -824,9 +884,9 @@
       "source_file": "src/lib/xmlBuilder.ts",
       "source_location": "L54",
       "_origin": "ast",
-      "id": "lib_xmlbuilder_getplaceentries",
       "community": 50,
-      "norm_label": "getplaceentries()"
+      "norm_label": "getplaceentries()",
+      "id": "lib_xmlbuilder_getplaceentries"
     },
     {
       "label": "makeDiploPart()",
@@ -834,9 +894,9 @@
       "source_file": "src/lib/xmlBuilder.ts",
       "source_location": "L69",
       "_origin": "ast",
-      "id": "lib_xmlbuilder_makediplopart",
       "community": 50,
-      "norm_label": "makediplopart()"
+      "norm_label": "makediplopart()",
+      "id": "lib_xmlbuilder_makediplopart"
     },
     {
       "label": "makeDivContainer()",
@@ -844,9 +904,9 @@
       "source_file": "src/lib/xmlBuilder.ts",
       "source_location": "L87",
       "_origin": "ast",
-      "id": "lib_xmlbuilder_makedivcontainer",
       "community": 50,
-      "norm_label": "makedivcontainer()"
+      "norm_label": "makedivcontainer()",
+      "id": "lib_xmlbuilder_makedivcontainer"
     },
     {
       "label": "deriveCharterCode()",
@@ -854,9 +914,9 @@
       "source_file": "src/lib/xmlBuilder.ts",
       "source_location": "L108",
       "_origin": "ast",
-      "id": "lib_xmlbuilder_derivechartercode",
-      "community": 30,
-      "norm_label": "derivechartercode()"
+      "community": 50,
+      "norm_label": "derivechartercode()",
+      "id": "lib_xmlbuilder_derivechartercode"
     },
     {
       "label": "generateTeiXml()",
@@ -864,9 +924,9 @@
       "source_file": "src/lib/xmlBuilder.ts",
       "source_location": "L121",
       "_origin": "ast",
-      "id": "lib_xmlbuilder_generateteixml",
       "community": 50,
-      "norm_label": "generateteixml()"
+      "norm_label": "generateteixml()",
+      "id": "lib_xmlbuilder_generateteixml"
     },
     {
       "label": "buildFilename()",
@@ -874,9 +934,9 @@
       "source_file": "src/lib/xmlBuilder.ts",
       "source_location": "L407",
       "_origin": "ast",
-      "id": "lib_xmlbuilder_buildfilename",
       "community": 30,
-      "norm_label": "buildfilename()"
+      "norm_label": "buildfilename()",
+      "id": "lib_xmlbuilder_buildfilename"
     },
     {
       "label": "generate-fake.ts",
@@ -924,7 +984,7 @@
       "source_file": "scripts/generate-fake.ts",
       "source_location": "L87",
       "_origin": "ast",
-      "community": 35,
+      "community": 30,
       "norm_label": "parseargs()",
       "id": "scripts_generate_fake_parseargs"
     },
@@ -944,7 +1004,7 @@
       "source_file": "scripts/generate-fake.ts",
       "source_location": "L317",
       "_origin": "ast",
-      "community": 35,
+      "community": 30,
       "norm_label": "main()",
       "id": "scripts_generate_fake_main"
     },
@@ -954,7 +1014,7 @@
       "source_file": "src/components/admin/AdminFormPage.tsx",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 14,
+      "community": 6,
       "norm_label": "adminformpage.tsx",
       "id": "admin_adminformpage"
     },
@@ -964,7 +1024,7 @@
       "source_file": "src/components/admin/AdminFormPage.tsx",
       "source_location": "L19",
       "_origin": "ast",
-      "community": 14,
+      "community": 6,
       "norm_label": "adminformpageprops",
       "id": "admin_adminformpage_adminformpageprops"
     },
@@ -974,7 +1034,7 @@
       "source_file": "src/components/admin/AdminFormPage.tsx",
       "source_location": "L29",
       "_origin": "ast",
-      "community": 14,
+      "community": 6,
       "norm_label": "getinitialfieldvalue()",
       "id": "admin_adminformpage_getinitialfieldvalue"
     },
@@ -984,7 +1044,7 @@
       "source_file": "src/components/admin/AdminFormPage.tsx",
       "source_location": "L67",
       "_origin": "ast",
-      "community": 14,
+      "community": 6,
       "norm_label": "initializefieldvalues()",
       "id": "admin_adminformpage_initializefieldvalues"
     },
@@ -994,7 +1054,7 @@
       "source_file": "src/components/admin/AdminFormPage.tsx",
       "source_location": "L80",
       "_origin": "ast",
-      "community": 14,
+      "community": 6,
       "norm_label": "appliestocurrenttype()",
       "id": "admin_adminformpage_appliestocurrenttype"
     },
@@ -1004,7 +1064,7 @@
       "source_file": "src/components/admin/AdminFormPage.tsx",
       "source_location": "L89",
       "_origin": "ast",
-      "community": 14,
+      "community": 6,
       "norm_label": "adminformpage()",
       "id": "admin_adminformpage_adminformpage"
     },
@@ -1214,7 +1274,7 @@
       "source_file": "src/lib/xmlParser.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 14,
+      "community": 108,
       "norm_label": "xmlparser.ts",
       "id": "lib_xmlparser"
     },
@@ -1224,7 +1284,7 @@
       "source_file": "src/lib/xmlParser.ts",
       "source_location": "L15",
       "_origin": "ast",
-      "community": 30,
+      "community": 108,
       "norm_label": "getchildnodes()",
       "id": "lib_xmlparser_getchildnodes"
     },
@@ -1234,7 +1294,7 @@
       "source_file": "src/lib/xmlParser.ts",
       "source_location": "L33",
       "_origin": "ast",
-      "community": 30,
+      "community": 108,
       "norm_label": "gettextcontent()",
       "id": "lib_xmlparser_gettextcontent"
     },
@@ -1244,7 +1304,7 @@
       "source_file": "src/lib/xmlParser.ts",
       "source_location": "L55",
       "_origin": "ast",
-      "community": 14,
+      "community": 108,
       "norm_label": "buildelementxpath()",
       "id": "lib_xmlparser_buildelementxpath"
     },
@@ -1254,7 +1314,7 @@
       "source_file": "src/lib/xmlParser.ts",
       "source_location": "L96",
       "_origin": "ast",
-      "community": 14,
+      "community": 108,
       "norm_label": "buildwrapperxpath()",
       "id": "lib_xmlparser_buildwrapperxpath"
     },
@@ -1264,7 +1324,7 @@
       "source_file": "src/lib/xmlParser.ts",
       "source_location": "L108",
       "_origin": "ast",
-      "community": 14,
+      "community": 108,
       "norm_label": "emptydefault()",
       "id": "lib_xmlparser_emptydefault"
     },
@@ -1274,7 +1334,7 @@
       "source_file": "src/lib/xmlParser.ts",
       "source_location": "L144",
       "_origin": "ast",
-      "community": 30,
+      "community": 108,
       "norm_label": "parseteixml()",
       "id": "lib_xmlparser_parseteixml"
     },
@@ -1314,7 +1374,7 @@
       "source_file": "src/types/form.ts",
       "source_location": "L14",
       "_origin": "ast",
-      "community": 14,
+      "community": 6,
       "norm_label": "chartertypeconfig",
       "id": "types_form_chartertypeconfig"
     },
@@ -1374,7 +1434,7 @@
       "source_file": "src/types/form.ts",
       "source_location": "L46",
       "_origin": "ast",
-      "community": 15,
+      "community": 14,
       "norm_label": "levelfieldconfig",
       "id": "types_form_levelfieldconfig"
     },
@@ -1384,7 +1444,7 @@
       "source_file": "src/types/form.ts",
       "source_location": "L52",
       "_origin": "ast",
-      "community": 15,
+      "community": 14,
       "norm_label": "exclusiveoptionconfig",
       "id": "types_form_exclusiveoptionconfig"
     },
@@ -1414,7 +1474,7 @@
       "source_file": "src/types/form.ts",
       "source_location": "L111",
       "_origin": "ast",
-      "community": 14,
+      "community": 6,
       "norm_label": "formsectionsconfig",
       "id": "types_form_formsectionsconfig"
     },
@@ -1434,7 +1494,7 @@
       "source_file": "src/types/form.ts",
       "source_location": "L125",
       "_origin": "ast",
-      "community": 14,
+      "community": 6,
       "norm_label": "adhocfield",
       "id": "types_form_adhocfield"
     },
@@ -1444,7 +1504,7 @@
       "source_file": "src/types/form.ts",
       "source_location": "L131",
       "_origin": "ast",
-      "community": 14,
+      "community": 6,
       "norm_label": "formsubmissiondata",
       "id": "types_form_formsubmissiondata"
     },
@@ -1764,7 +1824,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/auth-route.mjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 38,
+      "community": 59,
       "norm_label": "auth-route.mjs",
       "id": "lib_auth_route"
     },
@@ -1774,7 +1834,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/auth-route.mjs",
       "source_location": "L6",
       "_origin": "ast",
-      "community": 38,
+      "community": 59,
       "norm_label": "isauthroute()",
       "id": "lib_auth_route_isauthroute"
     },
@@ -1784,7 +1844,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/auth-route.mjs",
       "source_location": "L11",
       "_origin": "ast",
-      "community": 38,
+      "community": 59,
       "norm_label": "applyauthdisqualifier()",
       "id": "lib_auth_route_applyauthdisqualifier"
     },
@@ -1924,7 +1984,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/citations.mjs",
       "source_location": "L19",
       "_origin": "ast",
-      "community": 0,
+      "community": 20,
       "norm_label": "isknownurl()",
       "id": "lib_citations_isknownurl"
     },
@@ -2534,7 +2594,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/display-labels.mjs",
       "source_location": "L146",
       "_origin": "ast",
-      "community": 21,
+      "community": 10,
       "norm_label": "formatcandidatelabel()",
       "id": "lib_display_labels_formatcandidatelabel"
     },
@@ -3364,7 +3424,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/gates/index.mjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 392,
+      "community": 345,
       "norm_label": "index.mjs",
       "id": "gates_index"
     },
@@ -3374,7 +3434,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/gates/index.mjs",
       "source_location": "L20",
       "_origin": "ast",
-      "community": 392,
+      "community": 345,
       "norm_label": "gates",
       "id": "gates_index_gates"
     },
@@ -3604,7 +3664,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/gates/region-misconfig.mjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 392,
+      "community": 345,
       "norm_label": "region-misconfig.mjs",
       "id": "gates_region_misconfig"
     },
@@ -3614,7 +3674,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/gates/region-misconfig.mjs",
       "source_location": "L11",
       "_origin": "ast",
-      "community": 392,
+      "community": 345,
       "norm_label": "metadata",
       "id": "gates_region_misconfig_metadata"
     },
@@ -3624,7 +3684,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/gates/region-misconfig.mjs",
       "source_location": "L24",
       "_origin": "ast",
-      "community": 392,
+      "community": 345,
       "norm_label": "gate()",
       "id": "gates_region_misconfig_gate"
     },
@@ -4364,7 +4424,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/investigation-brief.mjs",
       "source_location": "L69",
       "_origin": "ast",
-      "community": 18,
+      "community": 39,
       "norm_label": "resolvefiles()",
       "id": "lib_investigation_brief_resolvefiles"
     },
@@ -4594,7 +4654,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/observation-safety.mjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 285,
+      "community": 2,
       "norm_label": "observation-safety.mjs",
       "id": "lib_observation_safety"
     },
@@ -4604,7 +4664,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/observation-safety.mjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 6,
+      "community": 2,
       "norm_label": "splitcustomersafeobservations()",
       "id": "lib_observation_safety_splitcustomersafeobservations"
     },
@@ -4614,7 +4674,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/observation-safety.mjs",
       "source_location": "L19",
       "_origin": "ast",
-      "community": 285,
+      "community": 2,
       "norm_label": "unsupportedobservationreason()",
       "id": "lib_observation_safety_unsupportedobservationreason"
     },
@@ -4624,7 +4684,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/observation-safety.mjs",
       "source_location": "L53",
       "_origin": "ast",
-      "community": 285,
+      "community": 2,
       "norm_label": "observationtext()",
       "id": "lib_observation_safety_observationtext"
     },
@@ -4634,7 +4694,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/observation-safety.mjs",
       "source_location": "L61",
       "_origin": "ast",
-      "community": 285,
+      "community": 2,
       "norm_label": "evidencetext()",
       "id": "lib_observation_safety_evidencetext"
     },
@@ -4644,7 +4704,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/observation-safety.mjs",
       "source_location": "L68",
       "_origin": "ast",
-      "community": 285,
+      "community": 2,
       "norm_label": "hasunsupportedwafbotcategoryclaim()",
       "id": "lib_observation_safety_hasunsupportedwafbotcategoryclaim"
     },
@@ -4654,7 +4714,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/observation-safety.mjs",
       "source_location": "L75",
       "_origin": "ast",
-      "community": 285,
+      "community": 2,
       "norm_label": "hasunsafebotprotectionobservation()",
       "id": "lib_observation_safety_hasunsafebotprotectionobservation"
     },
@@ -4664,7 +4724,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/observation-safety.mjs",
       "source_location": "L85",
       "_origin": "ast",
-      "community": 285,
+      "community": 2,
       "norm_label": "hasstalenextcacheapiobservation()",
       "id": "lib_observation_safety_hasstalenextcacheapiobservation"
     },
@@ -4674,7 +4734,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/observation-safety.mjs",
       "source_location": "L93",
       "_origin": "ast",
-      "community": 285,
+      "community": 2,
       "norm_label": "hasimplementationgradeobservationaction()",
       "id": "lib_observation_safety_hasimplementationgradeobservationaction"
     },
@@ -4684,7 +4744,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/observation-safety.mjs",
       "source_location": "L105",
       "_origin": "ast",
-      "community": 285,
+      "community": 2,
       "norm_label": "contradictsnochangereason()",
       "id": "lib_observation_safety_contradictsnochangereason"
     },
@@ -4694,7 +4754,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/observation-safety.mjs",
       "source_location": "L122",
       "_origin": "ast",
-      "community": 285,
+      "community": 2,
       "norm_label": "candidatetarget()",
       "id": "lib_observation_safety_candidatetarget"
     },
@@ -4704,7 +4764,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/observation-safety.mjs",
       "source_location": "L129",
       "_origin": "ast",
-      "community": 285,
+      "community": 2,
       "norm_label": "hasunsupportedframeworkcausalclaim()",
       "id": "lib_observation_safety_hasunsupportedframeworkcausalclaim"
     },
@@ -4714,7 +4774,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/observation-safety.mjs",
       "source_location": "L142",
       "_origin": "ast",
-      "community": 285,
+      "community": 2,
       "norm_label": "hasunsupportedstaticgenerationclaim()",
       "id": "lib_observation_safety_hasunsupportedstaticgenerationclaim"
     },
@@ -4724,7 +4784,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/observation-safety.mjs",
       "source_location": "L150",
       "_origin": "ast",
-      "community": 285,
+      "community": 2,
       "norm_label": "hasunsupportedsourceabsenceclaim()",
       "id": "lib_observation_safety_hasunsupportedsourceabsenceclaim"
     },
@@ -4734,7 +4794,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/observation-safety.mjs",
       "source_location": "L157",
       "_origin": "ast",
-      "community": 285,
+      "community": 2,
       "norm_label": "hasunsupportedcachelifecdnclaim()",
       "id": "lib_observation_safety_hasunsupportedcachelifecdnclaim"
     },
@@ -4744,7 +4804,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/observation-safety.mjs",
       "source_location": "L161",
       "_origin": "ast",
-      "community": 6,
+      "community": 2,
       "norm_label": "hasunsupportedcachelifecdntext()",
       "id": "lib_observation_safety_hasunsupportedcachelifecdntext"
     },
@@ -4754,7 +4814,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/observation-safety.mjs",
       "source_location": "L169",
       "_origin": "ast",
-      "community": 285,
+      "community": 2,
       "norm_label": "hasunsupportedruntimerootcauseclaim()",
       "id": "lib_observation_safety_hasunsupportedruntimerootcauseclaim"
     },
@@ -5084,7 +5144,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/render-report.mjs",
       "source_location": "L15",
       "_origin": "ast",
-      "community": 10,
+      "community": 15,
       "norm_label": "renderreport()",
       "id": "lib_render_report_renderreport"
     },
@@ -5094,7 +5154,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/render-report.mjs",
       "source_location": "L190",
       "_origin": "ast",
-      "community": 10,
+      "community": 15,
       "norm_label": "assertvalidobservations()",
       "id": "lib_render_report_assertvalidobservations"
     },
@@ -5104,7 +5164,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/render-report.mjs",
       "source_location": "L204",
       "_origin": "ast",
-      "community": 6,
+      "community": 10,
       "norm_label": "buildfinalreportmessage()",
       "id": "lib_render_report_buildfinalreportmessage"
     },
@@ -5134,7 +5194,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/render-report.mjs",
       "source_location": "L261",
       "_origin": "ast",
-      "community": 6,
+      "community": 10,
       "norm_label": "extractcoverageline()",
       "id": "lib_render_report_extractcoverageline"
     },
@@ -5144,7 +5204,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/render-report.mjs",
       "source_location": "L268",
       "_origin": "ast",
-      "community": 6,
+      "community": 10,
       "norm_label": "stripdetailslink()",
       "id": "lib_render_report_stripdetailslink"
     },
@@ -5154,7 +5214,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/render-report.mjs",
       "source_location": "L273",
       "_origin": "ast",
-      "community": 10,
+      "community": 15,
       "norm_label": "rendercoverageline()",
       "id": "lib_render_report_rendercoverageline"
     },
@@ -5164,7 +5224,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/render-report.mjs",
       "source_location": "L315",
       "_origin": "ast",
-      "community": 10,
+      "community": 15,
       "norm_label": "rendermetadataline()",
       "id": "lib_render_report_rendermetadataline"
     },
@@ -5174,7 +5234,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/render-report.mjs",
       "source_location": "L331",
       "_origin": "ast",
-      "community": 10,
+      "community": 15,
       "norm_label": "observabilitylabel()",
       "id": "lib_render_report_observabilitylabel"
     },
@@ -5184,7 +5244,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/render-report.mjs",
       "source_location": "L362",
       "_origin": "ast",
-      "community": 10,
+      "community": 15,
       "norm_label": "rendercostheader()",
       "id": "lib_render_report_rendercostheader"
     },
@@ -5194,7 +5254,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/render-report.mjs",
       "source_location": "L377",
       "_origin": "ast",
-      "community": 10,
+      "community": 78,
       "norm_label": "rendercostbreakdown()",
       "id": "lib_render_report_rendercostbreakdown"
     },
@@ -5204,7 +5264,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/render-report.mjs",
       "source_location": "L440",
       "_origin": "ast",
-      "community": 10,
+      "community": 78,
       "norm_label": "renderservicecostrows()",
       "id": "lib_render_report_renderservicecostrows"
     },
@@ -5244,7 +5304,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/render-report.mjs",
       "source_location": "L492",
       "_origin": "ast",
-      "community": 10,
+      "community": 15,
       "norm_label": "renderrectable()",
       "id": "lib_render_report_renderrectable"
     },
@@ -5264,7 +5324,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/render-report.mjs",
       "source_location": "L574",
       "_origin": "ast",
-      "community": 10,
+      "community": 78,
       "norm_label": "rendergatedtable()",
       "id": "lib_render_report_rendergatedtable"
     },
@@ -5274,7 +5334,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/render-report.mjs",
       "source_location": "L588",
       "_origin": "ast",
-      "community": 10,
+      "community": 78,
       "norm_label": "formatgatedtargets()",
       "id": "lib_render_report_formatgatedtargets"
     },
@@ -5294,7 +5354,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/render-report.mjs",
       "source_location": "L614",
       "_origin": "ast",
-      "community": 10,
+      "community": 15,
       "norm_label": "publicnorecommendationreason()",
       "id": "lib_render_report_publicnorecommendationreason"
     },
@@ -5304,7 +5364,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/render-report.mjs",
       "source_location": "L631",
       "_origin": "ast",
-      "community": 10,
+      "community": 15,
       "norm_label": "splitinvestigationoutcomes()",
       "id": "lib_render_report_splitinvestigationoutcomes"
     },
@@ -5324,7 +5384,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/render-report.mjs",
       "source_location": "L650",
       "_origin": "ast",
-      "community": 10,
+      "community": 15,
       "norm_label": "formatevidencetext()",
       "id": "lib_render_report_formatevidencetext"
     },
@@ -5394,7 +5454,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/render-report.mjs",
       "source_location": "L710",
       "_origin": "ast",
-      "community": 10,
+      "community": 78,
       "norm_label": "groupgbhoursbycanonicalroute()",
       "id": "lib_render_report_groupgbhoursbycanonicalroute"
     },
@@ -5414,7 +5474,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/render-report.mjs",
       "source_location": "L753",
       "_origin": "ast",
-      "community": 10,
+      "community": 15,
       "norm_label": "renderconfigurationnotes()",
       "id": "lib_render_report_renderconfigurationnotes"
     },
@@ -5424,7 +5484,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/render-report.mjs",
       "source_location": "L760",
       "_origin": "ast",
-      "community": 10,
+      "community": 78,
       "norm_label": "renderdatagaps()",
       "id": "lib_render_report_renderdatagaps"
     },
@@ -5434,7 +5494,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/render-report.mjs",
       "source_location": "L791",
       "_origin": "ast",
-      "community": 10,
+      "community": 78,
       "norm_label": "observabilitydatagap()",
       "id": "lib_render_report_observabilitydatagap"
     },
@@ -5444,7 +5504,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/render-report.mjs",
       "source_location": "L832",
       "_origin": "ast",
-      "community": 10,
+      "community": 78,
       "norm_label": "missingusagesentence()",
       "id": "lib_render_report_missingusagesentence"
     },
@@ -5454,7 +5514,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/render-report.mjs",
       "source_location": "L852",
       "_origin": "ast",
-      "community": 10,
+      "community": 78,
       "norm_label": "metricstate()",
       "id": "lib_render_report_metricstate"
     },
@@ -5554,7 +5614,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/render-report.mjs",
       "source_location": "L913",
       "_origin": "ast",
-      "community": 10,
+      "community": 78,
       "norm_label": "escape()",
       "id": "lib_render_report_escape"
     },
@@ -6784,7 +6844,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/scanners/middleware-broad-matcher.mjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 76,
+      "community": 392,
       "norm_label": "middleware-broad-matcher.mjs",
       "id": "scanners_middleware_broad_matcher"
     },
@@ -6794,7 +6854,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/scanners/middleware-broad-matcher.mjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 76,
+      "community": 392,
       "norm_label": "metadata",
       "id": "scanners_middleware_broad_matcher_metadata"
     },
@@ -6804,7 +6864,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/scanners/middleware-broad-matcher.mjs",
       "source_location": "L18",
       "_origin": "ast",
-      "community": 76,
+      "community": 392,
       "norm_label": "scan()",
       "id": "scanners_middleware_broad_matcher_scan"
     },
@@ -6814,7 +6874,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/scanners/middleware-broad-matcher.mjs",
       "source_location": "L53",
       "_origin": "ast",
-      "community": 76,
+      "community": 392,
       "norm_label": "isapplicable()",
       "id": "scanners_middleware_broad_matcher_isapplicable"
     },
@@ -6964,7 +7024,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/scanners/sveltekit-prerender-missing.mjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 491,
+      "community": 1,
       "norm_label": "sveltekit-prerender-missing.mjs",
       "id": "scanners_sveltekit_prerender_missing"
     },
@@ -6974,7 +7034,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/scanners/sveltekit-prerender-missing.mjs",
       "source_location": "L5",
       "_origin": "ast",
-      "community": 491,
+      "community": 1,
       "norm_label": "metadata",
       "id": "scanners_sveltekit_prerender_missing_metadata"
     },
@@ -6984,7 +7044,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/scanners/sveltekit-prerender-missing.mjs",
       "source_location": "L28",
       "_origin": "ast",
-      "community": 491,
+      "community": 1,
       "norm_label": "scan()",
       "id": "scanners_sveltekit_prerender_missing_scan"
     },
@@ -7064,7 +7124,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/scanners/unoptimized-image.mjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 399,
+      "community": 298,
       "norm_label": "unoptimized-image.mjs",
       "id": "scanners_unoptimized_image"
     },
@@ -7074,7 +7134,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/scanners/unoptimized-image.mjs",
       "source_location": "L5",
       "_origin": "ast",
-      "community": 399,
+      "community": 298,
       "norm_label": "metadata",
       "id": "scanners_unoptimized_image_metadata"
     },
@@ -7084,7 +7144,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/scanners/unoptimized-image.mjs",
       "source_location": "L28",
       "_origin": "ast",
-      "community": 399,
+      "community": 298,
       "norm_label": "scan()",
       "id": "scanners_unoptimized_image_scan"
     },
@@ -7094,7 +7154,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/scanners/unoptimized-image.mjs",
       "source_location": "L103",
       "_origin": "ast",
-      "community": 399,
+      "community": 298,
       "norm_label": "isjsxlike()",
       "id": "scanners_unoptimized_image_isjsxlike"
     },
@@ -7104,7 +7164,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/scanners/unoptimized-image.mjs",
       "source_location": "L106",
       "_origin": "ast",
-      "community": 399,
+      "community": 298,
       "norm_label": "isnextconfig()",
       "id": "scanners_unoptimized_image_isnextconfig"
     },
@@ -7114,7 +7174,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/scanners/unoptimized-image.mjs",
       "source_location": "L109",
       "_origin": "ast",
-      "community": 399,
+      "community": 298,
       "norm_label": "snippet()",
       "id": "scanners_unoptimized_image_snippet"
     },
@@ -9674,7 +9734,7 @@
       "source_file": ".agents/skills/vercel-optimize/scripts/check-docs-fresh.mjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 78,
+      "community": 345,
       "norm_label": "check-docs-fresh.mjs",
       "id": "scripts_check_docs_fresh"
     },
@@ -9684,7 +9744,7 @@
       "source_file": ".agents/skills/vercel-optimize/scripts/check-docs-fresh.mjs",
       "source_location": "L11",
       "_origin": "ast",
-      "community": 78,
+      "community": 345,
       "norm_label": "here",
       "id": "scripts_check_docs_fresh_here"
     },
@@ -9694,7 +9754,7 @@
       "source_file": ".agents/skills/vercel-optimize/scripts/check-docs-fresh.mjs",
       "source_location": "L12",
       "_origin": "ast",
-      "community": 78,
+      "community": 345,
       "norm_label": "refs",
       "id": "scripts_check_docs_fresh_refs"
     },
@@ -9704,7 +9764,7 @@
       "source_file": ".agents/skills/vercel-optimize/scripts/check-docs-fresh.mjs",
       "source_location": "L19",
       "_origin": "ast",
-      "community": 78,
+      "community": 345,
       "norm_label": "main()",
       "id": "scripts_check_docs_fresh_main"
     },
@@ -9714,7 +9774,7 @@
       "source_file": ".agents/skills/vercel-optimize/scripts/check-docs-fresh.mjs",
       "source_location": "L45",
       "_origin": "ast",
-      "community": 78,
+      "community": 345,
       "norm_label": "renderscanners()",
       "id": "scripts_check_docs_fresh_renderscanners"
     },
@@ -9724,7 +9784,7 @@
       "source_file": ".agents/skills/vercel-optimize/scripts/check-docs-fresh.mjs",
       "source_location": "L67",
       "_origin": "ast",
-      "community": 78,
+      "community": 345,
       "norm_label": "rendercandidates()",
       "id": "scripts_check_docs_fresh_rendercandidates"
     },
@@ -9734,7 +9794,7 @@
       "source_file": ".agents/skills/vercel-optimize/scripts/check-docs-fresh.mjs",
       "source_location": "L86",
       "_origin": "ast",
-      "community": 78,
+      "community": 345,
       "norm_label": "trimtrailingblankline()",
       "id": "scripts_check_docs_fresh_trimtrailingblankline"
     },
@@ -10104,7 +10164,7 @@
       "source_file": ".agents/skills/vercel-optimize/scripts/gate-investigations.mjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 38,
+      "community": 59,
       "norm_label": "gate-investigations.mjs",
       "id": "scripts_gate_investigations"
     },
@@ -10114,7 +10174,7 @@
       "source_file": ".agents/skills/vercel-optimize/scripts/gate-investigations.mjs",
       "source_location": "L18",
       "_origin": "ast",
-      "community": 38,
+      "community": 59,
       "norm_label": "main()",
       "id": "scripts_gate_investigations_main"
     },
@@ -10124,7 +10184,7 @@
       "source_file": ".agents/skills/vercel-optimize/scripts/gate-investigations.mjs",
       "source_location": "L95",
       "_origin": "ast",
-      "community": 38,
+      "community": 59,
       "norm_label": "parseargs()",
       "id": "scripts_gate_investigations_parseargs"
     },
@@ -10134,7 +10194,7 @@
       "source_file": ".agents/skills/vercel-optimize/scripts/gate-investigations.mjs",
       "source_location": "L107",
       "_origin": "ast",
-      "community": 38,
+      "community": 59,
       "norm_label": "resolvebudget()",
       "id": "scripts_gate_investigations_resolvebudget"
     },
@@ -10144,7 +10204,7 @@
       "source_file": ".agents/skills/vercel-optimize/scripts/gate-investigations.mjs",
       "source_location": "L128",
       "_origin": "ast",
-      "community": 38,
+      "community": 59,
       "norm_label": "stablecompare()",
       "id": "scripts_gate_investigations_stablecompare"
     },
@@ -10154,7 +10214,7 @@
       "source_file": ".agents/skills/vercel-optimize/scripts/gate-investigations.mjs",
       "source_location": "L140",
       "_origin": "ast",
-      "community": 18,
+      "community": 59,
       "norm_label": "attachdisplayroute()",
       "id": "scripts_gate_investigations_attachdisplayroute"
     },
@@ -10494,7 +10554,7 @@
       "source_file": ".agents/skills/vercel-optimize/scripts/render-report.mjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 6,
+      "community": 2,
       "norm_label": "render-report.mjs",
       "id": "scripts_render_report"
     },
@@ -10504,7 +10564,7 @@
       "source_file": ".agents/skills/vercel-optimize/scripts/render-report.mjs",
       "source_location": "L12",
       "_origin": "ast",
-      "community": 6,
+      "community": 2,
       "norm_label": "log()",
       "id": "scripts_render_report_log"
     },
@@ -10514,7 +10574,7 @@
       "source_file": ".agents/skills/vercel-optimize/scripts/render-report.mjs",
       "source_location": "L13",
       "_origin": "ast",
-      "community": 6,
+      "community": 2,
       "norm_label": "hard_regen_triggers",
       "id": "scripts_render_report_hard_regen_triggers"
     },
@@ -10524,7 +10584,7 @@
       "source_file": ".agents/skills/vercel-optimize/scripts/render-report.mjs",
       "source_location": "L19",
       "_origin": "ast",
-      "community": 6,
+      "community": 2,
       "norm_label": "main()",
       "id": "scripts_render_report_main"
     },
@@ -10534,7 +10594,7 @@
       "source_file": ".agents/skills/vercel-optimize/scripts/render-report.mjs",
       "source_location": "L212",
       "_origin": "ast",
-      "community": 6,
+      "community": 2,
       "norm_label": "parseargs()",
       "id": "scripts_render_report_parseargs"
     },
@@ -10544,7 +10604,7 @@
       "source_file": ".agents/skills/vercel-optimize/scripts/render-report.mjs",
       "source_location": "L236",
       "_origin": "ast",
-      "community": 6,
+      "community": 2,
       "norm_label": "publicwithheldreason()",
       "id": "scripts_render_report_publicwithheldreason"
     },
@@ -10554,7 +10614,7 @@
       "source_file": ".agents/skills/vercel-optimize/scripts/render-report.mjs",
       "source_location": "L251",
       "_origin": "ast",
-      "community": 6,
+      "community": 2,
       "norm_label": "publichardregenreason()",
       "id": "scripts_render_report_publichardregenreason"
     },
@@ -10564,7 +10624,7 @@
       "source_file": ".agents/skills/vercel-optimize/scripts/render-report.mjs",
       "source_location": "L264",
       "_origin": "ast",
-      "community": 6,
+      "community": 2,
       "norm_label": "recommendationmatchesactivecandidate()",
       "id": "scripts_render_report_recommendationmatchesactivecandidate"
     },
@@ -10574,7 +10634,7 @@
       "source_file": ".agents/skills/vercel-optimize/scripts/render-report.mjs",
       "source_location": "L270",
       "_origin": "ast",
-      "community": 6,
+      "community": 2,
       "norm_label": "parsecandidateref()",
       "id": "scripts_render_report_parsecandidateref"
     },
@@ -10584,7 +10644,7 @@
       "source_file": ".agents/skills/vercel-optimize/scripts/render-report.mjs",
       "source_location": "L277",
       "_origin": "ast",
-      "community": 6,
+      "community": 27,
       "norm_label": "candidatematchesref()",
       "id": "scripts_render_report_candidatematchesref"
     },
@@ -10594,7 +10654,7 @@
       "source_file": ".agents/skills/vercel-optimize/scripts/render-report.mjs",
       "source_location": "L289",
       "_origin": "ast",
-      "community": 6,
+      "community": 2,
       "norm_label": "suppressreadycoveredobservations()",
       "id": "scripts_render_report_suppressreadycoveredobservations"
     },
@@ -10604,7 +10664,7 @@
       "source_file": ".agents/skills/vercel-optimize/scripts/render-report.mjs",
       "source_location": "L311",
       "_origin": "ast",
-      "community": 6,
+      "community": 2,
       "norm_label": "candidatefamily()",
       "id": "scripts_render_report_candidatefamily"
     },
@@ -10614,7 +10674,7 @@
       "source_file": ".agents/skills/vercel-optimize/scripts/render-report.mjs",
       "source_location": "L336",
       "_origin": "ast",
-      "community": 6,
+      "community": 2,
       "norm_label": "candidatetarget()",
       "id": "scripts_render_report_candidatetarget"
     },
@@ -10624,7 +10684,7 @@
       "source_file": ".agents/skills/vercel-optimize/scripts/render-report.mjs",
       "source_location": "L343",
       "_origin": "ast",
-      "community": 6,
+      "community": 2,
       "norm_label": "publicnochangereason()",
       "id": "scripts_render_report_publicnochangereason"
     },
@@ -10634,7 +10694,7 @@
       "source_file": ".agents/skills/vercel-optimize/scripts/render-report.mjs",
       "source_location": "L350",
       "_origin": "ast",
-      "community": 6,
+      "community": 2,
       "norm_label": "builddebugartifact()",
       "id": "scripts_render_report_builddebugartifact"
     },
@@ -10644,7 +10704,7 @@
       "source_file": ".agents/skills/vercel-optimize/scripts/render-report.mjs",
       "source_location": "L402",
       "_origin": "ast",
-      "community": 6,
+      "community": 2,
       "norm_label": "flattenobservations()",
       "id": "scripts_render_report_flattenobservations"
     },
@@ -10654,7 +10714,7 @@
       "source_file": ".agents/skills/vercel-optimize/scripts/render-report.mjs",
       "source_location": "L429",
       "_origin": "ast",
-      "community": 6,
+      "community": 2,
       "norm_label": "coerceoptionalstring()",
       "id": "scripts_render_report_coerceoptionalstring"
     },
@@ -12574,7 +12634,7 @@
       "source_file": "src/app/admin/form/page.tsx",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 30,
+      "community": 108,
       "norm_label": "page.tsx",
       "id": "form_page"
     },
@@ -12584,7 +12644,7 @@
       "source_file": "src/app/admin/form/page.tsx",
       "source_location": "L9",
       "_origin": "ast",
-      "community": 30,
+      "community": 108,
       "norm_label": "adminformroutepage()",
       "id": "form_page_adminformroutepage"
     },
@@ -13334,7 +13394,7 @@
       "source_file": "src/components/admin/AdHocFields.tsx",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 14,
+      "community": 6,
       "norm_label": "adhocfields.tsx",
       "id": "admin_adhocfields"
     },
@@ -13344,7 +13404,7 @@
       "source_file": "src/components/admin/AdHocFields.tsx",
       "source_location": "L6",
       "_origin": "ast",
-      "community": 14,
+      "community": 6,
       "norm_label": "adhocfieldsprops",
       "id": "admin_adhocfields_adhocfieldsprops"
     },
@@ -13354,7 +13414,7 @@
       "source_file": "src/components/admin/AdHocFields.tsx",
       "source_location": "L12",
       "_origin": "ast",
-      "community": 14,
+      "community": 6,
       "norm_label": "adhocfields()",
       "id": "admin_adhocfields_adhocfields"
     },
@@ -13384,7 +13444,7 @@
       "source_file": "src/components/admin/AdminDashboard.tsx",
       "source_location": "L31",
       "_origin": "ast",
-      "community": 29,
+      "community": 51,
       "norm_label": "corpusresponse",
       "id": "admin_admindashboard_corpusresponse"
     },
@@ -13444,7 +13504,7 @@
       "source_file": "src/components/admin/CharterTypeSelector.tsx",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 14,
+      "community": 6,
       "norm_label": "chartertypeselector.tsx",
       "id": "admin_chartertypeselector"
     },
@@ -13454,7 +13514,7 @@
       "source_file": "src/components/admin/CharterTypeSelector.tsx",
       "source_location": "L6",
       "_origin": "ast",
-      "community": 14,
+      "community": 6,
       "norm_label": "chartertypeselectorprops",
       "id": "admin_chartertypeselector_chartertypeselectorprops"
     },
@@ -13464,7 +13524,7 @@
       "source_file": "src/components/admin/CharterTypeSelector.tsx",
       "source_location": "L13",
       "_origin": "ast",
-      "community": 14,
+      "community": 6,
       "norm_label": "chartertypeselector()",
       "id": "admin_chartertypeselector_chartertypeselector"
     },
@@ -13674,7 +13734,7 @@
       "source_file": "src/components/admin/fields/TextField.tsx",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 398,
+      "community": 14,
       "norm_label": "textfield.tsx",
       "id": "fields_textfield"
     },
@@ -13684,7 +13744,7 @@
       "source_file": "src/components/admin/fields/TextField.tsx",
       "source_location": "L5",
       "_origin": "ast",
-      "community": 398,
+      "community": 14,
       "norm_label": "textfieldprops",
       "id": "fields_textfield_textfieldprops"
     },
@@ -13694,7 +13754,7 @@
       "source_file": "src/components/admin/fields/TextField.tsx",
       "source_location": "L14",
       "_origin": "ast",
-      "community": 398,
+      "community": 14,
       "norm_label": "textfield()",
       "id": "fields_textfield_textfield"
     },
@@ -13744,7 +13804,7 @@
       "source_file": "src/components/corpus/FacetSidebar.tsx",
       "source_location": "L7",
       "_origin": "ast",
-      "community": 29,
+      "community": 51,
       "norm_label": "facetsidebarprops",
       "id": "corpus_facetsidebar_facetsidebarprops"
     },
@@ -14164,7 +14224,7 @@
       "source_file": "src/types/corpus.ts",
       "source_location": "L26",
       "_origin": "ast",
-      "community": 29,
+      "community": 51,
       "norm_label": "facets",
       "id": "types_corpus_facets"
     },
@@ -14174,7 +14234,7 @@
       "source_file": "src/types/corpus.ts",
       "source_location": "L28",
       "_origin": "ast",
-      "community": 29,
+      "community": 51,
       "norm_label": "chartertype",
       "id": "types_corpus_chartertype"
     },
@@ -14194,7 +14254,7 @@
       "source_file": "src/types/corpus.ts",
       "source_location": "L42",
       "_origin": "ast",
-      "community": 29,
+      "community": 51,
       "norm_label": "selectedfacets",
       "id": "types_corpus_selectedfacets"
     },
@@ -14204,7 +14264,7 @@
       "source_file": "src/types/corpus.ts",
       "source_location": "L44",
       "_origin": "ast",
-      "community": 29,
+      "community": 51,
       "norm_label": "daterange",
       "id": "types_corpus_daterange"
     },
@@ -17794,7 +17854,7 @@
       "source_file": ".agents/skills/vercel-optimize/references/support-topics/function-duration-io-and-after.md",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 259,
+      "community": 272,
       "norm_label": "function-duration-io-and-after.md",
       "id": "support_topics_function_duration_io_and_after"
     },
@@ -17804,7 +17864,7 @@
       "source_file": ".agents/skills/vercel-optimize/references/support-topics/function-duration-io-and-after.md",
       "source_location": "L12",
       "_origin": "ast",
-      "community": 259,
+      "community": 272,
       "norm_label": "investigation brief",
       "id": "support_topics_function_duration_io_and_after_investigation_brief"
     },
@@ -17814,7 +17874,7 @@
       "source_file": ".agents/skills/vercel-optimize/references/support-topics/function-duration-io-and-after.md",
       "source_location": "L15",
       "_origin": "ast",
-      "community": 259,
+      "community": 272,
       "norm_label": "evidence to check",
       "id": "support_topics_function_duration_io_and_after_evidence_to_check"
     },
@@ -17824,7 +17884,7 @@
       "source_file": ".agents/skills/vercel-optimize/references/support-topics/function-duration-io-and-after.md",
       "source_location": "L18",
       "_origin": "ast",
-      "community": 259,
+      "community": 272,
       "norm_label": "do not recommend when",
       "id": "support_topics_function_duration_io_and_after_do_not_recommend_when"
     },
@@ -17834,7 +17894,7 @@
       "source_file": ".agents/skills/vercel-optimize/references/support-topics/function-duration-io-and-after.md",
       "source_location": "L21",
       "_origin": "ast",
-      "community": 259,
+      "community": 272,
       "norm_label": "verification",
       "id": "support_topics_function_duration_io_and_after_verification"
     },
@@ -18144,7 +18204,7 @@
       "source_file": ".agents/skills/vercel-optimize/references/support-topics/next-font-cls-self-hosting.md",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 7,
+      "community": 285,
       "norm_label": "next-font-cls-self-hosting.md",
       "id": "support_topics_next_font_cls_self_hosting"
     },
@@ -18154,7 +18214,7 @@
       "source_file": ".agents/skills/vercel-optimize/references/support-topics/next-font-cls-self-hosting.md",
       "source_location": "L13",
       "_origin": "ast",
-      "community": 7,
+      "community": 285,
       "norm_label": "investigation brief",
       "id": "support_topics_next_font_cls_self_hosting_investigation_brief"
     },
@@ -18164,7 +18224,7 @@
       "source_file": ".agents/skills/vercel-optimize/references/support-topics/next-font-cls-self-hosting.md",
       "source_location": "L16",
       "_origin": "ast",
-      "community": 7,
+      "community": 285,
       "norm_label": "evidence to check",
       "id": "support_topics_next_font_cls_self_hosting_evidence_to_check"
     },
@@ -18174,7 +18234,7 @@
       "source_file": ".agents/skills/vercel-optimize/references/support-topics/next-font-cls-self-hosting.md",
       "source_location": "L19",
       "_origin": "ast",
-      "community": 7,
+      "community": 285,
       "norm_label": "do not recommend when",
       "id": "support_topics_next_font_cls_self_hosting_do_not_recommend_when"
     },
@@ -18184,7 +18244,7 @@
       "source_file": ".agents/skills/vercel-optimize/references/support-topics/next-font-cls-self-hosting.md",
       "source_location": "L22",
       "_origin": "ast",
-      "community": 7,
+      "community": 285,
       "norm_label": "verification",
       "id": "support_topics_next_font_cls_self_hosting_verification"
     },
@@ -18444,7 +18504,7 @@
       "source_file": ".agents/skills/vercel-optimize/references/support-topics/not-found-catchall-request-waste.md",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 272,
+      "community": 259,
       "norm_label": "not-found-catchall-request-waste.md",
       "id": "support_topics_not_found_catchall_request_waste"
     },
@@ -18454,7 +18514,7 @@
       "source_file": ".agents/skills/vercel-optimize/references/support-topics/not-found-catchall-request-waste.md",
       "source_location": "L13",
       "_origin": "ast",
-      "community": 272,
+      "community": 259,
       "norm_label": "investigation brief",
       "id": "support_topics_not_found_catchall_request_waste_investigation_brief"
     },
@@ -18464,7 +18524,7 @@
       "source_file": ".agents/skills/vercel-optimize/references/support-topics/not-found-catchall-request-waste.md",
       "source_location": "L16",
       "_origin": "ast",
-      "community": 272,
+      "community": 259,
       "norm_label": "evidence to check",
       "id": "support_topics_not_found_catchall_request_waste_evidence_to_check"
     },
@@ -18474,7 +18534,7 @@
       "source_file": ".agents/skills/vercel-optimize/references/support-topics/not-found-catchall-request-waste.md",
       "source_location": "L19",
       "_origin": "ast",
-      "community": 272,
+      "community": 259,
       "norm_label": "do not recommend when",
       "id": "support_topics_not_found_catchall_request_waste_do_not_recommend_when"
     },
@@ -18484,7 +18544,7 @@
       "source_file": ".agents/skills/vercel-optimize/references/support-topics/not-found-catchall-request-waste.md",
       "source_location": "L22",
       "_origin": "ast",
-      "community": 272,
+      "community": 259,
       "norm_label": "verification",
       "id": "support_topics_not_found_catchall_request_waste_verification"
     },
@@ -36977,7 +37037,7 @@
       "properties": {
         "description": "Candidate kind for uncached routes"
       },
-      "community": 272,
+      "community": 259,
       "norm_label": "uncached_route",
       "id": "concept_uncached_route"
     },
@@ -37061,7 +37121,7 @@
       "properties": {
         "description": "Next.js 15+ framework"
       },
-      "community": 259,
+      "community": 272,
       "norm_label": "next@>=15.0.0",
       "id": "framework_nextjs_15"
     },
@@ -37157,7 +37217,7 @@
       "properties": {
         "description": "Cumulative Layout Shift - Core Web Vital"
       },
-      "community": 7,
+      "community": 285,
       "norm_label": "cls",
       "id": "metric_cls"
     },
@@ -41539,6 +41599,36 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/DocumentCard.tsx",
+      "source_location": "L70",
+      "weight": 1.0,
+      "source": "components_documentcard",
+      "target": "components_documentcard_badge",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/DocumentCard.tsx",
+      "source_location": "L56",
+      "weight": 1.0,
+      "source": "components_documentcard",
+      "target": "components_documentcard_badge_fields",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/DocumentCard.tsx",
+      "source_location": "L63",
+      "weight": 1.0,
+      "source": "components_documentcard",
+      "target": "components_documentcard_badge_labels",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/DocumentCard.tsx",
       "source_location": "L9",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -41574,6 +41664,36 @@
       "confidence_score": 1.0,
       "source": "components_documentcard",
       "target": "components_documentcard_downloadblob"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/DocumentCard.tsx",
+      "source_location": "L46",
+      "weight": 1.0,
+      "source": "components_documentcard",
+      "target": "components_documentcard_extracted_ids",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/DocumentCard.tsx",
+      "source_location": "L81",
+      "weight": 1.0,
+      "source": "components_documentcard",
+      "target": "components_documentcard_fieldvalue",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/DocumentCard.tsx",
+      "source_location": "L34",
+      "weight": 1.0,
+      "source": "components_documentcard",
+      "target": "components_documentcard_historical_ids",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -92147,5 +92267,5 @@
       "confidence_score": 0.95
     }
   ],
-  "built_at_commit": "91da0bfc60b884b253509ee3674f726a3fbd90c6"
+  "built_at_commit": "c2ff55d51416e446b01d098830e9ed0b0c70642a"
 }
