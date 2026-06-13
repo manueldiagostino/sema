@@ -18,11 +18,15 @@ cd /d "%~dp0"
 REM ── Pull latest changes from remote ──
 echo.
 echo Pulling latest changes from remote...
+set "GIT_TERMINAL_PROMPT=0"
 git pull --rebase --autostash
 if %errorlevel% neq 0 (
     echo [WARNING] git pull failed. You may have uncommitted local changes.
+    echo           or git credentials are missing (set GIT_TERMINAL_PROMPT=0 ensures
+    echo           git fails fast instead of hanging on Windows).
     echo           To fix: git stash  (to temporarily set them aside)
     echo           or:     git commit -m "message"  (to commit them)
+    echo           or:     set GIT_ASKPASS=  in your shell and configure credentials.
     echo.
     choice /c YN /n /m "Continue anyway? [Y/N] "
     if errorlevel 2 exit /b 1
@@ -59,9 +63,18 @@ if %errorlevel% neq 0 (
             echo Git configuration saved locally for this repository.
         )
     ) else (
+        set "GIT_NAME="
+        set "GIT_EMAIL="
         for /f "usebackq tokens=*" %%a in (`git config user.name`) do set "GIT_NAME=%%a"
         for /f "usebackq tokens=*" %%b in (`git config user.email`) do set "GIT_EMAIL=%%b"
-        echo Git user: %GIT_NAME% ^< %GIT_EMAIL% ^>
+        if not "%GIT_NAME%"=="" if not "%GIT_EMAIL%"=="" (
+            echo Git user: %GIT_NAME% ^< %GIT_EMAIL% ^>
+        ) else (
+            echo [WARNING] Git user.name or user.email is set but empty.
+            echo           Run the script again or configure them manually:
+            echo           git config user.name "Your Name"
+            echo           git config user.email "your@email.com"
+        )
     )
 )
 echo.
