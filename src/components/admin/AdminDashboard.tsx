@@ -38,8 +38,8 @@ interface CorpusResponse {
 /** Columns to show in the dashboard table (by id) */
 const DISPLAY_COLUMNS = [
   { id: "id", label: "Document" },
-  { id: "author_name", label: "Author" },
-  { id: "recipient_name", label: "Recipient" },
+  { id: "intitulatio_analysis", label: "Auctor" },
+  { id: "inscriptio_analysis", label: "Destinatarius" },
   { id: "dating_chronological", label: "Date" },
   { id: "repository", label: "Archive" },
   { id: "shelfmark", label: "Shelfmark" },

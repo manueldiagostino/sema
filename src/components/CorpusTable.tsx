@@ -43,7 +43,7 @@ const MAX_SELECTION = 20;
 /** Metadata columns visible by default in the table (allowlist). Body-text clause columns are hidden. */
 const DEFAULT_VISIBLE_COLUMNS = new Set([
   "currentLocation",
-  "notarius",
+  "completio_analysis",
   "dating_chronological",
   "dating_topical",
 ]);
@@ -51,7 +51,7 @@ const DEFAULT_VISIBLE_COLUMNS = new Set([
 /** Columns treated as "defaults" in the column menu — shown first with a divider. */
 const DEFAULT_COLUMN_IDS = new Set([
   "currentLocation",
-  "notarius",
+  "completio_analysis",
   "dating_chronological",
   "dating_topical",
 ]);

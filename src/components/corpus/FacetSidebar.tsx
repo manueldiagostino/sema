@@ -33,14 +33,14 @@ function sortFacetValues(values: { value: string; count: number }[]) {
 }
 
 const PEOPLE_SUBGROUPS = [
-  { id: "author_name", label: "Author" },
-  { id: "recipient_name", label: "Recipient" },
-  { id: "notarius", label: "Notary" },
+  { id: "intitulatio_analysis", label: "Auctor" },
+  { id: "inscriptio_analysis", label: "Destinatarius" },
+  { id: "completio_analysis", label: "Notary" },
   { id: "testes_names", label: "Witnesses" },
 ];
 
 const PLACE_SUBGROUPS = [
-  { id: "locus_redactionis", label: "Place of Redaction" },
+  { id: "datatio_topica_analysis", label: "Place of Redaction" },
   { id: "property_location", label: "Property Location" },
   { id: "dating_topical", label: "Dating (Topical)" },
 ];
