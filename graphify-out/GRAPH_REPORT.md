@@ -1,16 +1,16 @@
 # Graph Report - sema  (2026-06-13)
 
 ## Corpus Check
-- 464 files · ~244,637 words
+- 464 files · ~245,162 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 4061 nodes · 5021 edges · 491 communities (348 shown, 143 thin omitted)
+- 4065 nodes · 5039 edges · 492 communities (347 shown, 145 thin omitted)
 - Extraction: 98% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 18 edges (avg confidence: 0.78)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `04555a74`
+- Built from commit: `91da0bfc`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -494,6 +494,7 @@
 - [[_COMMUNITY_Community 488|Community 488]]
 - [[_COMMUNITY_Community 489|Community 489]]
 - [[_COMMUNITY_Community 490|Community 490]]
+- [[_COMMUNITY_Community 491|Community 491]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `verifyClaim()` - 42 edges
@@ -514,8 +515,8 @@
   src/app/api/admin/xml/route.ts → scripts/build-corpus.ts
 - `POST()` --calls--> `buildEntityGraph()`  [INFERRED]
   src/app/api/admin/xml/route.ts → scripts/build-entity-graph.ts
-- `main()` --calls--> `loadFormConfig()`  [EXTRACTED]
-  scripts/generate-fake.ts → src/lib/formConfig.ts
+- `main()` --calls--> `generateTeiXml()`  [EXTRACTED]
+  scripts/generate-fake.ts → src/lib/xmlBuilder.ts
 - `main()` --calls--> `buildFilename()`  [EXTRACTED]
   scripts/generate-fake.ts → src/lib/xmlBuilder.ts
 
@@ -566,7 +567,7 @@
 - **Corpus Table UI Improvement Specs Pattern** —  [INFERRED 0.85]
 - **Fake Mode Detection and Generation Pattern** —  [INFERRED 0.95]
 
-## Communities (491 total, 143 thin omitted)
+## Communities (492 total, 145 thin omitted)
 
 ### Community 0 - "Vercel Optimizer Library"
 Cohesion: 0.06
@@ -574,11 +575,11 @@ Nodes (83): isKnownUrl(), findRecContradictions(), asArray(), buildScriptHasMigr
 
 ### Community 1 - "Code Scanners"
 Cohesion: 0.13
-Nodes (16): lineOf(), isApplicable(), metadata, scan(), isApplicable(), metadata, scan(), metadata (+8 more)
+Nodes (17): lineOf(), isApplicable(), metadata, scan(), isApplicable(), metadata, scan(), scanners (+9 more)
 
 ### Community 2 - "Vercel Optimizer Library"
-Cohesion: 0.07
-Nodes (56): affectedFiles(), appliesAlsoEntry(), cacheLifeIntent(), dedupEditTarget(), dedupeRecommendations(), dedupIntent(), firstAffectedFile(), fixShape() (+48 more)
+Cohesion: 0.17
+Nodes (25): affectedFiles(), appliesAlsoEntry(), cacheLifeIntent(), dedupEditTarget(), dedupeRecommendations(), dedupIntent(), firstAffectedFile(), fixShape() (+17 more)
 
 ### Community 3 - "Vercel Optimizer Library"
 Cohesion: 0.09
@@ -593,8 +594,8 @@ Cohesion: 0.05
 Nodes (45): corpus-table-default-columns, document-content-tabs, document-download, document-full-text, document-id-format, document-post-content, document-view-investitor, pdf-generation (+37 more)
 
 ### Community 6 - "Claim Sanitizers"
-Cohesion: 0.36
-Nodes (10): computeImpactLabel(), cwvIssue(), formatCwvIssue(), formatInteger(), joinEnglish(), parseSigNumber(), round1(), round2() (+2 more)
+Cohesion: 0.15
+Nodes (21): hasUnsupportedCacheLifeCdnText(), splitCustomerSafeObservations(), buildFinalReportMessage(), extractCoverageLine(), stripDetailsLink(), buildDebugArtifact(), candidateFamily(), candidateMatchesRef() (+13 more)
 
 ### Community 7 - "Concepts"
 Cohesion: 0.10
@@ -609,8 +610,8 @@ Cohesion: 0.07
 Nodes (40): Advanced Patterns, Eliminating Waterfalls, Bundle Size Optimization, Client-Side Data Fetching, Barrel Files, better-all, Code Splitting, Deduplication (+32 more)
 
 ### Community 10 - "Vercel Optimizer Library"
-Cohesion: 0.11
-Nodes (30): assertValidObservations(), buildFinalReportMessage(), escape(), extractCoverageLine(), formatBytes(), formatEvidenceText(), formatGatedTargets(), formatNum() (+22 more)
+Cohesion: 0.09
+Nodes (39): asArray(), assertValidObservations(), candidateForDisplay(), compactFinalText(), displayCandidate(), displayCandidateObject(), displayCandidateRef(), escape() (+31 more)
 
 ### Community 11 - "Skills"
 Cohesion: 0.06
@@ -625,12 +626,12 @@ Cohesion: 0.15
 Nodes (15): aligned-compare-side-by-side, fixed-table-viewport, full-content-document-modal, smart-graph-view-button, unified-export, Context, Goals / Non-Goals, Risks / Trade-offs (+7 more)
 
 ### Community 14 - "Admin UI Components"
-Cohesion: 0.11
-Nodes (16): AdHocFieldsProps, AdminFormPageProps, getInitialFieldValue(), initializeFieldValues(), CharterTypeSelectorProps, RadioFieldProps, SelectFieldProps, AdHocField (+8 more)
+Cohesion: 0.10
+Nodes (23): AdHocFieldsProps, AdminFormPageProps, getInitialFieldValue(), initializeFieldValues(), CharterTypeSelectorProps, FormFieldProps, FormSectionProps, DateField() (+15 more)
 
 ### Community 15 - "Fields"
-Cohesion: 0.09
-Nodes (19): FormFieldProps, FormSectionProps, DateField(), DateFieldProps, isValidIso(), DynamicListFieldBaseProps, DynamicListFieldProps, DynamicListFieldStringProps (+11 more)
+Cohesion: 0.36
+Nodes (7): DynamicListFieldBaseProps, DynamicListFieldPlaceProps, DynamicListFieldProps, DynamicListFieldStringProps, DynamicListFieldWitnessProps, ExclusiveOptionConfig, LevelFieldConfig
 
 ### Community 16 - "Vercel Optimizer Library"
 Cohesion: 0.25
@@ -642,7 +643,7 @@ Nodes (25): BuildConfig, buildEntityGraph(), createDocumentNode(), createDocumen
 
 ### Community 18 - "Vercel Optimizer Library"
 Cohesion: 0.16
-Nodes (21): absoluteBriefPath(), briefRoots(), buildBrief(), cachePolicyGuidance(), capBriefFiles(), closestAncestorLayoutFiles(), isCatchAllPlaceholder(), isDynamicPlaceholder() (+13 more)
+Nodes (22): absoluteBriefPath(), briefRoots(), buildBrief(), cachePolicyGuidance(), capBriefFiles(), closestAncestorLayoutFiles(), isCatchAllPlaceholder(), isDynamicPlaceholder() (+14 more)
 
 ### Community 19 - "Design Specs"
 Cohesion: 0.10
@@ -650,7 +651,7 @@ Nodes (24): Charter Type Column Spec, Corpus Table Default Columns Spec (Archive
 
 ### Community 20 - "Vercel Optimizer Library"
 Cohesion: 0.16
-Nodes (19): compareVersion(), HERE, LIBRARY_PATH, libraryForStack(), loadLibrary(), lookupSkillRule(), lookupUrl(), matchesFrameworkVersion() (+11 more)
+Nodes (20): compareVersion(), HERE, LIBRARY_PATH, libraryForStack(), loadLibrary(), lookupSkillRule(), lookupUrl(), matchesFrameworkVersion() (+12 more)
 
 ### Community 21 - "Vercel Optimizer Library"
 Cohesion: 0.14
@@ -677,8 +678,8 @@ Cohesion: 0.21
 Nodes (17): AutoCommitResult, CORPUS_PATHS, getCurrentBranch(), getGitHubToken(), getGitStatus(), getLastCommit(), git(), GitFile (+9 more)
 
 ### Community 27 - "Vercel Optimizer Library"
-Cohesion: 0.16
-Nodes (18): canonicalRefOf(), enrichRecFromCandidates(), candidateKey(), canonicalizeBranchPrefix(), canonicalizeRoute(), decodeSegmentToken(), dedupeCandidates(), firstRouteSegment() (+10 more)
+Cohesion: 0.18
+Nodes (17): canonicalRefOf(), enrichRecFromCandidates(), candidateKey(), canonicalizeBranchPrefix(), canonicalizeRoute(), decodeSegmentToken(), dedupeCandidates(), firstRouteSegment() (+9 more)
 
 ### Community 28 - "TypeScript Config"
 Cohesion: 0.10
@@ -689,8 +690,8 @@ Cohesion: 0.14
 Nodes (9): ColumnConfig, CorpusResponse, DISPLAY_COLUMNS, DeleteConfirmModalProps, FacetSidebarProps, CharterType, DateRange, Facets (+1 more)
 
 ### Community 30 - "Vercel Optimizer Library"
-Cohesion: 0.22
-Nodes (13): AdminFormRoutePage(), GET(), getActiveTeiDir(), getCharterTypes(), getSectionsForType(), loadFormConfig(), autoCommitCorpus(), extractStderr() (+5 more)
+Cohesion: 0.18
+Nodes (16): AdminFormRoutePage(), GET(), getActiveTeiDir(), getCharterTypes(), getSectionsForType(), loadFormConfig(), autoCommitCorpus(), extractStderr() (+8 more)
 
 ### Community 31 - "UI Components"
 Cohesion: 0.12
@@ -726,7 +727,7 @@ Nodes (11): CandidateContractError, candidateLabel(), nonEmptyString(), VALID_SC
 
 ### Community 39 - "Build Scripts"
 Cohesion: 0.23
-Nodes (16): citationSubset(), inferFrameworkPlaybook(), inferPlaybook(), resolveFiles(), candidateRefFor(), buildFanoutPlan(), buildManifest(), candidateFamilyKey() (+8 more)
+Nodes (15): citationSubset(), inferFrameworkPlaybook(), inferPlaybook(), candidateRefFor(), buildFanoutPlan(), buildManifest(), candidateFamilyKey(), HERE (+7 more)
 
 ### Community 40 - "Vercel Optimizer Library"
 Cohesion: 0.15
@@ -753,8 +754,8 @@ Cohesion: 0.60
 Nodes (4): computeBotShare(), gate(), metadata, totalRequestsFromSignals()
 
 ### Community 46 - "Code Scanners"
-Cohesion: 0.18
-Nodes (8): scanners, isApplicable(), metadata, scan(), isApplicable(), metadata, scan(), metadata
+Cohesion: 0.67
+Nodes (3): isApplicable(), metadata, scan()
 
 ### Community 47 - "Cross-cutting Concepts"
 Cohesion: 0.20
@@ -769,8 +770,8 @@ Cohesion: 0.33
 Nodes (10): buildBudgetSummary(), buildChatPreview(), buildExactChatMessage(), buildOptions(), buildPrintCheck(), buildQuestionPayload(), buildQuestionText(), renderBudgetSummaryMarkdown() (+2 more)
 
 ### Community 50 - "Vercel Optimizer Library"
-Cohesion: 0.47
-Nodes (8): esc(), generateTeiXml(), getStr(), getVal(), getWitnesses(), isEmpty(), makeDiploPart(), makeDivContainer()
+Cohesion: 0.42
+Nodes (9): esc(), generateTeiXml(), getPlaceEntries(), getStr(), getVal(), getWitnesses(), isEmpty(), makeDiploPart() (+1 more)
 
 ### Community 51 - "Corpus"
 Cohesion: 0.20
@@ -869,16 +870,16 @@ Cohesion: 0.48
 Nodes (6): extractSpecifiers(), HEAVY_PATTERNS, isEdgeRuntimeFile(), isMiddleware(), metadata, scan()
 
 ### Community 76 - "Code Scanners"
-Cohesion: 0.38
-Nodes (6): formatBytes(), metadata, scan(), shouldSkip(), SKIP_EXTENSIONS, SKIP_PATH_PREFIXES
+Cohesion: 0.22
+Nodes (9): formatBytes(), metadata, scan(), shouldSkip(), SKIP_EXTENSIONS, SKIP_PATH_PREFIXES, isApplicable(), metadata (+1 more)
 
 ### Community 77 - "Code Scanners"
 Cohesion: 0.48
 Nodes (6): detectBuildCacheDisabled(), lineOfMatch(), metadata, safeScripts(), scan(), truncate()
 
 ### Community 78 - "Build Scripts"
-Cohesion: 0.39
-Nodes (7): MAX_CODE_CANDIDATES, HERE, main(), REFS, renderCandidates(), renderScanners(), trimTrailingBlankLine()
+Cohesion: 0.48
+Nodes (6): HERE, main(), REFS, renderCandidates(), renderScanners(), trimTrailingBlankLine()
 
 ### Community 79 - "Admin UI Components"
 Cohesion: 0.47
@@ -1409,8 +1410,8 @@ Cohesion: 0.20
 Nodes (9): ADDED Requirements, Requirement: Document ID format, Requirement: Filename generation uses code, not full type ID, Scenario: buildFilename output, Scenario: Charter type lookup from new ID, Scenario: First document of a type, Scenario: Multi-word charter type code derivation, Scenario: Progressive numbering per type (+1 more)
 
 ### Community 285 - "Community 285"
-Cohesion: 0.21
-Nodes (12): asArray(), candidateForDisplay(), compactFinalText(), displayCandidate(), displayCandidateObject(), displayCandidateRef(), formatRecommendationText(), impactString() (+4 more)
+Cohesion: 0.33
+Nodes (14): candidateTarget(), contradictsNoChangeReason(), evidenceText(), hasImplementationGradeObservationAction(), hasStaleNextCacheApiObservation(), hasUnsafeBotProtectionObservation(), hasUnsupportedCacheLifeCdnClaim(), hasUnsupportedFrameworkCausalClaim() (+6 more)
 
 ### Community 286 - "Community 286"
 Cohesion: 0.27
@@ -1493,8 +1494,8 @@ Cohesion: 0.25
 Nodes (7): ADDED Requirements, Requirement: Download dropdown in View, Scenario: Download dropdown renders, Scenario: Download formulary analysis as PDF, Scenario: Download integral text as .txt, Scenario: Download XML TEI as .xml, Scenario: No full text for download
 
 ### Community 306 - "Community 306"
-Cohesion: 0.17
-Nodes (10): sanitizeCitations(), applyDollarStrip(), stripDollarLiterals(), metadata, STRING_FIELDS, applySanitizers(), applySanitizersBatch(), recordSanitizer() (+2 more)
+Cohesion: 0.06
+Nodes (35): computeImpactLabel(), cwvIssue(), formatCwvIssue(), formatInteger(), joinEnglish(), parseSigNumber(), round1(), round2() (+27 more)
 
 ### Community 307 - "Community 307"
 Cohesion: 0.25
@@ -1521,8 +1522,8 @@ Cohesion: 0.25
 Nodes (4): Use after() for Non-Blocking Operations, Authenticate Server Actions Like API Routes, Cross-Request LRU Caching, Per-Request Deduplication with React.cache()
 
 ### Community 313 - "Community 313"
-Cohesion: 0.36
-Nodes (7): apply(), collectText(), matchConcurrency(), matchProviders(), metadata, PROVIDER_LIMITS, PROVIDER_RE
+Cohesion: 0.38
+Nodes (3): RadioFieldProps, SelectFieldProps, SelectOption
 
 ### Community 314 - "Community 314"
 Cohesion: 0.25
@@ -1649,8 +1650,8 @@ Cohesion: 0.33
 Nodes (5): ADDED Requirements, Requirement: Document modal shows full untruncated content, Scenario: All column types shown in full, Scenario: Long text column in modal, Scenario: Modal is scrollable for long content
 
 ### Community 345 - "Community 345"
-Cohesion: 0.48
-Nodes (6): HERE, main(), REFS, renderCandidates(), renderScanners(), trimTrailingBlankLine()
+Cohesion: 0.39
+Nodes (7): MAX_CODE_CANDIDATES, HERE, main(), REFS, renderCandidates(), renderScanners(), trimTrailingBlankLine()
 
 ### Community 346 - "Community 346"
 Cohesion: 0.33
@@ -1701,8 +1702,8 @@ Cohesion: 0.33
 Nodes (3): Use defer or async on Script Tags, Optimize SVG Precision, Use useTransition Over Manual Loading States
 
 ### Community 358 - "Community 358"
-Cohesion: 0.47
-Nodes (5): apply(), extractCodeBlocks(), metadata, NODE_BUILTINS, pkgRoot()
+Cohesion: 0.67
+Nodes (3): gate(), metadata, unique()
 
 ### Community 359 - "Community 359"
 Cohesion: 0.33
@@ -1836,10 +1837,6 @@ Nodes (5): 8.1 Do Not Put Effect Events in Dependency Arrays, 8.2 Initialize App
 Cohesion: 0.40
 Nodes (4): Guidelines Source, How It Works, Usage, Web Interface Guidelines
 
-### Community 392 - "Community 392"
-Cohesion: 0.25
-Nodes (5): gate(), metadata, unique(), gates, metadata
-
 ### Community 393 - "Community 393"
 Cohesion: 0.50
 Nodes (3): File-System Paths, Import Paths, Prefer Statically Analyzable Paths
@@ -1913,24 +1910,24 @@ Cohesion: 0.67
 Nodes (3): Capabilities, Modified Capabilities, New Capabilities
 
 ## Knowledge Gaps
-- **1904 isolated node(s):** `Element Types`, ``diploPart[@type]` Values (CEI2TEI)`, `Under `datatio``, `Under `dispositio``, `Under `clausulae`` (+1899 more)
+- **1904 isolated node(s):** `ColumnConfig`, `DocumentCardProps`, `DynamicListFieldProps`, `SAINTS`, `MONTH_NAMES` (+1899 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **143 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **145 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `gates` connect `Community 392` to `Investigation Gates`, `Vercel Optimizer Library`, `Build Scripts`, `Vercel Optimizer Library`, `Community 345`?**
-  _High betweenness centrality (0.010) - this node is a cross-community bridge._
-- **Why does `scanners` connect `Code Scanners` to `Community 345`, `Vercel Optimizer Library`, `Build Scripts`?**
   _High betweenness centrality (0.009) - this node is a cross-community bridge._
-- **Why does `canonicalizeRoute()` connect `Vercel Optimizer Library` to `Vercel Optimizer Library`, `Vercel Optimizer Library`, `Build Scripts`, `Vercel Optimizer Library`, `Vercel Optimizer Library`, `Investigation Gates`?**
-  _High betweenness centrality (0.004) - this node is a cross-community bridge._
-- **What connects `Element Types`, ``diploPart[@type]` Values (CEI2TEI)`, `Under `datatio`` to the rest of the system?**
+- **Why does `scanners` connect `Code Scanners` to `Community 345`, `Vercel Optimizer Library`, `Build Scripts`?**
+  _High betweenness centrality (0.007) - this node is a cross-community bridge._
+- **Why does `deriveProjectFacts()` connect `Vercel Optimizer Library` to `Vercel Optimizer Library`, `Vercel Optimizer Library`?**
+  _High betweenness centrality (0.003) - this node is a cross-community bridge._
+- **What connects `ColumnConfig`, `DocumentCardProps`, `DynamicListFieldProps` to the rest of the system?**
   _1925 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Vercel Optimizer Library` be split into smaller, more focused modules?**
   _Cohesion score 0.056134723336006415 - nodes in this community are weakly interconnected._
 - **Should `Code Scanners` be split into smaller, more focused modules?**
-  _Cohesion score 0.12987012987012986 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.13405797101449277 - nodes in this community are weakly interconnected._
 - **Should `Vercel Optimizer Library` be split into smaller, more focused modules?**
-  _Cohesion score 0.07422559906487435 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.08825248392752776 - nodes in this community are weakly interconnected._

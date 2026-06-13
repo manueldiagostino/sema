@@ -53,6 +53,19 @@ columns:
     filterable: false
     truncateWords: 20
 
+  - id: dating_chronological
+    label: Datatio Chronica
+    xpath: tei:teiHeader/tei:profileDesc/tei:creation/tei:date
+    attribute: when
+    sortable: true
+    filterable: true
+
+  - id: dating_topical
+    label: Datatio Topica
+    xpath: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords/tei:term[@type='datatio_topica_analysis']
+    sortable: true
+    filterable: true
+
   - id: completio_analysis
     label: Notary
     xpath: tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msContents/tei:msItem/tei:respStmt/tei:name
@@ -125,19 +138,6 @@ columns:
     xpath: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptio']/tei:diploPart[@type='subscriptio']/tei:name
     sortable: false
     filterable: false
-
-  - id: dating_chronological
-    label: Dating (Chronological)
-    xpath: tei:teiHeader/tei:profileDesc/tei:creation/tei:date
-    attribute: when
-    sortable: true
-    filterable: true
-
-  - id: dating_topical
-    label: Dating (Topical)
-    xpath: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords/tei:term[@type='datatio_topica_analysis']
-    sortable: true
-    filterable: true
 
   # --- Body-text columns (diplomatic clauses) ---
   # These extract text from <body> divisions.

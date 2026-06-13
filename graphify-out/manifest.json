@@ -40,8 +40,8 @@
     "semantic_hash": "d2656a31565a66c2c49014678001c140"
   },
   "scripts/generate-fake.ts": {
-    "mtime": 1781339407.2703862,
-    "ast_hash": "7fae7ace14a29e0e21fe55d8a6be1e4b",
+    "mtime": 1781342105.9968708,
+    "ast_hash": "1a02cb39f886616fa87c2efa050c1515",
     "semantic_hash": ""
   },
   "src/app/admin/form/page.tsx": {
@@ -110,13 +110,13 @@
     "semantic_hash": "cb980cd0e962cf9fcf29396851708bdc"
   },
   "src/components/CorpusTable.tsx": {
-    "mtime": 1781336769.8529596,
-    "ast_hash": "75c52c2ff5ff3a88d88973bbda4137e3",
-    "semantic_hash": "75c52c2ff5ff3a88d88973bbda4137e3"
+    "mtime": 1781343556.8402274,
+    "ast_hash": "e7447ea5554d9bb6222c042fc31d8392",
+    "semantic_hash": ""
   },
   "src/components/DocumentCard.tsx": {
-    "mtime": 1781339198.2593606,
-    "ast_hash": "88bfa863ef36bdde498725a412fedc50",
+    "mtime": 1781344009.2227318,
+    "ast_hash": "4341fc76ae9996922aebab6dfd030b1b",
     "semantic_hash": ""
   },
   "src/components/DocumentModal.tsx": {
@@ -155,14 +155,14 @@
     "semantic_hash": "f41b16d8dfa656094e1bc74dabf84980"
   },
   "src/components/admin/AdminDashboard.tsx": {
-    "mtime": 1781221615.514733,
-    "ast_hash": "9f2c54ed8703e151e8d9a9df43c9f91b",
-    "semantic_hash": "9f2c54ed8703e151e8d9a9df43c9f91b"
+    "mtime": 1781343300.4460154,
+    "ast_hash": "692d56ae05fdfe8d8eee98532dbd41d4",
+    "semantic_hash": ""
   },
   "src/components/admin/AdminFormPage.tsx": {
-    "mtime": 1781221597.626419,
-    "ast_hash": "3e41b045830dea05d7668661fb3e8dbd",
-    "semantic_hash": "3e41b045830dea05d7668661fb3e8dbd"
+    "mtime": 1781342114.9449646,
+    "ast_hash": "6df4e2103d063b2832f4765e479dd5cc",
+    "semantic_hash": ""
   },
   "src/components/admin/CharterTypeSelector.tsx": {
     "mtime": 1781220055.6045964,
@@ -175,14 +175,14 @@
     "semantic_hash": "6e72d1ddf97ac09a250873f506dc8976"
   },
   "src/components/admin/FormField.tsx": {
-    "mtime": 1781220054.477583,
-    "ast_hash": "bde77d1d47e2937a6e79289754163dd9",
-    "semantic_hash": "bde77d1d47e2937a6e79289754163dd9"
+    "mtime": 1781342170.8465595,
+    "ast_hash": "ab1265a133a489ad74fcb3d4adb35199",
+    "semantic_hash": ""
   },
   "src/components/admin/FormSection.tsx": {
-    "mtime": 1781335942.6626859,
-    "ast_hash": "1a292143b356011eb8653bf9032ae55b",
-    "semantic_hash": "1a292143b356011eb8653bf9032ae55b"
+    "mtime": 1781342134.3191695,
+    "ast_hash": "4469e96f16fa553fa617775fd35c8059",
+    "semantic_hash": ""
   },
   "src/components/admin/PublishPanel.tsx": {
     "mtime": 1781216608.4180648,
@@ -190,14 +190,14 @@
     "semantic_hash": "3a3540ccaa0ee02d2d670b110ba751d6"
   },
   "src/components/admin/fields/DateField.tsx": {
-    "mtime": 1781220020.628181,
-    "ast_hash": "9c59d17b1115195e9e1482f856fbe25a",
-    "semantic_hash": "9c59d17b1115195e9e1482f856fbe25a"
+    "mtime": 1781342571.4101045,
+    "ast_hash": "89055910feaf749cddbcd3ea77970946",
+    "semantic_hash": ""
   },
   "src/components/admin/fields/DynamicListField.tsx": {
-    "mtime": 1781220015.277117,
-    "ast_hash": "a4b82ad2c44865800e2e760aea65bf66",
-    "semantic_hash": "a4b82ad2c44865800e2e760aea65bf66"
+    "mtime": 1781344694.880361,
+    "ast_hash": "f97c89ef9868c7e26943c12b61f76f55",
+    "semantic_hash": ""
   },
   "src/components/admin/fields/RadioField.tsx": {
     "mtime": 1781220019.386166,
@@ -225,9 +225,9 @@
     "semantic_hash": "8442be2117ff04f1ab142883bd03b85c"
   },
   "src/components/corpus/FacetSidebar.tsx": {
-    "mtime": 1781336772.4619765,
-    "ast_hash": "41d7513a918c3c799e698f5ebbe655a8",
-    "semantic_hash": "41d7513a918c3c799e698f5ebbe655a8"
+    "mtime": 1781343299.8590078,
+    "ast_hash": "08b14c7f4fc90d4de218ad5d9557a433",
+    "semantic_hash": ""
   },
   "src/hooks/useGraphUrlState.ts": {
     "mtime": 1781122845.7359338,
@@ -260,14 +260,14 @@
     "semantic_hash": "d5c503b733aeb4011839cff162774c61"
   },
   "src/lib/xmlBuilder.ts": {
-    "mtime": 1781339064.896435,
-    "ast_hash": "ae2887e485d8f7da625a34d5912d718c",
+    "mtime": 1781344502.0413125,
+    "ast_hash": "2ea9c819f5755ed87e095ff13d1793b0",
     "semantic_hash": ""
   },
   "src/lib/xmlParser.ts": {
-    "mtime": 1781335537.008439,
-    "ast_hash": "790ac890afda9998f4cc07061ee07d5c",
-    "semantic_hash": "790ac890afda9998f4cc07061ee07d5c"
+    "mtime": 1781342571.433105,
+    "ast_hash": "7b9a7f808cfe5e483e1e9252aaa84ec0",
+    "semantic_hash": ""
   },
   "src/types/corpus.ts": {
     "mtime": 1781336428.223422,
@@ -280,9 +280,9 @@
     "semantic_hash": "87ab1b2d413f5728348eab00a2ee2cc6"
   },
   "src/types/form.ts": {
-    "mtime": 1780949137.6216717,
-    "ast_hash": "4970a1b04af1a82a6ee47a5e7b343d6f",
-    "semantic_hash": "4970a1b04af1a82a6ee47a5e7b343d6f"
+    "mtime": 1781341997.6347616,
+    "ast_hash": "505519d73d55bbad4e33c56a476cf4cf",
+    "semantic_hash": ""
   },
   "tsconfig.json": {
     "mtime": 1780949137.6216717,
@@ -360,13 +360,13 @@
     "semantic_hash": "47f21e3381d00e0b5dffb1246a5cfa71"
   },
   "config/columns.yaml": {
-    "mtime": 1781339038.1610496,
-    "ast_hash": "3fd16d3cc827ea18ee4234e0c2097092",
+    "mtime": 1781343693.904952,
+    "ast_hash": "7975d738b81451c36ebb7282cf0c88eb",
     "semantic_hash": ""
   },
   "config/form-sections.yaml": {
-    "mtime": 1781339064.3944278,
-    "ast_hash": "e62fbdd34f04371743d37a084957fcdd",
+    "mtime": 1781344502.6093183,
+    "ast_hash": "f746563539b797a302e5402100e6e617",
     "semantic_hash": ""
   },
   "openspec/changes/add-faceted-search-sidebar/.openspec.yaml": {
@@ -1210,8 +1210,8 @@
     "semantic_hash": "4ae1da086e9ecd3a397ae43fd2ae22d7"
   },
   "src/lib/pdfFormulary.tsx": {
-    "mtime": 1781339188.126214,
-    "ast_hash": "764997330d664a6dad1f76dadfe75675",
+    "mtime": 1781342040.9611983,
+    "ast_hash": "7543a72b3c1f094c233b4925096e247f",
     "semantic_hash": ""
   },
   ".agents/skills/vercel-composition-patterns/AGENTS.md": {

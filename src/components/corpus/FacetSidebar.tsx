@@ -42,7 +42,7 @@ const PEOPLE_SUBGROUPS = [
 const PLACE_SUBGROUPS = [
   { id: "datatio_topica_analysis", label: "Place of Redaction" },
   { id: "property_location", label: "Property Location" },
-  { id: "dating_topical", label: "Dating (Topical)" },
+  { id: "dating_topical", label: "Location" },
 ];
 
 /** Collapsible accordion section for facet groups */

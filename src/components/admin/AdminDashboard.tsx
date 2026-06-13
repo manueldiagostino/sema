@@ -40,7 +40,7 @@ const DISPLAY_COLUMNS = [
   { id: "id", label: "Document" },
   { id: "intitulatio_analysis", label: "Auctor" },
   { id: "inscriptio_analysis", label: "Destinatarius" },
-  { id: "dating_chronological", label: "Date" },
+  { id: "dating_chronological", label: "Modern Date" },
   { id: "repository", label: "Archive" },
   { id: "shelfmark", label: "Shelfmark" },
 ];
