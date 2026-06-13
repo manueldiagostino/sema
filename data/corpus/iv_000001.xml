@@ -53,7 +53,7 @@
   <text>
     <body>
       <div type="protocol">
-        <diploPart type="invocatio">
+        <diploPart type="invocatio" subtype="symbolica_verbalis">
           <p>+ In nomine sancte et individue Trinitatis.</p>
         </diploPart>
         <diploPart type="datatio" subtype="chronica">
