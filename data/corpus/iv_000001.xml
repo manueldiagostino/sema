@@ -52,6 +52,9 @@
   </teiHeader>
   <text>
     <body>
+      <diploPart type="full_text">
+        <p>This is full text</p>
+      </diploPart>
       <div type="protocol">
         <diploPart type="invocatio" subtype="symbolica verbalis">
           <p>+ In nomine sancte et individue Trinitatis.</p>
