@@ -115,8 +115,8 @@
     "semantic_hash": ""
   },
   "src/components/DocumentCard.tsx": {
-    "mtime": 1781346188.4046032,
-    "ast_hash": "9fddd0d0003eda33130c73ed8ed99ed3",
+    "mtime": 1781360405.0226336,
+    "ast_hash": "594536ce8e0c49b5d381678443e4abe1",
     "semantic_hash": ""
   },
   "src/components/DocumentModal.tsx": {
@@ -155,8 +155,8 @@
     "semantic_hash": "f41b16d8dfa656094e1bc74dabf84980"
   },
   "src/components/admin/AdminDashboard.tsx": {
-    "mtime": 1781343300.4460154,
-    "ast_hash": "692d56ae05fdfe8d8eee98532dbd41d4",
+    "mtime": 1781358921.885565,
+    "ast_hash": "0c73b016effd5a4829e9b559d64b6628",
     "semantic_hash": ""
   },
   "src/components/admin/AdminFormPage.tsx": {
@@ -260,13 +260,13 @@
     "semantic_hash": "d5c503b733aeb4011839cff162774c61"
   },
   "src/lib/xmlBuilder.ts": {
-    "mtime": 1781344502.0413125,
-    "ast_hash": "2ea9c819f5755ed87e095ff13d1793b0",
+    "mtime": 1781359707.1320996,
+    "ast_hash": "b214ed61cd1111558543a00f8f14a94b",
     "semantic_hash": ""
   },
   "src/lib/xmlParser.ts": {
-    "mtime": 1781342571.433105,
-    "ast_hash": "7b9a7f808cfe5e483e1e9252aaa84ec0",
+    "mtime": 1781359758.6819527,
+    "ast_hash": "9e12da4c2e87bc34ec32b16fa6800d27",
     "semantic_hash": ""
   },
   "src/types/corpus.ts": {
@@ -360,13 +360,13 @@
     "semantic_hash": "47f21e3381d00e0b5dffb1246a5cfa71"
   },
   "config/columns.yaml": {
-    "mtime": 1781343693.904952,
-    "ast_hash": "7975d738b81451c36ebb7282cf0c88eb",
+    "mtime": 1781359896.191101,
+    "ast_hash": "484a1f561f8dc81f25a569cf3e0c6cef",
     "semantic_hash": ""
   },
   "config/form-sections.yaml": {
-    "mtime": 1781344502.6093183,
-    "ast_hash": "f746563539b797a302e5402100e6e617",
+    "mtime": 1781360136.4348621,
+    "ast_hash": "a0fde106c8f59d4b6666f907ae23345e",
     "semantic_hash": ""
   },
   "openspec/changes/add-faceted-search-sidebar/.openspec.yaml": {

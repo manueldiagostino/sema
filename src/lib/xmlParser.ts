@@ -52,13 +52,29 @@ function getTextContent(node: Node): string {
  *     on the tei_element itself
  *  5. Apply tei_attributes as predicates on tei_element
  */
+/**
+ * Build attribute predicates for XPath.
+ * A value of "*" is treated as a presence check: `@attr` (not `@attr='*'`).
+ * All other values produce `@attr='value'`.
+ */
+function buildPredicates(attrs: Record<string, string>): string[] {
+  return Object.entries(attrs).map(([k, v]) =>
+    v === "*" ? `@${k}` : `@${k}='${v}'`
+  );
+}
+
 function buildElementXPath(field: FormFieldConfig): string {
   let path = `//${field.xpath_parent}`;
 
   if (field.tei_wrapper) {
-    // Wrapper element — narrow with wrapper_attributes if present
-    if (field.tei_wrapper_attributes?.type) {
-      path += `/tei:${field.tei_wrapper}[@type='${field.tei_wrapper_attributes.type}']`;
+    // Wrapper element — narrow with ALL wrapper_attributes if present
+    if (field.tei_wrapper_attributes) {
+      const wrapperPreds = buildPredicates(field.tei_wrapper_attributes);
+      if (wrapperPreds.length > 0) {
+        path += `/tei:${field.tei_wrapper}[${wrapperPreds.join(" and ")}]`;
+      } else {
+        path += `/tei:${field.tei_wrapper}`;
+      }
     } else {
       path += `/tei:${field.tei_wrapper}`;
     }
@@ -71,15 +87,11 @@ function buildElementXPath(field: FormFieldConfig): string {
   const predicates: string[] = [];
 
   if (field.tei_attributes) {
-    for (const [key, value] of Object.entries(field.tei_attributes)) {
-      predicates.push(`@${key}='${value}'`);
-    }
+    predicates.push(...buildPredicates(field.tei_attributes));
   }
 
   if (!field.tei_wrapper && field.tei_wrapper_attributes) {
-    for (const [key, value] of Object.entries(field.tei_wrapper_attributes)) {
-      predicates.push(`@${key}='${value}'`);
-    }
+    predicates.push(...buildPredicates(field.tei_wrapper_attributes));
   }
 
   if (predicates.length > 0) {
@@ -310,7 +322,7 @@ export function parseTeiXml(
   // ── Full text (not config-driven; rendered in a separate form tab) ──
   try {
     const ftNodes = select(
-      "//tei:text/tei:body/tei:div[@type='full_text']",
+      "//tei:text/tei:body/tei:diploPart[@type='full_text']",
       doc,
     ) as Node[];
     result.full_text =

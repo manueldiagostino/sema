@@ -210,7 +210,14 @@ export default function AdminDashboard() {
     ...DISPLAY_COLUMNS.map((col) => ({
       accessorKey: col.id,
       header: col.label,
-      cell: ({ getValue }: { getValue: () => unknown }) => displayValue(getValue() as string | string[] | undefined),
+      cell:
+        col.id === "id"
+          ? ({ getValue }: { getValue: () => unknown }) => (
+              <span className="font-mono text-xs">
+                {displayValue(getValue() as string | string[] | undefined)}
+              </span>
+            )
+          : ({ getValue }: { getValue: () => unknown }) => displayValue(getValue() as string | string[] | undefined),
       enableSorting: true,
     })),
     {

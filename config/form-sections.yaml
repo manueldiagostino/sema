@@ -76,6 +76,8 @@ sections:
             input: radio
             cardinality: multiple
             tei_element: diploPart
+            tei_attributes:
+              type: invocatio
             xpath_parent: tei:text/tei:body/tei:div[@type='protocol']
             applies_to: all
             options:
@@ -191,6 +193,7 @@ sections:
             tei_wrapper: diploPart
             tei_wrapper_attributes:
               type: dispositio
+              subtype: "*"
             xpath_parent: tei:text/tei:body/tei:div[@type='contextus']
             applies_to: all
             field_pair: property
@@ -200,6 +203,8 @@ sections:
             input: radio
             cardinality: single
             tei_element: diploPart
+            tei_attributes:
+              type: dispositio
             xpath_parent: tei:text/tei:body/tei:div[@type='contextus']
             applies_to: all
             options:
@@ -342,6 +347,8 @@ sections:
             input: radio
             cardinality: single
             tei_element: diploPart
+            tei_attributes:
+              type: sanctio
             xpath_parent: tei:text/tei:body/tei:div[@type='contextus']
             applies_to: all
             options:
@@ -407,8 +414,8 @@ sections:
                 input: radio
                 cardinality: single
                 tei_element: diploPart
-                tei_wrapper_attributes:
-                  type: emittens
+                tei_attributes:
+                  type: subscriptio
                 xpath_parent: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptio']
                 applies_to: all
                 options:

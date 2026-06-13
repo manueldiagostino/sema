@@ -12,7 +12,7 @@
 columns:
   - id: full_text
     label: Full Text
-    xpath: tei:text/tei:body/tei:div[@type='full_text']
+    xpath: tei:text/tei:body/tei:diploPart[@type='full_text']
     sortable: false
     filterable: false
 
@@ -42,7 +42,7 @@ columns:
 
   - id: datatio_topica_analysis
     label: Place of reduction
-    xpath: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords/tei:term[@type='datatio_topica_analysis']
+    xpath: tei:teiHeader/tei:profileDesc/tei:creation/tei:term[@type='datatio_topica_analysis']
     sortable: true
     filterable: true
 
@@ -62,7 +62,7 @@ columns:
 
   - id: dating_topical
     label: Datatio Topica
-    xpath: tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords/tei:term[@type='datatio_topica_analysis']
+    xpath: tei:teiHeader/tei:profileDesc/tei:creation/tei:term[@type='datatio_topica_analysis']
     sortable: true
     filterable: true
 
@@ -108,7 +108,7 @@ columns:
 
   - id: descriptio_rei_analysis
     label: Descriptio Rei Analysis
-    xpath: tei:text/tei:body/tei:div[@type='contextus']/tei:diploPart[@type='dispositio']
+    xpath: tei:text/tei:body/tei:div[@type='contextus']/tei:diploPart[@type='dispositio' and @subtype]
     attribute: subtype
     sortable: false
     filterable: false
@@ -128,7 +128,7 @@ columns:
 
   - id: subscriptiones_testium_text
     label: Subscriptiones testium
-    xpath: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptio']/tei:diploPart[@type='subscriptio']
+    xpath: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptio']/tei:diploPart[@type='subscriptio' and @subtype='testium']
     sortable: false
     filterable: false
     truncateWords: 20
@@ -180,70 +180,70 @@ columns:
 
   - id: perpetuitatis_text
     label: Clausula perpetuitatis
-    xpath: tei:text/tei:body/tei:div[@type='contextus']/tei:diploPart[@type='clausulae']
+    xpath: tei:text/tei:body/tei:div[@type='contextus']/tei:diploPart[@type='clausulae' and @subtype='perpetuitatis']
     sortable: false
     filterable: false
     truncateWords: 20
 
   - id: descriptio_rei_text
     label: Descriptio rei
-    xpath: tei:text/tei:body/tei:div[@type='contextus']/tei:diploPart[@type='dispositio']
+    xpath: tei:text/tei:body/tei:div[@type='contextus']/tei:diploPart[@type='dispositio' and @subtype]
     sortable: false
     filterable: false
     truncateWords: 20
 
   - id: de_servitute_itineris_text
     label: Clausula de servitute itineris
-    xpath: tei:text/tei:body/tei:div[@type='contextus']/tei:diploPart[@type='clausulae']
+    xpath: tei:text/tei:body/tei:div[@type='contextus']/tei:diploPart[@type='clausulae' and @subtype='de_servitute_itineris']
     sortable: false
     filterable: false
     truncateWords: 20
 
   - id: integritatis_rei_text
     label: Clausula integritatis rei
-    xpath: tei:text/tei:body/tei:div[@type='contextus']/tei:diploPart[@type='clausulae']
+    xpath: tei:text/tei:body/tei:div[@type='contextus']/tei:diploPart[@type='clausulae' and @subtype='integritatis_rei']
     sortable: false
     filterable: false
     truncateWords: 20
 
   - id: quietantiae_pretii_text
     label: Clausula quietantiae pretii
-    xpath: tei:text/tei:body/tei:div[@type='contextus']/tei:diploPart[@type='clausulae']
+    xpath: tei:text/tei:body/tei:div[@type='contextus']/tei:diploPart[@type='clausulae' and @subtype='quietantiae_pretii']
     sortable: false
     filterable: false
     truncateWords: 20
 
   - id: confinium_text
     label: Formula confinium
-    xpath: tei:text/tei:body/tei:div[@type='contextus']/tei:diploPart[@type='clausulae']
+    xpath: tei:text/tei:body/tei:div[@type='contextus']/tei:diploPart[@type='clausulae' and @subtype='confinium']
     sortable: false
     filterable: false
     truncateWords: 20
 
   - id: mensurarum_text
     label: Formula mensurarum
-    xpath: tei:text/tei:body/tei:div[@type='contextus']/tei:diploPart[@type='clausulae']
+    xpath: tei:text/tei:body/tei:div[@type='contextus']/tei:diploPart[@type='clausulae' and @subtype='mensurarum']
     sortable: false
     filterable: false
     truncateWords: 20
 
   - id: translationis_iuris_text
     label: Formula translationis iuris
-    xpath: tei:text/tei:body/tei:div[@type='contextus']/tei:diploPart[@type='clausulae']
+    xpath: tei:text/tei:body/tei:div[@type='contextus']/tei:diploPart[@type='clausulae' and @subtype='translationis_iuris']
     sortable: false
     filterable: false
     truncateWords: 20
 
   - id: liberi_gaudii_text
     label: Formula liberi gaudii
-    xpath: tei:text/tei:body/tei:div[@type='contextus']/tei:diploPart[@type='clausulae']
+    xpath: tei:text/tei:body/tei:div[@type='contextus']/tei:diploPart[@type='clausulae' and @subtype='liberi_gaudii']
     sortable: false
     filterable: false
     truncateWords: 20
 
   - id: legitimae_defensionis_text
     label: Formula legitimae defensionis
-    xpath: tei:text/tei:body/tei:div[@type='contextus']/tei:diploPart[@type='clausulae']
+    xpath: tei:text/tei:body/tei:div[@type='contextus']/tei:diploPart[@type='clausulae' and @subtype='legitimae_defensionis']
     sortable: false
     filterable: false
     truncateWords: 20
@@ -257,7 +257,7 @@ columns:
 
   - id: completio_text
     label: Completio
-    xpath: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptio']/tei:diploPart[@type='subscriptio']
+    xpath: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptio']/tei:diploPart[@type='subscriptio' and @subtype='completio']
     sortable: false
     filterable: false
     truncateWords: 20

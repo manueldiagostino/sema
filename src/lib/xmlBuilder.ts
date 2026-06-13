@@ -156,7 +156,7 @@ export function generateTeiXml(
     msItem.push(
       `${I(7)}<respStmt>\n` +
         `${I(8)}<resp>notary</resp>\n` +
-        `${I(8)}<name>${esc(notaryName)}</name>\n` +
+        `${I(8)}<name type="completio_analysis">${esc(notaryName)}</name>\n` +
         `${I(7)}</respStmt>`,
     );
   }
@@ -215,7 +215,7 @@ export function generateTeiXml(
   const invocatioText = getStr(data, "invocatio_text");
   const invocatioTypeVal = getVal(data, "invocatio_analysis");
   const invocatioType = Array.isArray(invocatioTypeVal)
-    ? (invocatioTypeVal as string[]).join("_")
+    ? (invocatioTypeVal as string[]).join(" ")
     : typeof invocatioTypeVal === "string" ? invocatioTypeVal : "";
   if (invocatioText) {
     protocolChildren.push(
@@ -232,25 +232,27 @@ export function generateTeiXml(
 
   // Contextus
   const contextusChildren: string[] = [];
-  const textusDivs: [string, string, string?][] = [
+  // [divType, fieldId, subtypeField?, staticSubtype?]
+  // staticSubtype provides a hardcoded subtype when no form field supplies one.
+  const textusDivs: [string, string, string?, string?][] = [
     ["intitulatio", "intitulatio_text"],
     ["dispositio", "dispositio_text"],
     ["inscriptio", "inscriptio_text"],
-    ["clausulae", "perpetuitatis_text"],
+    ["clausulae", "perpetuitatis_text", undefined, "perpetuitatis"],
     ["dispositio", "descriptio_rei_text", "descriptio_rei_analysis"],
-    ["clausulae", "de_servitute_itineris_text"],
-    ["clausulae", "integritatis_rei_text"],
-    ["clausulae", "quietantiae_pretii_text"],
-    ["clausulae", "confinium_text"],
-    ["clausulae", "mensurarum_text"],
-    ["clausulae", "translationis_iuris_text"],
-    ["clausulae", "liberi_gaudii_text"],
-    ["clausulae", "legitimae_defensionis_text"],
+    ["clausulae", "de_servitute_itineris_text", undefined, "de_servitute_itineris"],
+    ["clausulae", "integritatis_rei_text", undefined, "integritatis_rei"],
+    ["clausulae", "quietantiae_pretii_text", undefined, "quietantiae_pretii"],
+    ["clausulae", "confinium_text", undefined, "confinium"],
+    ["clausulae", "mensurarum_text", undefined, "mensurarum"],
+    ["clausulae", "translationis_iuris_text", undefined, "translationis_iuris"],
+    ["clausulae", "liberi_gaudii_text", undefined, "liberi_gaudii"],
+    ["clausulae", "legitimae_defensionis_text", undefined, "legitimae_defensionis"],
     ["sanctio", "sanctio_text", "sanctio_analysis"],
   ];
-  for (const [divType, fieldId, subtypeField] of textusDivs) {
+  for (const [divType, fieldId, subtypeField, staticSubtype] of textusDivs) {
     const text = getStr(data, fieldId);
-    const subtype = subtypeField ? getStr(data, subtypeField) : undefined;
+    const subtype = staticSubtype ?? (subtypeField ? getStr(data, subtypeField) : undefined);
     const div = makeDiploPart(divType, text, subtype);
     if (div) contextusChildren.push(div);
   }

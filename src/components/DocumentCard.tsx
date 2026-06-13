@@ -89,7 +89,11 @@ function FieldValue({
     return BADGE_FIELDS.has(fieldId) ? null : <span>—</span>;
   }
 
-  const values = Array.isArray(val) ? val : [val];
+  const values: string[] = BADGE_FIELDS.has(fieldId) && typeof val === "string"
+    ? val.split(/\s+/)
+    : Array.isArray(val)
+      ? val
+      : [val as string];
   const nonEmpty = values.filter((v) => v !== "");
 
   if (nonEmpty.length === 0) {
@@ -395,7 +399,7 @@ export default function DocumentCard({
               {/* Section 1 — Protocol */}
               {(() => {
                 const protocolFields: { label: string; id: string }[] = [
-                  { label: "Auctor", id: "invocatio_text" },
+                  { label: "Invocatio", id: "invocatio_text" },
                   { label: "Datatio Chronica", id: "datatio_chronica_text" },
                 ];
                 const visibleProtocol = protocolFields.filter((f) => getVal(f.id));
@@ -418,9 +422,9 @@ export default function DocumentCard({
               {/* Section 2 — Text */}
               {(() => {
                 const textFieldDefs: { label: string; id: string }[] = [
-                  { label: "Destinatarius", id: "intitulatio_text" },
+                  { label: "Auctor", id: "intitulatio_text" },
                   { label: "Verba dispositiva", id: "dispositio_text" },
-                  { label: "Inscriptio", id: "inscriptio_text" },
+                  { label: "Destinatarius", id: "inscriptio_text" },
                   { label: "Clausula perpetuitatis", id: "perpetuitatis_text" },
                   { label: "Descriptio rei", id: "descriptio_rei_text" },
                   { label: "Clausula de servitute itineris", id: "de_servitute_itineris_text" },
