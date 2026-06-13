@@ -158,7 +158,7 @@ columns:
     truncateWords: 20
 
   - id: author_context
-    label: Author Context
+    label: Auctor
     xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='author_context']
     sortable: false
     filterable: false
@@ -172,7 +172,7 @@ columns:
     truncateWords: 20
 
   - id: recipient_context
-    label: Recipient Context
+    label: Destinatarius
     xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='recipient_context']
     sortable: false
     filterable: false
@@ -186,22 +186,22 @@ columns:
     truncateWords: 20
 
   - id: property_description
-    label: Property Description
+    label: Descriptio rei
     xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='property_description']
     sortable: false
     filterable: false
     truncateWords: 20
 
-  - id: clausula_servitutis_passagii
-    label: Clausula Servitutis Passagii
-    xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='clausula_servitutis_passagii']
+  - id: clausula_de_servitute_itineris
+    label: Clausula de Servitute Itineris
+    xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='clausula_de_servitute_itineris']
     sortable: false
     filterable: false
     truncateWords: 20
 
-  - id: clausula_integritatis
-    label: Clausula Integritatis
-    xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='clausula_integritatis']
+  - id: clausula_integritatis_rei
+    label: Clausula Integritatis Rei
+    xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='clausula_integritatis_rei']
     sortable: false
     filterable: false
     truncateWords: 20
@@ -220,23 +220,23 @@ columns:
     filterable: false
     truncateWords: 20
 
-  - id: formula_mensurationum
-    label: Formula Mensurationum
-    xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='formula_mensurationum']
+  - id: formula_mensurarum
+    label: Formula Mensurarum
+    xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='formula_mensurarum']
     sortable: false
     filterable: false
     truncateWords: 20
 
-  - id: formula_transmissionis
-    label: Formula Transmissionis
-    xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='formula_transmissionis']
+  - id: formula_translationis_iuris
+    label: Formula Translationis Iuris
+    xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='formula_translationis_iuris']
     sortable: false
     filterable: false
     truncateWords: 20
 
-  - id: formula_libere_fruitionis
-    label: Formula Libere Fruitionis
-    xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='formula_libere_fruitionis']
+  - id: formula_liberi_gaudii
+    label: Formula Liberi Gaudii
+    xpath: tei:text/tei:body/tei:div[@type='textus']/tei:div[@type='formula_liberi_gaudii']
     sortable: false
     filterable: false
     truncateWords: 20

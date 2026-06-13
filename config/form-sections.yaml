@@ -113,7 +113,7 @@ sections:
         applies_to: all
         fields:
           - id: author_text
-            label: Author
+            label: Auctor
             input: textarea
             cardinality: single
             tei_element: p
@@ -147,7 +147,7 @@ sections:
             applies_to: all
 
           - id: recipient_text
-            label: Recipient
+            label: Destinatarius
             input: textarea
             cardinality: single
             tei_element: p
@@ -181,7 +181,7 @@ sections:
             applies_to: all
 
           - id: property_description
-            label: Property / Assets
+            label: Descriptio rei
             input: textarea
             cardinality: single
             tei_element: p
@@ -206,25 +206,25 @@ sections:
                 label: Mobile
             field_pair: property
 
-          - id: clausula_servitutis_passagii
-            label: Clausula servitutis passagii
+          - id: clausula_de_servitute_itineris
+            label: Clausula de servitute itineris
             input: textarea
             cardinality: single
             tei_element: p
             tei_wrapper: div
             tei_wrapper_attributes:
-              type: clausula_servitutis_passagii
+              type: clausula_de_servitute_itineris
             xpath_parent: tei:text/tei:body/tei:div[@type='textus']
             applies_to: all
 
-          - id: clausula_integritatis
-            label: Clausula integritatis
+          - id: clausula_integritatis_rei
+            label: Clausula integritatis rei
             input: textarea
             cardinality: single
             tei_element: p
             tei_wrapper: div
             tei_wrapper_attributes:
-              type: clausula_integritatis
+              type: clausula_integritatis_rei
             xpath_parent: tei:text/tei:body/tei:div[@type='textus']
             applies_to: all
 
@@ -260,36 +260,36 @@ sections:
             xpath_parent: tei:text/tei:body/tei:div[@type='textus']
             applies_to: all
 
-          - id: formula_mensurationum
-            label: Formula mensurationum
+          - id: formula_mensurarum
+            label: Formula mensurarum
             input: textarea
             cardinality: single
             tei_element: p
             tei_wrapper: div
             tei_wrapper_attributes:
-              type: formula_mensurationum
+              type: formula_mensurarum
             xpath_parent: tei:text/tei:body/tei:div[@type='textus']
             applies_to: all
 
-          - id: formula_transmissionis
-            label: Formula transmissionis
+          - id: formula_translationis_iuris
+            label: Formula translationis iuris
             input: textarea
             cardinality: single
             tei_element: p
             tei_wrapper: div
             tei_wrapper_attributes:
-              type: formula_transmissionis
+              type: formula_translationis_iuris
             xpath_parent: tei:text/tei:body/tei:div[@type='textus']
             applies_to: all
 
-          - id: formula_libere_fruitionis
-            label: Formula libere fruitionis
+          - id: formula_liberi_gaudii
+            label: Formula liberi gaudii
             input: textarea
             cardinality: single
             tei_element: p
             tei_wrapper: div
             tei_wrapper_attributes:
-              type: formula_libere_fruitionis
+              type: formula_liberi_gaudii
             xpath_parent: tei:text/tei:body/tei:div[@type='textus']
             applies_to: all
 
@@ -374,17 +374,6 @@ sections:
             label: Subscriptiones
             applies_to: all
             fields:
-              - id: subscriptiones_testium
-                label: Subscriptiones testium
-                input: textarea
-                cardinality: single
-                tei_element: p
-                tei_wrapper: div
-                tei_wrapper_attributes:
-                  type: subscriptiones_testium
-                xpath_parent: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptiones']
-                applies_to: all
-
               - id: subscriptio_emittentis
                 label: Subscriptio emittentis
                 input: text
@@ -412,6 +401,17 @@ sections:
                   - value: destinatarius
                     label: Recipient
                 field_pair: emittens
+
+              - id: subscriptiones_testium
+                label: Subscriptiones testium
+                input: textarea
+                cardinality: single
+                tei_element: p
+                tei_wrapper: div
+                tei_wrapper_attributes:
+                  type: subscriptiones_testium
+                xpath_parent: tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptiones']
+                applies_to: all
 
               - id: testes_names
                 label: Testes
