@@ -722,7 +722,7 @@
       "label": "PreliminaryInfo()",
       "file_type": "code",
       "source_file": "src/components/DocumentCard.tsx",
-      "source_location": "L121",
+      "source_location": "L125",
       "_origin": "ast",
       "id": "components_documentcard_preliminaryinfo",
       "community": 55,
@@ -732,81 +732,91 @@
       "label": "DocumentCard()",
       "file_type": "code",
       "source_file": "src/components/DocumentCard.tsx",
-      "source_location": "L185",
+      "source_location": "L189",
       "_origin": "ast",
       "id": "components_documentcard_documentcard",
       "community": 55,
       "norm_label": "documentcard()"
     },
     {
-      "label": "DynamicListField.tsx",
+      "label": "AdminDashboard.tsx",
       "file_type": "code",
-      "source_file": "src/components/admin/fields/DynamicListField.tsx",
+      "source_file": "src/components/admin/AdminDashboard.tsx",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "fields_dynamiclistfield",
-      "community": 14,
-      "norm_label": "dynamiclistfield.tsx"
+      "id": "admin_admindashboard",
+      "community": 29,
+      "norm_label": "admindashboard.tsx"
     },
     {
-      "label": "DynamicListFieldBaseProps",
+      "label": "ColumnConfig",
       "file_type": "code",
-      "source_file": "src/components/admin/fields/DynamicListField.tsx",
-      "source_location": "L6",
-      "_origin": "ast",
-      "id": "fields_dynamiclistfield_dynamiclistfieldbaseprops",
-      "community": 14,
-      "norm_label": "dynamiclistfieldbaseprops"
-    },
-    {
-      "label": "DynamicListFieldStringProps",
-      "file_type": "code",
-      "source_file": "src/components/admin/fields/DynamicListField.tsx",
-      "source_location": "L13",
-      "_origin": "ast",
-      "id": "fields_dynamiclistfield_dynamiclistfieldstringprops",
-      "community": 14,
-      "norm_label": "dynamiclistfieldstringprops"
-    },
-    {
-      "label": "DynamicListFieldWitnessProps",
-      "file_type": "code",
-      "source_file": "src/components/admin/fields/DynamicListField.tsx",
+      "source_file": "src/components/admin/AdminDashboard.tsx",
       "source_location": "L19",
       "_origin": "ast",
-      "id": "fields_dynamiclistfield_dynamiclistfieldwitnessprops",
-      "community": 14,
-      "norm_label": "dynamiclistfieldwitnessprops"
+      "id": "admin_admindashboard_columnconfig",
+      "community": 29,
+      "norm_label": "columnconfig"
     },
     {
-      "label": "DynamicListFieldPlaceProps",
+      "label": "CorpusResponse",
       "file_type": "code",
-      "source_file": "src/components/admin/fields/DynamicListField.tsx",
-      "source_location": "L25",
+      "source_file": "src/components/admin/AdminDashboard.tsx",
+      "source_location": "L31",
       "_origin": "ast",
-      "id": "fields_dynamiclistfield_dynamiclistfieldplaceprops",
-      "community": 14,
-      "norm_label": "dynamiclistfieldplaceprops"
+      "id": "admin_admindashboard_corpusresponse",
+      "community": 51,
+      "norm_label": "corpusresponse"
     },
     {
-      "label": "DynamicListFieldProps",
+      "label": "DISPLAY_COLUMNS",
       "file_type": "code",
-      "source_file": "src/components/admin/fields/DynamicListField.tsx",
-      "source_location": "L32",
+      "source_file": "src/components/admin/AdminDashboard.tsx",
+      "source_location": "L39",
       "_origin": "ast",
-      "id": "fields_dynamiclistfield_dynamiclistfieldprops",
-      "community": 14,
-      "norm_label": "dynamiclistfieldprops"
+      "id": "admin_admindashboard_display_columns",
+      "community": 29,
+      "norm_label": "display_columns"
     },
     {
-      "label": "DynamicListField()",
+      "label": "deriveCharterType()",
       "file_type": "code",
-      "source_file": "src/components/admin/fields/DynamicListField.tsx",
-      "source_location": "L34",
+      "source_file": "src/components/admin/AdminDashboard.tsx",
+      "source_location": "L49",
       "_origin": "ast",
-      "id": "fields_dynamiclistfield_dynamiclistfield",
-      "community": 14,
-      "norm_label": "dynamiclistfield()"
+      "id": "admin_admindashboard_derivechartertype",
+      "community": 29,
+      "norm_label": "derivechartertype()"
+    },
+    {
+      "label": "extractYear()",
+      "file_type": "code",
+      "source_file": "src/components/admin/AdminDashboard.tsx",
+      "source_location": "L60",
+      "_origin": "ast",
+      "id": "admin_admindashboard_extractyear",
+      "community": 29,
+      "norm_label": "extractyear()"
+    },
+    {
+      "label": "displayValue()",
+      "file_type": "code",
+      "source_file": "src/components/admin/AdminDashboard.tsx",
+      "source_location": "L66",
+      "_origin": "ast",
+      "id": "admin_admindashboard_displayvalue",
+      "community": 29,
+      "norm_label": "displayvalue()"
+    },
+    {
+      "label": "AdminDashboard()",
+      "file_type": "code",
+      "source_file": "src/components/admin/AdminDashboard.tsx",
+      "source_location": "L77",
+      "_origin": "ast",
+      "id": "admin_admindashboard_admindashboard",
+      "community": 29,
+      "norm_label": "admindashboard()"
     },
     {
       "label": "xmlBuilder.ts",
@@ -814,9 +824,9 @@
       "source_file": "src/lib/xmlBuilder.ts",
       "source_location": "L1",
       "_origin": "ast",
+      "id": "lib_xmlbuilder",
       "community": 50,
-      "norm_label": "xmlbuilder.ts",
-      "id": "lib_xmlbuilder"
+      "norm_label": "xmlbuilder.ts"
     },
     {
       "label": "esc()",
@@ -824,9 +834,9 @@
       "source_file": "src/lib/xmlBuilder.ts",
       "source_location": "L10",
       "_origin": "ast",
+      "id": "lib_xmlbuilder_esc",
       "community": 50,
-      "norm_label": "esc()",
-      "id": "lib_xmlbuilder_esc"
+      "norm_label": "esc()"
     },
     {
       "label": "attr()",
@@ -834,9 +844,9 @@
       "source_file": "src/lib/xmlBuilder.ts",
       "source_location": "L19",
       "_origin": "ast",
+      "id": "lib_xmlbuilder_attr",
       "community": 50,
-      "norm_label": "attr()",
-      "id": "lib_xmlbuilder_attr"
+      "norm_label": "attr()"
     },
     {
       "label": "isEmpty()",
@@ -844,9 +854,9 @@
       "source_file": "src/lib/xmlBuilder.ts",
       "source_location": "L27",
       "_origin": "ast",
+      "id": "lib_xmlbuilder_isempty",
       "community": 50,
-      "norm_label": "isempty()",
-      "id": "lib_xmlbuilder_isempty"
+      "norm_label": "isempty()"
     },
     {
       "label": "getVal()",
@@ -854,9 +864,9 @@
       "source_file": "src/lib/xmlBuilder.ts",
       "source_location": "L34",
       "_origin": "ast",
+      "id": "lib_xmlbuilder_getval",
       "community": 50,
-      "norm_label": "getval()",
-      "id": "lib_xmlbuilder_getval"
+      "norm_label": "getval()"
     },
     {
       "label": "getStr()",
@@ -864,9 +874,9 @@
       "source_file": "src/lib/xmlBuilder.ts",
       "source_location": "L39",
       "_origin": "ast",
+      "id": "lib_xmlbuilder_getstr",
       "community": 50,
-      "norm_label": "getstr()",
-      "id": "lib_xmlbuilder_getstr"
+      "norm_label": "getstr()"
     },
     {
       "label": "getWitnesses()",
@@ -874,9 +884,9 @@
       "source_file": "src/lib/xmlBuilder.ts",
       "source_location": "L45",
       "_origin": "ast",
+      "id": "lib_xmlbuilder_getwitnesses",
       "community": 50,
-      "norm_label": "getwitnesses()",
-      "id": "lib_xmlbuilder_getwitnesses"
+      "norm_label": "getwitnesses()"
     },
     {
       "label": "getPlaceEntries()",
@@ -884,9 +894,9 @@
       "source_file": "src/lib/xmlBuilder.ts",
       "source_location": "L54",
       "_origin": "ast",
+      "id": "lib_xmlbuilder_getplaceentries",
       "community": 50,
-      "norm_label": "getplaceentries()",
-      "id": "lib_xmlbuilder_getplaceentries"
+      "norm_label": "getplaceentries()"
     },
     {
       "label": "makeDiploPart()",
@@ -894,9 +904,9 @@
       "source_file": "src/lib/xmlBuilder.ts",
       "source_location": "L69",
       "_origin": "ast",
+      "id": "lib_xmlbuilder_makediplopart",
       "community": 50,
-      "norm_label": "makediplopart()",
-      "id": "lib_xmlbuilder_makediplopart"
+      "norm_label": "makediplopart()"
     },
     {
       "label": "makeDivContainer()",
@@ -904,9 +914,9 @@
       "source_file": "src/lib/xmlBuilder.ts",
       "source_location": "L87",
       "_origin": "ast",
+      "id": "lib_xmlbuilder_makedivcontainer",
       "community": 50,
-      "norm_label": "makedivcontainer()",
-      "id": "lib_xmlbuilder_makedivcontainer"
+      "norm_label": "makedivcontainer()"
     },
     {
       "label": "deriveCharterCode()",
@@ -914,9 +924,9 @@
       "source_file": "src/lib/xmlBuilder.ts",
       "source_location": "L108",
       "_origin": "ast",
-      "community": 50,
-      "norm_label": "derivechartercode()",
-      "id": "lib_xmlbuilder_derivechartercode"
+      "id": "lib_xmlbuilder_derivechartercode",
+      "community": 30,
+      "norm_label": "derivechartercode()"
     },
     {
       "label": "generateTeiXml()",
@@ -924,19 +934,169 @@
       "source_file": "src/lib/xmlBuilder.ts",
       "source_location": "L121",
       "_origin": "ast",
+      "id": "lib_xmlbuilder_generateteixml",
       "community": 50,
-      "norm_label": "generateteixml()",
-      "id": "lib_xmlbuilder_generateteixml"
+      "norm_label": "generateteixml()"
     },
     {
       "label": "buildFilename()",
       "file_type": "code",
       "source_file": "src/lib/xmlBuilder.ts",
-      "source_location": "L407",
+      "source_location": "L409",
       "_origin": "ast",
+      "id": "lib_xmlbuilder_buildfilename",
       "community": 30,
-      "norm_label": "buildfilename()",
-      "id": "lib_xmlbuilder_buildfilename"
+      "norm_label": "buildfilename()"
+    },
+    {
+      "label": "xmlParser.ts",
+      "file_type": "code",
+      "source_file": "src/lib/xmlParser.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "lib_xmlparser",
+      "community": 14,
+      "norm_label": "xmlparser.ts"
+    },
+    {
+      "label": "getChildNodes()",
+      "file_type": "code",
+      "source_file": "src/lib/xmlParser.ts",
+      "source_location": "L15",
+      "_origin": "ast",
+      "id": "lib_xmlparser_getchildnodes",
+      "community": 14,
+      "norm_label": "getchildnodes()"
+    },
+    {
+      "label": "getTextContent()",
+      "file_type": "code",
+      "source_file": "src/lib/xmlParser.ts",
+      "source_location": "L33",
+      "_origin": "ast",
+      "id": "lib_xmlparser_gettextcontent",
+      "community": 14,
+      "norm_label": "gettextcontent()"
+    },
+    {
+      "label": "buildPredicates()",
+      "file_type": "code",
+      "source_file": "src/lib/xmlParser.ts",
+      "source_location": "L60",
+      "_origin": "ast",
+      "id": "lib_xmlparser_buildpredicates",
+      "community": 14,
+      "norm_label": "buildpredicates()"
+    },
+    {
+      "label": "buildElementXPath()",
+      "file_type": "code",
+      "source_file": "src/lib/xmlParser.ts",
+      "source_location": "L66",
+      "_origin": "ast",
+      "id": "lib_xmlparser_buildelementxpath",
+      "community": 14,
+      "norm_label": "buildelementxpath()"
+    },
+    {
+      "label": "buildWrapperXPath()",
+      "file_type": "code",
+      "source_file": "src/lib/xmlParser.ts",
+      "source_location": "L108",
+      "_origin": "ast",
+      "id": "lib_xmlparser_buildwrapperxpath",
+      "community": 14,
+      "norm_label": "buildwrapperxpath()"
+    },
+    {
+      "label": "emptyDefault()",
+      "file_type": "code",
+      "source_file": "src/lib/xmlParser.ts",
+      "source_location": "L120",
+      "_origin": "ast",
+      "id": "lib_xmlparser_emptydefault",
+      "community": 14,
+      "norm_label": "emptydefault()"
+    },
+    {
+      "label": "parseTeiXml()",
+      "file_type": "code",
+      "source_file": "src/lib/xmlParser.ts",
+      "source_location": "L156",
+      "_origin": "ast",
+      "id": "lib_xmlparser_parseteixml",
+      "community": 14,
+      "norm_label": "parseteixml()"
+    },
+    {
+      "label": "DynamicListField.tsx",
+      "file_type": "code",
+      "source_file": "src/components/admin/fields/DynamicListField.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "community": 298,
+      "norm_label": "dynamiclistfield.tsx",
+      "id": "fields_dynamiclistfield"
+    },
+    {
+      "label": "DynamicListFieldBaseProps",
+      "file_type": "code",
+      "source_file": "src/components/admin/fields/DynamicListField.tsx",
+      "source_location": "L6",
+      "_origin": "ast",
+      "community": 298,
+      "norm_label": "dynamiclistfieldbaseprops",
+      "id": "fields_dynamiclistfield_dynamiclistfieldbaseprops"
+    },
+    {
+      "label": "DynamicListFieldStringProps",
+      "file_type": "code",
+      "source_file": "src/components/admin/fields/DynamicListField.tsx",
+      "source_location": "L13",
+      "_origin": "ast",
+      "community": 298,
+      "norm_label": "dynamiclistfieldstringprops",
+      "id": "fields_dynamiclistfield_dynamiclistfieldstringprops"
+    },
+    {
+      "label": "DynamicListFieldWitnessProps",
+      "file_type": "code",
+      "source_file": "src/components/admin/fields/DynamicListField.tsx",
+      "source_location": "L19",
+      "_origin": "ast",
+      "community": 298,
+      "norm_label": "dynamiclistfieldwitnessprops",
+      "id": "fields_dynamiclistfield_dynamiclistfieldwitnessprops"
+    },
+    {
+      "label": "DynamicListFieldPlaceProps",
+      "file_type": "code",
+      "source_file": "src/components/admin/fields/DynamicListField.tsx",
+      "source_location": "L25",
+      "_origin": "ast",
+      "community": 298,
+      "norm_label": "dynamiclistfieldplaceprops",
+      "id": "fields_dynamiclistfield_dynamiclistfieldplaceprops"
+    },
+    {
+      "label": "DynamicListFieldProps",
+      "file_type": "code",
+      "source_file": "src/components/admin/fields/DynamicListField.tsx",
+      "source_location": "L32",
+      "_origin": "ast",
+      "community": 298,
+      "norm_label": "dynamiclistfieldprops",
+      "id": "fields_dynamiclistfield_dynamiclistfieldprops"
+    },
+    {
+      "label": "DynamicListField()",
+      "file_type": "code",
+      "source_file": "src/components/admin/fields/DynamicListField.tsx",
+      "source_location": "L34",
+      "_origin": "ast",
+      "community": 298,
+      "norm_label": "dynamiclistfield()",
+      "id": "fields_dynamiclistfield_dynamiclistfield"
     },
     {
       "label": "generate-fake.ts",
@@ -984,7 +1144,7 @@
       "source_file": "scripts/generate-fake.ts",
       "source_location": "L87",
       "_origin": "ast",
-      "community": 30,
+      "community": 35,
       "norm_label": "parseargs()",
       "id": "scripts_generate_fake_parseargs"
     },
@@ -1004,7 +1164,7 @@
       "source_file": "scripts/generate-fake.ts",
       "source_location": "L317",
       "_origin": "ast",
-      "community": 30,
+      "community": 35,
       "norm_label": "main()",
       "id": "scripts_generate_fake_main"
     },
@@ -1014,7 +1174,7 @@
       "source_file": "src/components/admin/AdminFormPage.tsx",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 6,
+      "community": 14,
       "norm_label": "adminformpage.tsx",
       "id": "admin_adminformpage"
     },
@@ -1024,7 +1184,7 @@
       "source_file": "src/components/admin/AdminFormPage.tsx",
       "source_location": "L19",
       "_origin": "ast",
-      "community": 6,
+      "community": 14,
       "norm_label": "adminformpageprops",
       "id": "admin_adminformpage_adminformpageprops"
     },
@@ -1034,7 +1194,7 @@
       "source_file": "src/components/admin/AdminFormPage.tsx",
       "source_location": "L29",
       "_origin": "ast",
-      "community": 6,
+      "community": 14,
       "norm_label": "getinitialfieldvalue()",
       "id": "admin_adminformpage_getinitialfieldvalue"
     },
@@ -1044,7 +1204,7 @@
       "source_file": "src/components/admin/AdminFormPage.tsx",
       "source_location": "L67",
       "_origin": "ast",
-      "community": 6,
+      "community": 14,
       "norm_label": "initializefieldvalues()",
       "id": "admin_adminformpage_initializefieldvalues"
     },
@@ -1054,7 +1214,7 @@
       "source_file": "src/components/admin/AdminFormPage.tsx",
       "source_location": "L80",
       "_origin": "ast",
-      "community": 6,
+      "community": 14,
       "norm_label": "appliestocurrenttype()",
       "id": "admin_adminformpage_appliestocurrenttype"
     },
@@ -1064,7 +1224,7 @@
       "source_file": "src/components/admin/AdminFormPage.tsx",
       "source_location": "L89",
       "_origin": "ast",
-      "community": 6,
+      "community": 14,
       "norm_label": "adminformpage()",
       "id": "admin_adminformpage_adminformpage"
     },
@@ -1269,76 +1429,6 @@
       "id": "lib_pdfformulary_formularypdf"
     },
     {
-      "label": "xmlParser.ts",
-      "file_type": "code",
-      "source_file": "src/lib/xmlParser.ts",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 108,
-      "norm_label": "xmlparser.ts",
-      "id": "lib_xmlparser"
-    },
-    {
-      "label": "getChildNodes()",
-      "file_type": "code",
-      "source_file": "src/lib/xmlParser.ts",
-      "source_location": "L15",
-      "_origin": "ast",
-      "community": 108,
-      "norm_label": "getchildnodes()",
-      "id": "lib_xmlparser_getchildnodes"
-    },
-    {
-      "label": "getTextContent()",
-      "file_type": "code",
-      "source_file": "src/lib/xmlParser.ts",
-      "source_location": "L33",
-      "_origin": "ast",
-      "community": 108,
-      "norm_label": "gettextcontent()",
-      "id": "lib_xmlparser_gettextcontent"
-    },
-    {
-      "label": "buildElementXPath()",
-      "file_type": "code",
-      "source_file": "src/lib/xmlParser.ts",
-      "source_location": "L55",
-      "_origin": "ast",
-      "community": 108,
-      "norm_label": "buildelementxpath()",
-      "id": "lib_xmlparser_buildelementxpath"
-    },
-    {
-      "label": "buildWrapperXPath()",
-      "file_type": "code",
-      "source_file": "src/lib/xmlParser.ts",
-      "source_location": "L96",
-      "_origin": "ast",
-      "community": 108,
-      "norm_label": "buildwrapperxpath()",
-      "id": "lib_xmlparser_buildwrapperxpath"
-    },
-    {
-      "label": "emptyDefault()",
-      "file_type": "code",
-      "source_file": "src/lib/xmlParser.ts",
-      "source_location": "L108",
-      "_origin": "ast",
-      "community": 108,
-      "norm_label": "emptydefault()",
-      "id": "lib_xmlparser_emptydefault"
-    },
-    {
-      "label": "parseTeiXml()",
-      "file_type": "code",
-      "source_file": "src/lib/xmlParser.ts",
-      "source_location": "L144",
-      "_origin": "ast",
-      "community": 108,
-      "norm_label": "parseteixml()",
-      "id": "lib_xmlparser_parseteixml"
-    },
-    {
       "label": "form.ts",
       "file_type": "code",
       "source_file": "src/types/form.ts",
@@ -1374,7 +1464,7 @@
       "source_file": "src/types/form.ts",
       "source_location": "L14",
       "_origin": "ast",
-      "community": 6,
+      "community": 14,
       "norm_label": "chartertypeconfig",
       "id": "types_form_chartertypeconfig"
     },
@@ -1434,7 +1524,7 @@
       "source_file": "src/types/form.ts",
       "source_location": "L46",
       "_origin": "ast",
-      "community": 14,
+      "community": 298,
       "norm_label": "levelfieldconfig",
       "id": "types_form_levelfieldconfig"
     },
@@ -1444,7 +1534,7 @@
       "source_file": "src/types/form.ts",
       "source_location": "L52",
       "_origin": "ast",
-      "community": 14,
+      "community": 298,
       "norm_label": "exclusiveoptionconfig",
       "id": "types_form_exclusiveoptionconfig"
     },
@@ -1474,7 +1564,7 @@
       "source_file": "src/types/form.ts",
       "source_location": "L111",
       "_origin": "ast",
-      "community": 6,
+      "community": 14,
       "norm_label": "formsectionsconfig",
       "id": "types_form_formsectionsconfig"
     },
@@ -1494,7 +1584,7 @@
       "source_file": "src/types/form.ts",
       "source_location": "L125",
       "_origin": "ast",
-      "community": 6,
+      "community": 14,
       "norm_label": "adhocfield",
       "id": "types_form_adhocfield"
     },
@@ -1504,7 +1594,7 @@
       "source_file": "src/types/form.ts",
       "source_location": "L131",
       "_origin": "ast",
-      "community": 6,
+      "community": 14,
       "norm_label": "formsubmissiondata",
       "id": "types_form_formsubmissiondata"
     },
@@ -1824,7 +1914,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/auth-route.mjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 59,
+      "community": 38,
       "norm_label": "auth-route.mjs",
       "id": "lib_auth_route"
     },
@@ -1834,7 +1924,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/auth-route.mjs",
       "source_location": "L6",
       "_origin": "ast",
-      "community": 59,
+      "community": 38,
       "norm_label": "isauthroute()",
       "id": "lib_auth_route_isauthroute"
     },
@@ -1844,7 +1934,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/auth-route.mjs",
       "source_location": "L11",
       "_origin": "ast",
-      "community": 59,
+      "community": 38,
       "norm_label": "applyauthdisqualifier()",
       "id": "lib_auth_route_applyauthdisqualifier"
     },
@@ -3094,7 +3184,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/gates/cold-start.mjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 487,
+      "community": 345,
       "norm_label": "cold-start.mjs",
       "id": "gates_cold_start"
     },
@@ -3104,7 +3194,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/gates/cold-start.mjs",
       "source_location": "L4",
       "_origin": "ast",
-      "community": 487,
+      "community": 345,
       "norm_label": "metadata",
       "id": "gates_cold_start_metadata"
     },
@@ -3114,7 +3204,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/gates/cold-start.mjs",
       "source_location": "L14",
       "_origin": "ast",
-      "community": 487,
+      "community": 345,
       "norm_label": "gate()",
       "id": "gates_cold_start_gate"
     },
@@ -3124,7 +3214,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/gates/cold-start.mjs",
       "source_location": "L32",
       "_origin": "ast",
-      "community": 487,
+      "community": 345,
       "norm_label": "extractcoldstarts()",
       "id": "gates_cold_start_extractcoldstarts"
     },
@@ -3524,7 +3614,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/gates/observability-events-attribution.mjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 488,
+      "community": 345,
       "norm_label": "observability-events-attribution.mjs",
       "id": "gates_observability_events_attribution"
     },
@@ -3534,7 +3624,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/gates/observability-events-attribution.mjs",
       "source_location": "L4",
       "_origin": "ast",
-      "community": 488,
+      "community": 345,
       "norm_label": "metadata",
       "id": "gates_observability_events_attribution_metadata"
     },
@@ -3544,7 +3634,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/gates/observability-events-attribution.mjs",
       "source_location": "L16",
       "_origin": "ast",
-      "community": 488,
+      "community": 345,
       "norm_label": "gate()",
       "id": "gates_observability_events_attribution_gate"
     },
@@ -3554,7 +3644,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/gates/observability-events-attribution.mjs",
       "source_location": "L54",
       "_origin": "ast",
-      "community": 488,
+      "community": 345,
       "norm_label": "sumbilled()",
       "id": "gates_observability_events_attribution_sumbilled"
     },
@@ -4354,7 +4444,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/impact-magnitude.mjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 306,
+      "community": 398,
       "norm_label": "impact-magnitude.mjs",
       "id": "lib_impact_magnitude"
     },
@@ -4374,7 +4464,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/impact-magnitude.mjs",
       "source_location": "L23",
       "_origin": "ast",
-      "community": 306,
+      "community": 398,
       "norm_label": "stripdollarliterals()",
       "id": "lib_impact_magnitude_stripdollarliterals"
     },
@@ -4384,7 +4474,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/impact-magnitude.mjs",
       "source_location": "L39",
       "_origin": "ast",
-      "community": 306,
+      "community": 398,
       "norm_label": "applydollarstrip()",
       "id": "lib_impact_magnitude_applydollarstrip"
     },
@@ -4424,7 +4514,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/investigation-brief.mjs",
       "source_location": "L69",
       "_origin": "ast",
-      "community": 39,
+      "community": 18,
       "norm_label": "resolvefiles()",
       "id": "lib_investigation_brief_resolvefiles"
     },
@@ -5914,7 +6004,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/sanitizers/bot-protection-certainty.mjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 306,
+      "community": 488,
       "norm_label": "bot-protection-certainty.mjs",
       "id": "sanitizers_bot_protection_certainty"
     },
@@ -5924,7 +6014,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/sanitizers/bot-protection-certainty.mjs",
       "source_location": "L4",
       "_origin": "ast",
-      "community": 306,
+      "community": 488,
       "norm_label": "metadata",
       "id": "sanitizers_bot_protection_certainty_metadata"
     },
@@ -5934,7 +6024,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/sanitizers/bot-protection-certainty.mjs",
       "source_location": "L9",
       "_origin": "ast",
-      "community": 306,
+      "community": 488,
       "norm_label": "string_fields",
       "id": "sanitizers_bot_protection_certainty_string_fields"
     },
@@ -5944,7 +6034,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/sanitizers/bot-protection-certainty.mjs",
       "source_location": "L11",
       "_origin": "ast",
-      "community": 306,
+      "community": 488,
       "norm_label": "apply()",
       "id": "sanitizers_bot_protection_certainty_apply"
     },
@@ -5954,7 +6044,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/sanitizers/cache-tag-invalidation-certainty.mjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 306,
+      "community": 489,
       "norm_label": "cache-tag-invalidation-certainty.mjs",
       "id": "sanitizers_cache_tag_invalidation_certainty"
     },
@@ -5964,7 +6054,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/sanitizers/cache-tag-invalidation-certainty.mjs",
       "source_location": "L5",
       "_origin": "ast",
-      "community": 306,
+      "community": 489,
       "norm_label": "metadata",
       "id": "sanitizers_cache_tag_invalidation_certainty_metadata"
     },
@@ -5974,7 +6064,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/sanitizers/cache-tag-invalidation-certainty.mjs",
       "source_location": "L10",
       "_origin": "ast",
-      "community": 306,
+      "community": 489,
       "norm_label": "string_fields",
       "id": "sanitizers_cache_tag_invalidation_certainty_string_fields"
     },
@@ -5984,7 +6074,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/sanitizers/cache-tag-invalidation-certainty.mjs",
       "source_location": "L16",
       "_origin": "ast",
-      "community": 306,
+      "community": 489,
       "norm_label": "apply()",
       "id": "sanitizers_cache_tag_invalidation_certainty_apply"
     },
@@ -6044,7 +6134,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/sanitizers/function-duration-invocations.mjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 306,
+      "community": 491,
       "norm_label": "function-duration-invocations.mjs",
       "id": "sanitizers_function_duration_invocations"
     },
@@ -6054,7 +6144,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/sanitizers/function-duration-invocations.mjs",
       "source_location": "L5",
       "_origin": "ast",
-      "community": 306,
+      "community": 491,
       "norm_label": "metadata",
       "id": "sanitizers_function_duration_invocations_metadata"
     },
@@ -6064,7 +6154,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/sanitizers/function-duration-invocations.mjs",
       "source_location": "L10",
       "_origin": "ast",
-      "community": 306,
+      "community": 491,
       "norm_label": "string_fields",
       "id": "sanitizers_function_duration_invocations_string_fields"
     },
@@ -6074,7 +6164,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/sanitizers/function-duration-invocations.mjs",
       "source_location": "L25",
       "_origin": "ast",
-      "community": 306,
+      "community": 491,
       "norm_label": "apply()",
       "id": "sanitizers_function_duration_invocations_apply"
     },
@@ -6084,7 +6174,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/sanitizers/index.mjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 306,
+      "community": 398,
       "norm_label": "index.mjs",
       "id": "sanitizers_index"
     },
@@ -6094,7 +6184,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/sanitizers/index.mjs",
       "source_location": "L19",
       "_origin": "ast",
-      "community": 306,
+      "community": 398,
       "norm_label": "sanitizers",
       "id": "sanitizers_index_sanitizers"
     },
@@ -6104,7 +6194,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/sanitizers/index.mjs",
       "source_location": "L33",
       "_origin": "ast",
-      "community": 306,
+      "community": 398,
       "norm_label": "recordsanitizer()",
       "id": "sanitizers_index_recordsanitizer"
     },
@@ -6114,7 +6204,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/sanitizers/index.mjs",
       "source_location": "L38",
       "_origin": "ast",
-      "community": 306,
+      "community": 398,
       "norm_label": "applysanitizers()",
       "id": "sanitizers_index_applysanitizers"
     },
@@ -6124,7 +6214,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/sanitizers/index.mjs",
       "source_location": "L70",
       "_origin": "ast",
-      "community": 306,
+      "community": 398,
       "norm_label": "applysanitizersbatch()",
       "id": "sanitizers_index_applysanitizersbatch"
     },
@@ -6134,7 +6224,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/sanitizers/middleware-conflict.mjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 298,
+      "community": 1,
       "norm_label": "middleware-conflict.mjs",
       "id": "sanitizers_middleware_conflict"
     },
@@ -6144,7 +6234,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/sanitizers/middleware-conflict.mjs",
       "source_location": "L8",
       "_origin": "ast",
-      "community": 298,
+      "community": 1,
       "norm_label": "metadata",
       "id": "sanitizers_middleware_conflict_metadata"
     },
@@ -6154,7 +6244,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/sanitizers/middleware-conflict.mjs",
       "source_location": "L13",
       "_origin": "ast",
-      "community": 298,
+      "community": 1,
       "norm_label": "apply()",
       "id": "sanitizers_middleware_conflict_apply"
     },
@@ -6164,7 +6254,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/sanitizers/missing-citation.mjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 306,
+      "community": 493,
       "norm_label": "missing-citation.mjs",
       "id": "sanitizers_missing_citation"
     },
@@ -6174,7 +6264,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/sanitizers/missing-citation.mjs",
       "source_location": "L5",
       "_origin": "ast",
-      "community": 306,
+      "community": 493,
       "norm_label": "metadata",
       "id": "sanitizers_missing_citation_metadata"
     },
@@ -6184,7 +6274,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/sanitizers/missing-citation.mjs",
       "source_location": "L10",
       "_origin": "ast",
-      "community": 306,
+      "community": 493,
       "norm_label": "apply()",
       "id": "sanitizers_missing_citation_apply"
     },
@@ -6244,7 +6334,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/sanitizers/rate-limit.mjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 306,
+      "community": 399,
       "norm_label": "rate-limit.mjs",
       "id": "sanitizers_rate_limit"
     },
@@ -6254,7 +6344,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/sanitizers/rate-limit.mjs",
       "source_location": "L4",
       "_origin": "ast",
-      "community": 306,
+      "community": 399,
       "norm_label": "provider_limits",
       "id": "sanitizers_rate_limit_provider_limits"
     },
@@ -6264,7 +6354,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/sanitizers/rate-limit.mjs",
       "source_location": "L11",
       "_origin": "ast",
-      "community": 306,
+      "community": 399,
       "norm_label": "metadata",
       "id": "sanitizers_rate_limit_metadata"
     },
@@ -6274,7 +6364,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/sanitizers/rate-limit.mjs",
       "source_location": "L16",
       "_origin": "ast",
-      "community": 306,
+      "community": 399,
       "norm_label": "provider_re",
       "id": "sanitizers_rate_limit_provider_re"
     },
@@ -6284,7 +6374,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/sanitizers/rate-limit.mjs",
       "source_location": "L20",
       "_origin": "ast",
-      "community": 306,
+      "community": 399,
       "norm_label": "apply()",
       "id": "sanitizers_rate_limit_apply"
     },
@@ -6294,7 +6384,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/sanitizers/rate-limit.mjs",
       "source_location": "L44",
       "_origin": "ast",
-      "community": 306,
+      "community": 399,
       "norm_label": "collecttext()",
       "id": "sanitizers_rate_limit_collecttext"
     },
@@ -6304,7 +6394,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/sanitizers/rate-limit.mjs",
       "source_location": "L50",
       "_origin": "ast",
-      "community": 306,
+      "community": 399,
       "norm_label": "matchproviders()",
       "id": "sanitizers_rate_limit_matchproviders"
     },
@@ -6314,7 +6404,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/sanitizers/rate-limit.mjs",
       "source_location": "L56",
       "_origin": "ast",
-      "community": 306,
+      "community": 399,
       "norm_label": "matchconcurrency()",
       "id": "sanitizers_rate_limit_matchconcurrency"
     },
@@ -6324,7 +6414,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/sanitizers/rendering-mode-mislabel.mjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 298,
+      "community": 1,
       "norm_label": "rendering-mode-mislabel.mjs",
       "id": "sanitizers_rendering_mode_mislabel"
     },
@@ -6334,7 +6424,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/sanitizers/rendering-mode-mislabel.mjs",
       "source_location": "L7",
       "_origin": "ast",
-      "community": 298,
+      "community": 1,
       "norm_label": "mode_patterns",
       "id": "sanitizers_rendering_mode_mislabel_mode_patterns"
     },
@@ -6344,7 +6434,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/sanitizers/rendering-mode-mislabel.mjs",
       "source_location": "L13",
       "_origin": "ast",
-      "community": 298,
+      "community": 1,
       "norm_label": "metadata",
       "id": "sanitizers_rendering_mode_mislabel_metadata"
     },
@@ -6354,7 +6444,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/sanitizers/rendering-mode-mislabel.mjs",
       "source_location": "L18",
       "_origin": "ast",
-      "community": 298,
+      "community": 1,
       "norm_label": "apply()",
       "id": "sanitizers_rendering_mode_mislabel_apply"
     },
@@ -6364,7 +6454,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/sanitizers/undeclared-dep.mjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 306,
+      "community": 487,
       "norm_label": "undeclared-dep.mjs",
       "id": "sanitizers_undeclared_dep"
     },
@@ -6374,7 +6464,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/sanitizers/undeclared-dep.mjs",
       "source_location": "L8",
       "_origin": "ast",
-      "community": 306,
+      "community": 487,
       "norm_label": "node_builtins",
       "id": "sanitizers_undeclared_dep_node_builtins"
     },
@@ -6384,7 +6474,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/sanitizers/undeclared-dep.mjs",
       "source_location": "L16",
       "_origin": "ast",
-      "community": 306,
+      "community": 487,
       "norm_label": "metadata",
       "id": "sanitizers_undeclared_dep_metadata"
     },
@@ -6394,7 +6484,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/sanitizers/undeclared-dep.mjs",
       "source_location": "L21",
       "_origin": "ast",
-      "community": 306,
+      "community": 487,
       "norm_label": "apply()",
       "id": "sanitizers_undeclared_dep_apply"
     },
@@ -6404,7 +6494,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/sanitizers/undeclared-dep.mjs",
       "source_location": "L63",
       "_origin": "ast",
-      "community": 306,
+      "community": 487,
       "norm_label": "pkgroot()",
       "id": "sanitizers_undeclared_dep_pkgroot"
     },
@@ -6414,7 +6504,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/sanitizers/undeclared-dep.mjs",
       "source_location": "L70",
       "_origin": "ast",
-      "community": 306,
+      "community": 487,
       "norm_label": "extractcodeblocks()",
       "id": "sanitizers_undeclared_dep_extractcodeblocks"
     },
@@ -6724,7 +6814,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/scanners/index.mjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 1,
+      "community": 392,
       "norm_label": "index.mjs",
       "id": "scanners_index"
     },
@@ -6734,7 +6824,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/scanners/index.mjs",
       "source_location": "L19",
       "_origin": "ast",
-      "community": 1,
+      "community": 392,
       "norm_label": "scanners",
       "id": "scanners_index_scanners"
     },
@@ -7024,7 +7114,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/scanners/sveltekit-prerender-missing.mjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 1,
+      "community": 392,
       "norm_label": "sveltekit-prerender-missing.mjs",
       "id": "scanners_sveltekit_prerender_missing"
     },
@@ -7034,7 +7124,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/scanners/sveltekit-prerender-missing.mjs",
       "source_location": "L5",
       "_origin": "ast",
-      "community": 1,
+      "community": 392,
       "norm_label": "metadata",
       "id": "scanners_sveltekit_prerender_missing_metadata"
     },
@@ -7044,7 +7134,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/scanners/sveltekit-prerender-missing.mjs",
       "source_location": "L28",
       "_origin": "ast",
-      "community": 1,
+      "community": 392,
       "norm_label": "scan()",
       "id": "scanners_sveltekit_prerender_missing_scan"
     },
@@ -7124,7 +7214,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/scanners/unoptimized-image.mjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 298,
+      "community": 1,
       "norm_label": "unoptimized-image.mjs",
       "id": "scanners_unoptimized_image"
     },
@@ -7134,7 +7224,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/scanners/unoptimized-image.mjs",
       "source_location": "L5",
       "_origin": "ast",
-      "community": 298,
+      "community": 1,
       "norm_label": "metadata",
       "id": "scanners_unoptimized_image_metadata"
     },
@@ -7144,7 +7234,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/scanners/unoptimized-image.mjs",
       "source_location": "L28",
       "_origin": "ast",
-      "community": 298,
+      "community": 1,
       "norm_label": "scan()",
       "id": "scanners_unoptimized_image_scan"
     },
@@ -7154,7 +7244,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/scanners/unoptimized-image.mjs",
       "source_location": "L103",
       "_origin": "ast",
-      "community": 298,
+      "community": 1,
       "norm_label": "isjsxlike()",
       "id": "scanners_unoptimized_image_isjsxlike"
     },
@@ -7164,7 +7254,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/scanners/unoptimized-image.mjs",
       "source_location": "L106",
       "_origin": "ast",
-      "community": 298,
+      "community": 1,
       "norm_label": "isnextconfig()",
       "id": "scanners_unoptimized_image_isnextconfig"
     },
@@ -7174,7 +7264,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/scanners/unoptimized-image.mjs",
       "source_location": "L109",
       "_origin": "ast",
-      "community": 298,
+      "community": 1,
       "norm_label": "snippet()",
       "id": "scanners_unoptimized_image_snippet"
     },
@@ -7784,7 +7874,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/util.mjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 298,
+      "community": 1,
       "norm_label": "util.mjs",
       "id": "lib_util"
     },
@@ -7814,7 +7904,7 @@
       "source_file": ".agents/skills/vercel-optimize/lib/util.mjs",
       "source_location": "L13",
       "_origin": "ast",
-      "community": 298,
+      "community": 1,
       "norm_label": "extractroute()",
       "id": "lib_util_extractroute"
     },
@@ -9624,7 +9714,7 @@
       "source_file": ".agents/skills/vercel-optimize/scripts/build-docs.mjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 345,
+      "community": 392,
       "norm_label": "build-docs.mjs",
       "id": "scripts_build_docs"
     },
@@ -9634,7 +9724,7 @@
       "source_file": ".agents/skills/vercel-optimize/scripts/build-docs.mjs",
       "source_location": "L12",
       "_origin": "ast",
-      "community": 345,
+      "community": 392,
       "norm_label": "here",
       "id": "scripts_build_docs_here"
     },
@@ -9644,7 +9734,7 @@
       "source_file": ".agents/skills/vercel-optimize/scripts/build-docs.mjs",
       "source_location": "L13",
       "_origin": "ast",
-      "community": 345,
+      "community": 392,
       "norm_label": "refs",
       "id": "scripts_build_docs_refs"
     },
@@ -9654,7 +9744,7 @@
       "source_file": ".agents/skills/vercel-optimize/scripts/build-docs.mjs",
       "source_location": "L20",
       "_origin": "ast",
-      "community": 345,
+      "community": 392,
       "norm_label": "main()",
       "id": "scripts_build_docs_main"
     },
@@ -9664,7 +9754,7 @@
       "source_file": ".agents/skills/vercel-optimize/scripts/build-docs.mjs",
       "source_location": "L26",
       "_origin": "ast",
-      "community": 345,
+      "community": 392,
       "norm_label": "renderscanners()",
       "id": "scripts_build_docs_renderscanners"
     },
@@ -9674,7 +9764,7 @@
       "source_file": ".agents/skills/vercel-optimize/scripts/build-docs.mjs",
       "source_location": "L48",
       "_origin": "ast",
-      "community": 345,
+      "community": 392,
       "norm_label": "rendercandidates()",
       "id": "scripts_build_docs_rendercandidates"
     },
@@ -9684,7 +9774,7 @@
       "source_file": ".agents/skills/vercel-optimize/scripts/build-docs.mjs",
       "source_location": "L67",
       "_origin": "ast",
-      "community": 345,
+      "community": 392,
       "norm_label": "trimtrailingblankline()",
       "id": "scripts_build_docs_trimtrailingblankline"
     },
@@ -10164,7 +10254,7 @@
       "source_file": ".agents/skills/vercel-optimize/scripts/gate-investigations.mjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 59,
+      "community": 38,
       "norm_label": "gate-investigations.mjs",
       "id": "scripts_gate_investigations"
     },
@@ -10174,7 +10264,7 @@
       "source_file": ".agents/skills/vercel-optimize/scripts/gate-investigations.mjs",
       "source_location": "L18",
       "_origin": "ast",
-      "community": 59,
+      "community": 38,
       "norm_label": "main()",
       "id": "scripts_gate_investigations_main"
     },
@@ -10184,7 +10274,7 @@
       "source_file": ".agents/skills/vercel-optimize/scripts/gate-investigations.mjs",
       "source_location": "L95",
       "_origin": "ast",
-      "community": 59,
+      "community": 38,
       "norm_label": "parseargs()",
       "id": "scripts_gate_investigations_parseargs"
     },
@@ -10194,7 +10284,7 @@
       "source_file": ".agents/skills/vercel-optimize/scripts/gate-investigations.mjs",
       "source_location": "L107",
       "_origin": "ast",
-      "community": 59,
+      "community": 38,
       "norm_label": "resolvebudget()",
       "id": "scripts_gate_investigations_resolvebudget"
     },
@@ -10204,7 +10294,7 @@
       "source_file": ".agents/skills/vercel-optimize/scripts/gate-investigations.mjs",
       "source_location": "L128",
       "_origin": "ast",
-      "community": 59,
+      "community": 38,
       "norm_label": "stablecompare()",
       "id": "scripts_gate_investigations_stablecompare"
     },
@@ -10214,7 +10304,7 @@
       "source_file": ".agents/skills/vercel-optimize/scripts/gate-investigations.mjs",
       "source_location": "L140",
       "_origin": "ast",
-      "community": 59,
+      "community": 18,
       "norm_label": "attachdisplayroute()",
       "id": "scripts_gate_investigations_attachdisplayroute"
     },
@@ -10644,7 +10734,7 @@
       "source_file": ".agents/skills/vercel-optimize/scripts/render-report.mjs",
       "source_location": "L277",
       "_origin": "ast",
-      "community": 27,
+      "community": 2,
       "norm_label": "candidatematchesref()",
       "id": "scripts_render_report_candidatematchesref"
     },
@@ -12634,7 +12724,7 @@
       "source_file": "src/app/admin/form/page.tsx",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 108,
+      "community": 30,
       "norm_label": "page.tsx",
       "id": "form_page"
     },
@@ -12644,7 +12734,7 @@
       "source_file": "src/app/admin/form/page.tsx",
       "source_location": "L9",
       "_origin": "ast",
-      "community": 108,
+      "community": 30,
       "norm_label": "adminformroutepage()",
       "id": "form_page_adminformroutepage"
     },
@@ -13394,7 +13484,7 @@
       "source_file": "src/components/admin/AdHocFields.tsx",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 6,
+      "community": 14,
       "norm_label": "adhocfields.tsx",
       "id": "admin_adhocfields"
     },
@@ -13404,7 +13494,7 @@
       "source_file": "src/components/admin/AdHocFields.tsx",
       "source_location": "L6",
       "_origin": "ast",
-      "community": 6,
+      "community": 14,
       "norm_label": "adhocfieldsprops",
       "id": "admin_adhocfields_adhocfieldsprops"
     },
@@ -13414,89 +13504,9 @@
       "source_file": "src/components/admin/AdHocFields.tsx",
       "source_location": "L12",
       "_origin": "ast",
-      "community": 6,
+      "community": 14,
       "norm_label": "adhocfields()",
       "id": "admin_adhocfields_adhocfields"
-    },
-    {
-      "label": "AdminDashboard.tsx",
-      "file_type": "code",
-      "source_file": "src/components/admin/AdminDashboard.tsx",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 29,
-      "norm_label": "admindashboard.tsx",
-      "id": "admin_admindashboard"
-    },
-    {
-      "label": "ColumnConfig",
-      "file_type": "code",
-      "source_file": "src/components/admin/AdminDashboard.tsx",
-      "source_location": "L19",
-      "_origin": "ast",
-      "community": 29,
-      "norm_label": "columnconfig",
-      "id": "admin_admindashboard_columnconfig"
-    },
-    {
-      "label": "CorpusResponse",
-      "file_type": "code",
-      "source_file": "src/components/admin/AdminDashboard.tsx",
-      "source_location": "L31",
-      "_origin": "ast",
-      "community": 51,
-      "norm_label": "corpusresponse",
-      "id": "admin_admindashboard_corpusresponse"
-    },
-    {
-      "label": "DISPLAY_COLUMNS",
-      "file_type": "code",
-      "source_file": "src/components/admin/AdminDashboard.tsx",
-      "source_location": "L39",
-      "_origin": "ast",
-      "community": 29,
-      "norm_label": "display_columns",
-      "id": "admin_admindashboard_display_columns"
-    },
-    {
-      "label": "deriveCharterType()",
-      "file_type": "code",
-      "source_file": "src/components/admin/AdminDashboard.tsx",
-      "source_location": "L49",
-      "_origin": "ast",
-      "community": 29,
-      "norm_label": "derivechartertype()",
-      "id": "admin_admindashboard_derivechartertype"
-    },
-    {
-      "label": "extractYear()",
-      "file_type": "code",
-      "source_file": "src/components/admin/AdminDashboard.tsx",
-      "source_location": "L60",
-      "_origin": "ast",
-      "community": 29,
-      "norm_label": "extractyear()",
-      "id": "admin_admindashboard_extractyear"
-    },
-    {
-      "label": "displayValue()",
-      "file_type": "code",
-      "source_file": "src/components/admin/AdminDashboard.tsx",
-      "source_location": "L66",
-      "_origin": "ast",
-      "community": 29,
-      "norm_label": "displayvalue()",
-      "id": "admin_admindashboard_displayvalue"
-    },
-    {
-      "label": "AdminDashboard()",
-      "file_type": "code",
-      "source_file": "src/components/admin/AdminDashboard.tsx",
-      "source_location": "L77",
-      "_origin": "ast",
-      "community": 29,
-      "norm_label": "admindashboard()",
-      "id": "admin_admindashboard_admindashboard"
     },
     {
       "label": "CharterTypeSelector.tsx",
@@ -13504,7 +13514,7 @@
       "source_file": "src/components/admin/CharterTypeSelector.tsx",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 6,
+      "community": 14,
       "norm_label": "chartertypeselector.tsx",
       "id": "admin_chartertypeselector"
     },
@@ -13514,7 +13524,7 @@
       "source_file": "src/components/admin/CharterTypeSelector.tsx",
       "source_location": "L6",
       "_origin": "ast",
-      "community": 6,
+      "community": 14,
       "norm_label": "chartertypeselectorprops",
       "id": "admin_chartertypeselector_chartertypeselectorprops"
     },
@@ -13524,7 +13534,7 @@
       "source_file": "src/components/admin/CharterTypeSelector.tsx",
       "source_location": "L13",
       "_origin": "ast",
-      "community": 6,
+      "community": 14,
       "norm_label": "chartertypeselector()",
       "id": "admin_chartertypeselector_chartertypeselector"
     },
@@ -13734,7 +13744,7 @@
       "source_file": "src/components/admin/fields/TextField.tsx",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 14,
+      "community": 492,
       "norm_label": "textfield.tsx",
       "id": "fields_textfield"
     },
@@ -13744,7 +13754,7 @@
       "source_file": "src/components/admin/fields/TextField.tsx",
       "source_location": "L5",
       "_origin": "ast",
-      "community": 14,
+      "community": 492,
       "norm_label": "textfieldprops",
       "id": "fields_textfield_textfieldprops"
     },
@@ -13754,7 +13764,7 @@
       "source_file": "src/components/admin/fields/TextField.tsx",
       "source_location": "L14",
       "_origin": "ast",
-      "community": 14,
+      "community": 492,
       "norm_label": "textfield()",
       "id": "fields_textfield_textfield"
     },
@@ -30434,7 +30444,7 @@
       "source_file": "openspec/changes/enhance-document-view-and-form/design.md",
       "source_location": "L23",
       "_origin": "ast",
-      "community": 5,
+      "community": 273,
       "norm_label": "decisions",
       "id": "enhance_document_view_and_form_design_decisions"
     },
@@ -30444,7 +30454,7 @@
       "source_file": "openspec/changes/enhance-document-view-and-form/design.md",
       "source_location": "L25",
       "_origin": "ast",
-      "community": 5,
+      "community": 273,
       "norm_label": "d1: charter code derivation from type id",
       "id": "enhance_document_view_and_form_design_d1_charter_code_derivation_from_type_id"
     },
@@ -30454,7 +30464,7 @@
       "source_file": "openspec/changes/enhance-document-view-and-form/design.md",
       "source_location": "L39",
       "_origin": "ast",
-      "community": 5,
+      "community": 273,
       "norm_label": "d2: progressive numbering per-type",
       "id": "enhance_document_view_and_form_design_d2_progressive_numbering_per_type"
     },
@@ -30464,7 +30474,7 @@
       "source_file": "openspec/changes/enhance-document-view-and-form/design.md",
       "source_location": "L52",
       "_origin": "ast",
-      "community": 5,
+      "community": 273,
       "norm_label": "d3: full text in tei xml",
       "id": "enhance_document_view_and_form_design_d3_full_text_in_tei_xml"
     },
@@ -30474,7 +30484,7 @@
       "source_file": "openspec/changes/enhance-document-view-and-form/design.md",
       "source_location": "L56",
       "_origin": "ast",
-      "community": 5,
+      "community": 273,
       "norm_label": "d4: content tabs architecture in view",
       "id": "enhance_document_view_and_form_design_d4_content_tabs_architecture_in_view"
     },
@@ -30484,7 +30494,7 @@
       "source_file": "openspec/changes/enhance-document-view-and-form/design.md",
       "source_location": "L80",
       "_origin": "ast",
-      "community": 5,
+      "community": 273,
       "norm_label": "d5: download mechanism",
       "id": "enhance_document_view_and_form_design_d5_download_mechanism"
     },
@@ -30494,7 +30504,7 @@
       "source_file": "openspec/changes/enhance-document-view-and-form/design.md",
       "source_location": "L90",
       "_origin": "ast",
-      "community": 5,
+      "community": 273,
       "norm_label": "d6: investitor extraction",
       "id": "enhance_document_view_and_form_design_d6_investitor_extraction"
     },
@@ -30504,7 +30514,7 @@
       "source_file": "openspec/changes/enhance-document-view-and-form/design.md",
       "source_location": "L98",
       "_origin": "ast",
-      "community": 5,
+      "community": 273,
       "norm_label": "d7: default visible columns",
       "id": "enhance_document_view_and_form_design_d7_default_visible_columns"
     },
@@ -30514,7 +30524,7 @@
       "source_file": "openspec/changes/enhance-document-view-and-form/design.md",
       "source_location": "L112",
       "_origin": "ast",
-      "community": 5,
+      "community": 273,
       "norm_label": "d8: admin form tabs",
       "id": "enhance_document_view_and_form_design_d8_admin_form_tabs"
     },
@@ -31464,7 +31474,7 @@
       "source_file": "openspec/changes/enhance-document-view-and-form/tasks.md",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 5,
+      "community": 6,
       "norm_label": "tasks.md",
       "id": "enhance_document_view_and_form_tasks"
     },
@@ -31474,7 +31484,7 @@
       "source_file": "openspec/changes/enhance-document-view-and-form/tasks.md",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 5,
+      "community": 6,
       "norm_label": "1. config updates",
       "id": "enhance_document_view_and_form_tasks_1_config_updates"
     },
@@ -31484,7 +31494,7 @@
       "source_file": "openspec/changes/enhance-document-view-and-form/tasks.md",
       "source_location": "L8",
       "_origin": "ast",
-      "community": 5,
+      "community": 6,
       "norm_label": "2. types and data model",
       "id": "enhance_document_view_and_form_tasks_2_types_and_data_model"
     },
@@ -31494,7 +31504,7 @@
       "source_file": "openspec/changes/enhance-document-view-and-form/tasks.md",
       "source_location": "L13",
       "_origin": "ast",
-      "community": 5,
+      "community": 6,
       "norm_label": "3. backend: xml builder and id generation",
       "id": "enhance_document_view_and_form_tasks_3_backend_xml_builder_and_id_generation"
     },
@@ -31504,7 +31514,7 @@
       "source_file": "openspec/changes/enhance-document-view-and-form/tasks.md",
       "source_location": "L20",
       "_origin": "ast",
-      "community": 5,
+      "community": 6,
       "norm_label": "4. build scripts: corpus extraction",
       "id": "enhance_document_view_and_form_tasks_4_build_scripts_corpus_extraction"
     },
@@ -31514,7 +31524,7 @@
       "source_file": "openspec/changes/enhance-document-view-and-form/tasks.md",
       "source_location": "L26",
       "_origin": "ast",
-      "community": 5,
+      "community": 6,
       "norm_label": "5. api route: progressive numbering per-type",
       "id": "enhance_document_view_and_form_tasks_5_api_route_progressive_numbering_per_type"
     },
@@ -31524,7 +31534,7 @@
       "source_file": "openspec/changes/enhance-document-view-and-form/tasks.md",
       "source_location": "L32",
       "_origin": "ast",
-      "community": 5,
+      "community": 6,
       "norm_label": "6. frontend: corpustable default columns",
       "id": "enhance_document_view_and_form_tasks_6_frontend_corpustable_default_columns"
     },
@@ -31534,7 +31544,7 @@
       "source_file": "openspec/changes/enhance-document-view-and-form/tasks.md",
       "source_location": "L39",
       "_origin": "ast",
-      "community": 5,
+      "community": 6,
       "norm_label": "7. frontend: documentcard refactor",
       "id": "enhance_document_view_and_form_tasks_7_frontend_documentcard_refactor"
     },
@@ -31544,7 +31554,7 @@
       "source_file": "openspec/changes/enhance-document-view-and-form/tasks.md",
       "source_location": "L51",
       "_origin": "ast",
-      "community": 5,
+      "community": 6,
       "norm_label": "8. pdf generation",
       "id": "enhance_document_view_and_form_tasks_8_pdf_generation"
     },
@@ -31554,7 +31564,7 @@
       "source_file": "openspec/changes/enhance-document-view-and-form/tasks.md",
       "source_location": "L58",
       "_origin": "ast",
-      "community": 5,
+      "community": 6,
       "norm_label": "9. admin form tabs",
       "id": "enhance_document_view_and_form_tasks_9_admin_form_tabs"
     },
@@ -31564,7 +31574,7 @@
       "source_file": "openspec/changes/enhance-document-view-and-form/tasks.md",
       "source_location": "L67",
       "_origin": "ast",
-      "community": 5,
+      "community": 6,
       "norm_label": "10. cleanup and verification",
       "id": "enhance_document_view_and_form_tasks_10_cleanup_and_verification"
     },
@@ -32654,7 +32664,7 @@
       "source_file": "openspec/changes/local-admin-dashboard/design.md",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 273,
+      "community": 117,
       "norm_label": "design.md",
       "id": "local_admin_dashboard_design"
     },
@@ -32664,7 +32674,7 @@
       "source_file": "openspec/changes/local-admin-dashboard/design.md",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 273,
+      "community": 117,
       "norm_label": "context",
       "id": "local_admin_dashboard_design_context"
     },
@@ -32674,7 +32684,7 @@
       "source_file": "openspec/changes/local-admin-dashboard/design.md",
       "source_location": "L13",
       "_origin": "ast",
-      "community": 273,
+      "community": 117,
       "norm_label": "goals / non-goals",
       "id": "local_admin_dashboard_design_goals_non_goals"
     },
@@ -32764,7 +32774,7 @@
       "source_file": "openspec/changes/local-admin-dashboard/design.md",
       "source_location": "L95",
       "_origin": "ast",
-      "community": 273,
+      "community": 117,
       "norm_label": "risks / trade-offs",
       "id": "local_admin_dashboard_design_risks_trade_offs"
     },
@@ -32774,7 +32784,7 @@
       "source_file": "openspec/changes/local-admin-dashboard/design.md",
       "source_location": "L106",
       "_origin": "ast",
-      "community": 273,
+      "community": 117,
       "norm_label": "migration plan",
       "id": "local_admin_dashboard_design_migration_plan"
     },
@@ -32784,7 +32794,7 @@
       "source_file": "openspec/changes/local-admin-dashboard/design.md",
       "source_location": "L119",
       "_origin": "ast",
-      "community": 273,
+      "community": 117,
       "norm_label": "open questions",
       "id": "local_admin_dashboard_design_open_questions"
     },
@@ -33764,7 +33774,7 @@
       "source_file": "openspec/changes/restructure-instrumentum-venditionis-form/proposal.md",
       "source_location": "L16",
       "_origin": "ast",
-      "community": 489,
+      "community": 125,
       "norm_label": "capabilities",
       "id": "restructure_instrumentum_venditionis_form_proposal_capabilities"
     },
@@ -33774,7 +33784,7 @@
       "source_file": "openspec/changes/restructure-instrumentum-venditionis-form/proposal.md",
       "source_location": "L18",
       "_origin": "ast",
-      "community": 489,
+      "community": 125,
       "norm_label": "new capabilities",
       "id": "restructure_instrumentum_venditionis_form_proposal_new_capabilities"
     },
@@ -33784,7 +33794,7 @@
       "source_file": "openspec/changes/restructure-instrumentum-venditionis-form/proposal.md",
       "source_location": "L25",
       "_origin": "ast",
-      "community": 489,
+      "community": 125,
       "norm_label": "modified capabilities",
       "id": "restructure_instrumentum_venditionis_form_proposal_modified_capabilities"
     },
@@ -39980,7 +39990,7 @@
         "parent_change": "local-admin-dashboard",
         "summary": "All reads/writes go directly to data/tei-samples/*.xml, removing /tmp fallback"
       },
-      "community": 273,
+      "community": 117,
       "norm_label": "storage: single filesystem, no /tmp fallback",
       "id": "local_admin_dashboard_single_filesystem"
     },
@@ -39993,7 +40003,7 @@
         "parent_change": "local-admin-dashboard",
         "summary": "Every create/update/delete triggers full rebuild of corpus-metadata.json and entity-graph.json"
       },
-      "community": 273,
+      "community": 117,
       "norm_label": "json rebuild: full rebuild on every save",
       "id": "local_admin_dashboard_full_rebuild"
     },
@@ -40006,7 +40016,7 @@
         "parent_change": "local-admin-dashboard",
         "summary": "start.bat and start.ps1 scripts for Windows users"
       },
-      "community": 273,
+      "community": 117,
       "norm_label": "windows startup: batch + powershell scripts",
       "id": "local_admin_dashboard_windows_startup"
     },
@@ -40019,7 +40029,7 @@
         "parent_change": "local-admin-dashboard",
         "summary": "Dashboard reads from existing corpus-metadata.json"
       },
-      "community": 273,
+      "community": 117,
       "norm_label": "dashboard data source: corpus-metadata.json",
       "id": "local_admin_dashboard_dashboard_data_source"
     },
@@ -40032,7 +40042,7 @@
         "parent_change": "local-admin-dashboard",
         "summary": "No changes to auth, password login via ADMIN_PASSWORD with 8-hour cookie"
       },
-      "community": 273,
+      "community": 117,
       "norm_label": "auth: keep existing iron-session",
       "id": "local_admin_dashboard_keep_auth"
     },
@@ -40413,7 +40423,7 @@
         "parent_change": "local-admin-dashboard",
         "description": "Remove XML files from corpus with confirmation and JSON rebuild"
       },
-      "community": 273,
+      "community": 117,
       "norm_label": "document-delete",
       "id": "concept_document_delete"
     },
@@ -40427,7 +40437,7 @@
         "parent_change": "local-admin-dashboard",
         "description": "Windows-friendly startup experience with batch/PowerShell scripts"
       },
-      "community": 273,
+      "community": 117,
       "norm_label": "local-launcher",
       "id": "concept_local_launcher"
     },
@@ -41601,9 +41611,9 @@
       "source_file": "src/components/DocumentCard.tsx",
       "source_location": "L70",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "components_documentcard",
-      "target": "components_documentcard_badge",
-      "confidence_score": 1.0
+      "target": "components_documentcard_badge"
     },
     {
       "relation": "contains",
@@ -41611,9 +41621,9 @@
       "source_file": "src/components/DocumentCard.tsx",
       "source_location": "L56",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "components_documentcard",
-      "target": "components_documentcard_badge_fields",
-      "confidence_score": 1.0
+      "target": "components_documentcard_badge_fields"
     },
     {
       "relation": "contains",
@@ -41621,9 +41631,9 @@
       "source_file": "src/components/DocumentCard.tsx",
       "source_location": "L63",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "components_documentcard",
-      "target": "components_documentcard_badge_labels",
-      "confidence_score": 1.0
+      "target": "components_documentcard_badge_labels"
     },
     {
       "relation": "contains",
@@ -41671,9 +41681,9 @@
       "source_file": "src/components/DocumentCard.tsx",
       "source_location": "L46",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "components_documentcard",
-      "target": "components_documentcard_extracted_ids",
-      "confidence_score": 1.0
+      "target": "components_documentcard_extracted_ids"
     },
     {
       "relation": "contains",
@@ -41681,9 +41691,9 @@
       "source_file": "src/components/DocumentCard.tsx",
       "source_location": "L81",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "components_documentcard",
-      "target": "components_documentcard_fieldvalue",
-      "confidence_score": 1.0
+      "target": "components_documentcard_fieldvalue"
     },
     {
       "relation": "contains",
@@ -41691,9 +41701,9 @@
       "source_file": "src/components/DocumentCard.tsx",
       "source_location": "L34",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "components_documentcard",
-      "target": "components_documentcard_historical_ids",
-      "confidence_score": 1.0
+      "target": "components_documentcard_historical_ids"
     },
     {
       "relation": "contains",
@@ -41717,207 +41727,195 @@
       "target": "components_documentcard"
     },
     {
-      "relation": "imports_from",
-      "context": "import",
+      "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "src/components/admin/FormField.tsx",
-      "source_location": "L9",
+      "source_file": "src/components/admin/AdminDashboard.tsx",
+      "source_location": "L77",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "admin_formfield",
-      "target": "fields_dynamiclistfield"
+      "source": "admin_admindashboard",
+      "target": "admin_admindashboard_admindashboard"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "src/components/admin/fields/DynamicListField.tsx",
-      "source_location": "L27",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "fields_dynamiclistfield",
-      "target": "fields_dynamiclistfield_dynamiclistfield"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/admin/fields/DynamicListField.tsx",
-      "source_location": "L6",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "fields_dynamiclistfield",
-      "target": "fields_dynamiclistfield_dynamiclistfieldbaseprops"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/admin/fields/DynamicListField.tsx",
-      "source_location": "L25",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "fields_dynamiclistfield",
-      "target": "fields_dynamiclistfield_dynamiclistfieldplaceprops"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/admin/fields/DynamicListField.tsx",
-      "source_location": "L25",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "fields_dynamiclistfield",
-      "target": "fields_dynamiclistfield_dynamiclistfieldprops"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/admin/fields/DynamicListField.tsx",
-      "source_location": "L13",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "fields_dynamiclistfield",
-      "target": "fields_dynamiclistfield_dynamiclistfieldstringprops"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/admin/fields/DynamicListField.tsx",
+      "source_file": "src/components/admin/AdminDashboard.tsx",
       "source_location": "L19",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "fields_dynamiclistfield",
-      "target": "fields_dynamiclistfield_dynamiclistfieldwitnessprops"
+      "source": "admin_admindashboard",
+      "target": "admin_admindashboard_columnconfig"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/AdminDashboard.tsx",
+      "source_location": "L31",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_admindashboard",
+      "target": "admin_admindashboard_corpusresponse"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/AdminDashboard.tsx",
+      "source_location": "L49",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_admindashboard",
+      "target": "admin_admindashboard_derivechartertype"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/AdminDashboard.tsx",
+      "source_location": "L39",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_admindashboard",
+      "target": "admin_admindashboard_display_columns"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/AdminDashboard.tsx",
+      "source_location": "L66",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_admindashboard",
+      "target": "admin_admindashboard_displayvalue"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/AdminDashboard.tsx",
+      "source_location": "L60",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_admindashboard",
+      "target": "admin_admindashboard_extractyear"
     },
     {
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "src/components/admin/fields/DynamicListField.tsx",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "fields_dynamiclistfield",
-      "target": "types_form"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/admin/fields/DynamicListField.tsx",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "fields_dynamiclistfield",
-      "target": "types_form_exclusiveoptionconfig"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/admin/fields/DynamicListField.tsx",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "fields_dynamiclistfield",
-      "target": "types_form_levelfieldconfig"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/admin/fields/DynamicListField.tsx",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "fields_dynamiclistfield",
-      "target": "types_form_placeentry"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/admin/fields/DynamicListField.tsx",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "fields_dynamiclistfield",
-      "target": "types_form_witnessentry"
-    },
-    {
-      "relation": "inherits",
-      "context": "type",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/admin/fields/DynamicListField.tsx",
-      "source_location": "L25",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "fields_dynamiclistfield_dynamiclistfieldplaceprops",
-      "target": "fields_dynamiclistfield_dynamiclistfieldbaseprops"
-    },
-    {
-      "relation": "inherits",
-      "context": "type",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/admin/fields/DynamicListField.tsx",
+      "source_file": "src/components/admin/AdminDashboard.tsx",
       "source_location": "L13",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "fields_dynamiclistfield_dynamiclistfieldstringprops",
-      "target": "fields_dynamiclistfield_dynamiclistfieldbaseprops"
+      "source": "admin_admindashboard",
+      "target": "admin_deleteconfirmmodal"
     },
     {
-      "relation": "inherits",
-      "context": "type",
+      "relation": "imports_from",
+      "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "src/components/admin/fields/DynamicListField.tsx",
-      "source_location": "L19",
+      "source_file": "src/components/admin/AdminDashboard.tsx",
+      "source_location": "L14",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "fields_dynamiclistfield_dynamiclistfieldwitnessprops",
-      "target": "fields_dynamiclistfield_dynamiclistfieldbaseprops"
+      "source": "admin_admindashboard",
+      "target": "admin_publishpanel"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/AdminDashboard.tsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_admindashboard",
+      "target": "corpus_facetsidebar"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/AdminDashboard.tsx",
+      "source_location": "L16",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_admindashboard",
+      "target": "types_corpus"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/AdminDashboard.tsx",
+      "source_location": "L16",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_admindashboard",
+      "target": "types_corpus_chartertype"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/AdminDashboard.tsx",
+      "source_location": "L16",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_admindashboard",
+      "target": "types_corpus_daterange"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/AdminDashboard.tsx",
+      "source_location": "L16",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_admindashboard",
+      "target": "types_corpus_facets"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/AdminDashboard.tsx",
+      "source_location": "L16",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_admindashboard",
+      "target": "types_corpus_selectedfacets"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/admin/page.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page",
+      "target": "admin_admindashboard"
     },
     {
       "relation": "references",
       "context": "field",
       "confidence": "EXTRACTED",
-      "source_file": "src/components/admin/fields/DynamicListField.tsx",
-      "source_location": "L22",
+      "source_file": "src/components/admin/AdminDashboard.tsx",
+      "source_location": "L35",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "fields_dynamiclistfield_dynamiclistfieldwitnessprops",
-      "target": "types_form_exclusiveoptionconfig"
+      "source": "admin_admindashboard_corpusresponse",
+      "target": "types_corpus_chartertype"
     },
     {
       "relation": "references",
       "context": "field",
       "confidence": "EXTRACTED",
-      "source_file": "src/components/admin/fields/DynamicListField.tsx",
-      "source_location": "L20",
+      "source_file": "src/components/admin/AdminDashboard.tsx",
+      "source_location": "L34",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "fields_dynamiclistfield_dynamiclistfieldwitnessprops",
-      "target": "types_form_witnessentry"
-    },
-    {
-      "relation": "references",
-      "context": "field",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/admin/fields/DynamicListField.tsx",
-      "source_location": "L29",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "fields_dynamiclistfield_dynamiclistfieldplaceprops",
-      "target": "types_form_levelfieldconfig"
-    },
-    {
-      "relation": "references",
-      "context": "field",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/admin/fields/DynamicListField.tsx",
-      "source_location": "L26",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "fields_dynamiclistfield_dynamiclistfieldplaceprops",
-      "target": "types_form_placeentry"
+      "source": "admin_admindashboard_corpusresponse",
+      "target": "types_corpus_facets"
     },
     {
       "relation": "contains",
@@ -42368,6 +42366,422 @@
       "weight": 1.0,
       "source": "xml_route_post",
       "target": "lib_xmlbuilder_buildfilename"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/admin/form/page.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "form_page",
+      "target": "lib_xmlparser"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/xmlParser.ts",
+      "source_location": "L54",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_xmlparser",
+      "target": "lib_xmlparser_buildelementxpath"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/xmlParser.ts",
+      "source_location": "L60",
+      "weight": 1.0,
+      "source": "lib_xmlparser",
+      "target": "lib_xmlparser_buildpredicates",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/xmlParser.ts",
+      "source_location": "L95",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_xmlparser",
+      "target": "lib_xmlparser_buildwrapperxpath"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/xmlParser.ts",
+      "source_location": "L107",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_xmlparser",
+      "target": "lib_xmlparser_emptydefault"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/xmlParser.ts",
+      "source_location": "L14",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_xmlparser",
+      "target": "lib_xmlparser_getchildnodes"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/xmlParser.ts",
+      "source_location": "L32",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_xmlparser",
+      "target": "lib_xmlparser_gettextcontent"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/xmlParser.ts",
+      "source_location": "L143",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_xmlparser",
+      "target": "lib_xmlparser_parseteixml"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/xmlParser.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_xmlparser",
+      "target": "types_form"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/xmlParser.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_xmlparser",
+      "target": "types_form_datefieldvalue"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/xmlParser.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_xmlparser",
+      "target": "types_form_formfieldconfig"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/xmlParser.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_xmlparser",
+      "target": "types_form_formsectionconfig"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/xmlParser.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_xmlparser",
+      "target": "types_form_formsectionsconfig"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/xmlParser.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_xmlparser",
+      "target": "types_form_placeentry"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/xmlParser.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_xmlparser",
+      "target": "types_form_witnessentry"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/xmlParser.ts",
+      "source_location": "L37",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_xmlparser_gettextcontent",
+      "target": "lib_xmlparser_getchildnodes"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/xmlParser.ts",
+      "source_location": "L303",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_xmlparser_parseteixml",
+      "target": "lib_xmlparser_gettextcontent"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/xmlParser.ts",
+      "source_location": "L72",
+      "weight": 1.0,
+      "source": "lib_xmlparser_buildelementxpath",
+      "target": "lib_xmlparser_buildpredicates",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/admin/form/page.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "form_page",
+      "target": "lib_xmlparser_parseteixml"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/app/admin/form/page.tsx",
+      "source_location": "L49",
+      "weight": 1.0,
+      "source": "form_page_adminformroutepage",
+      "target": "lib_xmlparser_parseteixml"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/FormField.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_formfield",
+      "target": "fields_dynamiclistfield"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/fields/DynamicListField.tsx",
+      "source_location": "L27",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "fields_dynamiclistfield",
+      "target": "fields_dynamiclistfield_dynamiclistfield"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/fields/DynamicListField.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "fields_dynamiclistfield",
+      "target": "fields_dynamiclistfield_dynamiclistfieldbaseprops"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/fields/DynamicListField.tsx",
+      "source_location": "L25",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "fields_dynamiclistfield",
+      "target": "fields_dynamiclistfield_dynamiclistfieldplaceprops"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/fields/DynamicListField.tsx",
+      "source_location": "L25",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "fields_dynamiclistfield",
+      "target": "fields_dynamiclistfield_dynamiclistfieldprops"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/fields/DynamicListField.tsx",
+      "source_location": "L13",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "fields_dynamiclistfield",
+      "target": "fields_dynamiclistfield_dynamiclistfieldstringprops"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/fields/DynamicListField.tsx",
+      "source_location": "L19",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "fields_dynamiclistfield",
+      "target": "fields_dynamiclistfield_dynamiclistfieldwitnessprops"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/fields/DynamicListField.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "fields_dynamiclistfield",
+      "target": "types_form"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/fields/DynamicListField.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "fields_dynamiclistfield",
+      "target": "types_form_exclusiveoptionconfig"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/fields/DynamicListField.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "fields_dynamiclistfield",
+      "target": "types_form_levelfieldconfig"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/fields/DynamicListField.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "fields_dynamiclistfield",
+      "target": "types_form_placeentry"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/fields/DynamicListField.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "fields_dynamiclistfield",
+      "target": "types_form_witnessentry"
+    },
+    {
+      "relation": "inherits",
+      "context": "type",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/fields/DynamicListField.tsx",
+      "source_location": "L25",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "fields_dynamiclistfield_dynamiclistfieldplaceprops",
+      "target": "fields_dynamiclistfield_dynamiclistfieldbaseprops"
+    },
+    {
+      "relation": "inherits",
+      "context": "type",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/fields/DynamicListField.tsx",
+      "source_location": "L13",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "fields_dynamiclistfield_dynamiclistfieldstringprops",
+      "target": "fields_dynamiclistfield_dynamiclistfieldbaseprops"
+    },
+    {
+      "relation": "inherits",
+      "context": "type",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/fields/DynamicListField.tsx",
+      "source_location": "L19",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "fields_dynamiclistfield_dynamiclistfieldwitnessprops",
+      "target": "fields_dynamiclistfield_dynamiclistfieldbaseprops"
+    },
+    {
+      "relation": "references",
+      "context": "field",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/fields/DynamicListField.tsx",
+      "source_location": "L22",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "fields_dynamiclistfield_dynamiclistfieldwitnessprops",
+      "target": "types_form_exclusiveoptionconfig"
+    },
+    {
+      "relation": "references",
+      "context": "field",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/fields/DynamicListField.tsx",
+      "source_location": "L20",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "fields_dynamiclistfield_dynamiclistfieldwitnessprops",
+      "target": "types_form_witnessentry"
+    },
+    {
+      "relation": "references",
+      "context": "field",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/fields/DynamicListField.tsx",
+      "source_location": "L29",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "fields_dynamiclistfield_dynamiclistfieldplaceprops",
+      "target": "types_form_levelfieldconfig"
+    },
+    {
+      "relation": "references",
+      "context": "field",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/fields/DynamicListField.tsx",
+      "source_location": "L26",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "fields_dynamiclistfield_dynamiclistfieldplaceprops",
+      "target": "types_form_placeentry"
     },
     {
       "relation": "imports_from",
@@ -43463,198 +43877,6 @@
       "confidence_score": 1.0,
       "source": "lib_pdfformulary_formularypdf",
       "target": "lib_pdfformulary_extractfield"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/app/admin/form/page.tsx",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "form_page",
-      "target": "lib_xmlparser"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/xmlParser.ts",
-      "source_location": "L54",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_xmlparser",
-      "target": "lib_xmlparser_buildelementxpath"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/xmlParser.ts",
-      "source_location": "L95",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_xmlparser",
-      "target": "lib_xmlparser_buildwrapperxpath"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/xmlParser.ts",
-      "source_location": "L107",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_xmlparser",
-      "target": "lib_xmlparser_emptydefault"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/xmlParser.ts",
-      "source_location": "L14",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_xmlparser",
-      "target": "lib_xmlparser_getchildnodes"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/xmlParser.ts",
-      "source_location": "L32",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_xmlparser",
-      "target": "lib_xmlparser_gettextcontent"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/xmlParser.ts",
-      "source_location": "L143",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_xmlparser",
-      "target": "lib_xmlparser_parseteixml"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/xmlParser.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_xmlparser",
-      "target": "types_form"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/xmlParser.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_xmlparser",
-      "target": "types_form_datefieldvalue"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/xmlParser.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_xmlparser",
-      "target": "types_form_formfieldconfig"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/xmlParser.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_xmlparser",
-      "target": "types_form_formsectionconfig"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/xmlParser.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_xmlparser",
-      "target": "types_form_formsectionsconfig"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/xmlParser.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_xmlparser",
-      "target": "types_form_placeentry"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/xmlParser.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_xmlparser",
-      "target": "types_form_witnessentry"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/xmlParser.ts",
-      "source_location": "L37",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_xmlparser_gettextcontent",
-      "target": "lib_xmlparser_getchildnodes"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/xmlParser.ts",
-      "source_location": "L303",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_xmlparser_parseteixml",
-      "target": "lib_xmlparser_gettextcontent"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/app/admin/form/page.tsx",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "form_page",
-      "target": "lib_xmlparser_parseteixml"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/app/admin/form/page.tsx",
-      "source_location": "L49",
-      "weight": 1.0,
-      "source": "form_page_adminformroutepage",
-      "target": "lib_xmlparser_parseteixml"
     },
     {
       "relation": "imports_from",
@@ -66266,17 +66488,6 @@
       "target": "components_staticexportplaceholder"
     },
     {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/app/admin/page.tsx",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_page",
-      "target": "admin_admindashboard"
-    },
-    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/app/admin/page.tsx",
@@ -67595,186 +67806,6 @@
       "confidence_score": 1.0,
       "source": "admin_adhocfields",
       "target": "admin_adhocfields_adhocfieldsprops"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/admin/AdminDashboard.tsx",
-      "source_location": "L77",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_admindashboard",
-      "target": "admin_admindashboard_admindashboard"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/admin/AdminDashboard.tsx",
-      "source_location": "L19",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_admindashboard",
-      "target": "admin_admindashboard_columnconfig"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/admin/AdminDashboard.tsx",
-      "source_location": "L31",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_admindashboard",
-      "target": "admin_admindashboard_corpusresponse"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/admin/AdminDashboard.tsx",
-      "source_location": "L49",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_admindashboard",
-      "target": "admin_admindashboard_derivechartertype"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/admin/AdminDashboard.tsx",
-      "source_location": "L39",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_admindashboard",
-      "target": "admin_admindashboard_display_columns"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/admin/AdminDashboard.tsx",
-      "source_location": "L66",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_admindashboard",
-      "target": "admin_admindashboard_displayvalue"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/admin/AdminDashboard.tsx",
-      "source_location": "L60",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_admindashboard",
-      "target": "admin_admindashboard_extractyear"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/admin/AdminDashboard.tsx",
-      "source_location": "L13",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_admindashboard",
-      "target": "admin_deleteconfirmmodal"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/admin/AdminDashboard.tsx",
-      "source_location": "L14",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_admindashboard",
-      "target": "admin_publishpanel"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/admin/AdminDashboard.tsx",
-      "source_location": "L15",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_admindashboard",
-      "target": "corpus_facetsidebar"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/admin/AdminDashboard.tsx",
-      "source_location": "L16",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_admindashboard",
-      "target": "types_corpus"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/admin/AdminDashboard.tsx",
-      "source_location": "L16",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_admindashboard",
-      "target": "types_corpus_chartertype"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/admin/AdminDashboard.tsx",
-      "source_location": "L16",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_admindashboard",
-      "target": "types_corpus_daterange"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/admin/AdminDashboard.tsx",
-      "source_location": "L16",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_admindashboard",
-      "target": "types_corpus_facets"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/admin/AdminDashboard.tsx",
-      "source_location": "L16",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_admindashboard",
-      "target": "types_corpus_selectedfacets"
-    },
-    {
-      "relation": "references",
-      "context": "field",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/admin/AdminDashboard.tsx",
-      "source_location": "L35",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_admindashboard_corpusresponse",
-      "target": "types_corpus_chartertype"
-    },
-    {
-      "relation": "references",
-      "context": "field",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/admin/AdminDashboard.tsx",
-      "source_location": "L34",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_admindashboard_corpusresponse",
-      "target": "types_corpus_facets"
     },
     {
       "relation": "contains",
@@ -92267,5 +92298,5 @@
       "confidence_score": 0.95
     }
   ],
-  "built_at_commit": "c2ff55d51416e446b01d098830e9ed0b0c70642a"
+  "built_at_commit": "f39c27abc5d3959a56ffd2542fba06fa833626bd"
 }
