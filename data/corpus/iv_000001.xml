@@ -53,7 +53,7 @@
   <text>
     <body>
       <diploPart type="full_text">
-        <p>This is full text</p>
+        <p>This is full text.</p>
       </diploPart>
       <div type="protocol">
         <diploPart type="invocatio" subtype="symbolica verbalis">
