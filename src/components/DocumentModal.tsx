@@ -2,19 +2,23 @@
 
 import { useEffect, useCallback } from "react";
 import DocumentCard from "./DocumentCard";
+import type { ColumnConfig } from "@/types/corpus";
 
-interface ColumnConfig {
-  id: string;
-  label: string;
+export interface CardDisplayConfig {
+  historicalIds: string[];
+  extractedIds: string[];
+  badgeFields: string[];
+  badgeLabels: Record<string, Record<string, string>>;
 }
 
 interface DocumentModalProps {
   item: Record<string, string | string[]>;
   columnConfig: ColumnConfig[];
+  cardConfig?: CardDisplayConfig | null;
   onClose: () => void;
 }
 
-export default function DocumentModal({ item, columnConfig, onClose }: DocumentModalProps) {
+export default function DocumentModal({ item, columnConfig, cardConfig, onClose }: DocumentModalProps) {
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (e.key === "Escape") onClose();
   }, [onClose]);
@@ -45,6 +49,7 @@ export default function DocumentModal({ item, columnConfig, onClose }: DocumentM
         <DocumentCard
           item={item as Record<string, string | string[]> & { id: string }}
           columnConfig={columnConfig}
+          cardConfig={cardConfig}
         />
       </div>
     </div>

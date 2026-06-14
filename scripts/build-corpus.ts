@@ -13,9 +13,11 @@
 import * as fs from "fs";
 import * as path from "path";
 import { fileURLToPath } from "url";
-import yaml from "js-yaml";
 import xpath from "xpath";
 import { DOMParser } from "@xmldom/xmldom";
+import { getLegacyColumns, getLegacyCardTabs } from "@/lib/schema/adapter";
+import { getCharterTypes } from "@/lib/schema/registry";
+import { getBaseDefaults } from "@/lib/schema/views";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -33,24 +35,24 @@ interface ColumnConfig {
   truncateWords?: number;
 }
 
-interface ColumnsYaml {
-  columns: ColumnConfig[];
-}
-
 type CorpusItem = Record<string, string | string[]>;
 
-interface TypeConfig {
-  id: string;
-  label: string;
+interface TypesConfig {
+  types: { id: string; label: string }[];
+  sections: unknown[];
 }
 
-interface TypesConfig {
-  types: TypeConfig[];
-  sections: unknown[];
+interface CardDisplayConfig {
+  historicalIds: string[];
+  extractedIds: string[];
+  badgeFields: string[];
+  badgeLabels: Record<string, Record<string, string>>;
 }
 
 interface CorpusMetadata {
   columns: ColumnConfig[];
+  adminColumns: ColumnConfig[];
+  cardConfig: CardDisplayConfig;
   items: CorpusItem[];
   facets: Record<string, { value: string; count: number }[]>;
   charterTypes: { id: string; label: string; count: number }[];
@@ -222,16 +224,13 @@ function extractCharterTypes(
 export async function buildCorpus(config?: BuildConfig): Promise<void> {
   // Compute paths: use projectRoot from config, or fall back to __dirname
   const root = config?.projectRoot ?? path.resolve(__dirname, "..");
-  const columnsYaml = path.join(root, "config", "columns.yaml");
   const defaultTeiDir = getActiveTeiDir(root);
   console.log(`Active TEI directory: ${defaultTeiDir}`);
   const defaultOutputFile = path.join(root, "public", "corpus-metadata.json");
 
-  // 1. Load column definitions from YAML
-  console.log(`Reading column config from ${columnsYaml}`);
-  const yamlContent = fs.readFileSync(columnsYaml, "utf-8");
-  const parsed = yaml.load(yamlContent) as ColumnsYaml;
-  const columns: ColumnConfig[] = parsed.columns;
+  // 1. Load column definitions from schema adapter
+  console.log(`Loading column config from schema registry`);
+  const columns: ColumnConfig[] = getLegacyColumns("home");
   console.log(`  Found ${columns.length} column definitions`);
 
   // 2. Find all TEI/XML files (explicit dirs override the active directory)
@@ -282,7 +281,7 @@ export async function buildCorpus(config?: BuildConfig): Promise<void> {
         if (col.attribute) {
           // Extract attribute value from the matched element(s)
           if (col.cardinality === "multiple") {
-            let values: string[] = nodes.map((node) => {
+            const values: string[] = nodes.map((node) => {
               const el = node as any;
               const attrVal = el.getAttribute?.(col.attribute!);
               return attrVal ? attrVal.trim() : "";
@@ -301,11 +300,11 @@ export async function buildCorpus(config?: BuildConfig): Promise<void> {
           // Extract text content from the matched node(s)
           if (col.cardinality === "multiple") {
             // Collect ALL matching nodes into a string[]
-            let values: string[] = nodes.map(extractText).map((t) => t.trim());
+            const values: string[] = nodes.map(extractText).map((t) => t.trim());
             item[col.id] = values;
           } else {
             // Take the FIRST matching node as string (empty string if no match)
-            let value = nodes.length > 0 ? extractText(nodes[0]).trim() : "";
+            const value = nodes.length > 0 ? extractText(nodes[0]).trim() : "";
             item[col.id] = value;
           }
         }
@@ -323,11 +322,10 @@ export async function buildCorpus(config?: BuildConfig): Promise<void> {
     items.push(item);
   }
 
-  // 4. Load form-sections.yaml for charter type extraction
-  const formSectionsYaml = path.join(root, "config", "form-sections.yaml");
-  console.log(`Reading form sections from ${formSectionsYaml}`);
-  const formYamlContent = fs.readFileSync(formSectionsYaml, "utf-8");
-  const typesConfig = yaml.load(formYamlContent) as TypesConfig;
+  // 4. Load charter types from schema registry
+  console.log(`Loading charter types from schema registry`);
+  const charterTypesRaw = getCharterTypes();
+  const typesConfig: TypesConfig = { types: charterTypesRaw, sections: [] };
   console.log(`  Found ${typesConfig.types.length} charter type(s)`);
 
   // 5. Compute facets and charter types
@@ -336,9 +334,32 @@ export async function buildCorpus(config?: BuildConfig): Promise<void> {
   console.log(`  Computed facets for ${Object.keys(facets).length} column(s)`);
   console.log(`  Found ${charterTypes.length} charter type(s)`);
 
+  // 5b. Build admin columns and card display config from adapter
+  console.log(`Loading admin columns and card config from adapter`);
+  const adminColumns: ColumnConfig[] = getLegacyColumns("admin");
+  console.log(`  Found ${adminColumns.length} admin column(s)`);
+
+  const cardView = getLegacyCardTabs();
+  const baseDefaults = getBaseDefaults();
+  const cardConfig: CardDisplayConfig = {
+    historicalIds:
+      cardView.header?.sections?.find((s) => s.id === "historical_info")?.fields.map((f) => f.id) ?? [],
+    extractedIds:
+      cardView.header?.sections?.find((s) => s.id === "extracted_info")?.fields.map((f) => f.id) ?? [],
+    badgeFields:
+      cardView.header?.sections
+        ?.flatMap((s) => s.fields)
+        .filter((f) => f.render === "badge")
+        .map((f) => f.id) ?? [],
+    badgeLabels: baseDefaults.badgeLabels,
+  };
+  console.log(`  Card config: ${cardConfig.historicalIds.length} historical, ${cardConfig.extractedIds.length} extracted, ${cardConfig.badgeFields.length} badge fields`);
+
   // 6. Build output
   const metadata: CorpusMetadata = {
     columns,
+    adminColumns,
+    cardConfig,
     items,
     facets,
     charterTypes,

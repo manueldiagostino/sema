@@ -12,9 +12,17 @@ interface ColumnConfig {
   truncateWords?: number;
 }
 
+export interface CardDisplayConfig {
+  historicalIds: string[];
+  extractedIds: string[];
+  badgeFields: string[];
+  badgeLabels: Record<string, Record<string, string>>;
+}
+
 interface DocumentCardProps {
   item: Record<string, string | string[]> & { id: string };
   columnConfig: ColumnConfig[];
+  cardConfig?: CardDisplayConfig | null;
   compact?: boolean;
   showRef?: boolean;
 }
@@ -31,44 +39,8 @@ function downloadBlob(content: string, filename: string, type: string) {
   URL.revokeObjectURL(url);
 }
 
-const HISTORICAL_IDS = [
-  "intitulatio_analysis",
-  "inscriptio_analysis",
-  "repository",
-  "shelfmark",
-  "dating_chronological",
-  "dating_topical",
-  "completio_analysis",
-  "testes_names",
-  "investitor_name",
-];
-
-const EXTRACTED_IDS = [
-  "invocatio_analysis",
-  "descriptio_rei_analysis",
-  "sanctio_analysis",
-  "subscriptio_emittentis_analysis",
-  "pretium",
-  "property_location",
-  "datatio_topica_analysis",
-];
-
-const BADGE_FIELDS = new Set([
-  "invocatio_analysis",
-  "descriptio_rei_analysis",
-  "sanctio_analysis",
-  "subscriptio_emittentis_analysis",
-]);
-
-const BADGE_LABELS: Record<string, Record<string, string>> = {
-  invocatio_analysis: { symbolica: "Simbolica", verbalis: "Verbale" },
-  descriptio_rei_analysis: { immobile: "Immobile", mobile: "Mobile" },
-  sanctio_analysis: { dupli_pena: "Penalty of Double", pecunia_numerata: "Numbered Pecunia" },
-  subscriptio_emittentis_analysis: { auctor: "Author", destinatarius: "Recipient" },
-};
-
-function Badge({ value, fieldId }: { value: string; fieldId: string }) {
-  const labels = BADGE_LABELS[fieldId];
+function Badge({ value, fieldId, badgeLabels }: { value: string; fieldId: string; badgeLabels: Record<string, Record<string, string>> }) {
+  const labels = badgeLabels[fieldId];
   const label = labels?.[value];
   if (!label) return null;
   return (
@@ -81,15 +53,19 @@ function Badge({ value, fieldId }: { value: string; fieldId: string }) {
 function FieldValue({
   fieldId,
   val,
+  badgeFields,
+  badgeLabels,
 }: {
   fieldId: string;
   val: string | string[] | undefined;
+  badgeFields: string[];
+  badgeLabels: Record<string, Record<string, string>>;
 }) {
   if (val === undefined || val === null) {
-    return BADGE_FIELDS.has(fieldId) ? null : <span>—</span>;
+    return badgeFields.includes(fieldId) ? null : <span>—</span>;
   }
 
-  const values: string[] = BADGE_FIELDS.has(fieldId) && typeof val === "string"
+  const values: string[] = badgeFields.includes(fieldId) && typeof val === "string"
     ? val.split(/\s+/)
     : Array.isArray(val)
       ? val
@@ -97,13 +73,13 @@ function FieldValue({
   const nonEmpty = values.filter((v) => v !== "");
 
   if (nonEmpty.length === 0) {
-    return BADGE_FIELDS.has(fieldId) ? null : <span>—</span>;
+    return badgeFields.includes(fieldId) ? null : <span>—</span>;
   }
 
-  if (BADGE_FIELDS.has(fieldId)) {
+  if (badgeFields.includes(fieldId)) {
     const badges = nonEmpty
       .map((v) => {
-        const labels = BADGE_LABELS[fieldId];
+        const labels = badgeLabels[fieldId];
         const label = labels?.[v];
         return label ? v : null;
       })
@@ -112,7 +88,7 @@ function FieldValue({
     return (
       <span className="flex flex-wrap gap-1">
         {badges.map((v) => (
-          <Badge key={v} value={v} fieldId={fieldId} />
+          <Badge key={v} value={v} fieldId={fieldId} badgeLabels={badgeLabels} />
         ))}
       </span>
     );
@@ -125,12 +101,27 @@ function FieldValue({
 function PreliminaryInfo({
   item,
   metadataCols,
+  cardConfig,
 }: {
   item: Record<string, string | string[]> & { id: string };
   metadataCols: ColumnConfig[];
+  cardConfig?: CardDisplayConfig | null;
 }) {
-  const historicalCols = metadataCols.filter((c) => HISTORICAL_IDS.includes(c.id));
-  const extractedCols = metadataCols.filter((c) => EXTRACTED_IDS.includes(c.id));
+  const historicalIds = cardConfig?.historicalIds ?? [
+    "intitulatio_analysis", "inscriptio_analysis", "repository", "shelfmark",
+    "dating_chronological", "dating_topical", "completio_analysis", "testes_names", "investitor_name",
+  ];
+  const extractedIds = cardConfig?.extractedIds ?? [
+    "invocatio_analysis", "descriptio_rei_analysis", "sanctio_analysis",
+    "subscriptio_emittentis_analysis", "pretium", "property_location", "datatio_topica_analysis",
+  ];
+  const badgeFields = cardConfig?.badgeFields ?? [
+    "invocatio_analysis", "descriptio_rei_analysis", "sanctio_analysis", "subscriptio_emittentis_analysis",
+  ];
+  const badgeLabels = cardConfig?.badgeLabels ?? {};
+
+  const historicalCols = metadataCols.filter((c) => historicalIds.includes(c.id));
+  const extractedCols = metadataCols.filter((c) => extractedIds.includes(c.id));
 
   const hasValue = (colId: string): boolean => {
     const v = item[colId];
@@ -154,27 +145,27 @@ function PreliminaryInfo({
               <div key={c.id}>
                 <dt className="text-xs font-semibold text-muted-foreground">{label}</dt>
                 <dd className="mt-1 text-sm text-foreground">
-                  <FieldValue fieldId={c.id} val={val} />
-                </dd>
-              </div>
-            );
-          })}
-        </dl>
-      </div>
+                   <FieldValue fieldId={c.id} val={val} badgeFields={badgeFields} badgeLabels={badgeLabels} />
+                 </dd>
+               </div>
+             );
+           })}
+         </dl>
+       </div>
 
-      {/* Extracted from Text */}
-      {hasExtracted && (
-        <div>
-          <h3 className="text-sm font-semibold text-primary mb-3">Extracted from Text</h3>
-          <dl className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {extractedCols.map((c) => {
-              const val = item[c.id];
-              const label = c.label.charAt(0).toUpperCase() + c.label.slice(1).toLowerCase();
-              return (
-                <div key={c.id}>
-                  <dt className="text-xs font-semibold text-muted-foreground">{label}</dt>
-                  <dd className="mt-1 text-sm text-foreground">
-                    <FieldValue fieldId={c.id} val={val} />
+       {/* Extracted from Text */}
+       {hasExtracted && (
+         <div>
+           <h3 className="text-sm font-semibold text-primary mb-3">Extracted from Text</h3>
+           <dl className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+             {extractedCols.map((c) => {
+               const val = item[c.id];
+               const label = c.label.charAt(0).toUpperCase() + c.label.slice(1).toLowerCase();
+               return (
+                 <div key={c.id}>
+                   <dt className="text-xs font-semibold text-muted-foreground">{label}</dt>
+                   <dd className="mt-1 text-sm text-foreground">
+                     <FieldValue fieldId={c.id} val={val} badgeFields={badgeFields} badgeLabels={badgeLabels} />
                   </dd>
                 </div>
               );
@@ -189,6 +180,7 @@ function PreliminaryInfo({
 export default function DocumentCard({
   item,
   columnConfig,
+  cardConfig,
   compact = false,
   showRef = false,
 }: DocumentCardProps) {
@@ -310,7 +302,7 @@ export default function DocumentCard({
       </div>
 
       {/* Preliminary info grid */}
-      <PreliminaryInfo item={item} metadataCols={metadataCols} />
+      <PreliminaryInfo item={item} metadataCols={metadataCols} cardConfig={cardConfig} />
 
       {/* Tab bar + Download */}
       <div className="flex items-center justify-between border-b border-border">

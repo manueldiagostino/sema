@@ -45,7 +45,7 @@ export interface PlaceEntry {
 /** Configuration for a per-entry level field on dynamic lists. */
 export interface LevelFieldConfig {
   key: string;
-  label: string;
+  label?: string;
 }
 
 /** Configuration for an exclusive option (radio) per dynamic list entry. */

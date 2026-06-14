@@ -168,7 +168,7 @@ export async function POST(request: Request) {
 
   try {
     // ── 2. Load form config ──
-    const config = loadFormConfig();
+    const config = await loadFormConfig();
     const cwd = process.cwd();
     const localTeiDir = getActiveTeiDir(cwd);
     mkdirSync(localTeiDir, { recursive: true });

@@ -16,26 +16,12 @@ import {
   flexRender,
   CellContext,
 } from "@tanstack/react-table";
-import { CorpusItem } from "@/types/corpus";
+import { CorpusItem, ColumnConfig } from "@/types/corpus";
 import { truncateWords } from "@/lib/truncateWords";
 import DocumentModal from "./DocumentModal";
 import CompareDrawer from "./CompareDrawer";
 import FacetSidebar from "./corpus/FacetSidebar";
 import { Facets, CharterType, SelectedFacets, DateRange } from "@/types/corpus";
-
-/**
- * Column configuration — loaded from corpus-metadata.json.
- */
-interface ColumnConfig {
-  id: string;
-  label: string;
-  xpath: string;
-  sortable: boolean;
-  filterable: boolean;
-  cardinality: "single" | "multiple";
-  join: string;
-  truncateWords?: number;
-}
 
 const PAGE_SIZES = [10, 25, 50, 100];
 const MAX_SELECTION = 20;
@@ -120,6 +106,14 @@ export default function CorpusTable() {
   // Column config loaded from JSON file
   const [columnConfig, setColumnConfig] = useState<ColumnConfig[] | null>(null);
 
+  // Card display config loaded from JSON file
+  const [cardConfig, setCardConfig] = useState<{
+    historicalIds: string[];
+    extractedIds: string[];
+    badgeFields: string[];
+    badgeLabels: Record<string, Record<string, string>>;
+  } | null>(null);
+
   // Facet sidebar state
   const [facets, setFacets] = useState<Facets>({});
   const [charterTypes, setCharterTypes] = useState<CharterType[]>([]);
@@ -144,6 +138,7 @@ export default function CorpusTable() {
         }
         const json = await res.json();
         setColumnConfig(json.columns);
+        setCardConfig(json.cardConfig ?? null);
         setData(json.items);
         setFacets(json.facets ?? {});
         setCharterTypes(json.charterTypes ?? []);
@@ -915,6 +910,7 @@ export default function CorpusTable() {
         <DocumentModal
           item={selectedDocument}
           columnConfig={columnConfig ?? []}
+          cardConfig={cardConfig}
           onClose={() => setSelectedDocument(null)}
         />
       )}
