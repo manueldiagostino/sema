@@ -33,14 +33,11 @@ columns:
     sortable: true
     filterable: true
 
-  # Computed column — combines repository + shelfmark
   - id: currentLocation
     computed: true
-    formula: "[repository] [shelfmark]"
     width: 200
     sortable: true
     filterable: true
-    render: text
 
   # ── ACTORS ──────────────────────────────────────────────
   - id: intitulatio_analysis
@@ -119,4 +116,4 @@ columns:
     render: textarea
     sortable: false
     filterable: false
-    truncateWords: 20
+    truncate_words: 20

@@ -75,6 +75,17 @@ elements:
     sortable: false
     filterable: false
 
+  currentLocation:
+    tei:
+      element: computed
+      xpath_parent: ""
+    label: Current Location
+    type: computed
+    cardinality: single
+    formulary_section: metadata
+    sortable: true
+    filterable: true
+
   repository:
     tei:
       element: repository

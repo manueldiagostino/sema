@@ -52,6 +52,10 @@ import {
  */
 export function buildXpath(elem: TeiElement): string {
   const m = elem.tei;
+  // Guard: computed elements or empty TEI mappings have no XPath
+  if (!m.xpath_parent || elem.type === "computed") {
+    return "";
+  }
   let xpath = m.xpath_parent;
 
   // Walk through the TEI element hierarchy
@@ -122,18 +126,16 @@ function tableColumnToLegacy(
   let attribute: string | undefined;
 
   if (elem) {
-    // Check if the column is a computed column (formula-based)
-    if (col.computed && col.formula) {
+    // Check if the column is a computed column (formula-based or schema-defined)
+    if (col.computed || col.formula || elem.type === "computed") {
       // Computed columns don't have a direct XPath — use a placeholder
-      xpath = `computed:${col.formula}`;
+      const formula = col.formula ?? elem.formula ?? "";
+      xpath = formula ? `computed:${formula}` : `computed:${col.id}`;
     } else {
       xpath = buildXpath(elem);
       // Determine which attribute to read
       if (elem.tei.attribute) {
         attribute = elem.tei.attribute;
-      } else if (elem.type === "computed") {
-        // Computed elements may have text_source configuration
-        attribute = undefined;
       }
     }
   } else {
@@ -305,11 +307,11 @@ function convertFormSections(
  */
 export function getLegacyFormSections(charterType: string): FormSectionsConfig {
   const schema = loadTeiSchema(charterType);
-  const formView = loadFormConfig(charterType);
+  const formView = loadFormConfig(charterType.replace(/_/g, "-"));
 
   // Build charter type config from the schema
   const charterTypeSchema =
-    charterType === "instrumentum-venditionis"
+    charterType === "instrumentum_venditionis"
       ? {
           id: "instrumentum_venditionis",
           label: "Instrumentum venditionis",

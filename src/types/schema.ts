@@ -29,6 +29,7 @@ export interface TeiElement {
   formulary_section?: string;
   options?: Option[];
   default_value?: string;
+  formula?: string;
   field_pair?: string;
   exclusive_option?: { label: string; fieldKey: string };
   level_field?: { key: string };

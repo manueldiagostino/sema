@@ -379,50 +379,58 @@ export default function CorpusTable() {
       },
     };
 
-    const mappedColumns = columnConfig.map((col) => ({
-      accessorKey: col.id,
-      header: col.label,
-      enableSorting: col.sortable,
-      enableColumnFilter: col.filterable,
-      meta: { minWidth: col.truncateWords && col.truncateWords > 0 ? 320 : 180 },
-      cell: ({ getValue }: CellContext<CorpusItem, unknown>) => {
-        const value = getValue() as string | string[];
-        let display: string;
-        if (Array.isArray(value)) {
-          display = value.join(col.join);
-        } else {
-          display = value ?? "";
-        }
-        const isLongText = col.truncateWords && col.truncateWords > 0;
-        if (isLongText && typeof display === "string") {
-          display = truncateWords(display, col.truncateWords!);
-        }
-        return (
-          <span className={isLongText ? "text-justify block" : ""}>
-            {display}
-          </span>
-        );
-      },
-    }));
+    const mappedColumns = columnConfig.map((col) => {
+      // Computed columns (e.g. currentLocation) need accessorFn, not accessorKey
+      if (col.xpath?.startsWith("computed:")) {
+        return {
+          id: col.id,
+          header: col.label,
+          accessorFn: (row: CorpusItem) => {
+            if (col.id === "currentLocation") {
+              const repo = typeof row.repository === "string" ? row.repository : "";
+              const shelf = typeof row.shelfmark === "string" ? row.shelfmark : "";
+              if (repo && shelf) return `${repo}, ${shelf}`;
+              if (repo) return repo;
+              if (shelf) return shelf;
+              return "—";
+            }
+            return "";
+          },
+          enableSorting: col.sortable,
+          enableColumnFilter: col.filterable,
+          meta: { minWidth: col.truncateWords && col.truncateWords > 0 ? 320 : 180 },
+          cell: ({ getValue }: CellContext<CorpusItem, unknown>) => {
+            return <span>{getValue() as string}</span>;
+          },
+        };
+      }
 
-    const currentLocationColumn: ColumnDef<CorpusItem> = {
-      id: "currentLocation",
-      header: "Current Location",
-      accessorFn: (row) => {
-        const repo = typeof row.repository === "string" ? row.repository : "";
-        const shelf = typeof row.shelfmark === "string" ? row.shelfmark : "";
-        if (repo && shelf) return `${repo}, ${shelf}`;
-        if (repo) return repo;
-        if (shelf) return shelf;
-        return "—";
-      },
-      enableSorting: true,
-      enableColumnFilter: false,
-      meta: { minWidth: 180 },
-      cell: ({ getValue }: CellContext<CorpusItem, unknown>) => {
-        return <span>{getValue() as string}</span>;
-      },
-    };
+      return {
+        accessorKey: col.id,
+        header: col.label,
+        enableSorting: col.sortable,
+        enableColumnFilter: col.filterable,
+        meta: { minWidth: col.truncateWords && col.truncateWords > 0 ? 320 : 180 },
+        cell: ({ getValue }: CellContext<CorpusItem, unknown>) => {
+          const value = getValue() as string | string[];
+          let display: string;
+          if (Array.isArray(value)) {
+            display = value.join(col.join);
+          } else {
+            display = value ?? "";
+          }
+          const isLongText = col.truncateWords && col.truncateWords > 0;
+          if (isLongText && typeof display === "string") {
+            display = truncateWords(display, col.truncateWords!);
+          }
+          return (
+            <span className={isLongText ? "text-justify block" : ""}>
+              {display}
+            </span>
+          );
+        },
+      };
+    });
 
     return [
       {
@@ -443,7 +451,6 @@ export default function CorpusTable() {
       idColumn,
       charterTypeColumn,
       ...mappedColumns,
-      currentLocationColumn,
     ];
   }, [columnConfig, charterTypes]);
 

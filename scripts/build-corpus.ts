@@ -15,8 +15,8 @@ import * as path from "path";
 import { fileURLToPath } from "url";
 import xpath from "xpath";
 import { DOMParser } from "@xmldom/xmldom";
-import { getLegacyColumns, getLegacyCardTabs } from "@/lib/schema/adapter";
-import { getCharterTypes } from "@/lib/schema/registry";
+import { getLegacyColumns, getLegacyCardTabs, buildXpath } from "@/lib/schema/adapter";
+import { getCharterTypes, loadTeiSchema } from "@/lib/schema/registry";
 import { getBaseDefaults } from "@/lib/schema/views";
 
 // ---------------------------------------------------------------------------
@@ -233,6 +233,9 @@ export async function buildCorpus(config?: BuildConfig): Promise<void> {
   const columns: ColumnConfig[] = getLegacyColumns("home");
   console.log(`  Found ${columns.length} column definitions`);
 
+  // 1b. Load TEI schema for formulary body-text extraction
+  const schema = loadTeiSchema();
+
   // 2. Find all TEI/XML files (explicit dirs override the active directory)
   const dataDirs = config?.dataDirs && config.dataDirs.length > 0 ? [...config.dataDirs] : [defaultTeiDir];
   const xmlFiles = findXmlFiles(dataDirs);
@@ -271,6 +274,12 @@ export async function buildCorpus(config?: BuildConfig): Promise<void> {
     const item: CorpusItem = {};
 
     for (const col of columns) {
+      // Skip computed columns — they have no XPath in the XML
+      if (col.xpath.startsWith("computed:")) {
+        item[col.id] = col.cardinality === "multiple" ? [] : "";
+        continue;
+      }
+
       try {
         // Prepend // if not already present so xpath searches from document root
         const xpathExpr = col.xpath.startsWith("//")
@@ -314,6 +323,30 @@ export async function buildCorpus(config?: BuildConfig): Promise<void> {
         );
         // Set default based on cardinality
         item[col.id] = col.cardinality === "multiple" ? [] : "";
+      }
+    }
+
+    // Extract formular body-text fields for DocumentCard formulary tab
+    for (const [elemId, elem] of Object.entries(schema.elements)) {
+      if (!elem.formulary_section) continue;
+      if (
+        elem.formulary_section !== "protocol" &&
+        elem.formulary_section !== "contextus" &&
+        elem.formulary_section !== "eschatocol"
+      ) continue;
+      if (elemId in item) continue; // already extracted as a column
+
+      try {
+        const xpathExpr = buildXpath(elem);
+        const expr = xpathExpr.startsWith("//") ? xpathExpr : `//${xpathExpr}`;
+        const nodes = select(expr, doc) as Node[];
+        if (elem.cardinality === "multiple") {
+          item[elemId] = nodes.map(extractText).map((t) => t.trim());
+        } else {
+          item[elemId] = nodes.length > 0 ? extractText(nodes[0]).trim() : "";
+        }
+      } catch {
+        item[elemId] = "";
       }
     }
 
