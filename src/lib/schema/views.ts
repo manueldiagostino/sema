@@ -108,6 +108,7 @@ export function loadTableConfig(
   }
 
   let config: TableViewConfig = {
+    defaultVisible: viewRaw.defaultVisible as TableViewConfig["defaultVisible"],
     columns: (viewRaw.columns as TableViewConfig["columns"]) ?? [],
   };
 

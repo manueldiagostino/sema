@@ -17,7 +17,7 @@ import xpath from "xpath";
 import { DOMParser } from "@xmldom/xmldom";
 import { getLegacyColumns, getLegacyCardTabs, buildXpath } from "@/lib/schema/adapter";
 import { getCharterTypes, loadTeiSchema } from "@/lib/schema/registry";
-import { getBaseDefaults } from "@/lib/schema/views";
+import { getBaseDefaults, loadTableConfig, loadCardConfig } from "@/lib/schema/views";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -56,6 +56,12 @@ interface CorpusMetadata {
   items: CorpusItem[];
   facets: Record<string, { value: string; count: number }[]>;
   charterTypes: { id: string; label: string; count: number }[];
+  /** Badge labels for client-side lookup (no fs dependency needed). */
+  badgeLabels: Record<string, Record<string, string>>;
+  /** Engine-native table config (columns in display order). */
+  teiSchema?: Record<string, unknown>;
+  tableConfigHome?: Record<string, unknown>;
+  cardViewConfig?: Record<string, unknown>;
 }
 
 /** Configuration passed at call time (API routes) to override default paths. */
@@ -388,6 +394,15 @@ export async function buildCorpus(config?: BuildConfig): Promise<void> {
   };
   console.log(`  Card config: ${cardConfig.historicalIds.length} historical, ${cardConfig.extractedIds.length} extracted, ${cardConfig.badgeFields.length} badge fields`);
 
+  // 5c. Load engine-native configs for client-side use
+  console.log(`Loading engine-native configs`);
+  const teiSchema = loadTeiSchema();
+  const tableConfigHome = loadTableConfig("home");
+  const cardViewConfig = loadCardConfig();
+  console.log(`  TEI schema: ${Object.keys(teiSchema.elements).length} elements`);
+  console.log(`  Table config: ${tableConfigHome.columns.length} columns`);
+  console.log(`  Card view config: ${cardViewConfig.tabs?.items?.length ?? 0} tabs`);
+
   // 6. Build output
   const metadata: CorpusMetadata = {
     columns,
@@ -396,6 +411,10 @@ export async function buildCorpus(config?: BuildConfig): Promise<void> {
     items,
     facets,
     charterTypes,
+    badgeLabels: baseDefaults.badgeLabels,
+    teiSchema: teiSchema as unknown as Record<string, unknown>,
+    tableConfigHome: tableConfigHome as unknown as Record<string, unknown>,
+    cardViewConfig: cardViewConfig as unknown as Record<string, unknown>,
   };
 
   // 7. Determine output path (config overrides default)

@@ -120,16 +120,18 @@ export interface CharterTypeSchema {
 
 /** Top-level table view configuration. */
 export interface TableViewConfig {
+  defaultVisible?: string[];
   columns: TableColumn[];
 }
 
 /** A single column in the corpus table. */
 export interface TableColumn {
   id: string;
+  label?: string;
   width?: number;
   sortable?: boolean;
   filterable?: boolean;
-  render?: "badge" | "icon" | "text" | "edit-delete" | "textarea" | "date" | "link" | "dynamic-list";
+  render?: "badge" | "icon" | "text" | "edit-delete" | "textarea" | "date" | "link" | "dynamic-list" | "id" | "charterType";
   computed?: boolean;
   formula?: string;
   join?: string;

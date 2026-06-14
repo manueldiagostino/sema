@@ -542,7 +542,7 @@ elements:
       element: term
       type: datatio_topica_analysis
       xpath_parent: "tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords"
-    label: Place of reduction
+    label: Place of redaction
     type: entity
     cardinality: multiple
     formulary_section: eschatocol

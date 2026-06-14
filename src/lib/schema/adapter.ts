@@ -139,8 +139,14 @@ function tableColumnToLegacy(
       }
     }
   } else {
-    // No schema element — use the ID as a fallback XPath marker
-    xpath = `field:${col.id}`;
+    // No schema element — check if computed before falling back
+    if (col.computed || col.formula) {
+      const formula = col.formula ?? "";
+      xpath = formula ? `computed:${formula}` : `computed:${col.id}`;
+    } else {
+      // Fallback XPath marker for fields not in schema
+      xpath = `field:${col.id}`;
+    }
   }
 
   return {

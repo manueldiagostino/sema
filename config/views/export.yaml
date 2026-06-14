@@ -82,7 +82,7 @@ sections:
       - id: datatio_topica_text
         label: Datatio topica
       - id: datatio_topica_analysis
-        label: Place of reduction
+        label: Place of redaction
       - id: subscriptiones_testium_text
         label: Subscriptiones testium
       - id: subscriptio_emittentis_text

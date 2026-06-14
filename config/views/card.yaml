@@ -12,6 +12,7 @@ header:
   sections:
     - id: historical_info
       label: Historical Information
+      visibleWhen: any
       # Maps to HISTORICAL_IDS
       fields:
         - id: intitulatio_analysis

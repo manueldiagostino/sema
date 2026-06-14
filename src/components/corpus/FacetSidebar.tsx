@@ -223,8 +223,8 @@ export default function FacetSidebar({
 
       {/* Sidebar with width transition */}
       <div
-        className={`shrink-0 overflow-hidden border-r border-border transition-all duration-300 ease-in-out motion-reduce:transition-none ${
-          isOpen ? "w-[280px]" : "w-0"
+        className={`shrink-0 overflow-hidden transition-all duration-300 ease-in-out motion-reduce:transition-none ${
+          isOpen ? "w-[280px] border-r border-border" : "w-0"
         }`}
       >
         {/* Inner content at fixed width */}

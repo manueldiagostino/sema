@@ -12,7 +12,6 @@ import type {
 } from "@/types/schema";
 import type { CorpusItem } from "@/types/corpus";
 import { truncateWords } from "@/lib/truncateWords";
-import { getBadgeLabel } from "@/lib/schema/views";
 
 hljs.registerLanguage("xml", xml);
 
@@ -29,6 +28,22 @@ export interface CardViewProps {
   compact?: boolean;
   /** Show the document reference/ID below the title. */
   showRef?: boolean;
+
+  /** When provided, renders this custom download menu INSTEAD of the built-in one.
+      Placed in the same position (right side of tab bar). */
+  downloadMenu?: React.ReactNode;
+
+  /** External XML content for the XML tab. When provided, CardView uses this instead of fetching internally. */
+  xmlContent?: string | null;
+  /** Whether XML is currently loading externally. */
+  xmlLoading?: boolean;
+  /** XML fetch error message. */
+  xmlError?: string | null;
+
+  /** Called when the active tab changes. Parent can use this to trigger XML fetch. */
+  onTabChange?: (tabId: string) => void;
+  /** Badge labels map for client-side badge rendering (avoids fs dependency). */
+  badgeLabels?: Record<string, Record<string, string>>;
 }
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
@@ -78,10 +93,12 @@ function FieldValue({
   item,
   field,
   schema,
+  badgeLabels,
 }: {
   item: CorpusItem;
   field: CardField;
   schema: TeiSchema;
+  badgeLabels?: Record<string, Record<string, string>>;
 }) {
   const fieldId = field.id;
   const render = field.render ?? "text";
@@ -99,20 +116,21 @@ function FieldValue({
         ? rawValue
         : [String(rawValue)];
     const nonEmpty = values.filter((v) => v !== "");
-    if (nonEmpty.length === 0) return null;
+    // Only render known badge values (those with a label in badgeLabels)
+    const badges = nonEmpty
+      .map((v) => ({ value: v, label: badgeLabels?.[fieldId]?.[v] }))
+      .filter((b): b is { value: string; label: string } => b.label !== undefined);
+    if (badges.length === 0) return null;
     return (
       <span className="flex flex-wrap gap-1">
-        {nonEmpty.map((v) => {
-          const label = getBadgeLabel(fieldId, v);
-          return (
-            <span
-              key={v}
-              className="inline-block rounded-full bg-accent/15 px-2.5 py-0.5 text-xs font-medium text-accent"
-            >
-              {label}
-            </span>
-          );
-        })}
+        {badges.map((b, i) => (
+          <span
+            key={`${fieldId}-${i}`}
+            className="inline-block rounded-full bg-accent/15 px-2.5 py-0.5 text-xs font-medium text-accent"
+          >
+            {b.label}
+          </span>
+        ))}
       </span>
     );
   }
@@ -131,10 +149,12 @@ function HeaderSection({
   item,
   section,
   schema,
+  badgeLabels,
 }: {
   item: CorpusItem;
   section: CardSection;
   schema: TeiSchema;
+  badgeLabels?: Record<string, Record<string, string>>;
 }) {
   if (sectionIsEmpty(item, section)) return null;
 
@@ -149,9 +169,9 @@ function HeaderSection({
               <dt className="text-xs font-semibold text-muted-foreground">
                 {label.charAt(0).toUpperCase() + label.slice(1)}
               </dt>
-              <dd className="mt-1 text-sm text-foreground">
-                <FieldValue item={item} field={field} schema={schema} />
-              </dd>
+                <dd className="mt-1 text-sm text-foreground">
+                  <FieldValue item={item} field={field} schema={schema} badgeLabels={badgeLabels} />
+                </dd>
             </div>
           );
         })}
@@ -212,16 +232,28 @@ export default function CardView({
   item,
   compact = false,
   showRef = false,
+  downloadMenu,
+  xmlContent: xmlContentProp,
+  xmlLoading: xmlLoadingProp,
+  xmlError: xmlErrorProp,
+  onTabChange,
+  badgeLabels,
 }: CardViewProps) {
   const [activeTab, setActiveTab] = useState<string>(() => {
     return config.tabs?.defaultTab ?? config.tabs?.items?.[0]?.id ?? "";
   });
   const [showDownload, setShowDownload] = useState(false);
   const downloadRef = useRef<HTMLDivElement>(null);
-  const [xmlContent, setXmlContent] = useState<string | null>(null);
-  const [xmlLoading, setXmlLoading] = useState(false);
-  const [xmlError, setXmlError] = useState<string | null>(null);
+  const [internalXmlContent, setInternalXmlContent] = useState<string | null>(null);
+  const [internalXmlLoading, setInternalXmlLoading] = useState(false);
+  const [internalXmlError, setInternalXmlError] = useState<string | null>(null);
   const xmlFetched = useRef(false);
+
+  // When external XML props are provided, use them; otherwise use internal state
+  const useExternalXml = xmlContentProp !== undefined;
+  const effectiveXmlContent = useExternalXml ? xmlContentProp : internalXmlContent;
+  const effectiveXmlLoading = useExternalXml ? (xmlLoadingProp ?? false) : internalXmlLoading;
+  const effectiveXmlError = useExternalXml ? xmlErrorProp : internalXmlError;
 
   const title = (item.title as string) ?? "Document";
   const id = item.id;
@@ -240,13 +272,14 @@ export default function CardView({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [showDownload]);
 
-  // Lazy-fetch XML when XML tab is activated
+  // Lazy-fetch XML when XML tab is activated (only when external XML is not provided)
   const handleXmlTab = useCallback(() => {
     setActiveTab("xml");
-    if (!xmlFetched.current) {
+    onTabChange?.("xml");
+    if (!useExternalXml && !xmlFetched.current) {
       xmlFetched.current = true;
-      setXmlLoading(true);
-      setXmlError(null);
+      setInternalXmlLoading(true);
+      setInternalXmlError(null);
 
       const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
       const staticUrl = `${basePath}/xml/${encodeURIComponent(id)}.xml`;
@@ -264,16 +297,16 @@ export default function CardView({
           });
         })
         .then((text) => {
-          setXmlContent(text);
+          setInternalXmlContent(text);
         })
         .catch((err) => {
-          setXmlError(err instanceof Error ? err.message : "Failed to load XML");
+          setInternalXmlError(err instanceof Error ? err.message : "Failed to load XML");
         })
         .finally(() => {
-          setXmlLoading(false);
+          setInternalXmlLoading(false);
         });
     }
-  }, [id]);
+  }, [id, useExternalXml, onTabChange]);
 
   const handleDownloadTxt = useCallback(() => {
     if (fullText) {
@@ -338,14 +371,20 @@ export default function CardView({
       entries.push({
         id: tab.id,
         label: tab.label,
-        action: () => setActiveTab(tab.id),
+        action: () => {
+          setActiveTab(tab.id);
+          onTabChange?.(tab.id);
+        },
       });
     }
     if (hasFulltextTab) {
       entries.push({
         id: "fulltext",
         label: "Full Text",
-        action: () => setActiveTab("fulltext"),
+        action: () => {
+          setActiveTab("fulltext");
+          onTabChange?.("fulltext");
+        },
       });
     }
     if (hasXmlTab) {
@@ -359,11 +398,14 @@ export default function CardView({
       entries.push({
         id: "photo",
         label: "Photographic Reproduction",
-        action: () => setActiveTab("photo"),
+        action: () => {
+          setActiveTab("photo");
+          onTabChange?.("photo");
+        },
       });
     }
     return entries;
-  }, [tabBarTabs, hasFulltextTab, hasXmlTab, hasPhotoTab, handleXmlTab]);
+  }, [tabBarTabs, hasFulltextTab, hasXmlTab, hasPhotoTab, handleXmlTab, onTabChange]);
 
   return (
     <div className="space-y-6">
@@ -384,6 +426,7 @@ export default function CardView({
             item={item}
             section={section}
             schema={schema}
+            badgeLabels={badgeLabels}
           />
         ))}
 
@@ -398,6 +441,7 @@ export default function CardView({
                     item={item}
                     section={section}
                     schema={schema}
+                    badgeLabels={badgeLabels}
                   />
                 ))}
               </div>
@@ -416,7 +460,7 @@ export default function CardView({
                           {label.charAt(0).toUpperCase() + label.slice(1)}
                         </dt>
                         <dd className="mt-1 text-sm text-foreground">
-                          <FieldValue item={item} field={field} schema={schema} />
+                          <FieldValue item={item} field={field} schema={schema} badgeLabels={badgeLabels} />
                         </dd>
                       </div>
                     );
@@ -447,51 +491,55 @@ export default function CardView({
           ))}
         </div>
         <div className="relative" ref={downloadRef}>
-          <button
-            onClick={() => setShowDownload(!showDownload)}
-            className="rounded-md border border-border p-2 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
-            aria-label="Download"
-          >
-            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3" />
-            </svg>
-          </button>
-          {showDownload && (
-            <div className="absolute right-0 z-50 mt-1 w-48 rounded border border-border bg-background shadow-lg">
+          {downloadMenu ?? (
+            <>
               <button
-                onClick={handleDownloadTxt}
-                disabled={!fullText}
-                className={`flex items-center gap-2 w-full px-3 py-2 text-left text-sm ${
-                  fullText
-                    ? "text-foreground hover:bg-muted"
-                    : "text-muted-foreground cursor-not-allowed"
-                }`}
+                onClick={() => setShowDownload(!showDownload)}
+                className="rounded-md border border-border p-2 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                aria-label="Download"
               >
-                <svg className="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3" />
                 </svg>
-                Full Text
               </button>
-              <button
-                onClick={handleDownloadXml}
-                className="flex items-center gap-2 w-full px-3 py-2 text-left text-sm text-foreground hover:bg-muted"
-              >
-                <svg className="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                </svg>
-                XML TEI
-              </button>
-              <button
-                onClick={handleDownloadPdf}
-                className="flex items-center gap-2 w-full px-3 py-2 text-left text-sm text-foreground hover:bg-muted"
-              >
-                <svg className="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 13l3 3 7-7" />
-                </svg>
-                Formulary Analysis
-              </button>
-            </div>
+              {showDownload && (
+                <div className="absolute right-0 z-50 mt-1 w-48 rounded border border-border bg-background shadow-lg">
+                  <button
+                    onClick={handleDownloadTxt}
+                    disabled={!fullText}
+                    className={`flex items-center gap-2 w-full px-3 py-2 text-left text-sm ${
+                      fullText
+                        ? "text-foreground hover:bg-muted"
+                        : "text-muted-foreground cursor-not-allowed"
+                    }`}
+                  >
+                    <svg className="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                    </svg>
+                    Full Text
+                  </button>
+                  <button
+                    onClick={handleDownloadXml}
+                    className="flex items-center gap-2 w-full px-3 py-2 text-left text-sm text-foreground hover:bg-muted"
+                  >
+                    <svg className="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                    </svg>
+                    XML TEI
+                  </button>
+                  <button
+                    onClick={handleDownloadPdf}
+                    className="flex items-center gap-2 w-full px-3 py-2 text-left text-sm text-foreground hover:bg-muted"
+                  >
+                    <svg className="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 13l3 3 7-7" />
+                    </svg>
+                    Formulary Analysis
+                  </button>
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>
@@ -518,13 +566,13 @@ export default function CardView({
           {/* XML tab */}
           {activeTab === "xml" && (
             <div className="max-h-[600px] min-h-[300px] overflow-y-auto rounded border border-border p-4">
-              {xmlLoading && (
+              {effectiveXmlLoading && (
                 <p className="text-sm text-muted-foreground">Loading XML…</p>
               )}
-              {xmlError && (
-                <p className="text-sm text-red-500">Error: {xmlError}</p>
+              {effectiveXmlError && (
+                <p className="text-sm text-red-500">Error: {effectiveXmlError}</p>
               )}
-              {xmlContent && !xmlLoading && !xmlError && (
+              {effectiveXmlContent && !effectiveXmlLoading && !effectiveXmlError && (
                 <pre
                   className="text-xs leading-relaxed font-mono"
                   style={{ whiteSpace: "pre-wrap", wordBreak: "break-word", margin: 0 }}
@@ -532,7 +580,7 @@ export default function CardView({
                   <code
                     className="hljs"
                     dangerouslySetInnerHTML={{
-                      __html: hljs.highlight(xmlContent, { language: "xml" }).value,
+                      __html: hljs.highlight(effectiveXmlContent, { language: "xml" }).value,
                     }}
                   />
                 </pre>

@@ -10,7 +10,32 @@
 #   subscriptiones_testium_text, subscriptio_emittentis_text, completio_text
 #     (eschatocol body-text shown in card)
 
+defaultVisible:
+  - documentId
+  - charterType
+  - currentLocation
+  - completio_analysis
+  - dating_chronological
+  - dating_topical
+
 columns:
+  # ── META ────────────────────────────────────────────────
+  - id: documentId
+    label: ID
+    render: id
+    computed: true
+    width: 140
+    sortable: true
+    filterable: false
+
+  - id: charterType
+    label: Charter Type
+    render: charterType
+    computed: true
+    width: 220
+    sortable: true
+    filterable: false
+
   # ── DATING ──────────────────────────────────────────────
   - id: dating_chronological
     width: 120
@@ -35,6 +60,7 @@ columns:
 
   - id: currentLocation
     computed: true
+    formula: "[repository] — [shelfmark]"
     width: 200
     sortable: true
     filterable: true

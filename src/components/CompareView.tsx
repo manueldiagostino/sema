@@ -1,13 +1,7 @@
 "use client";
 
-import { CorpusItem, CompareLayout } from "@/types/corpus";
+import { CorpusItem, CompareLayout, ColumnConfig } from "@/types/corpus";
 import DocumentCard from "@/components/DocumentCard";
-
-interface ColumnConfig {
-  id: string;
-  label: string;
-  truncateWords?: number;
-}
 
 interface CompareViewProps {
   documents: CorpusItem[];
