@@ -16,7 +16,7 @@ export async function GET(): Promise<NextResponse> {
       return new NextResponse(data, {
         headers: {
           "Content-Type": "application/json",
-          "Cache-Control": "public, max-age=60, stale-while-revalidate=300",
+          "Cache-Control": "no-cache",
         },
       });
     }

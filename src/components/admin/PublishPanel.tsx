@@ -22,6 +22,7 @@ interface GitStatus {
     author: string;
   } | null;
   tokenConfigured: boolean;
+  aheadCount: number;
 }
 
 interface PublishResponse {
@@ -216,6 +217,8 @@ export default function PublishPanel() {
     ? fileCounts.added + fileCounts.modified + fileCounts.deleted
     : 0;
 
+  const hasUnpublishedContent = totalChanges > 0 || (status?.aheadCount ?? 0) > 0;
+
   // -----------------------------------------------------------------------
   // Render
   // -----------------------------------------------------------------------
@@ -290,43 +293,57 @@ export default function PublishPanel() {
             )}
 
             {/* File changes summary */}
-            {totalChanges > 0 ? (
+            {totalChanges > 0 || (status?.aheadCount ?? 0) > 0 ? (
               <div>
-                <p className="mb-2 text-sm font-medium text-foreground">
-                  Pending changes ({totalChanges} file{totalChanges !== 1 ? "s" : ""}):
-                </p>
-                <div className="flex flex-wrap gap-3">
-                  {(["added", "modified", "deleted"] as const).map(
-                    (type) =>
-                      (fileCounts?.[type] ?? 0) > 0 && (
-                        <span
-                          key={type}
-                          className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium ${
-                            type === "added"
-                              ? "bg-primary-container text-primary-on-container"
-                              : type === "modified"
-                                ? "bg-muted text-secondary"
-                                : "bg-muted text-accent"
-                          }`}
-                        >
-                          {fileCounts?.[type]} {statusLabel(type)}
-                        </span>
-                      ),
-                  )}
-                </div>
-                {/* File list (truncated) */}
-                <details className="mt-2">
-                  <summary className="cursor-pointer text-xs text-muted-foreground hover:text-foreground">
-                    Show files
-                  </summary>
-                  <ul className="mt-1 max-h-32 space-y-0.5 overflow-y-auto text-xs text-muted-foreground">
-                    {status.files.map((f) => (
-                      <li key={f.path} className={statusColor(f.status)}>
-                        [{f.status}] {f.path}
-                      </li>
-                    ))}
-                  </ul>
-                </details>
+                {totalChanges > 0 && (
+                  <>
+                    <p className="mb-2 text-sm font-medium text-foreground">
+                      Pending changes ({totalChanges} file{totalChanges !== 1 ? "s" : ""}):
+                    </p>
+                    <div className="flex flex-wrap gap-3">
+                      {(["added", "modified", "deleted"] as const).map(
+                        (type) =>
+                          (fileCounts?.[type] ?? 0) > 0 && (
+                            <span
+                              key={type}
+                              className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium ${
+                                type === "added"
+                                  ? "bg-primary-container text-primary-on-container"
+                                  : type === "modified"
+                                    ? "bg-muted text-secondary"
+                                    : "bg-muted text-accent"
+                              }`}
+                            >
+                              {fileCounts?.[type]} {statusLabel(type)}
+                            </span>
+                          ),
+                      )}
+                    </div>
+                    {/* File list (truncated) */}
+                    <details className="mt-2">
+                      <summary className="cursor-pointer text-xs text-muted-foreground hover:text-foreground">
+                        Show files
+                      </summary>
+                      <ul className="mt-1 max-h-32 space-y-0.5 overflow-y-auto text-xs text-muted-foreground">
+                        {status.files.map((f) => (
+                          <li key={f.path} className={statusColor(f.status)}>
+                            [{f.status}] {f.path}
+                          </li>
+                        ))}
+                      </ul>
+                    </details>
+                  </>
+                )}
+                {status.aheadCount > 0 && (
+                  <div className="rounded-md bg-muted px-4 py-3">
+                    <p className="text-sm text-muted-foreground">
+                      <span className="font-medium text-foreground">
+                        {status.aheadCount}
+                      </span>{" "}
+                      commit{status.aheadCount !== 1 ? "s" : ""} committed but not yet pushed to GitHub.
+                    </p>
+                  </div>
+                )}
               </div>
             ) : (
               <div className="rounded-md bg-muted px-4 py-3">
@@ -341,14 +358,14 @@ export default function PublishPanel() {
               <button
                 type="button"
                 onClick={handlePublishClick}
-                disabled={totalChanges === 0 || publishing}
+                disabled={!hasUnpublishedContent || publishing}
                 className="rounded-md bg-primary px-5 py-2 text-sm font-medium text-white hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {publishing
                   ? "Publishing..."
-                  : totalChanges === 0
-                    ? "Publish"
-                    : "Publish to GitHub"}
+                  : hasUnpublishedContent
+                    ? "Publish to GitHub"
+                    : "Publish"}
               </button>
 
               <button
@@ -491,7 +508,12 @@ export default function PublishPanel() {
             </h3>
             <p className="mt-2 text-sm text-muted-foreground">
               You are about to publish{" "}
-              <strong>{totalChanges} file{totalChanges !== 1 ? "s" : ""}</strong> to GitHub.
+              <strong>
+                {totalChanges > 0
+                  ? `${totalChanges} file${totalChanges !== 1 ? "s" : ""}`
+                  : `${status?.aheadCount ?? 0} commit${(status?.aheadCount ?? 0) !== 1 ? "s" : ""}`}
+              </strong>{" "}
+              to GitHub.
               {status?.branch && (
                 <>
                   {" "}Branch: <strong>{status.branch}</strong>.

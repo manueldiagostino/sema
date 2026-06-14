@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import {
   getGitHubToken,
   publishChanges,
+  getAheadCount,
   getGitStatus,
 } from "@/lib/git";
 
@@ -22,9 +23,10 @@ export async function POST() {
       );
     }
 
-    // 2. Check there's something to commit
+    // 2. Check there's something to publish (uncommitted changes OR unpushed commits)
     const currentFiles = getGitStatus(root);
-    if (currentFiles.length === 0) {
+    const aheadCount = getAheadCount(root);
+    if (currentFiles.length === 0 && aheadCount === 0) {
       return NextResponse.json(
         {
           success: true,

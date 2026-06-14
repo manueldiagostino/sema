@@ -23,6 +23,8 @@ export interface GitStatus {
     author: string;
   } | null;
   tokenConfigured: boolean;
+  /** Number of commits ahead of origin/main (unpushed) */
+  aheadCount: number;
 }
 
 export interface PublishResult {
@@ -162,6 +164,23 @@ export function getCurrentBranch(root: string): string {
 }
 
 // ---------------------------------------------------------------------------
+// getAheadCount
+// ---------------------------------------------------------------------------
+
+/**
+ * Returns the number of commits ahead of origin/main (unpushed commits).
+ * Returns 0 if there's no remote or the branch has no upstream.
+ */
+export function getAheadCount(root: string): number {
+  try {
+    const raw = git(["rev-list", "--count", "HEAD", "^origin/main"], root);
+    return parseInt(raw, 10) || 0;
+  } catch {
+    return 0;
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Token management
 // ---------------------------------------------------------------------------
 
@@ -264,9 +283,11 @@ function extractStderr(err: unknown): string {
  * the token is only passed as a command-line config override.
  */
 export function publishChanges(root: string, token: string): PublishResult {
-  // 1. Check there's something to commit
+  // 1. Check for anything to publish (uncommitted changes OR unpushed commits)
   const statusFiles = getGitStatus(root);
-  if (statusFiles.length === 0) {
+  const aheadCount = getAheadCount(root);
+
+  if (statusFiles.length === 0 && aheadCount === 0) {
     return { success: true, message: "No changes to publish" };
   }
 
@@ -280,35 +301,35 @@ export function publishChanges(root: string, token: string): PublishResult {
     };
   }
 
-  // 3. Stage corpus files only
-  git(["add", "--", "data/corpus/"], root);
+  // 3. If there are uncommitted changes, stage and commit them
+  if (statusFiles.length > 0) {
+    // Stage corpus files only
+    git(["add", "--", "data/corpus/"], root);
 
-  // 4. Commit
-  const now = new Date();
-  const pad = (n: number) => String(n).padStart(2, "0");
-  const dateStr = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
-  const commitMsg = `Corpus update [${dateStr}]`;
+    const now = new Date();
+    const pad = (n: number) => String(n).padStart(2, "0");
+    const dateStr = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
+    const commitMsg = `Corpus update [${dateStr}]`;
 
-  try {
-    git(["commit", "-m", commitMsg], root);
-  } catch (err: unknown) {
-    const stderr =
-      err instanceof Error && "stderr" in err
-        ? (err as any).stderr?.toString() ?? err.message
-        : String(err);
+    try {
+      git(["commit", "-m", commitMsg], root);
+    } catch (err: unknown) {
+      const stderr =
+        err instanceof Error && "stderr" in err
+          ? (err as any).stderr?.toString() ?? err.message
+          : String(err);
 
-    // "nothing to commit" is harmless — files may have been filtered out
-    if (stderr.includes("nothing to commit")) {
-      return { success: true, message: "No changes to publish" };
+      // "nothing to commit" is harmless — files may have been filtered out
+      if (!stderr.includes("nothing to commit")) {
+        return {
+          success: false,
+          message: `Commit failed: ${stderr}`,
+        };
+      }
     }
-
-    return {
-      success: false,
-      message: `Commit failed: ${stderr}`,
-    };
   }
 
-  // 5. Pull remote changes (uses existing SSH remote — no token needed)
+  // 4. Pull remote changes (uses existing SSH remote — no token needed)
   try {
     git(["pull", "--rebase", "origin", "main"], root);
   } catch {
@@ -322,7 +343,7 @@ export function publishChanges(root: string, token: string): PublishResult {
     };
   }
 
-  // 6. Push via HTTPS with token (one-shot URL override, NOT written to .git/config)
+  // 5. Push via HTTPS with token (one-shot URL override, NOT written to .git/config)
   //    -c url.<newUrl>.insteadOf=<match> overrides URL matching for this command only
   //    credential.helper= prevents git from caching the token
   const pushOverride = `url.https://x-access-token:${token}@github.com/${repo}.git.insteadOf=git@github.com:${repo}.git`;
@@ -335,18 +356,18 @@ export function publishChanges(root: string, token: string): PublishResult {
     return {
       success: false,
       message:
-        "Push failed. Verify the GitHub token is valid and has write permissions.",
+        "Push failed. Verify the GitHub token is valid and have write permissions.",
     };
   }
 
-  // 7. Success
+  // 6. Success
   const commitHash = git(["rev-parse", "--short", "HEAD"], root);
   console.log(`[git.ts] Published commit ${commitHash}: ${statusFiles.length} files`);
 
   return {
     success: true,
     commitHash,
-    commitMessage: commitMsg,
-    files: statusFiles,
+    commitMessage: "Corpus update",
+    files: statusFiles.length > 0 ? statusFiles : undefined,
   };
 }

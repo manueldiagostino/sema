@@ -250,9 +250,9 @@
     "semantic_hash": "2b86e6f27bc34fa4a873e21e843ba7ca"
   },
   "src/lib/git.ts": {
-    "mtime": 1781334040.3421695,
-    "ast_hash": "62797d07743eb560bff120cf7a105bb4",
-    "semantic_hash": "62797d07743eb560bff120cf7a105bb4"
+    "mtime": 1781422097.108596,
+    "ast_hash": "dada00a91cec4852efa3d879263d6044",
+    "semantic_hash": ""
   },
   "src/lib/truncateWords.ts": {
     "mtime": 1780949137.6213446,
