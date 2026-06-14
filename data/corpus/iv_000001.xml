@@ -13,7 +13,7 @@
       <sourceDesc>
         <msDesc>
           <msIdentifier>
-            <repository>ASBo</repository>
+            <repository>ASBoAA</repository>
             <idno>Demaniale 002/1342, n. 46</idno>
           </msIdentifier>
           <msContents>
@@ -76,9 +76,6 @@ successoribus</p>
         </diploPart>
         <diploPart type="clausulae" subtype="perpetuitatis">
           <p>Clausula perpetuitatis</p>
-        </diploPart>
-        <diploPart type="dispositio">
-          <p>presenti die vendo et huius rei gratia trado tibi</p>
         </diploPart>
         <diploPart type="clausulae" subtype="de_servitute_itineris">
           <p>de servitute itineris text</p>
