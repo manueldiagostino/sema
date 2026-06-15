@@ -335,7 +335,7 @@ export default function CardView({
 
   const handleDownloadPdf = useCallback(() => {
     const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
-    window.open(`${basePath}/pdf/${encodeURIComponent(id)}_formulary.pdf`, "_blank");
+    window.open(`${basePath}/api/pdf/formulary?filename=${encodeURIComponent(id)}.xml`, "_blank");
     setShowDownload(false);
   }, [id]);
 

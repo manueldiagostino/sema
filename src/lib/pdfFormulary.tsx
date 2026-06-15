@@ -1,5 +1,7 @@
 import React from "react";
 import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
+import type { CorpusItem } from "@/types/corpus";
+import type { ExportSection, TeiSchema } from "@/types/schema";
 
 // Styles
 const styles = StyleSheet.create({
@@ -13,11 +15,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 8,
   },
-  subtitle: {
-    fontSize: 12,
-    color: "#555",
-    marginBottom: 20,
-  },
   sectionTitle: {
     fontSize: 13,
     fontWeight: "bold",
@@ -27,35 +24,34 @@ const styles = StyleSheet.create({
     borderBottomColor: "#ccc",
     paddingBottom: 3,
   },
-  clause: {
-    marginBottom: 10,
-    lineHeight: 1.5,
+  fieldRow: {
+    marginBottom: 6,
   },
-  clauseLabel: {
+  fieldLabel: {
     fontSize: 10,
     fontWeight: "bold",
     color: "#666",
     marginBottom: 2,
   },
-  clauseText: {
+  fieldValue: {
     fontSize: 11,
     lineHeight: 1.5,
   },
-  metadataRow: {
+  headerRow: {
     flexDirection: "row",
     marginBottom: 4,
   },
-  metadataLabel: {
+  headerLabel: {
     fontSize: 10,
     fontWeight: "bold",
     width: 120,
     color: "#555",
   },
-  metadataValue: {
+  headerValue: {
     fontSize: 10,
     flex: 1,
   },
-  header: {
+  headerContainer: {
     marginBottom: 20,
     borderBottomWidth: 2,
     borderBottomColor: "#333",
@@ -63,176 +59,107 @@ const styles = StyleSheet.create({
   },
 });
 
-interface Clause {
-  type: string;
-  subtype?: string;
-  content: string;
+/** Format a field value for display. */
+function formatValue(value: string | string[] | undefined): string {
+  if (value === undefined || value === null) return "";
+  if (Array.isArray(value)) return value.join(", ");
+  return value;
 }
 
-function parseClauses(xmlContent: string): Clause[] {
-  const clauses: Clause[] = [];
-  const divRegex = /<(?:div|ab)\s+type="([^"]+)"(?:\s+subtype="([^"]*)")?[^>]*>([\s\S]*?)<\/(?:div|ab)>/g;
-  let match;
-  while ((match = divRegex.exec(xmlContent)) !== null) {
-    clauses.push({
-      type: match[1],
-      subtype: match[2] || undefined,
-      content: match[3].trim(),
-    });
+/**
+ * Resolve a human-readable label for a field.
+ *
+ * Priority: export.yaml `label` → TEI schema element `label` → raw field ID.
+ */
+function resolveLabel(
+  fieldId: string,
+  fieldLabel: string | undefined,
+  schema: TeiSchema | undefined,
+): string {
+  if (fieldLabel) return fieldLabel;
+  if (schema) {
+    const elem = schema.elements[fieldId];
+    if (elem?.label) return elem.label;
   }
-  return clauses;
+  return fieldId;
 }
 
-function extractTitle(xmlContent: string): string {
-  const titleMatch = /<title>([^<]+)<\/title>/.exec(xmlContent);
-  return titleMatch ? titleMatch[1].trim() : "Unknown Document";
+interface FormularyPdfProps {
+  item: CorpusItem;
+  sections: ExportSection[];
+  schema?: TeiSchema;
 }
 
-function extractField(xmlContent: string, field: string): string {
-  const patterns: Record<string, RegExp> = {
-    repository: /<repository>([^<]+)<\/repository>/,
-    shelfmark: /<idno>([^<]+)<\/idno>/,
-    author: /<author[^>]*>(?:<persName>)?([^<]+)(?:<\/persName>)?<\/author>/,
-    recipient: /<ab type="inscriptio">([^<]+)<\/ab>/,
-    date: /<date[^>]*>([^<]*)<\/date>/,
-    notary: /<(?:name|persName)>([^<]+)<\/(?:name|persName)>/,
-    origPlace: /<origPlace>([^<]+)<\/origPlace>/,
-  };
-  const regex = patterns[field];
-  if (!regex) return "";
-  const match = regex.exec(xmlContent);
-  return match ? match[1].trim() : "";
-}
-
-const typeLabels: Record<string, string> = {
-  invocatio: "Invocatio",
-  datatio: "Datatio",
-  intitulatio: "Auctor",
-  dispositio: "Verba dispositiva",
-  inscriptio: "Destinatarius",
-  clausulae: "Clausulae",
-  sanctio: "Sanctio",
-  subscriptio: "Subscriptio",
-  completio: "Completio",
-};
-
-export default function FormularyPdf({ xmlContent }: { xmlContent: string }) {
-  const title = extractTitle(xmlContent);
-  const repository = extractField(xmlContent, "repository");
-  const shelfmark = extractField(xmlContent, "shelfmark");
-  const author = extractField(xmlContent, "author");
-  const recipient = extractField(xmlContent, "recipient");
-  const date = extractField(xmlContent, "date");
-  const notary = extractField(xmlContent, "notary");
-  const origPlace = extractField(xmlContent, "origPlace");
-
-  const clauses = parseClauses(xmlContent);
-
-  // Group clauses by parent section
-  const protocolClauses = clauses.filter((c) =>
-    ["invocatio"].includes(c.type) || (c.type === "datatio" && c.subtype === "chronica"),
-  );
-  const textusClauses = clauses.filter(
-    (c) =>
-      !["invocatio", "datatio", "subscriptio"].includes(c.type) && c.type !== "full_text",
-  );
-  const eschatocolClauses = clauses.filter((c) =>
-    (c.type === "datatio" && c.subtype === "topica") || c.type === "subscriptio",
-  );
+export default function FormularyPdf({ item, sections, schema }: FormularyPdfProps) {
+  // Separate header section from body sections
+  const headerSection = sections.find((s) => s.id === "header");
+  const bodySections = sections.filter((s) => s.id !== "header");
 
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-        {/* Title */}
-        <View style={styles.header}>
-          <Text style={styles.title}>{title}</Text>
-          <View style={styles.metadataRow}>
-            <Text style={styles.metadataLabel}>Repository:</Text>
-            <Text style={styles.metadataValue}>{repository || "—"}</Text>
+        {/* Header section — rendered as metadata rows */}
+        {headerSection && (
+          <View style={styles.headerContainer}>
+            <Text style={styles.title}>
+              {formatValue(item["intitulatio_analysis"] || item["id"])}
+            </Text>
+            {headerSection.fields.map((field) => {
+              const value = formatValue(item[field.id]);
+              if (!value) return null;
+              return (
+                <View key={field.id} style={styles.headerRow}>
+                  <Text style={styles.headerLabel}>
+                    {resolveLabel(field.id, field.label, schema)}:
+                  </Text>
+                  <Text style={styles.headerValue}>{value}</Text>
+                </View>
+              );
+            })}
           </View>
-          <View style={styles.metadataRow}>
-            <Text style={styles.metadataLabel}>Shelfmark:</Text>
-            <Text style={styles.metadataValue}>{shelfmark || "—"}</Text>
-          </View>
-          {author && (
-            <View style={styles.metadataRow}>
-              <Text style={styles.metadataLabel}>Author:</Text>
-              <Text style={styles.metadataValue}>{author}</Text>
-            </View>
-          )}
-          {recipient && (
-            <View style={styles.metadataRow}>
-              <Text style={styles.metadataLabel}>Recipient:</Text>
-              <Text style={styles.metadataValue}>{recipient}</Text>
-            </View>
-          )}
-          {date && (
-            <View style={styles.metadataRow}>
-              <Text style={styles.metadataLabel}>Date:</Text>
-              <Text style={styles.metadataValue}>{date}</Text>
-            </View>
-          )}
-          {origPlace && (
-            <View style={styles.metadataRow}>
-              <Text style={styles.metadataLabel}>Place:</Text>
-              <Text style={styles.metadataValue}>{origPlace}</Text>
-            </View>
-          )}
-          {notary && (
-            <View style={styles.metadataRow}>
-              <Text style={styles.metadataLabel}>Notary:</Text>
-              <Text style={styles.metadataValue}>{notary}</Text>
-            </View>
-          )}
-        </View>
-
-        {/* Protocol */}
-        {protocolClauses.length > 0 && (
-          <>
-            <Text style={styles.sectionTitle}>Protocol</Text>
-            {protocolClauses.map((clause, i) => (
-              <View key={`proto-${i}`} style={styles.clause}>
-                <Text style={styles.clauseLabel}>
-                  {typeLabels[clause.type] || clause.type}
-                  {clause.subtype ? ` (${clause.subtype})` : ""}
-                </Text>
-                <Text style={styles.clauseText}>{clause.content}</Text>
-              </View>
-            ))}
-          </>
         )}
 
-        {/* Textus */}
-        {textusClauses.length > 0 && (
-          <>
-            <Text style={styles.sectionTitle}>Text</Text>
-            {textusClauses.map((clause, i) => (
-              <View key={`text-${i}`} style={styles.clause}>
-                <Text style={styles.clauseLabel}>
-                  {typeLabels[clause.type] || clause.type}
-                  {clause.subtype ? ` (${clause.subtype})` : ""}
-                </Text>
-                <Text style={styles.clauseText}>{clause.content}</Text>
-              </View>
-            ))}
-          </>
-        )}
+        {/* Body sections — protocol, contextus, eschatocol, fulltext */}
+        {bodySections.map((section) => {
+          if (section.type === "special") {
+            // Special sections (e.g. fulltext) — render as standalone text
+            return (
+              <React.Fragment key={section.id}>
+                {section.fields.map((field) => {
+                  const value = formatValue(item[field.id]);
+                  if (!value) return null;
+                  return (
+                    <View key={field.id} style={styles.fieldRow}>
+                      <Text style={styles.sectionTitle}>
+                        {resolveLabel(field.id, field.label, schema) || section.label}
+                      </Text>
+                      <Text style={styles.fieldValue}>{value}</Text>
+                    </View>
+                  );
+                })}
+              </React.Fragment>
+            );
+          }
 
-        {/* Eschatocol */}
-        {eschatocolClauses.length > 0 && (
-          <>
-            <Text style={styles.sectionTitle}>Eschatocol</Text>
-            {eschatocolClauses.map((clause, i) => (
-              <View key={`esch-${i}`} style={styles.clause}>
-                <Text style={styles.clauseLabel}>
-                  {typeLabels[clause.type] || clause.type}
-                  {clause.subtype ? ` (${clause.subtype})` : ""}
-                </Text>
-                <Text style={styles.clauseText}>{clause.content}</Text>
-              </View>
-            ))}
-          </>
-        )}
+          // Normal section — iterates fields
+          return (
+            <React.Fragment key={section.id}>
+              <Text style={styles.sectionTitle}>{section.label}</Text>
+              {section.fields.map((field) => {
+                const value = formatValue(item[field.id]);
+                if (!value) return null;
+                return (
+                  <View key={field.id} style={styles.fieldRow}>
+                    <Text style={styles.fieldLabel}>
+                      {resolveLabel(field.id, field.label, schema)}
+                    </Text>
+                    <Text style={styles.fieldValue}>{value}</Text>
+                  </View>
+                );
+              })}
+            </React.Fragment>
+          );
+        })}
       </Page>
     </Document>
   );

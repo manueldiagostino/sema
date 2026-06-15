@@ -129,9 +129,8 @@ export default function DocumentCard({
   }, [id]);
 
   const handleDownloadPdf = useCallback(() => {
-    // Prefer static PDF copy (available on static exports), fall back to API route
     const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
-    window.open(`${basePath}/pdf/${encodeURIComponent(id)}_formulary.pdf`, "_blank");
+    window.open(`${basePath}/api/pdf/formulary?filename=${encodeURIComponent(id)}.xml`, "_blank");
     setShowDownload(false);
   }, [id]);
 
