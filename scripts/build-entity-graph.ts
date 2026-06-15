@@ -214,7 +214,7 @@ function fieldIdToPersonRole(fieldId: string): string | null {
     case "testes_names":
       return "witness";
     case "investitor_name":
-      return "witness"; // investitor is a type of witness
+      return "issuer";
     case "completio_analysis":
       return "notary";
     default:
@@ -282,7 +282,7 @@ function extractPersons(
 }
 
 /**
- * Extract institution entities (recipient) from a document
+ * Extract institution entities from a document
  * using schema-driven extraction.
  */
 function extractInstitutions(
@@ -308,31 +308,9 @@ function extractInstitutions(
         }
       }
     }
-  } else {
-    // Fallback: institution entity has no fields defined yet,
-    // use the tei_element to find orgName elements in the document
-    const orgNameNodes = select(
-      "//tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msContents/tei:msItem/tei:recipient//tei:orgName",
-      doc,
-    ) as Node[];
-    for (const node of orgNameNodes) {
-      const label = extractText(node).trim();
-      if (label) {
-        institutions.push({ type: "institution", label });
-      }
-    }
-    // Also check direct recipient text (may contain institution name without orgName wrapper)
-    const recipientNodes = select(
-      "//tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msContents/tei:msItem/tei:recipient",
-      doc,
-    ) as Node[];
-    for (const node of recipientNodes) {
-      const label = extractText(node).trim();
-      if (label && !institutions.some((i) => i.label === label)) {
-        institutions.push({ type: "institution", label });
-      }
-    }
   }
+  // NOTE: Legacy fallback XPaths for tei:recipient removed — the schema-driven
+  // extraction above (instEntity.fields) covers institution data in TEI P5.
 
   return institutions;
 }

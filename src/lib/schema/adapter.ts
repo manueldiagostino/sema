@@ -43,10 +43,10 @@ export function buildXpath(elem: TeiElement): string {
   // Walk through the TEI element hierarchy
   const elementName = m.element;
 
-  // Handle wrapper elements (e.g. diploPart wrapping p)
+  // Handle wrapper elements (e.g. ab wrapping persName, person wrapping persName)
   if (m.wrapper) {
     // Build the element with wrapper
-    // e.g. tei:div[@type='protocol']/tei:diploPart[@type='invocatio']
+    // e.g. tei:div[@type='protocol']/tei:ab[@type='invocatio']
     const wrapperAttrs: string[] = [];
     if (m.wrapper_attributes) {
       for (const [k, v] of Object.entries(m.wrapper_attributes)) {
@@ -93,6 +93,23 @@ export function buildXpath(elem: TeiElement): string {
       }
     } else {
       xpath += `/tei:${elementName}`;
+    }
+
+    // Apply wrapper_attributes as element predicates when no wrapper is present
+    // (handles the case where a field uses wrapper_attributes for filtering
+    // but has no intermediate wrapper element, e.g. <ab type="invocatio">)
+    if (m.wrapper_attributes) {
+      const attrPreds: string[] = [];
+      for (const [k, v] of Object.entries(m.wrapper_attributes)) {
+        if (v === "*") {
+          attrPreds.push(`@${k}`);
+        } else {
+          attrPreds.push(`@${k}='${v}'`);
+        }
+      }
+      if (attrPreds.length > 0) {
+        xpath += `[${attrPreds.join(" and ")}]`;
+      }
     }
   }
 

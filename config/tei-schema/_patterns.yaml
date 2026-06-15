@@ -117,18 +117,14 @@ patterns:
       <!-- Standard division (defined in _base.yaml) -->
       <div type="protocol">
         <div type="invocatio">
-          <diploPart type="invocatio">
-            <p>In nomine Patris...</p>
-          </diploPart>
+          <ab type="invocatio">In nomine Patris...</ab>
         </div>
       </div>
 
       <!-- Non-standard division (charter-type specific) -->
       <div type="contextus">
         <div type="custom_clause">
-          <diploPart type="custom_clause" subtype="special_condition">
-            <p>Provided that the buyer...</p>
-          </diploPart>
+          <ab type="custom_clause" subtype="special_condition">Provided that the buyer...</ab>
         </div>
       </div>
     notes: |

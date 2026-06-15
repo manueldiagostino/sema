@@ -62,10 +62,10 @@ function getPlaceEntries(
 }
 
 /**
- * Build a diploPart with optional @subtype and a <p> child.
+ * Build an <ab> element with optional @subtype.
  * Returns empty string if textContent is empty.
  */
-function makeDiploPart(
+function makeAb(
   type: string,
   textContent: string,
   subtype?: string,
@@ -73,11 +73,7 @@ function makeDiploPart(
 ): string {
   if (isEmpty(textContent)) return "";
   const subtypeAttr = subtype ? ` subtype="${esc(subtype)}"` : "";
-  return (
-    `${indent}<diploPart type="${esc(type)}"${subtypeAttr}>\n` +
-    `${indent}  <p>${esc(textContent)}</p>\n` +
-    `${indent}</diploPart>`
-  );
+  return `${indent}<ab type="${esc(type)}"${subtypeAttr}>${esc(textContent)}</ab>`;
 }
 
 /**
@@ -134,7 +130,7 @@ export function generateTeiXml(
   const titleStmt: string[] = [];
   titleStmt.push(`${I(4)}<title>${esc(charterTypeConfig?.label || data.charter_type)}</title>`);
   if (authorName) {
-    titleStmt.push(`${I(4)}<author>${esc(authorName)}</author>`);
+    titleStmt.push(`${I(4)}<author role="issuer"><persName>${esc(authorName)}</persName></author>`);
   }
 
   // msIdentifier
@@ -145,17 +141,13 @@ export function generateTeiXml(
   if (shelfmark) msId.push(`${I(6)}<idno>${esc(shelfmark)}</idno>`);
 
   // msItem
-  const recipientName = getStr(data, "inscriptio_analysis");
   const notaryName = getStr(data, "completio_analysis");
   const msItem: string[] = [];
-  if (recipientName) {
-    msItem.push(`${I(7)}<recipient>${esc(recipientName)}</recipient>`);
-  }
   if (notaryName) {
     msItem.push(
       `${I(7)}<respStmt>\n` +
         `${I(8)}<resp>notary</resp>\n` +
-        `${I(8)}<name type="completio_analysis">${esc(notaryName)}</name>\n` +
+        `${I(8)}<persName type="completio_analysis">${esc(notaryName)}</persName>\n` +
         `${I(7)}</respStmt>`,
     );
   }
@@ -176,14 +168,12 @@ export function generateTeiXml(
   for (const place of locusRedactionis) {
     if (isEmpty(place.name)) continue;
     creation.push(
-      `${I(4)}<term type="datatio_topica_analysis">${esc(place.name)}</term>`,
+      `${I(4)}<placeName type="datatio_topica_analysis">${esc(place.name)}</placeName>`,
     );
   }
 
   // keywords
   const kwFields: [string, string][] = [
-    ["intitulatio_analysis", "intitulatio_analysis"],
-    ["inscriptio_analysis", "inscriptio_analysis"],
     ["pretium", "price"],
     ["property_location", "property_location"],
     ["datatio_topica_analysis", "datatio_topica_analysis"],
@@ -214,16 +204,12 @@ export function generateTeiXml(
   const invocatioText = getStr(data, "invocatio_text");
   const invocatioTypeVal = getVal(data, "invocatio_analysis");
   const invocatioType = Array.isArray(invocatioTypeVal)
-    ? (invocatioTypeVal as string[]).join(" ")
+    ? (invocatioTypeVal as string[]).join("_")
     : typeof invocatioTypeVal === "string" ? invocatioTypeVal : "";
   if (invocatioText) {
-    protocolChildren.push(
-      invocatioType
-        ? `        <diploPart type="invocatio" subtype="${esc(invocatioType)}">\n          <p>${esc(invocatioText)}</p>\n        </diploPart>`
-        : `        <diploPart type="invocatio">\n          <p>${esc(invocatioText)}</p>\n        </diploPart>`,
-    );
+    protocolChildren.push(makeAb("invocatio", invocatioText, invocatioType || undefined));
   }
-  const dcDiv = makeDiploPart("datatio", getStr(data, "datatio_chronica_text"), "chronica");
+  const dcDiv = makeAb("datatio", getStr(data, "datatio_chronica_text"), "chronica");
   if (dcDiv) protocolChildren.push(dcDiv);
 
   const protocolDiv = makeDivContainer("protocol", protocolChildren);
@@ -236,7 +222,6 @@ export function generateTeiXml(
   const textusDivs: [string, string, string?, string?][] = [
     ["intitulatio", "intitulatio_text"],
     ["dispositio", "dispositio_text"],
-    ["inscriptio", "inscriptio_text"],
     ["clausulae", "perpetuitatis_text", undefined, "perpetuitatis"],
     ["dispositio", "descriptio_rei_text", "descriptio_rei_analysis"],
     ["clausulae", "de_servitute_itineris_text", undefined, "de_servitute_itineris"],
@@ -252,8 +237,23 @@ export function generateTeiXml(
   for (const [divType, fieldId, subtypeField, staticSubtype] of textusDivs) {
     const text = getStr(data, fieldId);
     const subtype = staticSubtype ?? (subtypeField ? getStr(data, subtypeField) : undefined);
-    const div = makeDiploPart(divType, text, subtype);
+    const div = makeAb(divType, text, subtype);
     if (div) contextusChildren.push(div);
+  }
+  // Inscriptio: diplomatic text + embedded normalized analysis
+  const inscriptioText = getStr(data, "inscriptio_text");
+  const inscriptioNorm = getStr(data, "inscriptio_analysis");
+  if (inscriptioText || inscriptioNorm) {
+    let inner = "";
+    if (inscriptioNorm) {
+      inner += `\n            <persName type="inscriptio_analysis">${esc(inscriptioNorm)}</persName>`;
+    }
+    if (inscriptioText) {
+      inner += `\n            ${esc(inscriptioText)}`;
+    }
+    contextusChildren.push(
+      `        <ab type="inscriptio">${inner}\n        </ab>`,
+    );
   }
   const contextusDiv = makeDivContainer("contextus", contextusChildren, undefined, "      ");
   const contextusContent = contextusDiv ? [contextusDiv] : [];
@@ -262,17 +262,17 @@ export function generateTeiXml(
   const fullTextContent = getStr(data, "full_text");
   let fullTextDiv = "";
   if (fullTextContent) {
-    fullTextDiv = makeDiploPart("full_text", fullTextContent, undefined, "      ");
+    fullTextDiv = makeAb("full_text", fullTextContent, undefined, "      ");
   }
 
   // Eschatocol
   const eschatocolChildren: string[] = [];
-  const dtDiv = makeDiploPart("datatio", getStr(data, "datatio_topica_text"), "topica");
+  const dtDiv = makeAb("datatio", getStr(data, "datatio_topica_text"), "topica");
   if (dtDiv) eschatocolChildren.push(dtDiv);
 
   // Subscriptions
   const subscriptioChildren: string[] = [];
-  const subTestiumDiv = makeDiploPart(
+  const subTestiumDiv = makeAb(
     "subscriptio",
     getStr(data, "subscriptiones_testium_text"),
     "testium",
@@ -280,40 +280,32 @@ export function generateTeiXml(
   );
   if (subTestiumDiv) subscriptioChildren.push(subTestiumDiv);
   const emittensName = getStr(data, "subscriptio_emittentis_text");
-  const emittensType = getStr(data, "subscriptio_emittentis_analysis");
-  if (emittensName || emittensType) {
-    const subtypeAttr = emittensType ? ` subtype="${esc(emittensType)}"` : "";
-    if (emittensName) {
-      subscriptioChildren.push(
-        `          <diploPart type="subscriptio"${subtypeAttr}>\n` +
-        `            <name>${esc(emittensName)}</name>\n` +
-        `          </diploPart>`,
-      );
-    } else {
-      subscriptioChildren.push(
-        `          <diploPart type="subscriptio"${subtypeAttr} />`,
-      );
-    }
+  if (emittensName) {
+    subscriptioChildren.push(
+      `          <ab type="subscriptio" subtype="emittens">\n` +
+      `            <persName>${esc(emittensName)}</persName>\n` +
+      `          </ab>`,
+    );
   }
   // Witness list
   const witnesses = getWitnesses(data, "testes_names");
   const witnessLines: string[] = [];
   for (const w of witnesses) {
     if (isEmpty(w.name)) continue;
-    const anaAttr = w.is_investitor ? ' ana="#investitor"' : "";
+    const roleAttr = w.is_investitor ? ' role="issuer"' : ' role="witness"';
     witnessLines.push(
-      `          <witness${anaAttr}><name>${esc(w.name)}</name></witness>`,
+      `          <person${roleAttr}><persName>${esc(w.name)}</persName></person>`,
     );
   }
   if (witnessLines.length > 0) {
     subscriptioChildren.push(
-      `          <listWitness>\n` +
+      `          <listPerson>\n` +
         witnessLines.join("\n") +
-        `\n          </listWitness>`,
+        `\n          </listPerson>`,
     );
   }
 
-  const completioDiv = makeDiploPart("subscriptio", getStr(data, "completio_text"), "completio", "          ");
+  const completioDiv = makeAb("subscriptio", getStr(data, "completio_text"), "completio", "          ");
   if (completioDiv) subscriptioChildren.push(completioDiv);
 
   const subscriptioDiv = makeDivContainer("subscriptio", subscriptioChildren, undefined, "        ");
@@ -342,7 +334,7 @@ export function generateTeiXml(
   lines.push(
     "      </titleStmt>",
     "      <publicationStmt>",
-    "        <p></p>",
+    "        <p>Encoded by Sema TEI Corpus Explorer</p>",
     "      </publicationStmt>",
     "      <sourceDesc>",
     "        <msDesc>",

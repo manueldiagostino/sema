@@ -268,7 +268,7 @@ export function parseTeiXml(
       // ── Special case: datatio_topica_analysis is PlaceEntry[] ─────
       if (field.id === "datatio_topica_analysis") {
         const termNodes = select(
-          "//tei:teiHeader//tei:term[@type='datatio_topica_analysis']",
+          "//tei:teiHeader//tei:placeName[@type='datatio_topica_analysis']",
           doc,
         ) as Node[];
         const entries: PlaceEntry[] = [];
@@ -347,10 +347,10 @@ export function parseTeiXml(
           break;
         }
 
-        // ── dynamic-list (e.g. witness names) ────────────────────────
+        // ── dynamic-list (e.g. person names) ────────────────────────
         // Selects the repeating wrapper elements, then for each wrapper
         // extracts the tei_element child text as `name` and checks the
-        // `@ana` attribute for the exclusive_option flag.
+        // `@role` attribute for the exclusive_option flag.
         case "dynamic-list": {
           const wrapperNodes = select(
             buildWrapperXPath(field),
@@ -370,12 +370,12 @@ export function parseTeiXml(
 
             if (!name) continue;
 
-            // Check exclusive_option flag (e.g. ana="#investitor" on <witness>)
+            // Check exclusive_option flag (e.g. role="issuer" on <person>)
             let isExclusive = false;
             if (field.exclusive_option) {
-              const ana =
-                ((wrapperNode as unknown as Element).getAttribute("ana")) || "";
-              isExclusive = ana.includes("#investitor");
+              const role =
+                ((wrapperNode as unknown as Element).getAttribute("role")) || "";
+              isExclusive = role === "issuer";
             }
 
             entries.push({ name, is_investitor: isExclusive });
@@ -410,7 +410,7 @@ export function parseTeiXml(
   // ── Full text (not config-driven; rendered in a separate form tab) ──
   try {
     const ftNodes = select(
-      "//tei:text/tei:body/tei:diploPart[@type='full_text']",
+      "//tei:text/tei:body/tei:ab[@type='full_text']",
       doc,
     ) as Node[];
     result.full_text =

@@ -40,7 +40,7 @@ prefix: "tei"
 #     element               TEI element name (e.g. "term", "date", "p")
 #     type?                 @type attribute value to create/match
 #     attribute?            Which attribute to read (for column display)
-#     wrapper?              Intermediate wrapping element (e.g. "diploPart")
+#     wrapper?              Intermediate wrapping element (e.g. "ab")
 #     wrapper_attributes?   Attributes on the wrapper element
 #     xpath_parent          XPath to the parent where this element lives
 #   label                   Human-readable label
@@ -65,7 +65,7 @@ elements:
 
   full_text:
     tei:
-      element: diploPart
+      element: ab
       type: full_text
       xpath_parent: "tei:text/tei:body"
     label: Full Text
@@ -122,11 +122,11 @@ elements:
     sortable: true
     filterable: true
 
-  # dating_topical: column reads term[@type='datatio_topica_analysis']
-  # from creation element. Note: form creates the same term under keywords.
+  # dating_topical: column reads placeName[@type='datatio_topica_analysis']
+  # from creation element. Note: form creates the same placeName under keywords.
   dating_topical:
     tei:
-      element: term
+      element: placeName
       type: datatio_topica_analysis
       xpath_parent: "tei:teiHeader/tei:profileDesc/tei:creation"
     label: Datatio Topica
@@ -142,8 +142,7 @@ elements:
 
   invocatio_text:
     tei:
-      element: p
-      wrapper: diploPart
+      element: ab
       wrapper_attributes:
         type: invocatio
       xpath_parent: "tei:text/tei:body/tei:div[@type='protocol']"
@@ -158,7 +157,7 @@ elements:
 
   invocatio_analysis:
     tei:
-      element: diploPart
+      element: ab
       type: invocatio
       attribute: subtype
       xpath_parent: "tei:text/tei:body/tei:div[@type='protocol']"
@@ -177,8 +176,7 @@ elements:
 
   datatio_chronica_text:
     tei:
-      element: p
-      wrapper: diploPart
+      element: ab
       wrapper_attributes:
         type: datatio
         subtype: chronica
@@ -209,8 +207,7 @@ elements:
 
   intitulatio_text:
     tei:
-      element: p
-      wrapper: diploPart
+      element: ab
       wrapper_attributes:
         type: intitulatio
       xpath_parent: "tei:text/tei:body/tei:div[@type='contextus']"
@@ -225,9 +222,11 @@ elements:
 
   intitulatio_analysis:
     tei:
-      element: term
-      type: intitulatio_analysis
-      xpath_parent: "tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords"
+      element: persName
+      wrapper: author
+      wrapper_attributes:
+        role: "issuer"
+      xpath_parent: "tei:teiHeader/tei:fileDesc/tei:titleStmt"
     label: Auctor (normalized)
     type: text
     cardinality: single
@@ -238,8 +237,7 @@ elements:
 
   dispositio_text:
     tei:
-      element: p
-      wrapper: diploPart
+      element: ab
       wrapper_attributes:
         type: dispositio
       xpath_parent: "tei:text/tei:body/tei:div[@type='contextus']"
@@ -253,8 +251,7 @@ elements:
 
   inscriptio_text:
     tei:
-      element: p
-      wrapper: diploPart
+      element: ab
       wrapper_attributes:
         type: inscriptio
       xpath_parent: "tei:text/tei:body/tei:div[@type='contextus']"
@@ -269,9 +266,12 @@ elements:
 
   inscriptio_analysis:
     tei:
-      element: term
+      element: persName
       type: inscriptio_analysis
-      xpath_parent: "tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords"
+      wrapper: ab
+      wrapper_attributes:
+        type: inscriptio
+      xpath_parent: "tei:text/tei:body/tei:div[@type='contextus']"
     label: Destinatarius (normalized)
     type: text
     cardinality: single
@@ -282,8 +282,7 @@ elements:
 
   perpetuitatis_text:
     tei:
-      element: p
-      wrapper: diploPart
+      element: ab
       wrapper_attributes:
         type: clausulae
         subtype: perpetuitatis
@@ -298,8 +297,7 @@ elements:
 
   descriptio_rei_text:
     tei:
-      element: p
-      wrapper: diploPart
+      element: ab
       wrapper_attributes:
         type: dispositio
         subtype: "*"
@@ -315,7 +313,7 @@ elements:
 
   descriptio_rei_analysis:
     tei:
-      element: diploPart
+      element: ab
       type: dispositio
       attribute: subtype
       xpath_parent: "tei:text/tei:body/tei:div[@type='contextus']"
@@ -358,8 +356,7 @@ elements:
 
   de_servitute_itineris_text:
     tei:
-      element: p
-      wrapper: diploPart
+      element: ab
       wrapper_attributes:
         type: clausulae
         subtype: de_servitute_itineris
@@ -374,8 +371,7 @@ elements:
 
   integritatis_rei_text:
     tei:
-      element: p
-      wrapper: diploPart
+      element: ab
       wrapper_attributes:
         type: clausulae
         subtype: integritatis_rei
@@ -390,8 +386,7 @@ elements:
 
   quietantiae_pretii_text:
     tei:
-      element: p
-      wrapper: diploPart
+      element: ab
       wrapper_attributes:
         type: clausulae
         subtype: quietantiae_pretii
@@ -406,8 +401,7 @@ elements:
 
   confinium_text:
     tei:
-      element: p
-      wrapper: diploPart
+      element: ab
       wrapper_attributes:
         type: clausulae
         subtype: confinium
@@ -422,8 +416,7 @@ elements:
 
   mensurarum_text:
     tei:
-      element: p
-      wrapper: diploPart
+      element: ab
       wrapper_attributes:
         type: clausulae
         subtype: mensurarum
@@ -438,8 +431,7 @@ elements:
 
   translationis_iuris_text:
     tei:
-      element: p
-      wrapper: diploPart
+      element: ab
       wrapper_attributes:
         type: clausulae
         subtype: translationis_iuris
@@ -454,8 +446,7 @@ elements:
 
   liberi_gaudii_text:
     tei:
-      element: p
-      wrapper: diploPart
+      element: ab
       wrapper_attributes:
         type: clausulae
         subtype: liberi_gaudii
@@ -470,8 +461,7 @@ elements:
 
   legitimae_defensionis_text:
     tei:
-      element: p
-      wrapper: diploPart
+      element: ab
       wrapper_attributes:
         type: clausulae
         subtype: legitimae_defensionis
@@ -486,8 +476,7 @@ elements:
 
   sanctio_text:
     tei:
-      element: p
-      wrapper: diploPart
+      element: ab
       wrapper_attributes:
         type: sanctio
       xpath_parent: "tei:text/tei:body/tei:div[@type='contextus']"
@@ -502,7 +491,7 @@ elements:
 
   sanctio_analysis:
     tei:
-      element: diploPart
+      element: ab
       type: sanctio
       attribute: subtype
       xpath_parent: "tei:text/tei:body/tei:div[@type='contextus']"
@@ -525,8 +514,7 @@ elements:
 
   datatio_topica_text:
     tei:
-      element: p
-      wrapper: diploPart
+      element: ab
       wrapper_attributes:
         type: datatio
         subtype: topica
@@ -542,7 +530,7 @@ elements:
 
   datatio_topica_analysis:
     tei:
-      element: term
+      element: placeName
       type: datatio_topica_analysis
       xpath_parent: "tei:teiHeader/tei:profileDesc/tei:creation"
     label: Datatio Topica
@@ -558,8 +546,8 @@ elements:
 
   subscriptio_emittentis_text:
     tei:
-      element: name
-      wrapper: diploPart
+      element: persName
+      wrapper: ab
       wrapper_attributes:
         type: subscriptio
         subtype: emittens
@@ -592,8 +580,7 @@ elements:
 
   subscriptiones_testium_text:
     tei:
-      element: p
-      wrapper: diploPart
+      element: ab
       wrapper_attributes:
         type: subscriptio
         subtype: testium
@@ -608,9 +595,9 @@ elements:
 
   testes_names:
     tei:
-      element: name
-      wrapper: witness
-      xpath_parent: "tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptio']/tei:listWitness"
+      element: persName
+      wrapper: person
+      xpath_parent: "tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptio']/tei:listPerson"
     label: Testes
     type: entity
     cardinality: multiple
@@ -624,11 +611,11 @@ elements:
 
   investitor_name:
     tei:
-      element: name
-      wrapper: witness
+      element: persName
+      wrapper: person
       wrapper_attributes:
-        ana: "#investitor"
-      xpath_parent: "tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptio']/tei:listWitness"
+        role: "issuer"
+      xpath_parent: "tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptio']/tei:listPerson"
     label: Investitor
     type: entity
     cardinality: single
@@ -638,8 +625,7 @@ elements:
 
   completio_text:
     tei:
-      element: p
-      wrapper: diploPart
+      element: ab
       wrapper_attributes:
         type: subscriptio
         subtype: completio
@@ -655,7 +641,7 @@ elements:
 
   completio_analysis:
     tei:
-      element: name
+      element: persName
       type: completio_analysis
       wrapper: respStmt
       xpath_parent: "tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msContents/tei:msItem"
@@ -679,7 +665,7 @@ elements:
 entities:
   person:
     label: Person
-    tei_element: name
+    tei_element: persName
     status: active
     identifying_attribute: name
     fields:
@@ -691,7 +677,7 @@ entities:
 
   place:
     label: Place
-    tei_element: term
+    tei_element: placeName
     status: active
     identifying_attribute: name
     fields:

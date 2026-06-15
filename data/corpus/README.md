@@ -1,17 +1,18 @@
 # Corpus Encoding Reference
 
-The XML files in this directory encode medieval charters using **TEI P5** with the **CEI2TEI** standard (Charter Encoding Initiative → TEI). This is the de facto encoding standard for medieval charters, used by Monasterium.net and the VID (Vocabulaire International de la Diplomatique).
+The XML files in this directory encode medieval charters using **standard TEI P5** elements. The encoding uses `<ab>` (anonymous block) for diplomatic clauses instead of the non-standard CEI2TEI `<diploPart>`, and `<listPerson>/<person>` for witness lists instead of the text-critical `<listWitness>/<witness>`.
 
 ## Element Types
 
 | Element | Purpose |
 |---|---|
 | `<div type="...">` | Structural container (groups diplomatic sections) |
-| `<diploPart type="...">` | Individual diplomatic section |
-| `<p>` | Transcribed text content within a diplomatic section |
-| `<term type="...">` | Formulary analysis keyword in the TEI header |
+| `<ab type="...">` | Individual diplomatic clause (anonymous block) |
+| `<persName>` | Personal name (testimoni, notaio, issuer) |
+| `<placeName type="...">` | Place name in `<creation>` |
+| `<term type="...">` | Keyword in `<textClass>/<keywords>` (topic classification only) |
 
-## `diploPart[@type]` Values (CEI2TEI)
+## `ab[@type]` Values
 
 | Type | VID | Description |
 |---|---|---|
@@ -23,10 +24,11 @@ The XML files in this directory encode medieval charters using **TEI P5** with t
 | `clausulae` | — | Generic clause container (distinguished by `@subtype`) |
 | `sanctio` | VID 237 | Sanction/penalty clause |
 | `subscriptio` | VID 254 | Subscriptions (emittens, testium, completio) |
+| `full_text` | — | Complete diplomatic text (single block) |
 
 ## `@subtype` Values
 
-Subtypes distinguish sub-parts within a shared CEI2TEI type. All values are underscore-joined single tokens (valid `teidata.enumerated`).
+Subtypes distinguish sub-parts within a shared type. All values are underscore-joined single tokens (valid `teidata.word`).
 
 ### Under `datatio`
 
@@ -84,84 +86,138 @@ Subtypes distinguish sub-parts within a shared CEI2TEI type. All values are unde
 <body>
   <!-- Protocol: opening diplomatic parts -->
   <div type="protocol">
-    <diploPart type="invocatio" subtype="symbolico_verbalis">
-      <p>In nomine sancte et individue Trinitatis.</p>
-    </diploPart>
-    <diploPart type="datatio" subtype="chronica">
-      <p>Anno Domini millesimo centesimo trigesimo sexto...</p>
-    </diploPart>
+    <ab type="invocatio" subtype="symbolico_verbalis">
+      In nomine sancte et individue Trinitatis.
+    </ab>
+    <ab type="datatio" subtype="chronica">
+      Anno Domini millesimo centesimo trigesimo sexto...
+    </ab>
   </div>
 
   <!-- Contextus: main body of the charter -->
   <div type="contextus">
-    <diploPart type="intitulatio">
-      <p>Constat me quidem Iohannesbonus...</p>
-    </diploPart>
-    <diploPart type="dispositio">
-      <p>presenti die vendo et huius rei gratia trado tibi</p>
-    </diploPart>
-    <diploPart type="inscriptio">
-      <p>Bonofantino, accipienti in honore Dei...</p>
-    </diploPart>
-    <diploPart type="clausulae" subtype="perpetuitatis">
-      <p>in perpetuum,</p>
-    </diploPart>
-    <diploPart type="dispositio" subtype="descriptio_rei">
-      <p>peciam unam terræ aratorie...</p>
-    </diploPart>
-    <diploPart type="clausulae" subtype="confinium">
-      <p>Confines vero eius a totis quattuor lateribus...</p>
-    </diploPart>
-    <diploPart type="sanctio" subtype="dupli_pena">
-      <p>Et si ego vel mei heredes...</p>
-    </diploPart>
+    <ab type="intitulatio">
+      Constat me quidem Iohannesbonus...
+    </ab>
+    <ab type="dispositio">
+      presenti die vendo et huius rei gratia trado tibi
+    </ab>
+    <ab type="inscriptio">
+      Bonofantino, accipienti in honore Dei...
+    </ab>
+    <ab type="clausulae" subtype="perpetuitatis">
+      in perpetuum,
+    </ab>
+    <ab type="dispositio" subtype="descriptio_rei">
+      peciam unam terræ aratorie...
+    </ab>
+    <ab type="clausulae" subtype="confinium">
+      Confines vero eius a totis quattuor lateribus...
+    </ab>
+    <ab type="sanctio" subtype="dupli_pena">
+      Et si ego vel mei heredes...
+    </ab>
   </div>
 
   <!-- Eschatocol: closing diplomatic parts -->
   <div type="eschatocol">
-    <diploPart type="datatio" subtype="topica">
-      <p>Actum in burgo Sancti Donati...</p>
-    </diploPart>
+    <ab type="datatio" subtype="topica">
+      Actum in burgo Sancti Donati...
+    </ab>
     <div type="subscriptio">
-      <diploPart type="subscriptio" subtype="emittens" />
-      <listWitness>
-        <witness ana="#investitor"><name>Petrus de Teutio</name></witness>
-        <witness><name>Ambrosius filius Dominice</name></witness>
-      </listWitness>
-      <diploPart type="subscriptio" subtype="completio">
-        <p>Ego Gerardus tabellio hoc venditionis instrumentum... scripsi et conplevi.</p>
-      </diploPart>
+      <ab type="subscriptio" subtype="testium">
+        Taurellus de Villola, Petrus de Teutio... rogati sunt testes.
+      </ab>
+      <listPerson>
+        <person role="witness"><persName>Taurellus de Villola</persName></person>
+        <person role="issuer"><persName>Petrus de Teutio</persName></person>
+        <person role="witness"><persName>Ambrosius filius Dominice</persName></person>
+      </listPerson>
+      <ab type="subscriptio" subtype="completio">
+        Ego Gerardus tabellio hoc venditionis instrumentum... scripsi et conplevi.
+      </ab>
     </div>
   </div>
 </body>
 ```
 
-## Header Keywords (`term[@type]`)
+## Header Structure
 
-Formulary analysis values are stored in `<teiHeader>/<profileDesc>/<textClass>/<keywords>`:
+### titleStmt
+
+The issuer (`intitulatio_analysis`) is encoded as `<author>` in `<titleStmt>`:
+
+```xml
+<titleStmt>
+  <title>Instrumentum venditionis</title>
+  <author role="issuer"><persName>Petrus Rex Castellae</persName></author>
+</titleStmt>
+```
+
+### creation
+
+Place of redaction uses `<placeName>` instead of `<term>`:
+
+```xml
+<creation>
+  <date when="1205-04-01">1205-04-01</date>
+  <placeName type="datatio_topica_analysis">Burgos</placeName>
+</creation>
+```
+
+### keywords (topic classification only)
+
+Only topic-classification values remain in `<keywords>`. Metadata about issuer/recipient lives in `<titleStmt>`, not `<keywords>`:
 
 | `@type` Value | Content |
 |---|---|
 | `object` | Charter type label (e.g. "Instrumentum venditionis") |
 | `object_subtype` | Charter subtype (e.g. "Venditio") |
-| `intitulatio_analysis` | Normalized author name |
-| `inscriptio_analysis` | Normalized recipient name |
 | `datatio_topica_analysis` | Place of redaction |
 | `subscriptio_emittentis_analysis` | Emittens role (auctor/destinatarius) |
 | `property_location` | Property location |
 | `price` | Price paid |
 
-## Project Extensions
+## Witness Encoding
 
-- **Split `datatio`**: CEI2TEI uses a single `datatio` type. This project splits it into `@subtype="chronica"` (protocol section) and `@subtype="topica"` (eschatocol section) because they appear in different parts of the document.
+Witness lists use `<listPerson>` with `<person>` elements and `@role` attributes. The `<persName>` element replaces the generic `<name>` for personal names:
 
-- **`diploPart` without CEI2TEI ODD**: Standard TEI validators won't recognize `<diploPart>` unless the CEI2TEI ODD is loaded. XPath and DOM parsing work fine. If schema validation is added later, include the CEI2TEI ODD.
+| Element | Purpose |
+|---|---|
+| `<listPerson>` | Container for all persons in the document |
+| `<person role="witness">` | A witness to the legal act |
+| `<person role="issuer">` | The issuer (investitor) |
+| `<persName>` | Personal name of the person |
+| `<respStmt>` | Statement of responsibility (e.g. notary) |
+
+## Migrated from CEI2TEI
+
+This corpus was migrated from the CEI2TEI format. Key changes:
+
+| Old (CEI2TEI) | New (TEI P5) |
+|---|---|
+| `<diploPart type="X"><p>T</p></diploPart>` | `<ab type="X">T</ab>` |
+| `<listWitness>` | `<listPerson>` |
+| `<witness ana="#investitor">` | `<person role="issuer">` |
+| `<witness>` | `<person role="witness">` |
+| `<name>` (in person context) | `<persName>` |
+| `<term type="datatio_topica_analysis">` | `<placeName type="datatio_topica_analysis">` |
+| `<recipient>` in msItem | Removed (element not in TEI P5) |
+| `<term type="intitulatio_analysis">` in keywords | `<author role="issuer"><persName>` in titleStmt |
+| `<p></p>` in publicationStmt | `<p>Encoded by Sema TEI Corpus Explorer</p>` |
 
 ## Related Files
 
 | File | Purpose |
 |---|---|
-| `config/form-sections.yaml` | Admin form field definitions and TEI element mappings |
-| `config/columns.yaml` | Corpus table column definitions with XPath selectors |
+| `config/tei-schema/_base.yaml` | TEI element definitions, XPath mappings, and field types |
+| `config/tei-schema/_patterns.yaml` | Dynamic pattern definitions for extensible elements |
+| `config/views/table-home.yaml` | Corpus table column visibility, order, and render config |
+| `config/views/card.yaml` | Document card header and tab layout |
+| `config/views/form-base.yaml` | Admin form field layout and sections |
+| `config/views/export.yaml` | PDF/TXT export section definitions |
 | `src/lib/xmlBuilder.ts` | TEI XML generation from form data |
-| `.opencode/knowledge/cei2tei-reference.md` | Full reference with field ID mappings |
+| `src/lib/xmlParser.ts` | TEI XML to form data extraction |
+| `scripts/build-corpus.ts` | Corpus metadata JSON generation |
+| `scripts/build-entity-graph.ts` | Knowledge graph generation from TEI XML |
+| `scripts/migrate-to-p5.ts` | CEI2TEI → TEI P5 migration script |

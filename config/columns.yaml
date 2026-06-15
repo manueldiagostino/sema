@@ -1,3 +1,16 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# DEPRECATED — This file is no longer used at build time.
+#
+# build-corpus.ts now uses the schema adapter (config/tei-schema/_base.yaml
+# + config/views/table-home.yaml) to dynamically generate column XPaths.
+# The XPaths in this file are STALE and reference old CEI2TEI element names
+# (diploPart, listWitness, witness, etc.).
+#
+# DO NOT EDIT. For column changes, edit:
+#   - config/tei-schema/_base.yaml      (element definitions, XPath parents)
+#   - config/views/table-home.yaml      (visibility, order, width, render)
+# ══════════════════════════════════════════════════════════════════════════════
+#
 # Corpus table column definitions for CEI2TEI P5 documents.
 #
 # Each column requires: id, label, xpath

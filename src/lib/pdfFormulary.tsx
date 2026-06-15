@@ -71,7 +71,7 @@ interface Clause {
 
 function parseClauses(xmlContent: string): Clause[] {
   const clauses: Clause[] = [];
-  const divRegex = /<(?:div|diploPart)\s+type="([^"]+)"(?:\s+subtype="([^"]*)")?[^>]*>\s*<p>([\s\S]*?)<\/p>\s*<\/(?:div|diploPart)>/g;
+  const divRegex = /<(?:div|ab)\s+type="([^"]+)"(?:\s+subtype="([^"]*)")?[^>]*>([\s\S]*?)<\/(?:div|ab)>/g;
   let match;
   while ((match = divRegex.exec(xmlContent)) !== null) {
     clauses.push({
@@ -92,10 +92,10 @@ function extractField(xmlContent: string, field: string): string {
   const patterns: Record<string, RegExp> = {
     repository: /<repository>([^<]+)<\/repository>/,
     shelfmark: /<idno>([^<]+)<\/idno>/,
-    author: /<author>([^<]+)<\/author>/,
-    recipient: /<recipient>([^<]+)<\/recipient>/,
+    author: /<author[^>]*>(?:<persName>)?([^<]+)(?:<\/persName>)?<\/author>/,
+    recipient: /<ab type="inscriptio">([^<]+)<\/ab>/,
     date: /<date[^>]*>([^<]*)<\/date>/,
-    notary: /<name>([^<]+)<\/name>/,
+    notary: /<(?:name|persName)>([^<]+)<\/(?:name|persName)>/,
     origPlace: /<origPlace>([^<]+)<\/origPlace>/,
   };
   const regex = patterns[field];
