@@ -16,9 +16,7 @@ header:
       # Maps to HISTORICAL_IDS
       fields:
         - id: intitulatio_analysis
-          render: badge
         - id: inscriptio_analysis
-          render: badge
         - id: repository
         - id: shelfmark
         - id: dating_chronological

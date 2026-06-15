@@ -105,6 +105,7 @@ function FieldValue({
   const rawValue = item[fieldId];
 
   if (rawValue === undefined || rawValue === null) {
+    if (render === "badge") return null;
     return <span>—</span>;
   }
 
@@ -190,6 +191,16 @@ function FormularyTabContent({
   sections: CardSection[];
   schema: TeiSchema;
 }) {
+  // Show empty state when all sections are empty
+  const allEmpty = sections.every((section) => sectionIsEmpty(item, section));
+  if (allEmpty) {
+    return (
+      <div className="min-h-[300px] flex items-center justify-center">
+        <p className="text-sm text-muted-foreground">No formulary data available for this document.</p>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-[300px] space-y-6">
       {sections.map((section) => {

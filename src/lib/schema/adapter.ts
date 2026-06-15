@@ -103,8 +103,12 @@ export function buildXpath(elem: TeiElement): string {
   } else {
     // No wrapper — direct element with optional type filter
     if (m.type) {
-      // Compound type predicates for elements with both type and other attributes
-      xpath += `/tei:${elementName}[@type='${m.type}']`;
+      // Compound type predicates — include attribute existence check when set
+      if (m.attribute) {
+        xpath += `/tei:${elementName}[@type='${m.type}' and @${m.attribute}]`;
+      } else {
+        xpath += `/tei:${elementName}[@type='${m.type}']`;
+      }
     } else {
       xpath += `/tei:${elementName}`;
     }

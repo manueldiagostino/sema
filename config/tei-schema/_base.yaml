@@ -69,7 +69,7 @@ elements:
       type: full_text
       xpath_parent: "tei:text/tei:body"
     label: Full Text
-    type: computed
+    type: text
     cardinality: single
     formulary_section: metadata
     sortable: false
@@ -160,10 +160,11 @@ elements:
     tei:
       element: diploPart
       type: invocatio
+      attribute: subtype
       xpath_parent: "tei:text/tei:body/tei:div[@type='protocol']"
     label: Invocatio Analysis
     type: enum
-    cardinality: multiple
+    cardinality: single
     formulary_section: protocol
     field_pair: invocatio
     options:
@@ -316,6 +317,7 @@ elements:
     tei:
       element: diploPart
       type: dispositio
+      attribute: subtype
       xpath_parent: "tei:text/tei:body/tei:div[@type='contextus']"
     label: Descriptio Rei Analysis
     type: enum
@@ -502,6 +504,7 @@ elements:
     tei:
       element: diploPart
       type: sanctio
+      attribute: subtype
       xpath_parent: "tei:text/tei:body/tei:div[@type='contextus']"
     label: Sanctio Analysis
     type: enum
@@ -570,9 +573,9 @@ elements:
 
   subscriptio_emittentis_analysis:
     tei:
-      element: diploPart
-      type: subscriptio
-      xpath_parent: "tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptio']"
+      element: term
+      type: subscriptio_emittentis_analysis
+      xpath_parent: "tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords"
     label: Subscriptio Emittentis Analysis
     type: enum
     cardinality: single

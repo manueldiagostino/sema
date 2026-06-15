@@ -334,12 +334,16 @@ export async function buildCorpus(config?: BuildConfig): Promise<void> {
 
     // Extract formular body-text fields for DocumentCard formulary tab
     for (const [elemId, elem] of Object.entries(schema.elements)) {
-      if (!elem.formulary_section) continue;
-      if (
-        elem.formulary_section !== "protocol" &&
-        elem.formulary_section !== "contextus" &&
-        elem.formulary_section !== "eschatocol"
-      ) continue;
+      // full_text is needed for the card Full Text tab even though its
+      // formulary_section is metadata (it's not a table column)
+      if (elemId !== "full_text") {
+        if (!elem.formulary_section) continue;
+        if (
+          elem.formulary_section !== "protocol" &&
+          elem.formulary_section !== "contextus" &&
+          elem.formulary_section !== "eschatocol"
+        ) continue;
+      }
       if (elemId in item) continue; // already extracted as a column
 
       try {
