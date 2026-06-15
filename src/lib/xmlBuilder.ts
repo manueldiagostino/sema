@@ -4,6 +4,13 @@ import type {
   PlaceEntry,
   DateFieldValue,
 } from "@/types/form";
+import type {
+  TeiSchema,
+  FormViewConfig,
+  FormSection,
+  FormField,
+} from "@/types/schema";
+import { serializeFieldElements } from "@/lib/schema/serialize";
 
 /** Escape special XML characters in text content. */
 function esc(s: string): string {
@@ -108,14 +115,53 @@ export function deriveCharterCode(typeId: string): string {
   return typeId.slice(0, 2).toLowerCase();
 }
 
+/** Check whether a field's TEI element maps to the body section (not teiHeader). */
+function isBodyField(fieldId: string, schema: TeiSchema): boolean {
+  const elem = schema.elements[fieldId];
+  if (!elem) return false;
+  return elem.tei.xpath_parent.startsWith("tei:text/tei:body");
+}
+
+/**
+ * Collect all FormField entries from a section tree (including subsections)
+ * in declaration order (section fields first, then subsection fields).
+ */
+function collectSectionFields(section: FormSection): FormField[] {
+  const fields: FormField[] = [...(section.fields || [])];
+  for (const sub of section.subsections || []) {
+    fields.push(...collectSectionFields(sub));
+  }
+  return fields;
+}
+
+/**
+ * Build an indented XML string from the serializer output and field metadata.
+ * Applies the appropriate indentation for the nesting level.
+ */
+function indentXml(xml: string, level: number): string {
+  const pad = "  ".repeat(level);
+  // If multi-line, indent each line
+  if (xml.includes("\n")) {
+    return xml
+      .split("\n")
+      .map((line) => (line.trim() ? pad + line : line))
+      .join("\n");
+  }
+  return pad + xml;
+}
+
 /**
  * Generate the complete TEI P5 XML document from form submission data.
  * Builds a diplomatic formulary with optional full text div.
+ * @param formConfig The merged form view config (server-loaded via loadFormConfig)
+ * @param schema The TEI schema registry (server-loaded via loadTeiSchema)
  * @param docId Optional document ID (filename stem) for xml:id on <TEI> root.
  */
 export function generateTeiXml(
   data: FormSubmissionData,
   charterTypes: Array<{ id: string; label: string; object_value?: string; object_subtype_value?: string }>,
+  formConfig: FormViewConfig,
+  schema: TeiSchema,
   docId?: string,
 ): string {
   const I = (n: number) => "  ".repeat(n); // indentation helper
@@ -167,9 +213,15 @@ export function generateTeiXml(
   }
   for (const place of locusRedactionis) {
     if (isEmpty(place.name)) continue;
-    creation.push(
-      `${I(4)}<placeName type="datatio_topica_analysis">${esc(place.name)}</placeName>`,
-    );
+    if (place.level) {
+      creation.push(
+        `${I(4)}<placeName type="datatio_topica_analysis" subtype="${esc(place.level)}">${esc(place.name)}</placeName>`,
+      );
+    } else {
+      creation.push(
+        `${I(4)}<placeName type="datatio_topica_analysis">${esc(place.name)}</placeName>`,
+      );
+    }
   }
 
   // keywords
@@ -197,129 +249,217 @@ export function generateTeiXml(
     }
   }
 
-  // ── body: nested diplomatic structure ──
+  // ── body: schema-driven serialization ──
 
-  // Protocol
-  const protocolChildren: string[] = [];
-  const invocatioText = getStr(data, "invocatio_text");
-  const invocatioTypeVal = getVal(data, "invocatio_analysis");
-  const invocatioType = Array.isArray(invocatioTypeVal)
-    ? (invocatioTypeVal as string[]).join(" ")
-    : typeof invocatioTypeVal === "string" ? invocatioTypeVal : "";
-  if (invocatioText) {
-    protocolChildren.push(makeAb("invocatio", invocatioText, invocatioType || undefined));
-  }
-  const dcDiv = makeAb("datatio", getStr(data, "datatio_chronica_text"), "chronica");
-  if (dcDiv) protocolChildren.push(dcDiv);
-
-  const protocolDiv = makeDivContainer("protocol", protocolChildren);
-  const protocolContent = protocolDiv ? [protocolDiv] : [];
-
-  // Contextus
-  const contextusChildren: string[] = [];
-  // [divType, fieldId, subtypeField?, staticSubtype?]
-  // staticSubtype provides a hardcoded subtype when no form field supplies one.
-  const textusDivs: [string, string, string?, string?][] = [
-    ["intitulatio", "intitulatio_text"],
-    ["dispositio", "dispositio_text"],
-    ["clausulae", "perpetuitatis_text", undefined, "perpetuitatis"],
-    ["dispositio", "descriptio_rei_text", "descriptio_rei_analysis"],
-    ["clausulae", "de_servitute_itineris_text", undefined, "de_servitute_itineris"],
-    ["clausulae", "integritatis_rei_text", undefined, "integritatis_rei"],
-    ["clausulae", "quietantiae_pretii_text", undefined, "quietantiae_pretii"],
-    ["clausulae", "confinium_text", undefined, "confinium"],
-    ["clausulae", "mensurarum_text", undefined, "mensurarum"],
-    ["clausulae", "translationis_iuris_text", undefined, "translationis_iuris"],
-    ["clausulae", "liberi_gaudii_text", undefined, "liberi_gaudii"],
-    ["clausulae", "legitimae_defensionis_text", undefined, "legitimae_defensionis"],
-    ["sanctio", "sanctio_text", "sanctio_analysis"],
-  ];
-  for (const [divType, fieldId, subtypeField, staticSubtype] of textusDivs) {
-    const text = getStr(data, fieldId);
-    const subtype = staticSubtype ?? (subtypeField ? getStr(data, subtypeField) : undefined);
-    const div = makeAb(divType, text, subtype);
-    if (div) contextusChildren.push(div);
-  }
-  // Inscriptio: diplomatic text + embedded normalized analysis
-  const inscriptioText = getStr(data, "inscriptio_text");
-  const inscriptioNorm = getStr(data, "inscriptio_analysis");
-  if (inscriptioText || inscriptioNorm) {
-    let inner = "";
-    if (inscriptioNorm) {
-      inner += `\n            <persName type="inscriptio_analysis">${esc(inscriptioNorm)}</persName>`;
+  // Build a map of body-relevant field pairs (both fields are body elements)
+  const bodyPairMap = new Map<
+    string,
+    { text?: string; analysis?: string }
+  >();
+  for (const [fieldId, elem] of Object.entries(schema.elements)) {
+    if (!elem.field_pair) continue;
+    if (!isBodyField(fieldId, schema)) continue;
+    const group = bodyPairMap.get(elem.field_pair) || {};
+    if (
+      elem.type === "text" ||
+      elem.type === "identifier" ||
+      elem.type === "number"
+    ) {
+      group.text = fieldId;
+    } else {
+      group.analysis = fieldId;
     }
-    if (inscriptioText) {
-      inner += `\n            ${esc(inscriptioText)}`;
-    }
-    contextusChildren.push(
-      `        <ab type="inscriptio">${inner}\n        </ab>`,
-    );
+    bodyPairMap.set(elem.field_pair, group);
   }
-  const contextusDiv = makeDivContainer("contextus", contextusChildren, undefined, "      ");
-  const contextusContent = contextusDiv ? [contextusDiv] : [];
 
-  // Full text (before protocol, but protocol may already be present)
+  // Serialize a single form field, handling field_pair merging.
+  // Returns indented XML fragment lines.
+  function serializeBodyField(
+    field: FormField,
+    indentSpaces: number,
+  ): string[] {
+    const fieldId = field.id;
+    const elem = schema.elements[fieldId];
+    if (!elem) return [];
+
+    const pairName = field.field_pair;
+    const pairInfo = pairName ? bodyPairMap.get(pairName) : undefined;
+
+    // If this is the text field of a pair with an analysis field, skip.
+    // The analysis field will serialize with pairedText instead.
+    if (pairInfo?.text === fieldId && pairInfo.analysis) return [];
+
+    // If this is the analysis field of a pair, serialize with paired text
+    if (pairInfo?.analysis === fieldId && pairInfo.text) {
+      const pairedText = getStr(data, pairInfo.text);
+      const fragments = serializeFieldElements(elem, getVal(data, fieldId), {
+        pairedText,
+      });
+      return fragments.map((f) => " ".repeat(indentSpaces) + f);
+    }
+
+    // Standalone field
+    const fragments = serializeFieldElements(elem, getVal(data, fieldId));
+    return fragments.map((f) => " ".repeat(indentSpaces) + f);
+  }
+
+  // Full text element (positioned before protocol, if present)
   const fullTextContent = getStr(data, "full_text");
   let fullTextDiv = "";
   if (fullTextContent) {
     fullTextDiv = makeAb("full_text", fullTextContent, undefined, "      ");
   }
+  const bodyContent: string[] = fullTextDiv ? [fullTextDiv] : [];
 
-  // Eschatocol
-  const eschatocolChildren: string[] = [];
-  const dtDiv = makeAb("datatio", getStr(data, "datatio_topica_text"), "topica");
-  if (dtDiv) eschatocolChildren.push(dtDiv);
-
-  // Subscriptions
-  const subscriptioChildren: string[] = [];
-  const subTestiumDiv = makeAb(
-    "subscriptio",
-    getStr(data, "subscriptiones_testium_text"),
-    "testium",
-    "          ",
+  // Find the formulary tab in the form config
+  const formularyTab = formConfig.tabs.items.find((tab) =>
+    tab.sections?.some(
+      (s) => s.id === "protocol" || s.id === "text" || s.id === "eschatocol",
+    ),
   );
-  if (subTestiumDiv) subscriptioChildren.push(subTestiumDiv);
-  const emittensName = getStr(data, "subscriptio_emittentis_text");
-  if (emittensName) {
-    subscriptioChildren.push(
-      `          <ab type="subscriptio" subtype="emittens">\n` +
-      `            <persName>${esc(emittensName)}</persName>\n` +
-      `          </ab>`,
-    );
+
+  if (formularyTab) {
+    // Track processed field pairs to avoid double-output across sections
+    const processedPairs = new Set<string>();
+
+    for (const section of formularyTab.sections || []) {
+      const sectionId = section.id;
+
+      let divType: string | null = null;
+      if (sectionId === "protocol") divType = "protocol";
+      else if (sectionId === "text") divType = "contextus";
+      else if (sectionId === "eschatocol") divType = "eschatocol";
+      if (!divType) continue;
+
+      const sectionChildren: string[] = [];
+
+      // ── Serialize top-level section fields ──
+      for (const field of section.fields || []) {
+        if (!isBodyField(field.id, schema)) continue;
+
+        const pairName = field.field_pair;
+
+        // Special case: inscriptio pair in contextus section
+        // Produces a combined <ab type="inscriptio"> with nested <persName> + text
+        if (sectionId === "text" && pairName === "recipient") {
+          if (processedPairs.has("recipient")) continue;
+          processedPairs.add("recipient");
+
+          const inscriptioText = getStr(data, "inscriptio_text");
+          const inscriptioNorm = getStr(data, "inscriptio_analysis");
+          if (inscriptioText || inscriptioNorm) {
+            let inner = "";
+            if (inscriptioNorm) {
+              inner += `\n            <persName type="inscriptio_analysis">${esc(inscriptioNorm)}</persName>`;
+            }
+            if (inscriptioText) {
+              inner += `\n            ${esc(inscriptioText)}`;
+            }
+            sectionChildren.push(
+              `        <ab type="inscriptio">${inner}\n        </ab>`,
+            );
+          }
+          continue;
+        }
+
+        if (pairName && processedPairs.has(pairName)) continue;
+
+        // Skip text fields of pairs that have an analysis field
+        const pairInfo = pairName ? bodyPairMap.get(pairName) : undefined;
+        if (pairInfo?.text === field.id && pairInfo.analysis) continue;
+
+        if (pairName) processedPairs.add(pairName);
+        sectionChildren.push(...serializeBodyField(field, 8));
+      }
+
+      // ── Serialize subsections (eschatocol → subscriptions) ──
+      if (sectionId === "eschatocol") {
+        for (const sub of section.subsections || []) {
+          if (sub.id !== "subscriptions") continue;
+
+          const subChildren: string[] = [];
+
+          for (const field of sub.fields || []) {
+            if (!isBodyField(field.id, schema)) continue;
+
+            const pairName = field.field_pair;
+            if (pairName && processedPairs.has(pairName)) continue;
+
+            // Skip text fields of pairs that have an analysis field
+            const pairInfo = pairName
+              ? bodyPairMap.get(pairName)
+              : undefined;
+            if (pairInfo?.text === field.id && pairInfo.analysis) continue;
+
+            if (pairName) processedPairs.add(pairName);
+
+            // Special case: subscriptio_emittentis_text uses multi-line
+            // formatting with nested <persName>
+            if (field.id === "subscriptio_emittentis_text") {
+              const name = getStr(data, "subscriptio_emittentis_text");
+              if (name) {
+                subChildren.push(
+                  `          <ab type="subscriptio" subtype="emittens">\n` +
+                    `            <persName>${esc(name)}</persName>\n` +
+                    `          </ab>`,
+                );
+              }
+              continue;
+            }
+
+            // Special case: testes_names wrap entries in <listPerson>
+            if (field.id === "testes_names") {
+              const fragments = serializeBodyField(field, 10);
+              if (fragments.length > 0) {
+                subChildren.push(
+                  `          <listPerson>\n` +
+                    fragments.join("\n") +
+                    `\n          </listPerson>`,
+                );
+              }
+              continue;
+            }
+
+            subChildren.push(...serializeBodyField(field, 10));
+          }
+
+          // Also process nested subsections within subscriptions
+          for (const innerSub of sub.subsections || []) {
+            for (const field of innerSub.fields || []) {
+              if (!isBodyField(field.id, schema)) continue;
+              const pairName = field.field_pair;
+              if (pairName && processedPairs.has(pairName)) continue;
+              const pairInfo = pairName ? bodyPairMap.get(pairName) : undefined;
+              if (pairInfo?.text === field.id && pairInfo.analysis) continue;
+              if (pairName) processedPairs.add(pairName);
+              subChildren.push(...serializeBodyField(field, 10));
+            }
+          }
+
+          if (subChildren.length > 0) {
+            const subDiv = makeDivContainer(
+              "subscriptio",
+              subChildren,
+              undefined,
+              "        ",
+            );
+            if (subDiv) sectionChildren.push(subDiv);
+          }
+        }
+      }
+
+      if (sectionChildren.length > 0) {
+        const sectionDiv = makeDivContainer(
+          divType,
+          sectionChildren,
+          undefined,
+          "      ",
+        );
+        if (sectionDiv) bodyContent.push(sectionDiv);
+      }
+    }
   }
-  // Witness list
-  const witnesses = getWitnesses(data, "testes_names");
-  const witnessLines: string[] = [];
-  for (const w of witnesses) {
-    if (isEmpty(w.name)) continue;
-    const roleAttr = w.is_investitor ? ' role="issuer"' : ' role="witness"';
-    witnessLines.push(
-      `          <person${roleAttr}><persName>${esc(w.name)}</persName></person>`,
-    );
-  }
-  if (witnessLines.length > 0) {
-    subscriptioChildren.push(
-      `          <listPerson>\n` +
-        witnessLines.join("\n") +
-        `\n          </listPerson>`,
-    );
-  }
-
-  const completioDiv = makeAb("subscriptio", getStr(data, "completio_text"), "completio", "          ");
-  if (completioDiv) subscriptioChildren.push(completioDiv);
-
-  const subscriptioDiv = makeDivContainer("subscriptio", subscriptioChildren, undefined, "        ");
-  if (subscriptioDiv) eschatocolChildren.push(subscriptioDiv);
-
-  const eschatocolDiv = makeDivContainer("eschatocol", eschatocolChildren, undefined, "      ");
-  const eschatocolContent = eschatocolDiv ? [eschatocolDiv] : [];
-
-  const bodyContent = [
-    ...(fullTextDiv ? [fullTextDiv] : []),
-    ...protocolContent,
-    ...contextusContent,
-    ...eschatocolContent,
-  ];
+  // ── end schema-driven body section ──
 
   // ── Assemble document ──
   const lines: string[] = [

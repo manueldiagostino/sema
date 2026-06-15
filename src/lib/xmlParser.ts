@@ -2,6 +2,7 @@ import { DOMParser } from "@xmldom/xmldom";
 import xpath from "xpath";
 import type { DateFieldValue, WitnessEntry, PlaceEntry } from "@/types/form";
 import type { FormViewConfig, TeiSchema, FormField } from "@/types/schema";
+import { deserializeEnumValues } from "@/lib/schema/enum-values";
 
 // ---------------------------------------------------------------------------
 // Internal extraction config — replaces FormFieldConfig for XML parsing
@@ -327,7 +328,7 @@ export function parseTeiXml(
               ((node as unknown as Element).getAttribute("subtype")) || "";
             if (!subtype) continue;
 
-            const parts = subtype.split(/\s+/);
+            const parts = deserializeEnumValues(subtype);
             for (const part of parts) {
               const match = options.find(
                 (o) => o.value === part || o.label === part,

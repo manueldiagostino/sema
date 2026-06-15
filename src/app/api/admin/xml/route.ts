@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server";
 import { writeFileSync, mkdirSync, existsSync, readFileSync, readdirSync, unlinkSync } from "fs";
 import { join } from "path";
-import { getCharterTypes } from "@/lib/schema/registry";
+import {
+  getCharterTypes,
+  loadTeiSchema,
+} from "@/lib/schema/registry";
+import { loadFormConfig } from "@/lib/schema/views";
 import { generateTeiXml, buildFilename } from "@/lib/xmlBuilder";
 import type { FormSubmissionData } from "@/types/form";
 
@@ -225,7 +229,17 @@ export async function POST(request: Request) {
     }
 
     // ── 3. Generate TEI XML ──
-    const xml = generateTeiXml(data, charterTypes, docId);
+    const formConfig = loadFormConfig(data.charter_type.replace(/_/g, "-"));
+    const schema = loadTeiSchema(data.charter_type);
+
+    if (!formConfig) {
+      return NextResponse.json(
+        { error: `No form config found for charter type: ${data.charter_type.replace(/_/g, "-")}` },
+        { status: 400 },
+      );
+    }
+
+    const xml = generateTeiXml(data, charterTypes, formConfig, schema, docId);
 
     // ── 4. Write XML to the active TEI directory ──
     writeFileSync(join(localTeiDir, filename), xml, "utf-8");

@@ -12,6 +12,7 @@ import type {
 } from "@/types/schema";
 import type { CorpusItem } from "@/types/corpus";
 import { truncateWords } from "@/lib/truncateWords";
+import { deserializeEnumValues } from "@/lib/schema/enum-values";
 
 hljs.registerLanguage("xml", xml);
 
@@ -112,7 +113,7 @@ function FieldValue({
   // Badge rendering
   if (render === "badge") {
     const values: string[] = typeof rawValue === "string"
-      ? rawValue.split(/\s+/)
+      ? deserializeEnumValues(rawValue)
       : Array.isArray(rawValue)
         ? rawValue
         : [String(rawValue)];

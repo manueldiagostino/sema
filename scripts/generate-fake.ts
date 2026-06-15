@@ -30,7 +30,8 @@ import {
 } from "@/lib/fake/pools";
 
 import { generateTeiXml, buildFilename } from "@/lib/xmlBuilder";
-import { getCharterTypes } from "@/lib/schema/registry";
+import { getCharterTypes, loadTeiSchema } from "@/lib/schema/registry";
+import { loadFormConfig } from "@/lib/schema/views";
 import { buildCorpus } from "./build-corpus";
 import { buildEntityGraph } from "./build-entity-graph";
 
@@ -336,8 +337,15 @@ async function main() {
   // Ensure output directory exists
   fs.mkdirSync(fakeDir, { recursive: true });
 
-  // Load charter types for XML generation
+  // Load charter types and schema for XML generation
   const charterTypes = getCharterTypes();
+  const formConfig = loadFormConfig("instrumentum-venditionis");
+  const schema = loadTeiSchema("instrumentum_venditionis");
+
+  if (!formConfig) {
+    console.error("Failed to load form config for instrumentum_venditionis");
+    process.exit(1);
+  }
 
   // Track filename counters per base name
   const filenameCounters = new Map<string, number>();
@@ -355,7 +363,7 @@ async function main() {
     const filename = `${docId}.xml`;
     const filePath = path.join(fakeDir, filename);
 
-    const xml = generateTeiXml(data, charterTypes, docId);
+    const xml = generateTeiXml(data, charterTypes, formConfig, schema, docId);
     fs.writeFileSync(filePath, xml, "utf-8");
 
     // Progress logging every 10 files

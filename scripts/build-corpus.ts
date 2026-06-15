@@ -18,6 +18,7 @@ import { DOMParser } from "@xmldom/xmldom";
 import { getLegacyColumns, getLegacyCardTabs, buildXpath } from "@/lib/schema/adapter";
 import { getCharterTypes, loadTeiSchema } from "@/lib/schema/registry";
 import { getBaseDefaults, loadTableConfig, loadCardConfig } from "@/lib/schema/views";
+import { deserializeEnumValues } from "@/lib/schema/enum-values";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -301,7 +302,7 @@ export async function buildCorpus(config?: BuildConfig): Promise<void> {
             const values: string[] = nodes.flatMap((node) => {
               const el = node as any;
               const attrVal = el.getAttribute?.(col.attribute!);
-              return attrVal ? attrVal.trim().split(/\s+/) : [];
+              return attrVal ? deserializeEnumValues(attrVal) : [];
             });
             item[col.id] = values;
           } else {

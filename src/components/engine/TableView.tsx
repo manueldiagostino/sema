@@ -18,6 +18,7 @@ import {
 import type { TableViewConfig, TeiSchema, TableColumn } from "@/types/schema";
 import type { CorpusItem } from "@/types/corpus";
 import { truncateWords } from "@/lib/truncateWords";
+import { deserializeEnumValues } from "@/lib/schema/enum-values";
 
 // ── Props ────────────────────────────────────────────────────────────────────
 
@@ -194,7 +195,7 @@ export default function TableView({
             const rawValues = Array.isArray(value)
               ? value
               : typeof value === "string" && value
-                ? value.split(/\s+/)
+                ? deserializeEnumValues(value)
                 : [];
             const nonEmpty = rawValues.filter((v) => v !== "");
             // Only render known badge values (those with a label in badgeLabels)
