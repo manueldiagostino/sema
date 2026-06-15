@@ -544,8 +544,8 @@ elements:
     tei:
       element: term
       type: datatio_topica_analysis
-      xpath_parent: "tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords"
-    label: Place of redaction
+      xpath_parent: "tei:teiHeader/tei:profileDesc/tei:creation"
+    label: Datatio Topica
     type: entity
     cardinality: multiple
     formulary_section: eschatocol
@@ -554,6 +554,7 @@ elements:
       key: level
     sortable: true
     filterable: true
+    join: ", "
 
   subscriptio_emittentis_text:
     tei:

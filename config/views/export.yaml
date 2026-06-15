@@ -12,7 +12,7 @@ sections:
       - id: repository
       - id: shelfmark
       - id: dating_chronological
-      - id: dating_topical
+      - id: datatio_topica_analysis
       - id: intitulatio_analysis
       - id: inscriptio_analysis
       - id: completio_analysis
@@ -82,7 +82,7 @@ sections:
       - id: datatio_topica_text
         label: Datatio topica
       - id: datatio_topica_analysis
-        label: Place of redaction
+        label: Datatio topica
       - id: subscriptiones_testium_text
         label: Subscriptiones testium
       - id: subscriptio_emittentis_text

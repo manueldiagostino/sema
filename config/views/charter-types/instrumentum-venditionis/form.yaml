@@ -158,7 +158,7 @@ tabs:
               field_pair: datatio_topica
 
             - id: datatio_topica_analysis
-              label: Place of redaction
+              label: Datatio topica
               input: dynamic-list
               field_pair: datatio_topica
               level_field:

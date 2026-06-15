@@ -20,7 +20,7 @@ header:
         - id: repository
         - id: shelfmark
         - id: dating_chronological
-        - id: dating_topical
+        - id: datatio_topica_analysis
         - id: completio_analysis
         - id: testes_names
         - id: investitor_name

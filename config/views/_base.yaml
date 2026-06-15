@@ -73,7 +73,7 @@ fieldGroups:
     - repository
     - shelfmark
     - dating_chronological
-    - dating_topical
+    - datatio_topica_analysis
     - completio_analysis
     - testes_names
     - investitor_name

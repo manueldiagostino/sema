@@ -13,10 +13,10 @@
 defaultVisible:
   - documentId
   - charterType
-  - currentLocation
-  - completio_analysis
   - dating_chronological
-  - dating_topical
+  - datatio_topica_analysis
+  - completio_analysis
+  - currentLocation
 
 columns:
   # ── META ────────────────────────────────────────────────
@@ -42,12 +42,24 @@ columns:
     sortable: true
     filterable: true
 
-  - id: dating_topical
-    width: 140
+  - id: datatio_topica_analysis
+    width: 160
+    sortable: true
+    filterable: true
+
+  - id: completio_analysis
+    width: 160
     sortable: true
     filterable: true
 
   # ── REPOSITORY ──────────────────────────────────────────
+  - id: currentLocation
+    computed: true
+    formula: "[repository] — [shelfmark]"
+    width: 200
+    sortable: true
+    filterable: true
+
   - id: repository
     width: 160
     sortable: true
@@ -55,13 +67,6 @@ columns:
 
   - id: shelfmark
     width: 120
-    sortable: true
-    filterable: true
-
-  - id: currentLocation
-    computed: true
-    formula: "[repository] — [shelfmark]"
-    width: 200
     sortable: true
     filterable: true
 
@@ -75,11 +80,6 @@ columns:
   - id: inscriptio_analysis
     width: 160
     render: badge
-    sortable: true
-    filterable: true
-
-  - id: completio_analysis
-    width: 160
     sortable: true
     filterable: true
 
@@ -130,11 +130,6 @@ columns:
     render: badge
     sortable: false
     filterable: false
-
-  - id: datatio_topica_analysis
-    width: 160
-    sortable: true
-    filterable: true
 
   # ── ESCHATOCL TEXT (truncated for table) ───────────────
   - id: datatio_topica_text
