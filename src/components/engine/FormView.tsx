@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import type {
   FormViewConfig,
   FormTab,
@@ -10,8 +10,6 @@ import type {
   Option,
 } from "@/types/schema";
 import type {
-  FormFieldConfig,
-  FormSectionConfig,
   DateFieldValue,
   WitnessEntry,
   PlaceEntry,
@@ -23,7 +21,9 @@ import SelectField from "@/components/admin/fields/SelectField";
 import RadioField from "@/components/admin/fields/RadioField";
 import DynamicListField from "@/components/admin/fields/DynamicListField";
 
-// ── Props ────────────────────────────────────────────────────────────────────
+// ── Types ─────────────────────────────────────────────────────────────────────
+
+type FieldValue = string | string[] | DateFieldValue | WitnessEntry[] | PlaceEntry[] | undefined;
 
 export interface FormViewProps {
   /** Form view configuration. */
@@ -31,130 +31,89 @@ export interface FormViewProps {
   /** Merged TEI schema (for element metadata). */
   schema: TeiSchema;
   /** Current form data values, keyed by field ID. */
-  formData: Record<string, string | string[] | DateFieldValue | WitnessEntry[] | PlaceEntry[] | undefined>;
+  formData: Record<string, FieldValue>;
   /** Callback when a field value changes. */
   onFieldChange: (fieldId: string, value: string | string[] | DateFieldValue | WitnessEntry[] | PlaceEntry[]) => void;
   /** Whether the form is disabled (e.g. during submission). */
   disabled?: boolean;
   /** Validation errors keyed by field ID. */
   validationErrors?: Record<string, string>;
-  /** Charter type ID for display purposes. */
-  charterType?: string;
 }
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
-/**
- * Resolve the input type for a FormField, falling back to schema element type.
- */
+/** Resolve the input type for a FormField, falling back to schema element type. */
 function resolveInputType(
   formField: FormField,
   elem?: { type: string },
 ): "text" | "textarea" | "date" | "select" | "radio" | "dynamic-list" {
   if (formField.input) return formField.input;
   switch (elem?.type) {
-    case "date":
-      return "date";
-    case "enum":
-      return "radio";
-    case "entity":
-      return "dynamic-list";
-    default:
-      return "text";
+    case "date": return "date";
+    case "enum": return "radio";
+    case "entity": return "dynamic-list";
+    default: return "text";
   }
 }
 
-/**
- * Build a legacy FormFieldConfig from a FormField + schema element.
- */
-function buildFieldConfig(
-  formField: FormField,
-  schema: TeiSchema,
-): FormFieldConfig {
-  const elem = schema.elements[formField.id];
-  const input = resolveInputType(formField, elem);
-  const teiElement = elem?.tei?.element ?? "";
-  const teiAttributes: Record<string, string> = {};
-  if (elem?.tei?.type) {
-    teiAttributes.type = elem.tei.type;
+/** Resolve a field's label from form config or schema. */
+function resolveLabel(formField: FormField, schema: TeiSchema): string {
+  return formField.label ?? schema.elements[formField.id]?.label ?? formField.id;
+}
+
+/** Resolve a field's cardinality from schema. */
+function resolveCardinality(formField: FormField, schema: TeiSchema): "single" | "multiple" {
+  return schema.elements[formField.id]?.cardinality === "multiple" ? "multiple" : "single";
+}
+
+/** Collect all FormField objects from a config (including nested sections). */
+function collectAllFields(config: FormViewConfig): FormField[] {
+  const fields: FormField[] = [];
+  for (const tab of config.tabs?.items ?? []) {
+    if (tab.fields) fields.push(...tab.fields);
+    if (tab.sections) {
+      const walk = (sections: FormSectionType[]) => {
+        for (const s of sections) {
+          fields.push(...s.fields);
+          if (s.subsections) walk(s.subsections);
+        }
+      };
+      walk(tab.sections);
+    }
   }
-  const cardinality = elem?.cardinality === "multiple" ? "multiple" : "single";
-
-  return {
-    id: formField.id,
-    label: formField.label ?? elem?.label ?? formField.id,
-    input,
-    cardinality,
-    tei_element: teiElement,
-    tei_attributes: Object.keys(teiAttributes).length > 0 ? teiAttributes : undefined,
-    tei_wrapper: elem?.tei?.wrapper,
-    tei_wrapper_attributes: elem?.tei?.wrapper_attributes,
-    xpath_parent: elem?.tei?.xpath_parent ?? "",
-    applies_to: "all",
-    required: formField.required,
-    options: formField.options as { value: string; label: string }[] | undefined,
-    default_value: formField.default_value ?? elem?.default_value,
-    field_pair: formField.field_pair ?? elem?.field_pair,
-    exclusive_option: formField.exclusive_option ?? elem?.exclusive_option,
-    level_field: formField.level_field
-      ? { key: formField.level_field.key, label: formField.level_field.key }
-      : elem?.level_field
-        ? { key: elem.level_field.key, label: elem.level_field.key }
-        : undefined,
-  };
+  return fields;
 }
 
-/**
- * Build a legacy FormSectionConfig from a FormSection + schema.
- */
-function buildSectionConfig(
-  section: FormSectionType,
-  schema: TeiSchema,
-): FormSectionConfig {
-  return {
-    id: section.id,
-    label: section.label,
-    fields: section.fields.map((f) => buildFieldConfig(f, schema)),
-    subsections: section.subsections
-      ? section.subsections.map((sub) => buildSectionConfig(sub, schema))
-      : undefined,
-    applies_to: "all",
-  };
-}
+// ── Field Widget Renderer ─────────────────────────────────────────────────────
 
-// ── FormField renderer ───────────────────────────────────────────────────────
-
-interface FormFieldRendererProps {
-  field: FormFieldConfig;
-  value: string | string[] | DateFieldValue | WitnessEntry[] | PlaceEntry[] | undefined;
+interface FieldWidgetProps {
+  formField: FormField;
+  value: FieldValue;
   onChange: (value: string | string[] | DateFieldValue | WitnessEntry[] | PlaceEntry[]) => void;
   disabled?: boolean;
-  validationError?: string;
+  schema: TeiSchema;
 }
 
-function SingleValueInput({
-  field,
+/** Render a single-value field widget. */
+function SingleValueWidget({
+  formField,
   value,
   onChange,
   disabled,
+  schema,
   required,
-}: {
-  field: FormFieldConfig;
-  value: string | string[] | DateFieldValue | WitnessEntry[] | PlaceEntry[] | undefined;
-  onChange: (value: string | string[] | DateFieldValue | WitnessEntry[] | PlaceEntry[]) => void;
-  disabled?: boolean;
-  required?: boolean;
-}) {
+}: FieldWidgetProps & { required?: boolean }) {
+  const inputType = resolveInputType(formField, schema.elements[formField.id]);
   const strValue = typeof value === "string" ? value : "";
 
-  switch (field.input) {
+  switch (inputType) {
     case "text":
       return (
         <TextField
-          id={field.id}
+          id={formField.id}
           value={strValue}
           onChange={(v) => onChange(v)}
-          placeholder={field.label}
+          placeholder={resolveLabel(formField, schema)}
           disabled={disabled}
           required={required}
         />
@@ -162,10 +121,10 @@ function SingleValueInput({
     case "textarea":
       return (
         <TextAreaField
-          id={field.id}
+          id={formField.id}
           value={strValue}
           onChange={(v) => onChange(v)}
-          placeholder={field.label}
+          placeholder={resolveLabel(formField, schema)}
           disabled={disabled}
           rows={4}
           required={required}
@@ -178,7 +137,7 @@ function SingleValueInput({
           : { iso: "", text: "" };
       return (
         <DateField
-          id={field.id}
+          id={formField.id}
           value={dateValue}
           onChange={(v) => onChange(v)}
           disabled={disabled}
@@ -189,10 +148,10 @@ function SingleValueInput({
     case "select":
       return (
         <SelectField
-          id={field.id}
+          id={formField.id}
           value={strValue}
           onChange={(v) => onChange(v)}
-          options={field.options ?? []}
+          options={(formField.options ?? schema.elements[formField.id]?.options ?? []) as { value: string; label: string }[]}
           disabled={disabled}
           required={required}
         />
@@ -200,56 +159,60 @@ function SingleValueInput({
     case "radio":
       return (
         <RadioField
-          id={field.id}
+          id={formField.id}
           value={strValue}
           onChange={(v) => onChange(v)}
-          options={field.options ?? []}
+          options={(formField.options ?? schema.elements[formField.id]?.options ?? []) as { value: string; label: string }[]}
           disabled={disabled}
           required={required}
         />
       );
     case "dynamic-list": {
-      if (field.level_field) {
+      const elem = schema.elements[formField.id];
+      const levelField = formField.level_field ?? elem?.level_field;
+      const exclusiveOption = formField.exclusive_option ?? elem?.exclusive_option;
+
+      if (levelField) {
         const placeValues: PlaceEntry[] =
           Array.isArray(value) && value.length > 0 && typeof value[0] === "object" && "name" in value[0] && "level" in value[0]
             ? (value as PlaceEntry[])
             : [];
         return (
           <DynamicListField
-            id={field.id}
+            id={formField.id}
             values={placeValues}
             onChange={(v: PlaceEntry[]) => onChange(v)}
-            placeholder={field.label}
+            placeholder={resolveLabel(formField, schema)}
             disabled={disabled}
             required={required}
-            levelField={field.level_field}
+            levelField={levelField}
           />
         );
       }
-      if (field.exclusive_option) {
+      if (exclusiveOption) {
         const witnessValues: WitnessEntry[] =
           Array.isArray(value) && value.length > 0 && typeof value[0] === "object" && "name" in value[0]
             ? (value as WitnessEntry[])
             : [];
         return (
           <DynamicListField
-            id={field.id}
+            id={formField.id}
             values={witnessValues}
             onChange={(v: WitnessEntry[]) => onChange(v)}
-            placeholder={field.label}
+            placeholder={resolveLabel(formField, schema)}
             disabled={disabled}
             required={required}
-            exclusiveOption={field.exclusive_option}
+            exclusiveOption={exclusiveOption}
           />
         );
       }
       const listValues: string[] = Array.isArray(value) ? (value as string[]) : value ? [String(value)] : [];
       return (
         <DynamicListField
-          id={field.id}
+          id={formField.id}
           values={listValues}
           onChange={(v: string[]) => onChange(v)}
-          placeholder={field.label}
+          placeholder={resolveLabel(formField, schema)}
           disabled={disabled}
           required={required}
         />
@@ -260,34 +223,34 @@ function SingleValueInput({
   }
 }
 
-function MultipleValueInput({
-  field,
+/** Render a multiple-value field widget. */
+function MultipleValueWidget({
+  formField,
   value,
   onChange,
   disabled,
+  schema,
   required,
-}: {
-  field: FormFieldConfig;
-  value: string | string[] | DateFieldValue | WitnessEntry[] | PlaceEntry[] | undefined;
-  onChange: (value: string | string[] | DateFieldValue | WitnessEntry[] | PlaceEntry[]) => void;
-  disabled?: boolean;
-  required?: boolean;
-}) {
-  // For dynamic-list, delegate to single input (it handles its own list)
-  if (field.input === "dynamic-list") {
+}: FieldWidgetProps & { required?: boolean }) {
+  const inputType = resolveInputType(formField, schema.elements[formField.id]);
+
+  // dynamic-list handles its own list
+  if (inputType === "dynamic-list") {
     return (
-      <SingleValueInput
-        field={field}
+      <SingleValueWidget
+        formField={formField}
         value={value}
         onChange={onChange}
         disabled={disabled}
+        schema={schema}
         required={required}
       />
     );
   }
 
-  // Radio with multiple cardinality becomes a checkbox group
-  if (field.input === "radio") {
+  // Radio with multiple cardinality → checkbox group
+  if (inputType === "radio") {
+    const options = (formField.options ?? schema.elements[formField.id]?.options ?? []) as { value: string; label: string }[];
     const selectedValues: string[] = Array.isArray(value) ? (value as string[]) : [];
     const toggleOption = (optValue: string) => {
       if (selectedValues.includes(optValue)) {
@@ -298,7 +261,7 @@ function MultipleValueInput({
     };
     return (
       <div className="flex flex-wrap gap-4" role="group">
-        {(field.options ?? []).map((opt) => (
+        {options.map((opt) => (
           <label
             key={opt.value}
             className={`inline-flex items-center gap-2 text-sm text-foreground${disabled ? " opacity-50 cursor-not-allowed" : " cursor-pointer"}`}
@@ -319,14 +282,8 @@ function MultipleValueInput({
 
   const values: string[] = Array.isArray(value) ? (value as string[]) : value ? [String(value)] : [""];
 
-  const addItem = () => {
-    onChange([...values, ""]);
-  };
-
-  const removeItem = (index: number) => {
-    onChange(values.filter((_, i) => i !== index));
-  };
-
+  const addItem = () => onChange([...values, ""]);
+  const removeItem = (index: number) => onChange(values.filter((_, i) => i !== index));
   const updateItem = (index: number, newValue: string) => {
     const updated = [...values];
     updated[index] = newValue;
@@ -338,32 +295,32 @@ function MultipleValueInput({
       {values.map((item, index) => (
         <div key={index} className="flex gap-2">
           <div className="flex-1">
-            {field.input === "text" && (
+            {inputType === "text" && (
               <TextField
-                id={`${field.id}-${index}`}
+                id={`${formField.id}-${index}`}
                 value={item}
                 onChange={(v) => updateItem(index, v)}
-                placeholder={field.label}
+                placeholder={resolveLabel(formField, schema)}
                 disabled={disabled}
                 required={required && index === 0}
               />
             )}
-            {field.input === "textarea" && (
+            {inputType === "textarea" && (
               <TextAreaField
-                id={`${field.id}-${index}`}
+                id={`${formField.id}-${index}`}
                 value={item}
                 onChange={(v) => updateItem(index, v)}
-                placeholder={field.label}
+                placeholder={resolveLabel(formField, schema)}
                 disabled={disabled}
                 required={required && index === 0}
               />
             )}
-            {field.input === "select" && (
+            {inputType === "select" && (
               <SelectField
-                id={`${field.id}-${index}`}
+                id={`${formField.id}-${index}`}
                 value={item}
                 onChange={(v) => updateItem(index, v)}
-                options={field.options ?? []}
+                options={(formField.options ?? schema.elements[formField.id]?.options ?? []) as { value: string; label: string }[]}
                 disabled={disabled}
                 required={required && index === 0}
               />
@@ -374,7 +331,7 @@ function MultipleValueInput({
             onClick={() => removeItem(index)}
             disabled={disabled}
             className="rounded-md border border-border bg-background px-3 py-2 text-sm text-red-600 hover:bg-red-500/10 hover:border-red-500/30 focus:outline-none focus:ring-1 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed"
-            aria-label={`Remove ${field.label} item ${index + 1}`}
+            aria-label={`Remove ${resolveLabel(formField, schema)} item ${index + 1}`}
           >
             Remove
           </button>
@@ -392,39 +349,52 @@ function MultipleValueInput({
   );
 }
 
-function FormFieldRenderer({
-  field,
+/** Render a single form field: label + widget + validation error. */
+function FieldRenderer({
+  formField,
   value,
   onChange,
   disabled,
+  schema,
   validationError,
-}: FormFieldRendererProps) {
-  const isMultiple = field.cardinality === "multiple";
+}: {
+  formField: FormField;
+  value: FieldValue;
+  onChange: (value: string | string[] | DateFieldValue | WitnessEntry[] | PlaceEntry[]) => void;
+  disabled?: boolean;
+  schema: TeiSchema;
+  validationError?: string;
+}) {
+  const label = resolveLabel(formField, schema);
+  const cardinality = resolveCardinality(formField, schema);
+  const required = formField.required;
 
   return (
     <div className="space-y-1">
       <label
-        htmlFor={field.id}
+        htmlFor={formField.id}
         className="block text-sm font-medium text-foreground"
       >
-        {field.label}
-        {field.required && <span className="ml-1 text-red-500">*</span>}
+        {label}
+        {required && <span className="ml-1 text-red-500">*</span>}
       </label>
-      {isMultiple ? (
-        <MultipleValueInput
-          field={field}
+      {cardinality === "multiple" ? (
+        <MultipleValueWidget
+          formField={formField}
           value={value}
           onChange={onChange}
           disabled={disabled}
-          required={field.required}
+          schema={schema}
+          required={required}
         />
       ) : (
-        <SingleValueInput
-          field={field}
+        <SingleValueWidget
+          formField={formField}
           value={value}
           onChange={onChange}
           disabled={disabled}
-          required={field.required}
+          schema={schema}
+          required={required}
         />
       )}
       {validationError && (
@@ -436,25 +406,27 @@ function FormFieldRenderer({
   );
 }
 
-// ── FormSection renderer ─────────────────────────────────────────────────────
+// ── Section Renderer ──────────────────────────────────────────────────────────
 
-interface FormSectionRendererProps {
-  section: FormSectionConfig;
-  formData: Record<string, string | string[] | DateFieldValue | WitnessEntry[] | PlaceEntry[] | undefined>;
+interface SectionRendererProps {
+  section: FormSectionType;
+  formData: Record<string, FieldValue>;
   onFieldChange: (fieldId: string, value: string | string[] | DateFieldValue | WitnessEntry[] | PlaceEntry[]) => void;
   disabled?: boolean;
   validationErrors?: Record<string, string>;
+  schema: TeiSchema;
   depth?: number;
 }
 
-function FormSectionRenderer({
+function SectionRenderer({
   section,
   formData,
   onFieldChange,
   disabled,
   validationErrors = {},
+  schema,
   depth = 0,
-}: FormSectionRendererProps) {
+}: SectionRendererProps) {
   const sectionClass =
     depth >= 3
       ? "mt-3 ml-2 pl-3 border-l-2 border-l-accent/40"
@@ -478,22 +450,23 @@ function FormSectionRenderer({
   // Render fields with field_pair grouping
   const elements: React.ReactNode[] = [];
   for (let i = 0; i < section.fields.length; i++) {
-    const field = section.fields[i];
+    const formField = section.fields[i];
 
     // Check if this field and the next share a field_pair
     if (
-      field.field_pair &&
+      formField.field_pair &&
       i + 1 < section.fields.length &&
-      section.fields[i + 1].field_pair === field.field_pair
+      section.fields[i + 1].field_pair === formField.field_pair
     ) {
       const nextField = section.fields[i + 1];
+      const fieldInput = resolveInputType(formField, schema.elements[formField.id]);
+      const nextInput = resolveInputType(nextField, schema.elements[nextField.id]);
       const compactInputs = new Set(["text", "radio", "date", "select"]);
-      const isInline =
-        compactInputs.has(field.input) && compactInputs.has(nextField.input);
+      const isInline = compactInputs.has(fieldInput) && compactInputs.has(nextInput);
 
       elements.push(
         <div
-          key={`pair-${field.field_pair}`}
+          key={`pair-${formField.field_pair}`}
           className={
             isInline
               ? "space-y-3"
@@ -501,31 +474,33 @@ function FormSectionRenderer({
           }
         >
           <p className="text-sm font-medium text-foreground">
-            {field.label}
+            {resolveLabel(formField, schema)}
           </p>
           <div className={isInline ? "flex items-center gap-4" : "space-y-2"}>
             <div className={isInline ? "flex-1" : ""}>
-              <FormFieldRenderer
-                field={{ ...field, label: "" }}
-                value={formData[field.id]}
-                onChange={(value) => onFieldChange(field.id, value)}
+              <FieldRenderer
+                formField={{ ...formField, label: "" }}
+                value={formData[formField.id]}
+                onChange={(v) => onFieldChange(formField.id, v)}
                 disabled={disabled}
-                validationError={validationErrors[field.id]}
+                schema={schema}
+                validationError={validationErrors[formField.id]}
               />
             </div>
             <div className={isInline ? "shrink-0" : ""}>
-              <FormFieldRenderer
-                field={{
+              <FieldRenderer
+                formField={{
                   ...nextField,
                   label: isInline
                     ? ""
-                    : nextField.label.includes("normalized")
+                    : nextField.label?.includes("normalized")
                       ? "Name (normalized)"
-                      : nextField.label,
+                      : nextField.label ?? "",
                 }}
                 value={formData[nextField.id]}
-                onChange={(value) => onFieldChange(nextField.id, value)}
+                onChange={(v) => onFieldChange(nextField.id, v)}
                 disabled={disabled}
+                schema={schema}
                 validationError={validationErrors[nextField.id]}
               />
             </div>
@@ -535,13 +510,14 @@ function FormSectionRenderer({
       i++; // skip the paired field
     } else {
       elements.push(
-        <FormFieldRenderer
-          key={field.id}
-          field={field}
-          value={formData[field.id]}
-          onChange={(value) => onFieldChange(field.id, value)}
+        <FieldRenderer
+          key={formField.id}
+          formField={formField}
+          value={formData[formField.id]}
+          onChange={(v) => onFieldChange(formField.id, v)}
           disabled={disabled}
-          validationError={validationErrors[field.id]}
+          schema={schema}
+          validationError={validationErrors[formField.id]}
         />,
       );
     }
@@ -552,13 +528,14 @@ function FormSectionRenderer({
       <HeadingTag className={headingClass}>{section.label}</HeadingTag>
       <div className="space-y-4">{elements}</div>
       {section.subsections?.map((sub) => (
-        <FormSectionRenderer
+        <SectionRenderer
           key={sub.id}
           section={sub}
           formData={formData}
           onFieldChange={onFieldChange}
           disabled={disabled}
           validationErrors={validationErrors}
+          schema={schema}
           depth={(depth ?? 0) + 1}
         />
       ))}
@@ -575,7 +552,6 @@ export default function FormView({
   onFieldChange,
   disabled = false,
   validationErrors = {},
-  charterType,
 }: FormViewProps) {
   const tabs = config.tabs?.items ?? [];
 
@@ -599,63 +575,37 @@ export default function FormView({
     [regularTabs, activeFormTab],
   );
 
-  // Build section configs from the active tab
-  const tabSections = useMemo(() => {
-    if (!activeTabData) return [];
-    if (activeTabData.sections) {
-      return activeTabData.sections.map((s) => buildSectionConfig(s, schema));
-    }
-    return [];
-  }, [activeTabData, schema]);
-
-  // Build always-visible section configs
-  const alwaysVisibleSections = useMemo(() => {
-    return alwaysVisibleTabs.map((tab) => ({
-      tab,
-      sections: tab.sections
-        ? tab.sections.map((s) => buildSectionConfig(s, schema))
-        : tab.fields
-          ? [{
-              id: tab.id,
-              label: tab.label,
-              fields: tab.fields.map((f) => buildFieldConfig(f, schema)),
-              applies_to: "all" as const,
-            }]
-          : [],
-    }));
-  }, [alwaysVisibleTabs, schema]);
-
-  // Check if active tab is a special tab
   const isSpecialTab = activeTabData?.type === "special";
 
   return (
     <>
       {/* Always-visible sections (rendered above tabs) */}
-      {alwaysVisibleSections.map(({ tab, sections }) =>
-        sections.map((section) => (
-          <div key={tab.id} className="mb-6">
-            <FormSectionRenderer
-              section={section}
+      {alwaysVisibleTabs.map((tab) => (
+        <div key={tab.id} className="mb-6">
+          {tab.fields && tab.fields.length > 0 && (
+            <SectionRenderer
+              section={{
+                id: tab.id,
+                label: tab.label,
+                fields: tab.fields,
+              }}
               formData={formData}
               onFieldChange={onFieldChange}
               disabled={disabled}
               validationErrors={validationErrors}
+              schema={schema}
               depth={0}
             />
-          </div>
-        )),
-      )}
+          )}
+        </div>
+      ))}
 
       {/* Tab bar */}
       {regularTabs.length > 0 && (
         <div className="border-b border-border">
           <div className="flex gap-0 -mb-px">
             {regularTabs.map((tab) => {
-              let tabLabel = tab.label;
-              if (tab.id === "formulary") tabLabel = "Formulary Analysis";
-              else if (tab.id === "fulltext") tabLabel = "Full Text";
-              else if (tab.id === "image") tabLabel = "Image";
-
+              const tabLabel = tab.label;
               return (
                 <button
                   key={tab.id}
@@ -706,22 +656,45 @@ export default function FormView({
         )}
 
         {/* Regular tabs with sections */}
-        {!isSpecialTab && tabSections.length > 0 && (
+        {!isSpecialTab && activeTabData?.sections && activeTabData.sections.length > 0 && (
           <div className="space-y-6">
-            {tabSections.map((section) => (
-              <FormSectionRenderer
+            {activeTabData.sections.map((section) => (
+              <SectionRenderer
                 key={section.id}
                 section={section}
                 formData={formData}
                 onFieldChange={onFieldChange}
                 disabled={disabled}
                 validationErrors={validationErrors}
+                schema={schema}
                 depth={0}
               />
             ))}
+          </div>
+        )}
+
+        {/* Regular tabs with flat fields (no sections) */}
+        {!isSpecialTab && activeTabData?.fields && activeTabData.fields.length > 0 && !activeTabData.sections && (
+          <div className="space-y-6">
+            <SectionRenderer
+              section={{
+                id: activeTabData.id,
+                label: activeTabData.label,
+                fields: activeTabData.fields,
+              }}
+              formData={formData}
+              onFieldChange={onFieldChange}
+              disabled={disabled}
+              validationErrors={validationErrors}
+              schema={schema}
+              depth={0}
+            />
           </div>
         )}
       </div>
     </>
   );
 }
+
+// Re-export collectAllFields for use by AdminFormPage
+export { collectAllFields };

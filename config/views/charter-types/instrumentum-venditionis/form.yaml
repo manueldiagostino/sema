@@ -2,32 +2,16 @@
 #
 # Preserves all field_pair groupings, input types, default_value,
 # level_field, exclusive_option, and options from form-sections.yaml.
-# This is the view-level config; TEI mapping remains in form-sections.yaml.
+# Properties, fulltext, and image tabs are inherited from form-base.yaml.
+# This file only defines the charter-type-specific formulary tab.
 
 charterType: instrumentum_venditionis
 label: Instrumentum venditionis
 
 # ── TABS ─────────────────────────────────────────────────
 tabs:
-  defaultTab: properties
+  defaultTab: formulary
   items:
-    # ── PROPERTIES (always visible) ────────────────────────
-    - id: properties
-      label: Properties
-      type: always_visible
-      layout: grid
-      columns: 2
-      fields:
-        - id: repository
-          label: Repository
-          input: text
-          required: true
-
-        - id: shelfmark
-          label: Shelfmark
-          input: text
-          required: true
-
     # ── FORMULARY ANALYSIS ────────────────────────────────
     - id: formulary
       label: Formulary Analysis
@@ -220,12 +204,3 @@ tabs:
                   label: Notary
                   input: text
                   field_pair: completio
-
-    # ── SPECIAL TABS ───────────────────────────────────────
-    - id: fulltext
-      label: Full Text
-      type: special
-
-    - id: image
-      label: Image
-      type: special

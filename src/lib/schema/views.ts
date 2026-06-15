@@ -174,7 +174,61 @@ export function loadCardConfig(charterType?: string): CardViewConfig {
 // ── Form Views ───────────────────────────────────────────────────────────────
 
 /**
+ * Merge two tabs arrays by id. Per-type tabs override base tabs with the same id.
+ * Tabs from the per-type config appear first (in order), followed by any
+ * remaining base tabs not overridden.
+ */
+function mergeTabArrays(
+  baseItems: Array<Record<string, unknown>>,
+  overrideItems: Array<Record<string, unknown>>,
+): Array<Record<string, unknown>> {
+  const merged = new Map<string, Record<string, unknown>>();
+
+  // Start with base tabs
+  for (const tab of baseItems) {
+    const id = tab.id as string;
+    if (id) merged.set(id, tab);
+  }
+
+  // Override/merge by id from per-type
+  for (const tab of overrideItems) {
+    const id = tab.id as string;
+    if (!id) continue;
+    const existing = merged.get(id);
+    if (existing) {
+      merged.set(id, deepMerge(existing, tab));
+    } else {
+      merged.set(id, tab);
+    }
+  }
+
+  // Order: per-type tabs first (in their order), then remaining base tabs
+  const result: Array<Record<string, unknown>> = [];
+  const added = new Set<string>();
+  for (const tab of overrideItems) {
+    const id = tab.id as string;
+    if (id && merged.has(id) && !added.has(id)) {
+      result.push(merged.get(id)!);
+      added.add(id);
+    }
+  }
+  for (const tab of baseItems) {
+    const id = tab.id as string;
+    if (id && !added.has(id)) {
+      result.push(merged.get(id)!);
+      added.add(id);
+    }
+  }
+
+  return result;
+}
+
+/**
  * Load a form view configuration.
+ *
+ * Loads `form-base.yaml` (shared defaults) and the charter-type-specific
+ * `form.yaml`, then deep-merges them. Tab arrays are merged by id so that
+ * per-type configs only need to define their unique tabs (e.g. formulary).
  *
  * @param charterType  Charter type ID (e.g. "instrumentum-venditionis")
  * @returns FormViewConfig, or null if no charter type provided (form requires a type)
@@ -186,22 +240,71 @@ export function loadFormConfig(charterType?: string): FormViewConfig | null {
   const cached = cache.get(cacheKey) as FormViewConfig | undefined;
   if (cached) return cached;
 
-  // Load charter-type-specific form config directly (there is no form base)
-  const formPath = viewsPath(
-    "charter-types",
-    charterType,
-    "form.yaml",
-  );
+  // Load the base form config for shared defaults
+  const baseRaw = loadYamlFile(viewsPath("form-base.yaml"));
+  // Load charter-type-specific form config
+  const formPath = viewsPath("charter-types", charterType, "form.yaml");
   const formRaw = loadYamlFile(formPath);
-  if (!formRaw) {
-    // Graceful fallback: return empty form config
-    return null;
+
+  if (!baseRaw && !formRaw) return null;
+
+  // If only base exists, use it directly
+  if (!formRaw && baseRaw) {
+    const config: FormViewConfig = {
+      charterType: charterType,
+      label: (baseRaw.label as string) ?? charterType,
+      tabs: baseRaw.tabs as FormViewConfig["tabs"],
+    };
+    cache.set(cacheKey, config);
+    return config;
   }
 
+  // Deep-merge base + per-type, with special tab-array merge
+  const baseConfig = { ...baseRaw };
+  const overrideConfig = { ...formRaw };
+
+  // Handle tabs.items with id-based merge
+  if (baseConfig.tabs && overrideConfig.tabs) {
+    const baseTabs = baseConfig.tabs as Record<string, unknown>;
+    const overrideTabs = overrideConfig.tabs as Record<string, unknown>;
+    const baseItems = (baseTabs.items as Array<Record<string, unknown>>) ?? [];
+    const overrideItems =
+      (overrideTabs.items as Array<Record<string, unknown>>) ?? [];
+
+    // Merge scalar tab properties (defaultTab) — per-type wins
+    const mergedTabs: Record<string, unknown> = {
+      ...baseTabs,
+      ...overrideTabs,
+      items: mergeTabArrays(baseItems, overrideItems),
+    };
+
+    const merged = deepMerge(baseConfig as Record<string, unknown>, {
+      ...overrideConfig,
+      tabs: mergedTabs,
+    });
+
+    const config: FormViewConfig = {
+      charterType:
+        (merged.charterType as string) ?? (formRaw!.charterType as string) ?? charterType,
+      label: merged.label as string,
+      tabs: merged.tabs as FormViewConfig["tabs"],
+    };
+
+    cache.set(cacheKey, config);
+    return config;
+  }
+
+  // Fallback: no base tabs, or no override tabs — standard deep-merge
+  const merged = deepMerge(
+    baseConfig as Record<string, unknown>,
+    overrideConfig,
+  );
+
   const config: FormViewConfig = {
-    charterType: (formRaw.charterType as string) ?? charterType,
-    label: formRaw.label as string,
-    tabs: formRaw.tabs as FormViewConfig["tabs"],
+    charterType:
+      (merged.charterType as string) ?? (formRaw!.charterType as string) ?? charterType,
+    label: merged.label as string,
+    tabs: merged.tabs as FormViewConfig["tabs"],
   };
 
   cache.set(cacheKey, config);
