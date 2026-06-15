@@ -168,9 +168,9 @@ elements:
     field_pair: invocatio
     options:
       - value: symbolica
-        label: Simbolica
+        label: Symbolica
       - value: verbalis
-        label: Verbale
+        label: Verbalis
     sortable: false
     filterable: false
 

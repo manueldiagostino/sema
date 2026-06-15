@@ -204,7 +204,7 @@ export function generateTeiXml(
   const invocatioText = getStr(data, "invocatio_text");
   const invocatioTypeVal = getVal(data, "invocatio_analysis");
   const invocatioType = Array.isArray(invocatioTypeVal)
-    ? (invocatioTypeVal as string[]).join("_")
+    ? (invocatioTypeVal as string[]).join(" ")
     : typeof invocatioTypeVal === "string" ? invocatioTypeVal : "";
   if (invocatioText) {
     protocolChildren.push(makeAb("invocatio", invocatioText, invocatioType || undefined));

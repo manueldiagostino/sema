@@ -31,9 +31,9 @@ tabs:
               field_pair: invocatio
               options:
                 - value: symbolica
-                  label: Simbolica
+                  label: Symbolica
                 - value: verbalis
-                  label: Verbale
+                  label: Verbalis
 
             - id: datatio_chronica_text
               label: Datatio chronica

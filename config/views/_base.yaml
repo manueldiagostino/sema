@@ -44,8 +44,8 @@ widths:
 # Used by badge-style columns in tables and document cards.
 badgeLabels:
   invocatio_analysis:
-    symbolica: Simbolica
-    verbalis: Verbale
+    symbolica: Symbolica
+    verbalis: Verbalis
   descriptio_rei_analysis:
     immobile: Immobile
     mobile: Mobile
