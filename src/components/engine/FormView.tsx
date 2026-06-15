@@ -18,7 +18,7 @@ import TextField from "@/components/admin/fields/TextField";
 import TextAreaField from "@/components/admin/fields/TextAreaField";
 import DateField from "@/components/admin/fields/DateField";
 import SelectField from "@/components/admin/fields/SelectField";
-import RadioField from "@/components/admin/fields/RadioField";
+import ChoiceField from "@/components/admin/fields/ChoiceField";
 import DynamicListField from "@/components/admin/fields/DynamicListField";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -158,7 +158,7 @@ function SingleValueWidget({
       );
     case "choice":
       return (
-        <RadioField
+        <ChoiceField
           id={formField.id}
           value={strValue}
           onChange={(v) => onChange(v)}

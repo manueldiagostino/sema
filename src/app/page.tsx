@@ -47,7 +47,7 @@ function GraphViewRouter() {
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
-      <Suspense fallback={<div className="p-6 text-muted">Loading…</div>}>
+      <Suspense fallback={<div className="p-6 text-muted-foreground">Loading…</div>}>
         <GraphViewRouter />
       </Suspense>
     </div>

@@ -3,7 +3,7 @@
 import React from "react";
 import type { SelectOption } from "@/types/form";
 
-interface RadioFieldProps {
+interface ChoiceFieldProps {
   value: string;
   onChange: (value: string) => void;
   options: SelectOption[];
@@ -12,14 +12,14 @@ interface RadioFieldProps {
   required?: boolean;
 }
 
-export default function RadioField({
+export default function ChoiceField({
   value,
   onChange,
   options,
   disabled = false,
   id,
   required = false,
-}: RadioFieldProps) {
+}: ChoiceFieldProps) {
   return (
     <div className="flex flex-wrap gap-4" role="radiogroup" id={id}>
       {options.map((opt) => (

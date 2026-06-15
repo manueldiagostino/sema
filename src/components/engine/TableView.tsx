@@ -483,7 +483,7 @@ export default function TableView({
                 <tr>
                   <td
                     colSpan={totalColumnCount}
-                    className="px-4 py-8 text-center text-muted"
+                    className="px-4 py-8 text-center text-muted-foreground"
                   >
                     No results found.
                   </td>

@@ -12,7 +12,7 @@ export default function MobileNav() {
       <Link
         href="/"
         transitionTypes={["page"]}
-        className="text-xs font-medium text-muted transition-colors hover:text-foreground"
+        className="text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
       >
         Home
       </Link>
@@ -20,7 +20,7 @@ export default function MobileNav() {
         <Link
           href="/admin"
           transitionTypes={["page"]}
-          className="text-xs font-medium text-muted transition-colors hover:text-foreground"
+          className="text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
         >
           Admin
         </Link>

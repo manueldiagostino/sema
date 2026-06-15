@@ -210,7 +210,7 @@ export default function CorpusTable() {
             <div className="flex-1 min-h-0">
               <div className="h-full overflow-auto rounded-lg border border-border bg-background shadow-sm">
                 <div className="flex items-center justify-center py-16">
-                  <div className="flex items-center gap-2 text-muted">
+                  <div className="flex items-center gap-2 text-muted-foreground">
                     <svg
                       className="h-5 w-5 animate-spin"
                       viewBox="0 0 24 24"
@@ -342,7 +342,7 @@ export default function CorpusTable() {
             /* No config available */
             <div className="flex-1 min-h-0">
               <div className="h-full overflow-auto rounded-lg border border-border bg-background shadow-sm">
-                <div className="flex items-center justify-center py-16 text-muted">
+                <div className="flex items-center justify-center py-16 text-muted-foreground">
                   No table configuration available.
                 </div>
               </div>
