@@ -1,4 +1,4 @@
-import { loadFormConfig } from "@/lib/formConfig";
+import { loadFormConfig, getFormTabs } from "@/lib/formConfig";
 import AdminFormPage from "@/components/admin/AdminFormPage";
 import { parseTeiXml } from "@/lib/xmlParser";
 import { readFileSync } from "fs";
@@ -15,7 +15,8 @@ export default async function AdminFormRoutePage({
     return <StaticExportPlaceholder />;
   }
 
-  const config = loadFormConfig();
+  const config = await loadFormConfig();
+  const formTabs = await getFormTabs();
   const params = await searchParams;
   const editFile = params.edit;
 
@@ -86,6 +87,7 @@ export default async function AdminFormRoutePage({
     return (
       <AdminFormPage
         config={config}
+        formTabs={formTabs}
         initialValues={initialValues as Record<string, unknown>}
         lockedCharterType={charterType}
         editFilename={editFile}
@@ -93,5 +95,5 @@ export default async function AdminFormRoutePage({
     );
   }
 
-  return <AdminFormPage config={config} />;
+  return <AdminFormPage config={config} formTabs={formTabs} />;
 }

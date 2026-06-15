@@ -1,0 +1,231 @@
+# Admin form layout for Instrumentum venditionis.
+#
+# Preserves all field_pair groupings, input types, default_value,
+# level_field, exclusive_option, and options from form-sections.yaml.
+# This is the view-level config; TEI mapping remains in form-sections.yaml.
+
+charterType: instrumentum_venditionis
+label: Instrumentum venditionis
+
+# ── TABS ─────────────────────────────────────────────────
+tabs:
+  defaultTab: properties
+  items:
+    # ── PROPERTIES (always visible) ────────────────────────
+    - id: properties
+      label: Properties
+      type: always_visible
+      layout: grid
+      columns: 2
+      fields:
+        - id: repository
+          label: Repository
+          input: text
+          required: true
+
+        - id: shelfmark
+          label: Shelfmark
+          input: text
+          required: true
+
+    # ── FORMULARY ANALYSIS ────────────────────────────────
+    - id: formulary
+      label: Formulary Analysis
+      sections:
+        # ── PROTOCOL ──────────────────────────────────────
+        - id: protocol
+          label: Protocol
+          fields:
+            - id: invocatio_text
+              label: Invocatio
+              input: textarea
+              field_pair: invocatio
+
+            - id: invocatio_analysis
+              label: Invocatio Analysis
+              input: radio
+              field_pair: invocatio
+              options:
+                - value: symbolica
+                  label: Simbolica
+                - value: verbalis
+                  label: Verbale
+
+            - id: datatio_chronica_text
+              label: Datatio chronica
+              input: textarea
+              field_pair: datatio
+
+            - id: datatio_chronica_analysis
+              label: Datatio Chronica Analysis
+              input: date
+              field_pair: datatio
+              default_value: "1200-01-01"
+
+        # ── TEXT (Contextus) ──────────────────────────────
+        - id: text
+          label: Text
+          fields:
+            - id: intitulatio_text
+              label: Auctor
+              input: textarea
+              field_pair: author
+
+            - id: intitulatio_analysis
+              label: Name (normalized)
+              input: text
+              field_pair: author
+
+            - id: dispositio_text
+              label: Verba dispositiva
+              input: textarea
+
+            - id: inscriptio_text
+              label: Destinatarius
+              input: textarea
+              field_pair: recipient
+
+            - id: inscriptio_analysis
+              label: Name (normalized)
+              input: text
+              field_pair: recipient
+
+            - id: perpetuitatis_text
+              label: Clausula perpetuitatis
+              input: textarea
+
+            - id: descriptio_rei_text
+              label: Descriptio rei
+              input: textarea
+              field_pair: property
+
+            - id: descriptio_rei_analysis
+              label: Descriptio Rei Analysis
+              input: radio
+              field_pair: property
+              options:
+                - value: immobile
+                  label: Immobile
+                - value: mobile
+                  label: Mobile
+
+            - id: property_location
+              label: Property Location
+              input: text
+
+            - id: de_servitute_itineris_text
+              label: Clausula de servitute itineris
+              input: textarea
+
+            - id: integritatis_rei_text
+              label: Clausula integritatis rei
+              input: textarea
+
+            - id: quietantiae_pretii_text
+              label: Clausula quietantiae pretii
+              input: textarea
+
+            - id: pretium
+              label: Price
+              input: text
+
+            - id: confinium_text
+              label: Formula confinium
+              input: textarea
+
+            - id: mensurarum_text
+              label: Formula mensurarum
+              input: textarea
+
+            - id: translationis_iuris_text
+              label: Formula translationis iuris
+              input: textarea
+
+            - id: liberi_gaudii_text
+              label: Formula liberi gaudii
+              input: textarea
+
+            - id: legitimae_defensionis_text
+              label: Formula legitimae defensionis
+              input: textarea
+
+            - id: sanctio_text
+              label: Sanctio
+              input: textarea
+              field_pair: sanctio
+
+            - id: sanctio_analysis
+              label: Sanctio Analysis
+              input: radio
+              field_pair: sanctio
+              options:
+                - value: dupli_pena
+                  label: Penalty of Double
+                - value: pecunia_numerata
+                  label: Numbered Pecunia
+
+        # ── ESCHATOCOL ────────────────────────────────────
+        - id: eschatocol
+          label: Eschatocol
+          fields:
+            - id: datatio_topica_text
+              label: Datatio topica
+              input: textarea
+              field_pair: datatio_topica
+
+            - id: datatio_topica_analysis
+              label: Place of redaction
+              input: dynamic-list
+              field_pair: datatio_topica
+              level_field:
+                key: level
+
+          subsections:
+            # ── SUBSCRIPTIONES ─────────────────────────────
+            - id: subscriptions
+              label: Subscriptiones
+              fields:
+                - id: subscriptio_emittentis_text
+                  label: Subscriptio emittentis
+                  input: text
+                  field_pair: emittens
+
+                - id: subscriptio_emittentis_analysis
+                  label: Subscriptio Emittentis Analysis
+                  input: radio
+                  field_pair: emittens
+                  options:
+                    - value: auctor
+                      label: Author
+                    - value: destinatarius
+                      label: Recipient
+
+                - id: subscriptiones_testium_text
+                  label: Subscriptiones testium
+                  input: textarea
+
+                - id: testes_names
+                  label: Testes
+                  input: dynamic-list
+                  exclusive_option:
+                    label: Investitor
+                    fieldKey: is_investitor
+
+                - id: completio_text
+                  label: Completio
+                  input: textarea
+                  field_pair: completio
+
+                - id: completio_analysis
+                  label: Notary
+                  input: text
+                  field_pair: completio
+
+    # ── SPECIAL TABS ───────────────────────────────────────
+    - id: fulltext
+      label: Full Text
+      type: special
+
+    - id: image
+      label: Image
+      type: special

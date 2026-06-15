@@ -1,13 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { CorpusItem, CompareLayout } from "@/types/corpus";
+import { CorpusItem, CompareLayout, ColumnConfig } from "@/types/corpus";
 import CompareView from "@/components/CompareView";
-
-interface ColumnConfig {
-  id: string;
-  label: string;
-}
 
 interface CompareDrawerProps {
   documents: CorpusItem[];

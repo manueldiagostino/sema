@@ -337,7 +337,7 @@ async function main() {
   fs.mkdirSync(fakeDir, { recursive: true });
 
   // Load form config for XML generation
-  const formConfig = loadFormConfig();
+  const formConfig = await loadFormConfig();
 
   // Track filename counters per base name
   const filenameCounters = new Map<string, number>();

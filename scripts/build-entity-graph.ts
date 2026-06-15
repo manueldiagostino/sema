@@ -14,9 +14,11 @@
 import * as fs from "fs";
 import * as path from "path";
 import { fileURLToPath } from "url";
-import yaml from "js-yaml";
 import xpath from "xpath";
 import { DOMParser } from "@xmldom/xmldom";
+import { loadTeiSchema } from "@/lib/schema/registry";
+import { buildXpath } from "@/lib/schema/adapter";
+import type { EntitySchema } from "@/types/schema";
 
 // ---------------------------------------------------------------------------
 // Types (mirroring web/src/types/entity-graph.ts)
@@ -205,17 +207,62 @@ interface PartialEntityNode {
 }
 
 /**
- * Extract person entities (signer, notary, witnesses) from a document.
+ * Map a schema field ID to a person role for the entity graph.
+ */
+function fieldIdToPersonRole(fieldId: string): string | null {
+  switch (fieldId) {
+    case "testes_names":
+      return "witness";
+    case "investitor_name":
+      return "witness"; // investitor is a type of witness
+    case "completio_analysis":
+      return "notary";
+    default:
+      return null;
+  }
+}
+
+/**
+ * Extract person entities (signer, notary, witnesses) from a document
+ * using schema-driven extraction.
  */
 function extractPersons(
   doc: Document,
   select: SelectFn,
   fileName: string,
   docDate: string,
+  schema: ReturnType<typeof loadTeiSchema>,
 ): PartialEntityNode[] {
   const persons: PartialEntityNode[] = [];
+  const personEntity = schema.entities.person;
 
-  // Signer: titleStmt/author
+  if (personEntity?.fields) {
+    for (const fieldId of personEntity.fields) {
+      const elem = schema.elements[fieldId];
+      if (!elem) continue;
+
+      // Only extract from fields whose TEI element matches the entity's tei_element
+      if (elem.tei.element !== personEntity.tei_element) continue;
+
+      // Prepend // to search from document root (buildXpath returns relative paths)
+      const xpath = `//${buildXpath(elem)}`;
+      const nodes = select(xpath, doc) as Node[];
+      const role = fieldIdToPersonRole(fieldId);
+
+      for (const node of nodes) {
+        const label = extractText(node).trim();
+        if (label) {
+          persons.push({
+            type: "person",
+            label,
+            roles: role ? [role] : [],
+          });
+        }
+      }
+    }
+  }
+
+  // Signer: author in titleStmt (not represented in entity fields)
   const authorNodes = select(
     "//tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:author",
     doc,
@@ -231,61 +278,59 @@ function extractPersons(
     }
   }
 
-  // Notary: msItem/respStmt/name
-  const notaryNodes = select(
-    "//tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msContents/tei:msItem/tei:respStmt/tei:name",
-    doc,
-  ) as Node[];
-  for (const node of notaryNodes) {
-    const label = extractText(node).trim();
-    if (label) {
-      persons.push({
-        type: "person",
-        label,
-        roles: ["notary"],
-      });
-    }
-  }
-
-  // Witnesses: listWitness/witness/name
-  const witnessNodes = select(
-    "//tei:text/tei:body//tei:listWitness/tei:witness/tei:name",
-    doc,
-  ) as Node[];
-  for (const node of witnessNodes) {
-    const label = extractText(node).trim();
-    if (label) {
-      persons.push({
-        type: "person",
-        label,
-        roles: ["witness"],
-      });
-    }
-  }
-
   return persons;
 }
 
 /**
- * Extract institution entities (recipient) from a document.
+ * Extract institution entities (recipient) from a document
+ * using schema-driven extraction.
  */
 function extractInstitutions(
   doc: Document,
   select: SelectFn,
+  schema: ReturnType<typeof loadTeiSchema>,
 ): PartialEntityNode[] {
   const institutions: PartialEntityNode[] = [];
+  const instEntity = schema.entities.institution;
 
-  const recipientNodes = select(
-    "//tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msContents/tei:msItem/tei:recipient",
-    doc,
-  ) as Node[];
-  for (const node of recipientNodes) {
-    const label = extractText(node).trim();
-    if (label) {
-      institutions.push({
-        type: "institution",
-        label,
-      });
+  if (instEntity?.fields && instEntity.fields.length > 0) {
+    // Use entity fields to build extraction XPaths
+    for (const fieldId of instEntity.fields) {
+      const elem = schema.elements[fieldId];
+      if (!elem) continue;
+
+      const xpath = `//${buildXpath(elem)}`;
+      const nodes = select(xpath, doc) as Node[];
+      for (const node of nodes) {
+        const label = extractText(node).trim();
+        if (label) {
+          institutions.push({ type: "institution", label });
+        }
+      }
+    }
+  } else {
+    // Fallback: institution entity has no fields defined yet,
+    // use the tei_element to find orgName elements in the document
+    const orgNameNodes = select(
+      "//tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msContents/tei:msItem/tei:recipient//tei:orgName",
+      doc,
+    ) as Node[];
+    for (const node of orgNameNodes) {
+      const label = extractText(node).trim();
+      if (label) {
+        institutions.push({ type: "institution", label });
+      }
+    }
+    // Also check direct recipient text (may contain institution name without orgName wrapper)
+    const recipientNodes = select(
+      "//tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msContents/tei:msItem/tei:recipient",
+      doc,
+    ) as Node[];
+    for (const node of recipientNodes) {
+      const label = extractText(node).trim();
+      if (label && !institutions.some((i) => i.label === label)) {
+        institutions.push({ type: "institution", label });
+      }
     }
   }
 
@@ -293,13 +338,36 @@ function extractInstitutions(
 }
 
 /**
- * Extract place entities (origPlace, settlement) from a document.
+ * Extract place entities (origPlace, settlement) from a document
+ * using schema-driven extraction.
  */
 function extractPlaces(
   doc: Document,
   select: SelectFn,
+  schema: ReturnType<typeof loadTeiSchema>,
 ): PartialEntityNode[] {
   const places: PartialEntityNode[] = [];
+  const placeEntity = schema.entities.place;
+
+  if (placeEntity?.fields && placeEntity.fields.length > 0) {
+    // Use entity fields to build extraction XPaths
+    for (const fieldId of placeEntity.fields) {
+      const elem = schema.elements[fieldId];
+      if (!elem) continue;
+
+      const xpath = `//${buildXpath(elem)}`;
+      const nodes = select(xpath, doc) as Node[];
+      for (const node of nodes) {
+        const label = extractText(node).trim();
+        if (label && !places.some((p) => p.label === label)) {
+          places.push({ type: "place", label });
+        }
+      }
+    }
+  }
+
+  // Also extract from structural TEI elements for places
+  // (origPlace and settlement are not covered by entity fields)
 
   // origPlace: creation/origPlace
   const origPlaceNodes = select(
@@ -308,11 +376,8 @@ function extractPlaces(
   ) as Node[];
   for (const node of origPlaceNodes) {
     const label = extractText(node).trim();
-    if (label) {
-      places.push({
-        type: "place",
-        label,
-      });
+    if (label && !places.some((p) => p.label === label)) {
+      places.push({ type: "place", label });
     }
   }
 
@@ -323,11 +388,8 @@ function extractPlaces(
   ) as Node[];
   for (const node of settlementNodes) {
     const label = extractText(node).trim();
-    if (label) {
-      places.push({
-        type: "place",
-        label,
-      });
+    if (label && !places.some((p) => p.label === label)) {
+      places.push({ type: "place", label });
     }
   }
 
@@ -512,16 +574,15 @@ function deduplicatePhase2(
 export async function buildEntityGraph(config?: BuildConfig): Promise<void> {
   // Compute paths: use projectRoot from config, or fall back to __dirname
   const root = config?.projectRoot ?? path.resolve(__dirname, "..");
-  const columnsYaml = path.join(root, "config", "columns.yaml");
   const defaultTeiDir = getActiveTeiDir(root);
   console.log(`Active TEI directory: ${defaultTeiDir}`);
   const defaultOutputFile = path.join(root, "public", "entity-graph.json");
 
-  // 1. Load column definitions from YAML (for validation / context)
-  console.log(`Reading column config from ${columnsYaml}`);
-  const yamlContent = fs.readFileSync(columnsYaml, "utf-8");
-  const parsed = yaml.load(yamlContent) as { columns: unknown[] };
-  console.log(`  Found ${parsed.columns.length} column definitions`);
+  // 1. Load schema for entity-driven extraction
+  console.log(`Loading schema from registry`);
+  const schema = loadTeiSchema();
+  const entityTypes = Object.keys(schema.entities);
+  console.log(`  Found ${entityTypes.length} entity type(s): ${entityTypes.join(", ")}`);
 
   // 2. Find all TEI/XML files (explicit dirs override the active directory)
   const dataDirs = config?.dataDirs && config.dataDirs.length > 0 ? [...config.dataDirs] : [defaultTeiDir];
@@ -580,9 +641,9 @@ export async function buildEntityGraph(config?: BuildConfig): Promise<void> {
     const docYear = extractYear(docDate);
 
     // Extract entities
-    const persons = extractPersons(doc, select, fileName, docDate);
-    const institutions = extractInstitutions(doc, select);
-    const places = extractPlaces(doc, select);
+    const persons = extractPersons(doc, select, fileName, docDate, schema);
+    const institutions = extractInstitutions(doc, select, schema);
+    const places = extractPlaces(doc, select, schema);
     const docNode = createDocumentNode(doc, select, fileName);
     const docTypeNode = createDocumentTypeNode(doc, select);
 
@@ -688,7 +749,7 @@ export async function buildEntityGraph(config?: BuildConfig): Promise<void> {
     const currentNorm = normalizeName(current.label);
     const currentDates = personDocDates.get(currentNorm) || [];
 
-    let mergedNode: PartialEntityNode = {
+    const mergedNode: PartialEntityNode = {
       ...current,
       roles: current.roles ? [...current.roles] : [],
     };

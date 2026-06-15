@@ -2,19 +2,30 @@
 
 import { useEffect, useCallback } from "react";
 import DocumentCard from "./DocumentCard";
+import type { ColumnConfig } from "@/types/corpus";
+import type { TeiSchema, CardViewConfig } from "@/types/schema";
 
-interface ColumnConfig {
-  id: string;
-  label: string;
+export interface CardDisplayConfig {
+  historicalIds: string[];
+  extractedIds: string[];
+  badgeFields: string[];
+  badgeLabels: Record<string, Record<string, string>>;
 }
 
 interface DocumentModalProps {
   item: Record<string, string | string[]>;
   columnConfig: ColumnConfig[];
+  cardConfig?: CardDisplayConfig | null;
   onClose: () => void;
+  /** Engine-native schema (when available, CardView engine is used). */
+  teiSchema?: TeiSchema;
+  /** Engine-native card view config (when available, CardView engine is used). */
+  cardViewConfig?: CardViewConfig;
+  /** Badge labels for client-side badge rendering. */
+  badgeLabels?: Record<string, Record<string, string>>;
 }
 
-export default function DocumentModal({ item, columnConfig, onClose }: DocumentModalProps) {
+export default function DocumentModal({ item, columnConfig, cardConfig, onClose, teiSchema, cardViewConfig, badgeLabels }: DocumentModalProps) {
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (e.key === "Escape") onClose();
   }, [onClose]);
@@ -45,6 +56,10 @@ export default function DocumentModal({ item, columnConfig, onClose }: DocumentM
         <DocumentCard
           item={item as Record<string, string | string[]> & { id: string }}
           columnConfig={columnConfig}
+          cardConfig={cardConfig}
+          badgeLabels={badgeLabels}
+          teiSchema={teiSchema}
+          cardViewConfig={cardViewConfig}
         />
       </div>
     </div>

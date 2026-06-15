@@ -1,0 +1,221 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# _patterns.yaml — Dynamic Pattern Definitions (Phase 1)
+# ══════════════════════════════════════════════════════════════════════════════
+#
+# Patterns define how to discover, read, and write TEI elements that are NOT
+# statically defined in _base.yaml. These are dynamic / extensible structures
+# where the element name or attribute value varies per document.
+#
+# Three pattern types cover the main extensibility mechanisms in our TEI schema:
+#   1. note[@type]       — typed notes appended to any section
+#   2. div[@type]        — typed divisions (structural sections)
+#   3. sema:customField  — explicit custom fields (project-specific extensions)
+#
+# Priority/order controls which pattern takes precedence when multiple
+# patterns could match the same XPath. Lower number = higher priority.
+#
+# Each pattern includes:
+#   xpath               The XPath template (use * for wildcards)
+#   element             TEI element name
+#   identifying_attr     Attribute that distinguishes instances
+#   read_strategy       How to extract text content for display
+#   write_strategy      How to create/update the element
+#   example_xml         Representative XML snippet
+#   notes               Implementation notes
+# ══════════════════════════════════════════════════════════════════════════════
+
+patterns:
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # Pattern 1: note[@type] — Typed Notes
+  # ────────────────────────────────────────────────────────────────────────────
+  # Notes can appear at any level of the document hierarchy. Each note is
+  # identified by its @type attribute (e.g. "historical_context", "paleographic",
+  # "bibliographic"). The type is free-form — no fixed vocabulary.
+  #
+  # Use cases:
+  #   • Historian annotations about the document's context
+  #   • Paleographic observations about handwriting
+  #   • Bibliographic references
+  #   • Editor's critical notes
+  #
+  # Read:  text content of note[@type='<type>']
+  # Write: create <note type='<type>'>text</note> under the nearest ancestor
+  #        that accepts notes (typically div[@type] or the root text element)
+
+  note_by_type:
+    priority: 10
+    xpath: "tei:text//tei:note[@type]"
+    element: note
+    identifying_attr: type
+    read_strategy:
+      method: text_content
+      description: "Read the full text content of the note element"
+    write_strategy:
+      method: append_or_update
+      description: "Append a new <note> child or update existing note with matching @type"
+      parent_xpath: "nearest-div-or-text"
+    cardinality: multiple
+    example_xml: |
+      <!-- Note inside a diplomatic section -->
+      <div type="contextus">
+        <note type="historical_context">
+          This charter references the 1187 earthquake that damaged
+          the cathedral archives.
+        </note>
+      </div>
+
+      <!-- Note at document level -->
+      <div type="eschatocol">
+        <note type="paleographic">
+          The scribal hand matches the.notary active in Lucca 1190-1210.
+        </note>
+      </div>
+    notes: |
+      - The @type attribute is free-form; the admin form should provide a
+        dynamic-list input for creating new note types.
+      - Notes are NOT included in the corpus table columns by default,
+        but can be added to columns.yaml with xpath:
+        tei:text//tei:note[@type='historical_context']
+      - For the entity graph, notes with person/place names can be parsed
+        to extract entity references.
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # Pattern 2: div[@type] — Typed Divisions
+  # ────────────────────────────────────────────────────────────────────────────
+  # Divisions are the primary structural elements of a TEI document. The
+  # standard types (protocol, contextus, eschatocol) are defined in _base.yaml,
+  # but charter types can introduce additional division types.
+  #
+  # Standard division hierarchy:
+  #   <div type="protocol">     — opening section
+  #     <div type="...">        — sub-sections (invocatio, datatio, etc.)
+  #   <div type="contextus">    — body / dispositive section
+  #     <div type="...">        — sub-sections (intitulatio, dispositio, etc.)
+  #   <div type="eschatocol">   — closing section
+  #     <div type="subscriptio">— subscriptions
+  #
+  # This pattern handles NON-STANDARD div types that charter types may add.
+  #
+  # Read:  text content or child elements of div[@type='<type>']
+  # Write: create <div type='<type>'> under the appropriate parent
+
+  div_by_type:
+    priority: 20
+    xpath: "tei:text//tei:div[@type]"
+    element: div
+    identifying_attr: type
+    read_strategy:
+      method: mixed_content
+      description: "Read mixed content (text + child elements) of the div"
+    write_strategy:
+      method: create_under_parent
+      description: "Create a new <div> child under the parent division"
+      parent_xpath: "parent div or body"
+    cardinality: multiple
+    example_xml: |
+      <!-- Standard division (defined in _base.yaml) -->
+      <div type="protocol">
+        <div type="invocatio">
+          <diploPart type="invocatio">
+            <p>In nomine Patris...</p>
+          </diploPart>
+        </div>
+      </div>
+
+      <!-- Non-standard division (charter-type specific) -->
+      <div type="contextus">
+        <div type="custom_clause">
+          <diploPart type="custom_clause" subtype="special_condition">
+            <p>Provided that the buyer...</p>
+          </diploPart>
+        </div>
+      </div>
+    notes: |
+      - Standard div types (protocol, contextus, eschatocol, subscriptio)
+        are handled by _base.yaml elements, NOT by this pattern.
+      - This pattern is for charter-type-specific extensions only.
+      - The charter-type YAML (e.g. instrumentum-venditionis.yaml) should
+        define which additional div types are valid.
+      - Division nesting follows TEI P5 guidelines: divs can nest freely.
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # Pattern 3: sema:customField[@name] — Explicit Custom Fields
+  # ────────────────────────────────────────────────────────────────────────────
+  # Custom fields are the most explicit extension mechanism. They use a
+  # project-specific namespace (sema:) and a @name attribute for identification.
+  #
+  # This pattern is preferred over note[@type] and div[@type] for structured
+  # data that needs to be queried or displayed in the corpus table.
+  #
+  # Use cases:
+  #   • Charter-type-specific fields not covered by the base schema
+  #   • Experimental fields being evaluated before promotion to _base.yaml
+  #   • User-defined fields that don't fit the diplomatic structure
+  #
+  # Read:  text content or @value attribute of sema:customField[@name='<name>']
+  # Write: create <sema:customField name='<name>' value='...'> or with text content
+
+  custom_field:
+    priority: 5
+    xpath: "tei:text//sema:customField[@name]"
+    element: "sema:customField"
+    identifying_attr: name
+    namespace: "http://schemas.deManuel.com/sema/1.0"
+    namespace_prefix: sema
+    read_strategy:
+      method: attribute_or_text
+      description: |
+        Read @value attribute if present, otherwise read text content.
+        This allows both <sema:customField name="x" value="y"/> and
+        <sema:customField name="x">y</sema:customField>
+    write_strategy:
+      method: create_or_update
+      description: "Create or update the customField element with matching @name"
+      parent_xpath: "tei:teiHeader/tei:profileDesc or tei:text//tei:div"
+    cardinality: multiple
+    example_xml: |
+      <!-- Custom field with value attribute (short data) -->
+      <tei:teiHeader>
+        <tei:profileDesc>
+          <sema:customField name="diplomatic_quality" value="high"/>
+          <sema:customField name="seal_present" value="true"/>
+        </tei:profileDesc>
+      </tei:teiHeader>
+
+      <!-- Custom field with text content (long data) -->
+      <div type="contextus">
+        <sema:customField name="provenance_notes">
+          This document was part of the Benedictine monastery collection
+          before being transferred to the state archive in 1866.
+        </sema:customField>
+      </div>
+    notes: |
+      - The sema: namespace must be declared in the TEI document:
+        xmlns:sema="http://schemas.deManuel.com/sema/1.0"
+      - Custom fields are the recommended extension mechanism for new
+        charter types. They can be promoted to _base.yaml elements later.
+      - For the corpus table, add a column with xpath:
+        tei:text//sema:customField[@name='diplomatic_quality'] and
+        set attribute: value
+      - The admin form should provide a dynamic-list input for creating
+        custom fields with name/value pairs.
+
+# ──────────────────────────────────────────────────────────────────────────────
+# PATTERN RESOLUTION ORDER
+# ──────────────────────────────────────────────────────────────────────────────
+# When multiple patterns match the same XPath, the resolution order is:
+#
+#   1. _base.yaml elements (static, highest priority — implicit priority 0)
+#   2. sema:customField[@name] (priority 5) — explicit project extensions
+#   3. note[@type] (priority 10) — typed annotations
+#   4. div[@type] (priority 20) — structural extensions
+#
+# In practice, this means:
+#   • If an element is defined in _base.yaml, it takes precedence.
+#   • Custom fields are checked before notes because they're more structured.
+#   • Notes are checked before divs because they're more specific.
+#
+# The priority system ensures predictable behavior when a document contains
+# overlapping patterns (e.g., a note inside a custom div).
+# ──────────────────────────────────────────────────────────────────────────────

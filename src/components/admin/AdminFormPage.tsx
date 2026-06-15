@@ -18,6 +18,8 @@ import AdHocFields from "./AdHocFields";
 
 interface AdminFormPageProps {
   config: FormSectionsConfig;
+  /** Tab definitions from the adapter. Falls back to static list if not provided. */
+  formTabs?: Array<{ id: string; label: string; type?: string }>;
   /** Parsed field values for edit mode (from xmlParser). */
   initialValues?: Record<string, unknown>;
   /** Charter type ID locked in edit mode — hides the type selector. */
@@ -88,6 +90,7 @@ function appliesToCurrentType(
 
 export default function AdminFormPage({
   config,
+  formTabs,
   initialValues,
   lockedCharterType,
   editFilename,
@@ -338,21 +341,25 @@ export default function AdminFormPage({
                 />
               ))}
 
-              {/* Tab bar */}
+              {/* Tab bar — derived from adapter config */}
               <div className="border-b border-border">
                 <div className="flex gap-0 -mb-px">
-                  {(["formulary", "fulltext", "image"] as const).map((tabId) => (
+                  {(formTabs ?? [
+                    { id: "formulary", label: "Formulary Analysis" },
+                    { id: "fulltext", label: "Full Text", type: "special" },
+                    { id: "image", label: "Image", type: "special" },
+                  ]).filter((tab) => tab.id !== "properties").map((tab) => (
                     <button
-                      key={tabId}
+                      key={tab.id}
                       type="button"
-                      onClick={() => setActiveFormTab(tabId)}
+                      onClick={() => setActiveFormTab(tab.id)}
                       className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
-                        activeFormTab === tabId
+                        activeFormTab === tab.id
                           ? "border-accent text-accent"
                           : "border-transparent text-muted-foreground hover:text-foreground hover:border-border"
                       }`}
                     >
-                      {tabId === "formulary" ? "Formulary Analysis" : tabId === "fulltext" ? "Full Text" : "Image"}
+                      {tab.label}
                     </button>
                   ))}
                 </div>
