@@ -2,7 +2,7 @@
  * Schema Adapter — bridges the unified schema system to legacy UI types.
  *
  * This layer converts the new `TeiSchema` + view configs into the structures
- * that existing components consume (`ColumnConfig[]`, `FormSectionsConfig`, etc.).
+ * that existing components consume (`ColumnConfig[]`, legacy card configs, etc.).
  *
  * The adapter is the migration path: components can adopt these adapters
  * one-by-one without a big-bang rewrite.
@@ -10,32 +10,14 @@
 
 import type {
   TeiElement,
-  TableViewConfig,
   TableColumn,
-  FormViewConfig,
-  FormTab,
-  FormSection,
-  FormField,
-  CardViewConfig,
-  CardTab,
   CardSection,
   CardField,
-  ExportViewConfig,
-  ExportSection,
 } from "@/types/schema";
 import type { ColumnConfig } from "@/types/corpus";
-import type {
-  FormSectionsConfig,
-  FormSectionConfig,
-  FormFieldConfig,
-  CharterTypeConfig,
-  FieldInputType,
-  SelectOption,
-} from "@/types/form";
-import { loadTeiSchema, getElement } from "@/lib/schema/registry";
+import { loadTeiSchema } from "@/lib/schema/registry";
 import {
   loadTableConfig,
-  loadFormConfig,
   loadCardConfig,
   loadExportConfig,
 } from "@/lib/schema/views";
@@ -211,227 +193,6 @@ export function getLegacyCardColumns(
       label: elem.label,
       truncateWords: elem.truncate_words,
     }));
-}
-
-// ══════════════════════════════════════════════════════════════════════════════
-// FORM ADAPTER → FormSectionsConfig
-// ══════════════════════════════════════════════════════════════════════════════
-
-/** Map schema ElementType → legacy FieldInputType. */
-function schemaTypeToInput(elem: TeiElement | undefined, formField?: FormField): FieldInputType {
-  // Prefer the explicit input type from the form view config
-  if (formField?.input) return formField.input;
-
-  // Fall back to schema element type
-  switch (elem?.type) {
-    case "date":
-      return "date";
-    case "enum":
-      return "radio";
-    case "entity":
-      return "dynamic-list";
-    case "computed":
-    case "identifier":
-    case "number":
-      return "text";
-    case "text":
-    default:
-      return "text";
-  }
-}
-
-/**
- * Convert a FormField + TeiElement into a legacy FormFieldConfig.
- */
-function formFieldToLegacy(
-  formField: FormField,
-  elem: TeiElement | undefined,
-): FormFieldConfig {
-  const input = schemaTypeToInput(elem, formField);
-
-  // Build the legacy TEI mapping from the schema element
-  const teiElement = elem?.tei?.element ?? "";
-  const teiAttributes: Record<string, string> = {};
-  if (elem?.tei?.type) {
-    teiAttributes.type = elem.tei.type;
-  }
-
-  // Determine cardinality
-  const cardinality = elem?.cardinality === "multiple" ? "multiple" : "single";
-
-  // Build xpath_parent
-  const xpathParent = elem?.tei?.xpath_parent ?? "";
-
-  // Handle wrapper element — if there's a wrapper, adjust xpath_parent
-  if (elem?.tei?.wrapper) {
-    // The form field's TEI element goes inside the wrapper
-    // We keep xpath_parent pointing to the section div, and set tei_wrapper
-  }
-
-  return {
-    id: formField.id,
-    label: formField.label ?? elem?.label ?? formField.id,
-    input,
-    cardinality,
-    tei_element: teiElement,
-    tei_attributes: Object.keys(teiAttributes).length > 0 ? teiAttributes : undefined,
-    tei_wrapper: elem?.tei?.wrapper,
-    tei_wrapper_attributes: elem?.tei?.wrapper_attributes,
-    xpath_parent: xpathParent,
-    applies_to: "all", // Form view configs are already filtered by charter type
-    required: formField.required,
-    options: formField.options as SelectOption[] | undefined,
-    default_value: formField.default_value ?? elem?.default_value,
-    field_pair: formField.field_pair ?? elem?.field_pair,
-    exclusive_option: formField.exclusive_option ?? elem?.exclusive_option,
-    level_field: formField.level_field ?? elem?.level_field,
-  };
-}
-
-/**
- * Recursively convert FormSection[] (from view config) + schema elements
- * into legacy FormSectionConfig[].
- */
-function convertFormSections(
-  sections: FormSection[],
-  schema: ReturnType<typeof loadTeiSchema>,
-): FormSectionConfig[] {
-  return sections.map((section) => ({
-    id: section.id,
-    label: section.label,
-    fields: section.fields.map((f) => {
-      const elem = schema.elements[f.id];
-      return formFieldToLegacy(f, elem);
-    }),
-    subsections: section.subsections
-      ? convertFormSections(section.subsections, schema)
-      : undefined,
-    applies_to: "all" as const,
-  }));
-}
-
-/**
- * Get legacy `FormSectionsConfig` for a charter type.
- *
- * @param charterType  Charter type ID (e.g. "instrumentum-venditionis")
- */
-export function getLegacyFormSections(charterType: string): FormSectionsConfig {
-  const schema = loadTeiSchema(charterType);
-  const formView = loadFormConfig(charterType.replace(/_/g, "-"));
-
-  // Build charter type config from the schema
-  const charterTypeSchema =
-    charterType === "instrumentum_venditionis"
-      ? {
-          id: "instrumentum_venditionis",
-          label: "Instrumentum venditionis",
-          object_value: "Instrumentum venditionis",
-          object_subtype_value: "Venditio",
-        }
-      : {
-          id: charterType.replace(/-/g, "_"),
-          label: charterType
-            .split("-")
-            .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-            .join(" "),
-          object_value: charterType
-            .split("-")
-            .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-            .join(" "),
-        };
-
-  const types: CharterTypeConfig[] = [charterTypeSchema as CharterTypeConfig];
-
-  // Convert form view sections to legacy format
-  const sections: FormSectionConfig[] = [];
-
-  if (formView?.tabs?.items) {
-    for (const tab of formView.tabs.items) {
-      if (tab.type === "special") continue;
-
-      if (tab.fields && tab.fields.length > 0) {
-        // Tab-level fields (e.g. "properties" tab)
-        sections.push({
-          id: tab.id,
-          label: tab.label,
-          fields: tab.fields.map((f) => {
-            const elem = schema.elements[f.id];
-            return formFieldToLegacy(f, elem);
-          }),
-          applies_to: "all",
-        });
-      }
-
-      if (tab.sections) {
-        // Sections within a tab
-        const tabSections = convertFormSections(tab.sections, schema);
-
-        // If there's only one section with the same ID as the tab, flatten it
-        if (
-          tabSections.length === 1 &&
-          tabSections[0].id === tab.id &&
-          !tab.label
-        ) {
-          sections.push(tabSections[0]);
-        } else {
-          // Wrap in a parent section if there are multiple
-          if (tabSections.length > 0) {
-            sections.push({
-              id: tab.id,
-              label: tab.label,
-              fields: [],
-              subsections: tabSections,
-              applies_to: "all",
-            });
-          }
-        }
-      }
-    }
-  }
-
-  // Fallback: if no sections from view config, build from schema
-  if (sections.length === 0) {
-    const sectionOrder = ["metadata", "protocol", "contextus", "eschatocol"];
-    const sectionLabels: Record<string, string> = {
-      metadata: "Properties",
-      protocol: "Protocol",
-      contextus: "Text",
-      eschatocol: "Eschatocol",
-    };
-
-    for (const sectionId of sectionOrder) {
-      const elems = Object.entries(schema.elements)
-        .filter(([, e]) => e.formulary_section === sectionId)
-        .filter(([, e]) => e.type !== "computed");
-
-      if (elems.length === 0) continue;
-
-      sections.push({
-        id: sectionId,
-        label: sectionLabels[sectionId] ?? sectionId,
-        fields: elems.map(([id, elem]) => ({
-          id,
-          label: elem.label,
-          input: schemaTypeToInput(elem),
-          cardinality: elem.cardinality === "multiple" ? "multiple" : "single",
-          tei_element: elem.tei.element,
-          tei_attributes: elem.tei.type ? { type: elem.tei.type } : undefined,
-          tei_wrapper: elem.tei.wrapper,
-          tei_wrapper_attributes: elem.tei.wrapper_attributes,
-          xpath_parent: elem.tei.xpath_parent,
-          applies_to: "all" as const,
-          options: elem.options as SelectOption[] | undefined,
-          default_value: elem.default_value,
-          field_pair: elem.field_pair,
-          exclusive_option: elem.exclusive_option,
-          level_field: elem.level_field,
-        })),
-        applies_to: "all",
-      });
-    }
-  }
-
-  return { types, sections };
 }
 
 // ══════════════════════════════════════════════════════════════════════════════

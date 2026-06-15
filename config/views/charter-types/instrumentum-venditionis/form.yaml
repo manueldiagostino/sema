@@ -27,7 +27,7 @@ tabs:
 
             - id: invocatio_analysis
               label: Invocatio Analysis
-              input: radio
+              input: choice
               field_pair: invocatio
               options:
                 - value: symbolica
@@ -85,7 +85,7 @@ tabs:
 
             - id: descriptio_rei_analysis
               label: Descriptio Rei Analysis
-              input: radio
+              input: choice
               field_pair: property
               options:
                 - value: immobile
@@ -140,7 +140,7 @@ tabs:
 
             - id: sanctio_analysis
               label: Sanctio Analysis
-              input: radio
+              input: choice
               field_pair: sanctio
               options:
                 - value: dupli_pena
@@ -176,7 +176,7 @@ tabs:
 
                 - id: subscriptio_emittentis_analysis
                   label: Subscriptio Emittentis Analysis
-                  input: radio
+                  input: choice
                   field_pair: emittens
                   options:
                     - value: auctor

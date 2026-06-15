@@ -243,7 +243,7 @@ export interface FormSection {
 export interface FormField {
   id: string;
   label?: string;
-  input?: "text" | "textarea" | "date" | "select" | "radio" | "dynamic-list";
+  input?: "text" | "textarea" | "date" | "select" | "choice" | "dynamic-list";
   field_pair?: string;
   default_value?: string;
   level_field?: { key: string };

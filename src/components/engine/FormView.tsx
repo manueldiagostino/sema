@@ -46,11 +46,11 @@ export interface FormViewProps {
 function resolveInputType(
   formField: FormField,
   elem?: { type: string },
-): "text" | "textarea" | "date" | "select" | "radio" | "dynamic-list" {
+): "text" | "textarea" | "date" | "select" | "choice" | "dynamic-list" {
   if (formField.input) return formField.input;
   switch (elem?.type) {
     case "date": return "date";
-    case "enum": return "radio";
+    case "enum": return "choice";
     case "entity": return "dynamic-list";
     default: return "text";
   }
@@ -156,7 +156,7 @@ function SingleValueWidget({
           required={required}
         />
       );
-    case "radio":
+    case "choice":
       return (
         <RadioField
           id={formField.id}
@@ -249,7 +249,7 @@ function MultipleValueWidget({
   }
 
   // Radio with multiple cardinality → checkbox group
-  if (inputType === "radio") {
+  if (inputType === "choice") {
     const options = (formField.options ?? schema.elements[formField.id]?.options ?? []) as { value: string; label: string }[];
     const selectedValues: string[] = Array.isArray(value) ? (value as string[]) : [];
     const toggleOption = (optValue: string) => {
@@ -461,7 +461,7 @@ function SectionRenderer({
       const nextField = section.fields[i + 1];
       const fieldInput = resolveInputType(formField, schema.elements[formField.id]);
       const nextInput = resolveInputType(nextField, schema.elements[nextField.id]);
-      const compactInputs = new Set(["text", "radio", "date", "select"]);
+      const compactInputs = new Set(["text", "choice", "date", "select"]);
       const isInline = compactInputs.has(fieldInput) && compactInputs.has(nextInput);
 
       elements.push(

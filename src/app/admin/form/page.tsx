@@ -1,6 +1,5 @@
 import { loadFormConfig } from "@/lib/schema/views";
 import { loadTeiSchema, getCharterTypes } from "@/lib/schema/registry";
-import { getLegacyFormSections } from "@/lib/schema/adapter";
 import AdminFormPage from "@/components/admin/AdminFormPage";
 import { parseTeiXml } from "@/lib/xmlParser";
 import { readFileSync } from "fs";
@@ -66,9 +65,8 @@ export default async function AdminFormRoutePage({
       );
     }
 
-    // Use legacy adapter to build config for XML parser
-    const legacyConfig = getLegacyFormSections(defaultTypeKey);
-    const initialValues = parseTeiXml(xml, legacyConfig);
+    // Use engine-native config + schema for XML parsing
+    const initialValues = parseTeiXml(xml, formConfig, schema);
 
     // Derive charter type from filename
     function deriveCode(typeId: string): string {

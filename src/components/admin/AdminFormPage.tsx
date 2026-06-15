@@ -43,11 +43,11 @@ interface AdminFormPageProps {
 function resolveInputType(
   formField: FormField,
   elem?: { type: string },
-): "text" | "textarea" | "date" | "select" | "radio" | "dynamic-list" {
+): "text" | "textarea" | "date" | "select" | "choice" | "dynamic-list" {
   if (formField.input) return formField.input;
   switch (elem?.type) {
     case "date": return "date";
-    case "enum": return "radio";
+    case "enum": return "choice";
     case "entity": return "dynamic-list";
     default: return "text";
   }
@@ -71,7 +71,7 @@ function getInitialFieldValue(
     return { iso: defaultStr || "", text: "" } as DateFieldValue;
   }
 
-  if (inputType === "radio") {
+  if (inputType === "choice") {
     if (defaultStr) return defaultStr;
     const options = formField.options ?? elem?.options;
     if (options && options.length > 0) return options[0].value;

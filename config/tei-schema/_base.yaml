@@ -164,7 +164,7 @@ elements:
       xpath_parent: "tei:text/tei:body/tei:div[@type='protocol']"
     label: Invocatio Analysis
     type: enum
-    cardinality: single
+    cardinality: multiple
     formulary_section: protocol
     field_pair: invocatio
     options:

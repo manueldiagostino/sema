@@ -1,6 +1,5 @@
 import type {
   FormSubmissionData,
-  FormSectionsConfig,
   WitnessEntry,
   PlaceEntry,
   DateFieldValue,
@@ -120,13 +119,13 @@ export function deriveCharterCode(typeId: string): string {
  */
 export function generateTeiXml(
   data: FormSubmissionData,
-  config: FormSectionsConfig,
+  charterTypes: Array<{ id: string; label: string; object_value?: string; object_subtype_value?: string }>,
   docId?: string,
 ): string {
   const I = (n: number) => "  ".repeat(n); // indentation helper
 
   // Look up charter type config
-  const charterTypeConfig = config.types.find((t) => t.id === data.charter_type);
+  const charterTypeConfig = charterTypes.find((t) => t.id === data.charter_type);
 
   // ── teiHeader lines ──
 
