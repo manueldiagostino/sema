@@ -296,10 +296,12 @@ export async function buildCorpus(config?: BuildConfig): Promise<void> {
         if (col.attribute) {
           // Extract attribute value from the matched element(s)
           if (col.cardinality === "multiple") {
-            const values: string[] = nodes.map((node) => {
+            // Split each attribute value on whitespace — TEI attributes can hold
+            // multiple space-separated values (e.g. @subtype="symbolica verbalis")
+            const values: string[] = nodes.flatMap((node) => {
               const el = node as any;
               const attrVal = el.getAttribute?.(col.attribute!);
-              return attrVal ? attrVal.trim() : "";
+              return attrVal ? attrVal.trim().split(/\s+/) : [];
             });
             item[col.id] = values;
           } else {
