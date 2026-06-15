@@ -70,7 +70,7 @@ function getVal(item: CorpusItem, colId: string): string {
 }
 
 /** Check if a field has a non-empty value. */
-function hasValue(item: CorpusItem, fieldId: string): boolean {
+export function hasValue(item: CorpusItem, fieldId: string): boolean {
   const v = item[fieldId];
   if (v === undefined || v === null) return false;
   if (Array.isArray(v)) return v.length > 0 && v.some((x) => x !== "");
@@ -78,7 +78,7 @@ function hasValue(item: CorpusItem, fieldId: string): boolean {
 }
 
 /** Check if all fields in a section are empty. */
-function sectionIsEmpty(item: CorpusItem, section: CardSection): boolean {
+export function sectionIsEmpty(item: CorpusItem, section: CardSection): boolean {
   if (section.visibleWhen === "any") {
     // "any" means visible if at least one field has a value
     return !section.fields.some((f) => hasValue(item, f.id));
@@ -89,18 +89,21 @@ function sectionIsEmpty(item: CorpusItem, section: CardSection): boolean {
 
 // ── Sub-components ───────────────────────────────────────────────────────────
 
-/** Renders a field value — plain text or badge based on render config. */
-function FieldValue({
-  item,
-  field,
-  schema,
-  badgeLabels,
-}: {
+/** Props for {@link FieldValue}. */
+export interface FieldValueProps {
   item: CorpusItem;
   field: CardField;
   schema: TeiSchema;
   badgeLabels?: Record<string, Record<string, string>>;
-}) {
+}
+
+/** Renders a field value — plain text or badge based on render config. */
+export function FieldValue({
+  item,
+  field,
+  schema,
+  badgeLabels,
+}: FieldValueProps) {
   const fieldId = field.id;
   const render = field.render ?? "text";
   const rawValue = item[fieldId];

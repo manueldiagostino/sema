@@ -365,11 +365,13 @@ export default function CorpusTable() {
 
       <CompareDrawer
         documents={selectedDocuments}
-        columnConfig={columnConfig ?? []}
         isOpen={compareOpen}
         isFullscreen={compareFullscreen}
         onClose={() => setCompareOpen(false)}
         onToggleFullscreen={() => setCompareFullscreen((prev) => !prev)}
+        teiSchema={teiSchema ?? undefined}
+        cardViewConfig={cardViewConfig ?? undefined}
+        badgeLabels={badgeLabels}
       />
     </div>
   );

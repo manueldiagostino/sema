@@ -1,34 +1,42 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { CorpusItem, CompareLayout, ColumnConfig } from "@/types/corpus";
+import { CorpusItem, CompareLayout } from "@/types/corpus";
+import type { TeiSchema, CardViewConfig } from "@/types/schema";
 import CompareView from "@/components/CompareView";
 
 interface CompareDrawerProps {
   documents: CorpusItem[];
-  columnConfig: ColumnConfig[];
   isOpen: boolean;
   isFullscreen: boolean;
   onClose: () => void;
   onToggleFullscreen: () => void;
+  /** Engine-native schema (when available, enables CardView engine rendering). */
+  teiSchema?: TeiSchema;
+  /** Engine-native card view config. */
+  cardViewConfig?: CardViewConfig;
+  /** Badge labels for client-side badge rendering. */
+  badgeLabels?: Record<string, Record<string, string>>;
 }
 
 const STORAGE_KEY = "compare-layout";
 
 function getInitialLayout(): CompareLayout {
-  if (typeof window === "undefined") return "stacked";
+  if (typeof window === "undefined") return "side-by-side";
   const stored = localStorage.getItem(STORAGE_KEY);
   if (stored === "side-by-side" || stored === "stacked") return stored;
-  return "stacked";
+  return "side-by-side";
 }
 
 export default function CompareDrawer({
   documents,
-  columnConfig,
   isOpen,
   isFullscreen,
   onClose,
   onToggleFullscreen,
+  teiSchema,
+  cardViewConfig,
+  badgeLabels,
 }: CompareDrawerProps) {
   const [isMobile, setIsMobile] = useState(false);
   const [layout, setLayout] = useState<CompareLayout>(getInitialLayout);
@@ -119,18 +127,6 @@ export default function CompareDrawer({
               <div className="flex gap-1">
                 <button
                   type="button"
-                  onClick={() => setLayout("stacked")}
-                  className={`rounded border px-2 py-1 text-xs transition-colors ${
-                    layout === "stacked"
-                      ? "border-primary bg-primary-container text-primary-on-container"
-                      : "border-border text-muted-foreground hover:bg-muted/50"
-                  }`}
-                  aria-pressed={layout === "stacked"}
-                >
-                  ☰ Stacked
-                </button>
-                <button
-                  type="button"
                   onClick={() => setLayout("side-by-side")}
                   className={`rounded border px-2 py-1 text-xs transition-colors ${
                     layout === "side-by-side"
@@ -140,6 +136,18 @@ export default function CompareDrawer({
                   aria-pressed={layout === "side-by-side"}
                 >
                   ⊞ Side by side
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setLayout("stacked")}
+                  className={`rounded border px-2 py-1 text-xs transition-colors ${
+                    layout === "stacked"
+                      ? "border-primary bg-primary-container text-primary-on-container"
+                      : "border-border text-muted-foreground hover:bg-muted/50"
+                  }`}
+                  aria-pressed={layout === "stacked"}
+                >
+                  ☰ Stacked
                 </button>
               </div>
             )}
@@ -183,8 +191,10 @@ export default function CompareDrawer({
         <div className="flex-1 overflow-hidden p-4">
           <CompareView
             documents={documents}
-            columnConfig={columnConfig}
             layout={layout}
+            teiSchema={teiSchema}
+            cardViewConfig={cardViewConfig}
+            badgeLabels={badgeLabels}
           />
         </div>
       </div>
