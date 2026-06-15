@@ -228,7 +228,7 @@ elements:
       element: term
       type: intitulatio_analysis
       xpath_parent: "tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords"
-    label: Name (normalized)
+    label: Auctor (normalized)
     type: text
     cardinality: single
     formulary_section: contextus
@@ -272,7 +272,7 @@ elements:
       element: term
       type: inscriptio_analysis
       xpath_parent: "tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords"
-    label: Name (normalized)
+    label: Destinatarius (normalized)
     type: text
     cardinality: single
     formulary_section: contextus

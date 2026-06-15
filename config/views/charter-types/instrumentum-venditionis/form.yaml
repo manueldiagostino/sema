@@ -56,7 +56,7 @@ tabs:
               field_pair: author
 
             - id: intitulatio_analysis
-              label: Name (normalized)
+              label: Auctor
               input: text
               field_pair: author
 
