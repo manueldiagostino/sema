@@ -130,7 +130,7 @@ export default function DocumentCard({
 
   const handleDownloadPdf = useCallback(() => {
     const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
-    window.open(`${basePath}/api/pdf/formulary?filename=${encodeURIComponent(id)}.xml`, "_blank");
+    window.open(`${basePath}/pdf/${encodeURIComponent(id)}_formulary.pdf`, "_blank");
     setShowDownload(false);
   }, [id]);
 
