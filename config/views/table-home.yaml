@@ -1,0 +1,140 @@
+# Public corpus table — columns shown on the home page.
+#
+# Column order here determines display order left-to-right.
+# Properties inherited from _base.yaml unless overridden.
+#
+# Columns excluded from the public view:
+#   full_text (shown in card detail, not table)
+#   invocatio_text, datatio_chronica_text, intitulatio_text, etc.
+#     (body-text columns shown in card formulary tab)
+#   subscriptiones_testium_text, subscriptio_emittentis_text, completio_text
+#     (eschatocol body-text shown in card)
+
+defaultVisible:
+  - documentId
+  - charterType
+  - dating_chronological
+  - datatio_topica_analysis
+  - completio_analysis
+  - currentLocation
+
+columns:
+  # ── META ────────────────────────────────────────────────
+  - id: documentId
+    label: ID
+    render: id
+    computed: true
+    width: 140
+    sortable: true
+    filterable: false
+
+  - id: charterType
+    label: Charter Type
+    render: charterType
+    computed: true
+    width: 220
+    sortable: true
+    filterable: false
+
+  # ── DATING ──────────────────────────────────────────────
+  - id: dating_chronological
+    width: 120
+    sortable: true
+    filterable: true
+
+  - id: datatio_topica_analysis
+    width: 160
+    sortable: true
+    filterable: true
+
+  - id: completio_analysis
+    width: 160
+    sortable: true
+    filterable: true
+
+  # ── REPOSITORY ──────────────────────────────────────────
+  - id: currentLocation
+    computed: true
+    formula: "[repository] — [shelfmark]"
+    width: 200
+    sortable: true
+    filterable: true
+
+  - id: repository
+    width: 160
+    sortable: true
+    filterable: true
+
+  - id: shelfmark
+    width: 120
+    sortable: true
+    filterable: true
+
+  # ── ACTORS ──────────────────────────────────────────────
+  - id: intitulatio_analysis
+    width: 160
+    render: badge
+    sortable: true
+    filterable: true
+
+  - id: inscriptio_analysis
+    width: 160
+    render: badge
+    sortable: true
+    filterable: true
+
+  - id: testes_names
+    width: 200
+    sortable: false
+    filterable: true
+    cardinality: multiple
+    join: "; "
+
+  - id: investitor_name
+    width: 160
+    sortable: false
+    filterable: true
+
+  # ── PROPERTY / PRICE ───────────────────────────────────
+  - id: pretium
+    width: 100
+    sortable: true
+    filterable: true
+
+  - id: property_location
+    width: 160
+    sortable: true
+    filterable: true
+
+  # ── FORMULARY ANALYSIS (extracted) ─────────────────────
+  - id: invocatio_analysis
+    width: 120
+    render: badge
+    sortable: false
+    filterable: false
+
+  - id: descriptio_rei_analysis
+    width: 120
+    render: badge
+    sortable: false
+    filterable: false
+
+  - id: sanctio_analysis
+    width: 140
+    render: badge
+    sortable: false
+    filterable: false
+
+  - id: subscriptio_emittentis_analysis
+    width: 160
+    render: badge
+    sortable: false
+    filterable: false
+
+  # ── ESCHATOCL TEXT (truncated for table) ───────────────
+  - id: datatio_topica_text
+    width: 180
+    render: textarea
+    sortable: false
+    filterable: false
+    truncate_words: 20

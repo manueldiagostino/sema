@@ -13,37 +13,16 @@ import {
 import DeleteConfirmModal from "./DeleteConfirmModal";
 import PublishPanel from "./PublishPanel";
 import FacetSidebar from "../corpus/FacetSidebar";
-import type { Facets, CharterType, SelectedFacets, DateRange } from "@/types/corpus";
-
-/** Shape of a single column config returned by /api/corpus */
-interface ColumnConfig {
-  id: string;
-  label: string;
-  xpath?: string;
-  sortable?: boolean;
-  filterable?: boolean;
-  cardinality?: string;
-  join?: string;
-  truncateWords?: number;
-}
+import type { Facets, CharterType, SelectedFacets, DateRange, ColumnConfig } from "@/types/corpus";
 
 /** Shape of the corpus API response */
 interface CorpusResponse {
   columns: ColumnConfig[];
+  adminColumns: ColumnConfig[];
   items: Record<string, string | string[] | undefined>[];
   facets: Facets;
   charterTypes: CharterType[];
 }
-
-/** Columns to show in the dashboard table (by id) */
-const DISPLAY_COLUMNS = [
-  { id: "id", label: "Document" },
-  { id: "intitulatio_analysis", label: "Auctor" },
-  { id: "inscriptio_analysis", label: "Destinatarius" },
-  { id: "dating_chronological", label: "Modern Date" },
-  { id: "repository", label: "Archive" },
-  { id: "shelfmark", label: "Shelfmark" },
-];
 
 /** Derive the charter type ID from a document ID. e.g. "instrumentum_venditionis_1318_01" -> "instrumentum_venditionis" */
 function deriveCharterType(id: string): string {
@@ -76,6 +55,7 @@ function displayValue(val: string | string[] | undefined): string {
 
 export default function AdminDashboard() {
   const [items, setItems] = useState<Record<string, string | string[] | undefined>[]>([]);
+  const [adminColumns, setAdminColumns] = useState<ColumnConfig[]>([]);
   const [facets, setFacets] = useState<Facets>({});
   const [charterTypes, setCharterTypes] = useState<CharterType[]>([]);
   const [loading, setLoading] = useState(true);
@@ -104,6 +84,7 @@ export default function AdminDashboard() {
         const data: CorpusResponse = await res.json();
         if (!cancelled) {
           setItems(data.items);
+          setAdminColumns(data.adminColumns ?? []);
           setFacets(data.facets ?? {});
           setCharterTypes(data.charterTypes ?? []);
         }
@@ -183,58 +164,72 @@ export default function AdminDashboard() {
     return result;
   }, [items, search, selectedFacets, dateRange, charterTypes]);
 
-  const columns = useMemo<ColumnDef<Record<string, string | string[] | undefined>>[]>(() => [
-    {
-      id: "actions",
-      header: "Actions",
-      enableSorting: false,
-      cell: ({ row }) => (
-        <div className="flex items-center gap-2">
-          <Link
-            href={`/admin/form?edit=${encodeURIComponent(String(row.original.id ?? "") + ".xml")}`}
-            transitionTypes={["page"]}
-            className="rounded-md border border-primary/30 bg-background px-3 py-1.5 text-xs font-medium text-primary hover:bg-accent/10"
-          >
-            Edit
-          </Link>
-          <button
-            type="button"
-            onClick={() => setDeleteTarget(String(row.original.id ?? "") + ".xml")}
-            className="rounded-md border border-accent/40 bg-background px-3 py-1.5 text-xs font-medium text-accent hover:bg-accent hover:text-white"
-          >
-            Delete
-          </button>
-        </div>
-      ),
-    },
-    ...DISPLAY_COLUMNS.map((col) => ({
-      accessorKey: col.id,
-      header: col.label,
-      cell:
-        col.id === "id"
-          ? ({ getValue }: { getValue: () => unknown }) => (
-              <span className="font-mono text-xs">
-                {displayValue(getValue() as string | string[] | undefined)}
-              </span>
-            )
-          : ({ getValue }: { getValue: () => unknown }) => displayValue(getValue() as string | string[] | undefined),
-      enableSorting: true,
-    })),
-    {
-      id: "charterType",
-      header: "Type",
-      enableSorting: true,
-      cell: ({ row }) => {
-        const docId = String(row.original.id ?? "");
-        const charterType = deriveCharterType(docId);
-        return (
-          <span className="inline-flex items-center justify-center rounded-md bg-primary-container px-2.5 py-0.5 text-xs font-medium text-primary-on-container">
-            {charterType.replace(/_/g, " ")}
-          </span>
-        );
+  const columns = useMemo<ColumnDef<Record<string, string | string[] | undefined>>[]>(() => {
+    // Use adapter-generated admin columns, falling back to a minimal set if not available
+    const displayCols = adminColumns.length > 0
+      ? adminColumns.filter((c) => c.id !== "actions")
+      : [
+          { id: "id", label: "Document" } as ColumnConfig,
+          { id: "intitulatio_analysis", label: "Auctor" } as ColumnConfig,
+          { id: "inscriptio_analysis", label: "Destinatarius" } as ColumnConfig,
+          { id: "dating_chronological", label: "Modern Date" } as ColumnConfig,
+          { id: "repository", label: "Archive" } as ColumnConfig,
+          { id: "shelfmark", label: "Shelfmark" } as ColumnConfig,
+        ];
+
+    return [
+      {
+        id: "actions",
+        header: "Actions",
+        enableSorting: false,
+        cell: ({ row }) => (
+          <div className="flex items-center gap-2">
+            <Link
+              href={`/admin/form?edit=${encodeURIComponent(String(row.original.id ?? "") + ".xml")}`}
+              transitionTypes={["page"]}
+              className="rounded-md border border-primary/30 bg-background px-3 py-1.5 text-xs font-medium text-primary hover:bg-accent/10"
+            >
+              Edit
+            </Link>
+            <button
+              type="button"
+              onClick={() => setDeleteTarget(String(row.original.id ?? "") + ".xml")}
+              className="rounded-md border border-accent/40 bg-background px-3 py-1.5 text-xs font-medium text-accent hover:bg-accent hover:text-white"
+            >
+              Delete
+            </button>
+          </div>
+        ),
       },
-    },
-  ], []);
+      ...displayCols.map((col) => ({
+        accessorKey: col.id,
+        header: col.label,
+        cell:
+          col.id === "id"
+            ? ({ getValue }: { getValue: () => unknown }) => (
+                <span className="font-mono text-xs">
+                  {displayValue(getValue() as string | string[] | undefined)}
+                </span>
+              )
+            : ({ getValue }: { getValue: () => unknown }) => displayValue(getValue() as string | string[] | undefined),
+        enableSorting: col.sortable ?? true,
+      })),
+      {
+        id: "charterType",
+        header: "Type",
+        enableSorting: true,
+        cell: ({ row }) => {
+          const docId = String(row.original.id ?? "");
+          const charterType = deriveCharterType(docId);
+          return (
+            <span className="inline-flex items-center justify-center rounded-md bg-primary-container px-2.5 py-0.5 text-xs font-medium text-primary-on-container">
+              {charterType.replace(/_/g, " ")}
+            </span>
+          );
+        },
+      },
+    ];
+  }, [adminColumns]);
 
   const table = useReactTable({
     data: filteredItems,
@@ -252,6 +247,7 @@ export default function AdminDashboard() {
       .then((res) => res.json())
       .then((data: CorpusResponse) => {
         setItems(data.items);
+        setAdminColumns(data.adminColumns ?? []);
         setFacets(data.facets ?? {});
         setCharterTypes(data.charterTypes ?? []);
       })

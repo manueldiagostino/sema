@@ -1,0 +1,147 @@
+# Document card — tabs, sections, and field layout.
+#
+# Maps the hardcoded field lists from DocumentCard.tsx into config.
+# The card shows a header area (always visible), then tabs for detail views.
+
+# ── HEADER (always visible, shown above tabs) ────────────
+# Maps to HISTORICAL_IDS + EXTRACTED_IDS in DocumentCard.tsx
+header:
+  title: title
+  subtitle: id
+  showRef: true
+  sections:
+    - id: historical_info
+      label: Historical Information
+      visibleWhen: any
+      # Maps to HISTORICAL_IDS
+      fields:
+        - id: intitulatio_analysis
+        - id: inscriptio_analysis
+        - id: repository
+        - id: shelfmark
+        - id: dating_chronological
+        - id: datatio_topica_analysis
+        - id: completio_analysis
+        - id: testes_names
+        - id: investitor_name
+
+    - id: extracted_info
+      label: Extracted from Text
+      # Maps to EXTRACTED_IDS; section hidden if all fields empty
+      visibleWhen: any
+      fields:
+        - id: invocatio_analysis
+          render: badge
+        - id: descriptio_rei_analysis
+          render: badge
+        - id: sanctio_analysis
+          render: badge
+        - id: subscriptio_emittentis_analysis
+          render: badge
+        - id: pretium
+        - id: property_location
+        - id: datatio_topica_analysis
+
+# ── TABS ─────────────────────────────────────────────────
+tabs:
+  defaultTab: formulary
+  items:
+    - id: formulary
+      label: Formulary Analysis
+      sections:
+        # ── PROTOCOL ──────────────────────────────────────
+        - id: protocol
+          label: Protocol
+          visibleWhen: any
+          fields:
+            - id: invocatio_text
+              label: Invocatio
+            - id: datatio_chronica_text
+              label: Datatio Chronica
+
+        # ── TEXT (Contextus) ──────────────────────────────
+        - id: text
+          label: Text
+          visibleWhen: any
+          fields:
+            - id: intitulatio_text
+              label: Auctor
+            - id: dispositio_text
+              label: Verba dispositiva
+            - id: inscriptio_text
+              label: Destinatarius
+            - id: perpetuitatis_text
+              label: Clausula perpetuitatis
+            - id: descriptio_rei_text
+              label: Descriptio rei
+            - id: de_servitute_itineris_text
+              label: Clausula de servitute itineris
+            - id: integritatis_rei_text
+              label: Clausula integritatis rei
+            - id: quietantiae_pretii_text
+              label: Clausula quietantiae pretii
+            - id: confinium_text
+              label: Formula confinium
+            - id: mensurarum_text
+              label: Formula mensurarum
+            - id: translationis_iuris_text
+              label: Formula translationis iuris
+            - id: liberi_gaudii_text
+              label: Formula liberi gaudii
+            - id: legitimae_defensionis_text
+              label: Formula legitimae defensionis
+            - id: sanctio_text
+              label: Sanctio
+
+        # ── ESCHATOCOL ────────────────────────────────────
+        - id: eschatocol
+          label: Eschatocol
+          visibleWhen: any
+          fields:
+            - id: datatio_topica_text
+              label: Datatio topica
+            - id: subscriptiones_testium_text
+              label: Subscriptiones testium
+            - id: subscriptio_emittentis_text
+              label: Subscriptio emittentis
+            - id: completio_text
+              label: Completio
+
+    # ── SPECIAL TABS ───────────────────────────────────────
+    - id: fulltext
+      label: Full Text
+      type: special
+
+    - id: xml
+      label: XML TEI
+      type: special
+
+    - id: photo
+      label: Photographic Reproduction
+      type: special
+      status: coming_soon
+
+# ── POST-CONTENT SECTIONS (below tabs) ───────────────────
+postContent:
+  sections:
+    - id: edition
+      label: Edition
+    - id: translations
+      label: Translations
+    - id: physical_description
+      label: Physical Description
+    - id: commentary
+      label: Commentary
+    - id: bibliography
+      label: Bibliography
+  citation:
+    label: Citation & Editorial Status
+    fields:
+      - id: editor
+        label: Editor
+      - id: principal_contributor
+        label: Principal Contributor
+      - id: contributors
+        label: Contributors
+      - id: last_revision
+        label: Last Revision

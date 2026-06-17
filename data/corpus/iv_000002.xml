@@ -5,10 +5,10 @@
     <fileDesc>
       <titleStmt>
         <title>Instrumentum venditionis</title>
-        <author>Gualdrada, moglie di Enrico di Geremia</author>
+        <author role="issuer"><persName>Gualdrada, moglie di Enrico di Geremia</persName></author>
       </titleStmt>
       <publicationStmt>
-        <p></p>
+        <p>Encoded by Sema TEI Corpus Explorer</p>
       </publicationStmt>
       <sourceDesc>
         <msDesc>
@@ -18,10 +18,9 @@
           </msIdentifier>
           <msContents>
             <msItem>
-              <recipient>Albertino di Verardo e Martino figlio del fu Martino Delvia</recipient>
               <respStmt>
                 <resp>notary</resp>
-                <name type="completio_analysis">Aimerico-2</name>
+                <persName type="completio_analysis">Aimerico-2</persName>
               </respStmt>
             </msItem>
           </msContents>
@@ -38,7 +37,7 @@
     <profileDesc>
       <creation>
         <date when="1137-02-08">1137-02-08</date>
-        <term type="datatio_topica_analysis">Presso l'abitazione di Gualdrada e suo marito Enrico</term>
+        <placeName type="datatio_topica_analysis">Presso l'abitazione di Gualdrada e suo marito Enrico</placeName>
       </creation>
       <langUsage>
         <language ident="la">Latin</language>
@@ -47,19 +46,15 @@
         <keywords>
           <term type="object">Instrumentum venditionis</term>
           <term type="object_subtype">Venditio</term>
-          <term type="intitulatio_analysis">Gualdrada, moglie di Enrico di Geremia</term>
-          <term type="inscriptio_analysis">Albertino di Verardo e Martino figlio del fu Martino Delvia</term>
           <term type="price">28 soldi lucchesi</term>
           <term type="property_location">Porta Nuova, in località detta Campolungo</term>
-          <term type="subscriptio_emittentis_analysis">auctor</term>
         </keywords>
       </textClass>
     </profileDesc>
   </teiHeader>
   <text>
     <body>
-      <diploPart type="full_text">
-        <p>+ In nomine sancte et individue Trinitatis. 
+      <ab type="full_text">+ In nomine sancte et individue Trinitatis. 
 Anno Domini millesimo centesimo .XXXVII., octavo die introeunte februarii, indicione .XV. . / 
 Ego quidem in Dei (a) nomine Gualdrada uxor Enricus de Geremia eo presente et consentiente, bono animo et voluntate placet / et convenit nobis ut per hanc cartulam vendicionis a presente die facimus cartulam venditionis tibi Albertinus de Verardo et Martino filius / quondam Martini Delvia vestrisque heredibus. Id est medietatem de nostram domum cum orto que est retro eam in Bononiam in porta Nova / et nominatur Campolungo, cum introitu et exitu suo usque in via publica et cum omnia super se et infra se habentem in integrum, a pedes legi/timo mensurato. Finis ubi predictam domum ubi esse videtur: ab uno latere a sera detinet Iohannem da Policino et Andrea Bordo/ne et Petrocinus Plumatio et Iohannem qui dicitur Bocca sunt pedes quinquaginta quinque, alio latere similiter pedes quinquaginta quinque, iusta / Iohannes qui vocatur Barbalata, ab uno capite de super iusta orto Sancti Salvatoris sunt pedes .X. et octo et pugni dui, alio capite iusta pla/tea publica pedes viginti et uno et semisso uno et si qui alii fines sunt. Omnia sicut prediximus in integrum et hoc quod nobis pertinet in/fra predictis lateribus et capitibus supradictam medietatem vendimus atque concedimus vobis emptoris vestrisque heredibus / ad habendum, tenendum et possidendum et quicquid vobis vestrisque heredibus de predictam medietatem placuerit faciendi. Ut neque / a nobis qui supra dicitur venditoris neque a nostris heredibus ullam exinde habeatis molestationem vel intentionem et liceat vobis emptoris / vestrisque heredibus pensionem dare sicut in anteriorem cartula legitur ad nacionem cui iura est. Et ego prenominata Gualdrada cum / Enricus vir meus et per nostris heredibus predictam domum cum curte promittimus defensare at auctoriare vobis omni tempore contra omnes homines / pro viginti et octo solidos Lucensium quos nobis dedistis quidem; si hec omnia non observaverimus aut hanc cartulam litigare vel litigantem / consenserimus, componamus vobis penam pretium duplum et post penam solutam hanc venditionis firmum permaneat. / 
 
@@ -68,82 +63,44 @@ Prenominata donna Gualdrada cum Enricus hanc cartulam me scribere rogaverunt. /
 
 Testes : Prerainerius qui dicitur Archiepiscopus et Enricus de Rainerius et Mezano de Martinus de Urso de Andrea et Rainerius de Coll[e] / de Montone et Ardiçonis de Alberti de Lamberti de Beio investitor. /
 
-Ego Aimericus tabellio hanc cartulam venditionis scripsi et firmavi.</p>
-      </diploPart>
+Ego Aimericus tabellio hanc cartulam venditionis scripsi et firmavi.</ab>
       <div type="protocol">
-        <diploPart type="invocatio" subtype="symbolica verbalis">
-          <p>+ In nomine sancte et individue Trinitatis.</p>
-        </diploPart>
-        <diploPart type="datatio" subtype="chronica">
-          <p>Anno Domini millesimo centesimo .XXXVII., octavo die introeunte februarii, indicione .XV. . /</p>
-        </diploPart>
+        <ab type="invocatio" subtype="verbalis symbolica">+ In nomine sancte et individue Trinitatis.</ab>
+        <ab type="datatio" subtype="chronica">Anno Domini millesimo centesimo .XXXVII., octavo die introeunte februarii, indicione .XV. . /</ab>
       </div>
       <div type="contextus">
-        <diploPart type="intitulatio">
-          <p>Ego quidem in Dei nomine Gualdrada uxor Enricus de Geremia eo presente et consentiente, bono animo et voluntate placet / et convenit nobis</p>
-        </diploPart>
-        <diploPart type="dispositio">
-          <p>ut per hanc cartulam vendicionis a presente die facimus cartulam venditionis 
+        <ab type="intitulatio">Ego quidem in Dei nomine Gualdrada uxor Enricus de Geremia eo presente et consentiente, bono animo et voluntate placet / et convenit nobis</ab>
+        <ab type="dispositio">ut per hanc cartulam vendicionis a presente die facimus cartulam venditionis 
 
-V. formula translationis iuris</p>
-        </diploPart>
-        <diploPart type="inscriptio">
-          <p>tibi Albertinus de Verardo et Martino filius / quondam Martini Delvia vestrisque heredibus.</p>
-        </diploPart>
-        <diploPart type="dispositio" subtype="immobile">
-          <p>Id est medietatem de nostram domum cum orto que est retro eam in Bononiam in porta Nova / et nominatur Campolungo,</p>
-        </diploPart>
-        <diploPart type="clausulae" subtype="de_servitute_itineris">
-          <p>cum introitu et exitu suo usque in via publica</p>
-        </diploPart>
-        <diploPart type="clausulae" subtype="integritatis_rei">
-          <p>... et cum omnia super se et infra se habentem in integrum, ...</p>
-        </diploPart>
-        <diploPart type="clausulae" subtype="quietantiae_pretii">
-          <p>pro viginti et octo solidos Lucensium quos nobis dedistis quidem;</p>
-        </diploPart>
-        <diploPart type="clausulae" subtype="confinium">
-          <p>Finis ubi predictam domum ubi esse videtur: ab uno latere a sera detinet Iohannem da Policino et Andrea Bordo/ne et Petrocinus Plumatio et Iohannem qui dicitur Bocca sunt pedes quinquaginta quinque, alio latere similiter pedes quinquaginta quinque, iusta / Iohannes qui vocatur Barbalata, ab uno capite de super iusta orto Sancti Salvatoris sunt pedes .X. et octo et pugni dui, alio capite iusta pla/tea publica pedes viginti et uno et semisso uno et si qui alii fines sunt.</p>
-        </diploPart>
-        <diploPart type="clausulae" subtype="mensurarum">
-          <p>a pedes legi/timo mensurato.
+V. formula translationis iuris</ab>
+        <ab type="inscriptio">
+            tibi Albertinus de Verardo et Martino filius / quondam Martini Delvia vestrisque heredibus.
+        </ab>
+        <ab type="dispositio" subtype="immobile">Id est medietatem de nostram domum cum orto que est retro eam in Bononiam in porta Nova / et nominatur Campolungo,</ab>
+        <ab type="clausulae" subtype="de_servitute_itineris">cum introitu et exitu suo usque in via publica</ab>
+        <ab type="clausulae" subtype="integritatis_rei">... et cum omnia super se et infra se habentem in integrum, ...</ab>
+        <ab type="clausulae" subtype="quietantiae_pretii">pro viginti et octo solidos Lucensium quos nobis dedistis quidem;</ab>
+        <ab type="clausulae" subtype="confinium">Finis ubi predictam domum ubi esse videtur: ab uno latere a sera detinet Iohannem da Policino et Andrea Bordo/ne et Petrocinus Plumatio et Iohannem qui dicitur Bocca sunt pedes quinquaginta quinque, alio latere similiter pedes quinquaginta quinque, iusta / Iohannes qui vocatur Barbalata, ab uno capite de super iusta orto Sancti Salvatoris sunt pedes .X. et octo et pugni dui, alio capite iusta pla/tea publica pedes viginti et uno et semisso uno et si qui alii fines sunt.</ab>
+        <ab type="clausulae" subtype="mensurarum">a pedes legi/timo mensurato.
 
-V. formula confinium</p>
-        </diploPart>
-        <diploPart type="clausulae" subtype="translationis_iuris">
-          <p>Omnia sicut prediximus in integrum et hoc quod nobis pertinet in/fra predictis lateribus et capitibus supradictam medietatem vendimus atque concedimus vobis emptoris vestrisque heredibus / ad habendum, tenendum et possidendum</p>
-        </diploPart>
-        <diploPart type="clausulae" subtype="liberi_gaudii">
-          <p>et quicquid vobis vestrisque heredibus de predictam medietatem placuerit faciendi.</p>
-        </diploPart>
-        <diploPart type="clausulae" subtype="legitimae_defensionis">
-          <p>Et ego prenominata Gualdrada cum / Enricus vir meus et per nostris heredibus predictam domum cum curte promittimus defensare at auctoriare vobis omni tempore contra omnes homines /</p>
-        </diploPart>
-        <diploPart type="sanctio" subtype="dupli_pena">
-          <p>si hec omnia non observaverimus aut hanc cartulam litigare vel litigantem / consenserimus, componamus vobis penam pretium duplum et post penam solutam hanc venditionis firmum permaneat. /</p>
-        </diploPart>
+V. formula confinium</ab>
+        <ab type="clausulae" subtype="translationis_iuris">Omnia sicut prediximus in integrum et hoc quod nobis pertinet in/fra predictis lateribus et capitibus supradictam medietatem vendimus atque concedimus vobis emptoris vestrisque heredibus / ad habendum, tenendum et possidendum</ab>
+        <ab type="clausulae" subtype="liberi_gaudii">et quicquid vobis vestrisque heredibus de predictam medietatem placuerit faciendi.</ab>
+        <ab type="clausulae" subtype="legitimae_defensionis">Et ego prenominata Gualdrada cum / Enricus vir meus et per nostris heredibus predictam domum cum curte promittimus defensare at auctoriare vobis omni tempore contra omnes homines /</ab>
+        <ab type="sanctio" subtype="dupli_pena">si hec omnia non observaverimus aut hanc cartulam litigare vel litigantem / consenserimus, componamus vobis penam pretium duplum et post penam solutam hanc venditionis firmum permaneat. /</ab>
       </div>
       <div type="eschatocol">
-        <diploPart type="datatio" subtype="topica">
-          <p>Actum in domo predicti venditoris **9**.</p>
-        </diploPart>
+        <ab type="datatio" subtype="topica">Actum in domo predicti venditoris **9**.</ab>
         <div type="subscriptio">
-          <diploPart type="subscriptio" subtype="testium">
-            <p>Testes : Prerainerius qui dicitur Archiepiscopus et Enricus de Rainerius et Mezano de Martinus de Urso de Andrea et Rainerius de Coll[e] / de Montone et Ardiçonis de Alberti de Lamberti de Beio investitor. /</p>
-          </diploPart>
-          <diploPart type="subscriptio" subtype="auctor">
-            <name>Prenominata donna Gualdrada cum Enricus hanc cartulam me scribere rogaverunt. /</name>
-          </diploPart>
-          <listWitness>
-          <witness><name>Prerainerius qui dicitur Archiepiscopus</name></witness>
-          <witness><name>Enricus de Rainerius</name></witness>
-          <witness><name>Mezano de Martinus de Urso de Andrea</name></witness>
-          <witness><name>Rainerius de Coll[e] de Montone</name></witness>
-          <witness ana="#investitor"><name>Ardiçonis de Alberti de Lamberti de Beio</name></witness>
-          </listWitness>
-          <diploPart type="subscriptio" subtype="completio">
-            <p>Ego Aimericus tabellio hanc cartulam venditionis scripsi et firmavi.</p>
-          </diploPart>
+          <ab type="subscriptio" subtype="testium">Testes : Prerainerius qui dicitur Archiepiscopus et Enricus de Rainerius et Mezano de Martinus de Urso de Andrea et Rainerius de Coll[e] / de Montone et Ardiçonis de Alberti de Lamberti de Beio investitor. /</ab>
+          <listPerson>
+          <person role="witness"><persName>Prerainerius qui dicitur Archiepiscopus</persName></person>
+          <person role="witness"><persName>Enricus de Rainerius</persName></person>
+          <person role="witness"><persName>Mezano de Martinus de Urso de Andrea</persName></person>
+          <person role="witness"><persName>Rainerius de Coll[e] de Montone</persName></person>
+          <person role="issuer"><persName>Ardiçonis de Alberti de Lamberti de Beio</persName></person>
+          </listPerson>
+          <ab type="subscriptio" subtype="completio">Ego Aimericus tabellio hanc cartulam venditionis scripsi et firmavi.</ab>
         </div>
       </div>
     </body>

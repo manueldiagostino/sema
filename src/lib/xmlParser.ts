@@ -1,13 +1,26 @@
 import { DOMParser } from "@xmldom/xmldom";
 import xpath from "xpath";
-import type {
-  FormSectionsConfig,
-  FormSectionConfig,
-  FormFieldConfig,
-  DateFieldValue,
-  WitnessEntry,
-  PlaceEntry,
-} from "@/types/form";
+import type { DateFieldValue, WitnessEntry, PlaceEntry } from "@/types/form";
+import type { FormViewConfig, TeiSchema, FormField } from "@/types/schema";
+import { deserializeEnumValues } from "@/lib/schema/enum-values";
+
+// ---------------------------------------------------------------------------
+// Internal extraction config — replaces FormFieldConfig for XML parsing
+// ---------------------------------------------------------------------------
+
+/** Flat field config used by the XML extraction logic. */
+interface ExtractionFieldConfig {
+  id: string;
+  input?: string;
+  cardinality?: string;
+  xpath_parent?: string;
+  tei_wrapper?: string;
+  tei_wrapper_attributes?: Record<string, string>;
+  tei_element?: string;
+  tei_attributes?: Record<string, string>;
+  options?: Array<{ value: string; label: string }>;
+  exclusive_option?: { label: string; fieldKey: string } | { value: string; label: string };
+}
 
 const TEI_NS = "http://www.tei-c.org/ns/1.0";
 
@@ -41,6 +54,88 @@ function getTextContent(node: Node): string {
     .join(" ");
 }
 
+// ---------------------------------------------------------------------------
+// Config builder — converts FormViewConfig + TeiSchema → ExtractionFieldConfig[]
+// ---------------------------------------------------------------------------
+
+/**
+ * Build a flat array of extraction field configs from the view config and schema.
+ *
+ * Iterates all form tabs → sections → fields (and recursive subsections),
+ * looks up each field's TEI mapping from the schema, and produces a flat list
+ * of `ExtractionFieldConfig` objects consumed by the XML extraction logic.
+ */
+function buildExtractionConfig(
+  formConfig: FormViewConfig,
+  schema: TeiSchema,
+): ExtractionFieldConfig[] {
+  const configs: ExtractionFieldConfig[] = [];
+
+  function addField(field: FormField): void {
+    const element = schema.elements[field.id];
+
+    // Determine input type: prefer form field override, then schema element type
+    const input = field.input ?? element?.type;
+
+    // Build tei_attributes from the schema element's type and attribute
+    const teiAttributes: Record<string, string> | undefined = (() => {
+      const attrs: Record<string, string> = {};
+      if (element?.tei?.type) {
+        attrs.type = element.tei.type;
+      }
+      if (element?.tei?.attribute) {
+        attrs[element.tei.attribute] = "*";
+      }
+      return Object.keys(attrs).length > 0 ? attrs : undefined;
+    })();
+
+    configs.push({
+      id: field.id,
+      input,
+      cardinality: element?.cardinality,
+      xpath_parent: element?.tei?.xpath_parent,
+      tei_element: element?.tei?.element,
+      tei_wrapper: element?.tei?.wrapper,
+      tei_wrapper_attributes: element?.tei?.wrapper_attributes,
+      tei_attributes: teiAttributes,
+      options: field.options ?? element?.options,
+      exclusive_option: field.exclusive_option ?? element?.exclusive_option,
+    });
+  }
+
+  function addSection(section: { fields: FormField[]; subsections?: unknown[] }): void {
+    for (const field of section.fields) {
+      addField(field);
+    }
+    if (section.subsections) {
+      for (const sub of section.subsections) {
+        addSection(sub as { fields: FormField[]; subsections?: unknown[] });
+      }
+    }
+  }
+
+  for (const tab of formConfig.tabs.items) {
+    // Tab-level fields (e.g. "properties" tab)
+    if (tab.fields) {
+      for (const field of tab.fields) {
+        addField(field);
+      }
+    }
+    // Sections within the tab
+    if (tab.sections) {
+      for (const section of tab.sections) {
+        addSection(section);
+      }
+    }
+  }
+
+  return configs;
+}
+
+// ---------------------------------------------------------------------------
+// XPath helpers
+// ---------------------------------------------------------------------------
+
 /**
  * Build an XPath expression that selects the field's TEI element.
  *
@@ -63,7 +158,7 @@ function buildPredicates(attrs: Record<string, string>): string[] {
   );
 }
 
-function buildElementXPath(field: FormFieldConfig): string {
+function buildElementXPath(field: ExtractionFieldConfig): string {
   let path = `//${field.xpath_parent}`;
 
   if (field.tei_wrapper) {
@@ -105,7 +200,7 @@ function buildElementXPath(field: FormFieldConfig): string {
  * Build an XPath that selects wrapper elements for dynamic-list fields.
  * Selects all repeating wrappers under xpath_parent (without the child element).
  */
-function buildWrapperXPath(field: FormFieldConfig): string {
+function buildWrapperXPath(field: ExtractionFieldConfig): string {
   let path = `//${field.xpath_parent}`;
   if (field.tei_wrapper) {
     path += `/tei:${field.tei_wrapper}`;
@@ -117,14 +212,14 @@ function buildWrapperXPath(field: FormFieldConfig): string {
  * Return the empty default value appropriate for the field's input type
  * and cardinality.  Used when extraction fails or finds nothing.
  */
-function emptyDefault(field: FormFieldConfig): unknown {
+function emptyDefault(field: ExtractionFieldConfig): unknown {
   switch (field.input) {
     case "text":
     case "textarea":
       return field.cardinality === "multiple" ? ([] as string[]) : "";
     case "date":
       return { iso: "", text: "" } as DateFieldValue;
-    case "radio":
+    case "choice":
     case "select":
       return field.cardinality === "multiple" ? ([] as string[]) : "";
     case "dynamic-list":
@@ -140,7 +235,7 @@ function emptyDefault(field: FormFieldConfig): unknown {
 
 /**
  * Parse a TEI XML document and extract form field values according to
- * the form-sections.yaml configuration.
+ * the FormViewConfig + TeiSchema configuration.
  *
  * Uses config-driven reverse mapping: for every field in the config the
  * corresponding XPath is constructed, the matching nodes are selected from
@@ -150,26 +245,31 @@ function emptyDefault(field: FormFieldConfig): unknown {
  * replaced with empty defaults; the function never throws.
  *
  * @param xml  Raw TEI P5 XML string
- * @param config  Parsed form-sections.yaml configuration
+ * @param formConfig  Engine-native form view configuration
+ * @param schema  TEI schema with element definitions and TEI mappings
  * @returns Record keyed by field id with extracted values
  */
 export function parseTeiXml(
   xml: string,
-  config: FormSectionsConfig,
+  formConfig: FormViewConfig,
+  schema: TeiSchema,
 ): Record<string, unknown> {
   const doc = new DOMParser().parseFromString(xml, "text/xml");
   const select = xpath.useNamespaces({ tei: TEI_NS });
 
   const result: Record<string, unknown> = {};
 
+  // Build flat extraction configs from the view config + schema
+  const extractionConfigs = buildExtractionConfig(formConfig, schema);
+
   // ── Per-field extraction ────────────────────────────────────────────────
 
-  function extractField(field: FormFieldConfig): void {
+  function extractField(field: ExtractionFieldConfig): void {
     try {
       // ── Special case: datatio_topica_analysis is PlaceEntry[] ─────
       if (field.id === "datatio_topica_analysis") {
         const termNodes = select(
-          "//tei:teiHeader//tei:term[@type='datatio_topica_analysis']",
+          "//tei:teiHeader//tei:placeName[@type='datatio_topica_analysis']",
           doc,
         ) as Node[];
         const entries: PlaceEntry[] = [];
@@ -213,11 +313,11 @@ export function parseTeiXml(
           break;
         }
 
-        // ── radio / select ───────────────────────────────────────────
+        // ── choice / select ──────────────────────────────────────────
         // Values are stored as the `subtype` attribute on the matched
         // TEI element.  For cardinality "multiple" the attribute may
         // contain space-separated values (e.g. "symbolica verbalis").
-        case "radio":
+        case "choice":
         case "select": {
           const options = field.options || [];
           const nodes = select(buildElementXPath(field), doc) as Node[];
@@ -228,7 +328,7 @@ export function parseTeiXml(
               ((node as unknown as Element).getAttribute("subtype")) || "";
             if (!subtype) continue;
 
-            const parts = subtype.split(/\s+/);
+            const parts = deserializeEnumValues(subtype);
             for (const part of parts) {
               const match = options.find(
                 (o) => o.value === part || o.label === part,
@@ -248,10 +348,10 @@ export function parseTeiXml(
           break;
         }
 
-        // ── dynamic-list (e.g. witness names) ────────────────────────
+        // ── dynamic-list (e.g. person names) ────────────────────────
         // Selects the repeating wrapper elements, then for each wrapper
         // extracts the tei_element child text as `name` and checks the
-        // `@ana` attribute for the exclusive_option flag.
+        // `@role` attribute for the exclusive_option flag.
         case "dynamic-list": {
           const wrapperNodes = select(
             buildWrapperXPath(field),
@@ -271,12 +371,12 @@ export function parseTeiXml(
 
             if (!name) continue;
 
-            // Check exclusive_option flag (e.g. ana="#investitor" on <witness>)
+            // Check exclusive_option flag (e.g. role="issuer" on <person>)
             let isExclusive = false;
             if (field.exclusive_option) {
-              const ana =
-                ((wrapperNode as unknown as Element).getAttribute("ana")) || "";
-              isExclusive = ana.includes("#investitor");
+              const role =
+                ((wrapperNode as unknown as Element).getAttribute("role")) || "";
+              isExclusive = role === "issuer";
             }
 
             entries.push({ name, is_investitor: isExclusive });
@@ -302,27 +402,16 @@ export function parseTeiXml(
     }
   }
 
-  // ── Recursive section traversal ─────────────────────────────────────────
+  // ── Iterate flat extraction configs ─────────────────────────────────────
 
-  function processSection(section: FormSectionConfig): void {
-    for (const field of section.fields) {
-      extractField(field);
-    }
-    if (section.subsections) {
-      for (const sub of section.subsections) {
-        processSection(sub);
-      }
-    }
-  }
-
-  for (const section of config.sections) {
-    processSection(section);
+  for (const config of extractionConfigs) {
+    extractField(config);
   }
 
   // ── Full text (not config-driven; rendered in a separate form tab) ──
   try {
     const ftNodes = select(
-      "//tei:text/tei:body/tei:diploPart[@type='full_text']",
+      "//tei:text/tei:body/tei:ab[@type='full_text']",
       doc,
     ) as Node[];
     result.full_text =

@@ -13,9 +13,12 @@
 import * as fs from "fs";
 import * as path from "path";
 import { fileURLToPath } from "url";
-import yaml from "js-yaml";
 import xpath from "xpath";
 import { DOMParser } from "@xmldom/xmldom";
+import { getLegacyColumns, getLegacyCardTabs, buildXpath } from "@/lib/schema/adapter";
+import { getCharterTypes, loadTeiSchema } from "@/lib/schema/registry";
+import { getBaseDefaults, loadTableConfig, loadCardConfig } from "@/lib/schema/views";
+import { deserializeEnumValues } from "@/lib/schema/enum-values";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -33,27 +36,33 @@ interface ColumnConfig {
   truncateWords?: number;
 }
 
-interface ColumnsYaml {
-  columns: ColumnConfig[];
-}
-
 type CorpusItem = Record<string, string | string[]>;
 
-interface TypeConfig {
-  id: string;
-  label: string;
+interface TypesConfig {
+  types: { id: string; label: string }[];
+  sections: unknown[];
 }
 
-interface TypesConfig {
-  types: TypeConfig[];
-  sections: unknown[];
+interface CardDisplayConfig {
+  historicalIds: string[];
+  extractedIds: string[];
+  badgeFields: string[];
+  badgeLabels: Record<string, Record<string, string>>;
 }
 
 interface CorpusMetadata {
   columns: ColumnConfig[];
+  adminColumns: ColumnConfig[];
+  cardConfig: CardDisplayConfig;
   items: CorpusItem[];
   facets: Record<string, { value: string; count: number }[]>;
   charterTypes: { id: string; label: string; count: number }[];
+  /** Badge labels for client-side lookup (no fs dependency needed). */
+  badgeLabels: Record<string, Record<string, string>>;
+  /** Engine-native table config (columns in display order). */
+  teiSchema?: Record<string, unknown>;
+  tableConfigHome?: Record<string, unknown>;
+  cardViewConfig?: Record<string, unknown>;
 }
 
 /** Configuration passed at call time (API routes) to override default paths. */
@@ -222,17 +231,17 @@ function extractCharterTypes(
 export async function buildCorpus(config?: BuildConfig): Promise<void> {
   // Compute paths: use projectRoot from config, or fall back to __dirname
   const root = config?.projectRoot ?? path.resolve(__dirname, "..");
-  const columnsYaml = path.join(root, "config", "columns.yaml");
   const defaultTeiDir = getActiveTeiDir(root);
   console.log(`Active TEI directory: ${defaultTeiDir}`);
   const defaultOutputFile = path.join(root, "public", "corpus-metadata.json");
 
-  // 1. Load column definitions from YAML
-  console.log(`Reading column config from ${columnsYaml}`);
-  const yamlContent = fs.readFileSync(columnsYaml, "utf-8");
-  const parsed = yaml.load(yamlContent) as ColumnsYaml;
-  const columns: ColumnConfig[] = parsed.columns;
+  // 1. Load column definitions from schema adapter
+  console.log(`Loading column config from schema registry`);
+  const columns: ColumnConfig[] = getLegacyColumns("home");
   console.log(`  Found ${columns.length} column definitions`);
+
+  // 1b. Load TEI schema for formulary body-text extraction
+  const schema = loadTeiSchema();
 
   // 2. Find all TEI/XML files (explicit dirs override the active directory)
   const dataDirs = config?.dataDirs && config.dataDirs.length > 0 ? [...config.dataDirs] : [defaultTeiDir];
@@ -272,6 +281,12 @@ export async function buildCorpus(config?: BuildConfig): Promise<void> {
     const item: CorpusItem = {};
 
     for (const col of columns) {
+      // Skip computed columns — they have no XPath in the XML
+      if (col.xpath.startsWith("computed:")) {
+        item[col.id] = col.cardinality === "multiple" ? [] : "";
+        continue;
+      }
+
       try {
         // Prepend // if not already present so xpath searches from document root
         const xpathExpr = col.xpath.startsWith("//")
@@ -282,10 +297,12 @@ export async function buildCorpus(config?: BuildConfig): Promise<void> {
         if (col.attribute) {
           // Extract attribute value from the matched element(s)
           if (col.cardinality === "multiple") {
-            let values: string[] = nodes.map((node) => {
+            // Split each attribute value on whitespace — TEI attributes can hold
+            // multiple space-separated values (e.g. @subtype="symbolica verbalis")
+            const values: string[] = nodes.flatMap((node) => {
               const el = node as any;
               const attrVal = el.getAttribute?.(col.attribute!);
-              return attrVal ? attrVal.trim() : "";
+              return attrVal ? deserializeEnumValues(attrVal) : [];
             });
             item[col.id] = values;
           } else {
@@ -301,11 +318,11 @@ export async function buildCorpus(config?: BuildConfig): Promise<void> {
           // Extract text content from the matched node(s)
           if (col.cardinality === "multiple") {
             // Collect ALL matching nodes into a string[]
-            let values: string[] = nodes.map(extractText).map((t) => t.trim());
+            const values: string[] = nodes.map(extractText).map((t) => t.trim());
             item[col.id] = values;
           } else {
             // Take the FIRST matching node as string (empty string if no match)
-            let value = nodes.length > 0 ? extractText(nodes[0]).trim() : "";
+            const value = nodes.length > 0 ? extractText(nodes[0]).trim() : "";
             item[col.id] = value;
           }
         }
@@ -318,16 +335,43 @@ export async function buildCorpus(config?: BuildConfig): Promise<void> {
       }
     }
 
+    // Extract formular body-text fields for DocumentCard formulary tab
+    for (const [elemId, elem] of Object.entries(schema.elements)) {
+      // full_text is needed for the card Full Text tab even though its
+      // formulary_section is metadata (it's not a table column)
+      if (elemId !== "full_text") {
+        if (!elem.formulary_section) continue;
+        if (
+          elem.formulary_section !== "protocol" &&
+          elem.formulary_section !== "contextus" &&
+          elem.formulary_section !== "eschatocol"
+        ) continue;
+      }
+      if (elemId in item) continue; // already extracted as a column
+
+      try {
+        const xpathExpr = buildXpath(elem);
+        const expr = xpathExpr.startsWith("//") ? xpathExpr : `//${xpathExpr}`;
+        const nodes = select(expr, doc) as Node[];
+        if (elem.cardinality === "multiple") {
+          item[elemId] = nodes.map(extractText).map((t) => t.trim());
+        } else {
+          item[elemId] = nodes.length > 0 ? extractText(nodes[0]).trim() : "";
+        }
+      } catch {
+        item[elemId] = "";
+      }
+    }
+
     item.id = path.basename(xmlPath, ".xml");
 
     items.push(item);
   }
 
-  // 4. Load form-sections.yaml for charter type extraction
-  const formSectionsYaml = path.join(root, "config", "form-sections.yaml");
-  console.log(`Reading form sections from ${formSectionsYaml}`);
-  const formYamlContent = fs.readFileSync(formSectionsYaml, "utf-8");
-  const typesConfig = yaml.load(formYamlContent) as TypesConfig;
+  // 4. Load charter types from schema registry
+  console.log(`Loading charter types from schema registry`);
+  const charterTypesRaw = getCharterTypes();
+  const typesConfig: TypesConfig = { types: charterTypesRaw, sections: [] };
   console.log(`  Found ${typesConfig.types.length} charter type(s)`);
 
   // 5. Compute facets and charter types
@@ -336,12 +380,48 @@ export async function buildCorpus(config?: BuildConfig): Promise<void> {
   console.log(`  Computed facets for ${Object.keys(facets).length} column(s)`);
   console.log(`  Found ${charterTypes.length} charter type(s)`);
 
+  // 5b. Build admin columns and card display config from adapter
+  console.log(`Loading admin columns and card config from adapter`);
+  const adminColumns: ColumnConfig[] = getLegacyColumns("admin");
+  console.log(`  Found ${adminColumns.length} admin column(s)`);
+
+  const cardView = getLegacyCardTabs();
+  const baseDefaults = getBaseDefaults();
+  const cardConfig: CardDisplayConfig = {
+    historicalIds:
+      cardView.header?.sections?.find((s) => s.id === "historical_info")?.fields.map((f) => f.id) ?? [],
+    extractedIds:
+      cardView.header?.sections?.find((s) => s.id === "extracted_info")?.fields.map((f) => f.id) ?? [],
+    badgeFields:
+      cardView.header?.sections
+        ?.flatMap((s) => s.fields)
+        .filter((f) => f.render === "badge")
+        .map((f) => f.id) ?? [],
+    badgeLabels: baseDefaults.badgeLabels,
+  };
+  console.log(`  Card config: ${cardConfig.historicalIds.length} historical, ${cardConfig.extractedIds.length} extracted, ${cardConfig.badgeFields.length} badge fields`);
+
+  // 5c. Load engine-native configs for client-side use
+  console.log(`Loading engine-native configs`);
+  const teiSchema = loadTeiSchema();
+  const tableConfigHome = loadTableConfig("home");
+  const cardViewConfig = loadCardConfig();
+  console.log(`  TEI schema: ${Object.keys(teiSchema.elements).length} elements`);
+  console.log(`  Table config: ${tableConfigHome.columns.length} columns`);
+  console.log(`  Card view config: ${cardViewConfig.tabs?.items?.length ?? 0} tabs`);
+
   // 6. Build output
   const metadata: CorpusMetadata = {
     columns,
+    adminColumns,
+    cardConfig,
     items,
     facets,
     charterTypes,
+    badgeLabels: baseDefaults.badgeLabels,
+    teiSchema: teiSchema as unknown as Record<string, unknown>,
+    tableConfigHome: tableConfigHome as unknown as Record<string, unknown>,
+    cardViewConfig: cardViewConfig as unknown as Record<string, unknown>,
   };
 
   // 7. Determine output path (config overrides default)

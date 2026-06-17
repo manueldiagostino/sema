@@ -3,9 +3,13 @@
 import React, { useState, useCallback, type FormEvent } from "react";
 import Link from "next/link";
 import type {
-  FormSectionsConfig,
-  FormSectionConfig,
-  FormFieldConfig,
+  FormViewConfig,
+  FormSection,
+  FormField,
+  FormTab,
+  TeiSchema,
+} from "@/types/schema";
+import type {
   DateFieldValue,
   WitnessEntry,
   PlaceEntry,
@@ -13,11 +17,18 @@ import type {
   FormSubmissionData,
 } from "@/types/form";
 import CharterTypeSelector from "./CharterTypeSelector";
-import FormSection from "./FormSection";
+import FormView, { collectAllFields } from "@/components/engine/FormView";
 import AdHocFields from "./AdHocFields";
 
+type FieldValue = string | string[] | DateFieldValue | WitnessEntry[] | PlaceEntry[] | undefined;
+
 interface AdminFormPageProps {
-  config: FormSectionsConfig;
+  /** Form view configuration (merged base + per-type). */
+  formConfig: FormViewConfig;
+  /** Merged TEI schema (for element metadata). */
+  schema: TeiSchema;
+  /** Available charter types for the type selector. */
+  charterTypes: Array<{ id: string; label: string; object_value?: string; object_subtype_value?: string }>;
   /** Parsed field values for edit mode (from xmlParser). */
   initialValues?: Record<string, unknown>;
   /** Charter type ID locked in edit mode — hides the type selector. */
@@ -26,101 +37,130 @@ interface AdminFormPageProps {
   editFilename?: string;
 }
 
-function getInitialFieldValue(
-  field: FormFieldConfig,
-  charterType: string,
-): string | string[] | DateFieldValue | WitnessEntry[] | PlaceEntry[] {
-  // Determine default value
-  let defaultStr = "";
-  if (field.default_by_type && field.default_by_type[charterType]) {
-    defaultStr = field.default_by_type[charterType];
-  } else if (field.default_value) {
-    defaultStr = field.default_value;
-  }
+// ── Helpers ──────────────────────────────────────────────────────────────────
 
-  // Return based on cardinality and input type
-  if (field.cardinality === "multiple") {
+/** Resolve the input type for a FormField, falling back to schema element type. */
+function resolveInputType(
+  formField: FormField,
+  elem?: { type: string },
+): "text" | "textarea" | "date" | "select" | "choice" | "dynamic-list" {
+  if (formField.input) return formField.input;
+  switch (elem?.type) {
+    case "date": return "date";
+    case "enum": return "choice";
+    case "entity": return "dynamic-list";
+    default: return "text";
+  }
+}
+
+/** Resolve initial value for a single field. */
+function getInitialFieldValue(
+  formField: FormField,
+  schema: TeiSchema,
+  _charterType: string,
+): FieldValue {
+  const elem = schema.elements[formField.id];
+  const inputType = resolveInputType(formField, elem);
+  const defaultStr = formField.default_value ?? elem?.default_value ?? "";
+
+  if (elem?.cardinality === "multiple") {
     return defaultStr ? [defaultStr] : [];
   }
 
-  if (field.input === "date") {
+  if (inputType === "date") {
     return { iso: defaultStr || "", text: "" } as DateFieldValue;
   }
 
-  if (field.input === "radio") {
+  if (inputType === "choice") {
     if (defaultStr) return defaultStr;
-    if (field.options && field.options.length > 0) return field.options[0].value;
+    const options = formField.options ?? elem?.options;
+    if (options && options.length > 0) return options[0].value;
     return "";
   }
 
-  if (field.input === "dynamic-list" && field.level_field) {
-    return [] as PlaceEntry[];
-  }
-
-  if (field.input === "dynamic-list" && field.exclusive_option) {
-    return [] as WitnessEntry[];
+  if (inputType === "dynamic-list") {
+    const levelField = formField.level_field ?? elem?.level_field;
+    if (levelField) return [] as PlaceEntry[];
+    const exclusiveOption = formField.exclusive_option ?? elem?.exclusive_option;
+    if (exclusiveOption) return [] as WitnessEntry[];
+    return [];
   }
 
   return defaultStr;
 }
 
+/** Initialize field values for all fields in the form config. */
 function initializeFieldValues(
-  sections: FormSectionConfig[],
+  config: FormViewConfig,
+  schema: TeiSchema,
   charterType: string,
-): Record<string, string | string[] | DateFieldValue | WitnessEntry[] | PlaceEntry[] | undefined> {
-  const values: Record<string, string | string[] | DateFieldValue | WitnessEntry[] | PlaceEntry[] | undefined> = {};
-  for (const section of sections) {
-    for (const field of section.fields) {
-      values[field.id] = getInitialFieldValue(field, charterType);
-    }
+): Record<string, FieldValue> {
+  const allFields = collectAllFields(config);
+  const values: Record<string, FieldValue> = {};
+  for (const field of allFields) {
+    values[field.id] = getInitialFieldValue(field, schema, charterType);
   }
   return values;
 }
 
-function appliesToCurrentType(
-  appliesTo: "all" | string[],
-  charterType: string,
-): boolean {
-  if (appliesTo === "all") return true;
-  if (Array.isArray(appliesTo)) return appliesTo.includes(charterType);
-  return false;
+/** Check if a value is empty for validation purposes. */
+function isValueEmpty(value: FieldValue): boolean {
+  if (value === undefined || value === "") return true;
+  if (Array.isArray(value)) {
+    const first = value[0];
+    if (first && typeof first === "object" && "name" in first) {
+      if ("level" in first) {
+        const entries = value as PlaceEntry[];
+        return entries.length === 0 || entries.every((e) => e.name.trim() === "");
+      }
+      const entries = value as WitnessEntry[];
+      return entries.length === 0 || entries.every((e) => e.name.trim() === "");
+    }
+    return value.length === 0 || value.every((v) => (v as string).trim() === "");
+  }
+  if (typeof value === "object" && "iso" in value) {
+    const dateVal = value as DateFieldValue;
+    return dateVal.iso.trim() === "" && dateVal.text.trim() === "";
+  }
+  if (typeof value === "string") {
+    return value.trim() === "";
+  }
+  return true;
 }
 
+// ── Component ────────────────────────────────────────────────────────────────
+
 export default function AdminFormPage({
-  config,
+  formConfig,
+  schema,
+  charterTypes,
   initialValues,
   lockedCharterType,
   editFilename,
 }: AdminFormPageProps) {
-  const { types, sections } = config;
+  const defaultCharterType = lockedCharterType ?? charterTypes[0]?.id ?? "";
 
-  // Compute initial charter type and field values, incorporating edit-mode data
-  // when lockedCharterType is provided. This runs once on mount via lazy init.
-  const [charterType, setCharterType] = useState<string>(() => {
-    return lockedCharterType || "";
-  });
-  const [fieldValues, setFieldValues] = useState<
-    Record<string, string | string[] | DateFieldValue | WitnessEntry[] | PlaceEntry[] | undefined>
-  >(() => {
-    if (!lockedCharterType) return {};
-    const defaults = initializeFieldValues(sections, lockedCharterType);
+  const [charterType, setCharterType] = useState<string>(() => defaultCharterType);
+  const [fieldValues, setFieldValues] = useState<Record<string, FieldValue>>(() => {
+    if (!defaultCharterType) return {};
+    const defaults = initializeFieldValues(formConfig, schema, defaultCharterType);
     if (initialValues) {
       const merged = { ...defaults };
       for (const [key, value] of Object.entries(initialValues)) {
         if (value !== undefined && value !== null) {
-          merged[key] = value as string | string[] | DateFieldValue | WitnessEntry[] | PlaceEntry[] | undefined;
+          merged[key] = value as FieldValue;
         }
       }
       return merged;
     }
     return defaults;
   });
+
   const [adHoc, setAdHoc] = useState<AdHocField[]>([]);
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
-  const [activeFormTab, setActiveFormTab] = useState<string>("formulary");
 
   const handleCharterTypeChange = useCallback(
     (typeId: string) => {
@@ -133,20 +173,17 @@ export default function AdminFormPage({
         return;
       }
 
-      // Initialize all field values with defaults
-      const newValues = initializeFieldValues(sections, typeId);
-      // Initialize full_text to empty string
+      // Re-initialize field values for the new type
+      const newValues = initializeFieldValues(formConfig, schema, typeId);
       newValues.full_text = "";
-
       setFieldValues(newValues);
     },
-    [sections],
+    [formConfig, schema],
   );
 
   const handleFieldChange = useCallback(
     (fieldId: string, value: string | string[] | DateFieldValue | WitnessEntry[] | PlaceEntry[]) => {
       setFieldValues((prev) => ({ ...prev, [fieldId]: value }));
-      // Clear validation error for this field when user edits it
       setValidationErrors((prev) => {
         const next = { ...prev };
         delete next[fieldId];
@@ -156,40 +193,17 @@ export default function AdminFormPage({
     [],
   );
 
-  function isValueEmpty(value: string | string[] | DateFieldValue | WitnessEntry[] | PlaceEntry[] | undefined): boolean {
-    if (value === undefined || value === "") return true;
-    if (Array.isArray(value)) {
-      const first = value[0];
-      if (first && typeof first === "object" && "name" in first) {
-        if ("level" in first) {
-          const entries = value as PlaceEntry[];
-          return entries.length === 0 || entries.every((e) => e.name.trim() === "");
-        }
-        const entries = value as WitnessEntry[];
-        return entries.length === 0 || entries.every((e) => e.name.trim() === "");
-      }
-      return value.length === 0 || value.every((v) => (v as string).trim() === "");
-    }
-    if (typeof value === "object" && "iso" in value) {
-      const dateVal = value as DateFieldValue;
-      return dateVal.iso.trim() === "" && dateVal.text.trim() === "";
-    }
-    if (typeof value === "string") {
-      return value.trim() === "";
-    }
-    return true;
-  }
-
+  /** Validate required fields by scanning the form config. */
   function validateForm(): boolean {
+    const allFields = collectAllFields(formConfig);
     const errors: Record<string, string> = {};
 
-    for (const section of visibleSections) {
-      for (const field of section.fields) {
-        if (!field.required) continue;
-        const value = fieldValues[field.id];
-        if (isValueEmpty(value)) {
-          errors[field.id] = `${field.label} is required.`;
-        }
+    for (const field of allFields) {
+      if (!field.required) continue;
+      const value = fieldValues[field.id];
+      if (isValueEmpty(value)) {
+        const label = field.label ?? schema.elements[field.id]?.label ?? field.id;
+        errors[field.id] = `${label} is required.`;
       }
     }
 
@@ -216,7 +230,6 @@ export default function AdminFormPage({
       return;
     }
 
-    // Client-side validation for required fields
     if (!validateForm()) {
       setError("Please fill in all required fields.");
       return;
@@ -262,14 +275,6 @@ export default function AdminFormPage({
     }
   };
 
-  // Filter sections by applies_to
-  const visibleSections = sections.filter((s) =>
-    appliesToCurrentType(s.applies_to, charterType),
-  );
-
-  // Look up the locked charter type label for display
-  const lockedTypeConfig = types.find((t) => t.id === lockedCharterType);
-
   return (
     <main className="min-h-screen bg-background py-8 px-4">
       <div className="mx-auto max-w-3xl">
@@ -294,7 +299,6 @@ export default function AdminFormPage({
                 : "Fill out the form below to generate a new TEI XML document."}
             </p>
           </div>
-
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -306,7 +310,7 @@ export default function AdminFormPage({
                   Charter Type
                 </label>
                 <p className="text-base text-foreground py-2">
-                  {lockedTypeConfig?.label ?? lockedCharterType}
+                  {charterTypes.find((t) => t.id === lockedCharterType)?.label ?? lockedCharterType}
                 </p>
                 <p className="text-xs text-muted-foreground mt-1">
                   Charter type cannot be changed when editing an existing document.
@@ -314,7 +318,12 @@ export default function AdminFormPage({
               </div>
             ) : (
               <CharterTypeSelector
-                types={types}
+                types={charterTypes.map((ct) => ({
+                  id: ct.id,
+                  label: ct.label,
+                  object_value: ct.object_value ?? ct.label,
+                  object_subtype_value: ct.object_subtype_value,
+                }))}
                 value={charterType}
                 onChange={handleCharterTypeChange}
                 disabled={submitting}
@@ -322,93 +331,28 @@ export default function AdminFormPage({
             )}
           </div>
 
-          {/* Form Sections */}
+          {/* FormView renders all fields, sections, and tabs */}
           {charterType && (
             <>
-              {/* Properties section - always visible above tabs */}
-              {visibleSections.filter(s => s.id === "properties").map((section) => (
-                <FormSection
-                  key={section.id}
-                  section={section}
-                  fieldValues={fieldValues}
-                  onFieldChange={handleFieldChange}
+              <FormView
+                config={formConfig}
+                schema={schema}
+                formData={fieldValues}
+                onFieldChange={handleFieldChange}
+                disabled={submitting}
+                validationErrors={validationErrors}
+              />
+
+              {/* Ad-Hoc Custom Properties */}
+              <div className="border border-border rounded-lg p-6 bg-background">
+                <h2 className="text-lg font-semibold text-primary mb-4 pb-2 border-b border-border">
+                  Custom Properties
+                </h2>
+                <AdHocFields
+                  fields={adHoc}
+                  onChange={setAdHoc}
                   disabled={submitting}
-                  validationErrors={validationErrors}
-                  depth={0}
                 />
-              ))}
-
-              {/* Tab bar */}
-              <div className="border-b border-border">
-                <div className="flex gap-0 -mb-px">
-                  {(["formulary", "fulltext", "image"] as const).map((tabId) => (
-                    <button
-                      key={tabId}
-                      type="button"
-                      onClick={() => setActiveFormTab(tabId)}
-                      className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
-                        activeFormTab === tabId
-                          ? "border-accent text-accent"
-                          : "border-transparent text-muted-foreground hover:text-foreground hover:border-border"
-                      }`}
-                    >
-                      {tabId === "formulary" ? "Formulary Analysis" : tabId === "fulltext" ? "Full Text" : "Image"}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Tab content */}
-              <div key={activeFormTab} className="animate-fade-in">
-                {activeFormTab === "formulary" && (
-                  <div className="space-y-6">
-                    {visibleSections.filter(s => s.id !== "properties").map((section) => (
-                      <FormSection
-                        key={section.id}
-                        section={section}
-                        fieldValues={fieldValues}
-                        onFieldChange={handleFieldChange}
-                        disabled={submitting}
-                        validationErrors={validationErrors}
-                        depth={0}
-                      />
-                    ))}
-                    {/* Ad-Hoc Custom Properties - only in Formulary Analysis */}
-                    <div className="border border-border rounded-lg p-6 bg-background">
-                      <h2 className="text-lg font-semibold text-primary mb-4 pb-2 border-b border-border">
-                        Custom Properties
-                      </h2>
-                      <AdHocFields
-                        fields={adHoc}
-                        onChange={setAdHoc}
-                        disabled={submitting}
-                      />
-                    </div>
-                  </div>
-                )}
-
-                {activeFormTab === "fulltext" && (
-                  <div className="border border-border rounded-lg p-6 bg-background">
-                    <label htmlFor="full_text" className="block text-sm font-medium text-foreground mb-2">
-                      Integral Text
-                    </label>
-                    <textarea
-                      id="full_text"
-                      value={typeof fieldValues.full_text === "string" ? fieldValues.full_text : ""}
-                      onChange={(e) => handleFieldChange("full_text", e.target.value)}
-                      rows={15}
-                      className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground focus:border-accent focus:outline-none"
-                      placeholder="Enter the integral text of the charter…"
-                      disabled={submitting}
-                    />
-                  </div>
-                )}
-
-                {activeFormTab === "image" && (
-                  <div className="border border-border rounded-lg p-6 bg-background text-center">
-                    <p className="text-sm text-muted-foreground">Image upload coming soon</p>
-                  </div>
-                )}
               </div>
             </>
           )}

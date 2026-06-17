@@ -1,0 +1,42 @@
+# Shared form defaults for all charter types.
+#
+# This file defines tabs, sections, and fields that are common across
+# all charter types. Per-type `config/views/charter-types/<type>/form.yaml`
+# files extend or override via deep-merge.
+#
+# ── Base tabs ───────────────────────────────────────────────────────
+#   properties  — always-visible metadata (repository, shelfmark)
+#   fulltext    — special tab (integral text textarea)
+#   image       — special tab (image upload placeholder)
+#
+# Per-type configs add their formulary tabs between properties and
+# the special tabs.
+
+tabs:
+  defaultTab: properties
+  items:
+    # ── PROPERTIES (always visible) ────────────────────────────────
+    - id: properties
+      label: Properties
+      type: always_visible
+      layout: grid
+      columns: 2
+      fields:
+        - id: repository
+          label: Repository
+          input: text
+          required: true
+
+        - id: shelfmark
+          label: Shelfmark
+          input: text
+          required: true
+
+    # ── SPECIAL TABS ───────────────────────────────────────────────
+    - id: fulltext
+      label: Full Text
+      type: special
+
+    - id: image
+      label: Image
+      type: special

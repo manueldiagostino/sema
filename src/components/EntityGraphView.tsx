@@ -869,7 +869,7 @@ export default function EntityGraphView({
     return (
       <div className="flex min-h-screen items-center justify-center bg-background text-foreground">
         <div className="text-center">
-          <p className="text-lg text-muted">No entities found in the graph.</p>
+          <p className="text-lg text-muted-foreground">No entities found in the graph.</p>
           <button
             onClick={onBackToTable}
             className="mt-3 rounded bg-primary px-3 py-1.5 text-sm text-white hover:bg-primary/90"
@@ -950,7 +950,7 @@ export default function EntityGraphView({
             <div className="flex flex-wrap items-center gap-4">
               {/* Type toggles */}
               <div className="flex flex-wrap items-center gap-3">
-                <span className="text-sm font-medium text-muted">Types:</span>
+                <span className="text-sm font-medium text-muted-foreground">Types:</span>
                 {ALL_TYPES.map((type) => (
                   <label
                     key={type}
@@ -983,7 +983,7 @@ export default function EntityGraphView({
                   onChange={(e) => handleDateFromChange(e.target.value)}
                   className="rounded border border-border bg-background px-2 py-1 text-sm text-foreground placeholder:text-muted-foreground focus:border-accent focus:outline-none"
                 />
-                <span className="text-muted">—</span>
+                <span className="text-muted-foreground">—</span>
                 <input
                   type="text"
                   placeholder="To (YYYY-MM-DD)"
@@ -1054,9 +1054,9 @@ export default function EntityGraphView({
               })}
               <div className="flex items-center gap-2 ml-4">
                 <div className="h-0.5 w-6 bg-gray-400" />
-                <span className="text-sm text-muted">Direct</span>
+                <span className="text-sm text-muted-foreground">Direct</span>
                 <div className="h-0.5 w-6 border-t-2 border-dashed border-gray-300" />
-                <span className="text-sm text-muted">Co-occurs</span>
+                <span className="text-sm text-muted-foreground">Co-occurs</span>
               </div>
             </div>
           </div>
@@ -1089,14 +1089,14 @@ export default function EntityGraphView({
                   {TYPE_LABELS[infoCard.type]}
                 </span>
               </div>
-              <div className="mt-1 flex items-center gap-4 text-sm text-muted">
+              <div className="mt-1 flex items-center gap-4 text-sm text-muted-foreground">
                 <span>Related documents: {infoCard.docCount}</span>
                 {infoCard.dateRange && <span>Date range: {infoCard.dateRange}</span>}
               </div>
             </div>
             <button
               onClick={deselectAll}
-              className="rounded p-1 text-muted hover:text-foreground transition-colors"
+              className="rounded p-1 text-muted-foreground hover:text-foreground transition-colors"
               aria-label="Close info card"
             >
               <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

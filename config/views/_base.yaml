@@ -1,0 +1,92 @@
+# Base view configuration — default render styles, widths, and rules.
+#
+# Every view file inherits these defaults. Individual view files can
+# override any value on a per-column or per-section basis.
+#
+# Render styles:
+#   text        — plain text (default)
+#   badge       — coloured badge pill (uses badgeLabels for display)
+#   textarea    — multi-line text with word-wrap
+#   date        — ISO date display
+#   link        — clickable link (href from column value)
+#   dynamic-list — semicolon-joined list
+#   special     — handled by component logic, not generic renderer
+
+defaults:
+  # Default render style for columns without an explicit `render`
+  render: text
+
+  # Default sortable / filterable when column has no explicit setting
+  sortable: true
+  filterable: true
+
+  # Default truncation: no limit
+  truncateWords: 0
+
+  # Default join separator for multi-value columns
+  join: ", "
+
+  # Default cardinality
+  cardinality: single
+
+# Column widths by render style (pixels).
+# Individual columns can override with an explicit `width`.
+widths:
+  text: auto
+  badge: auto
+  textarea: auto
+  date: 140
+  link: auto
+  dynamic-list: auto
+  special: auto
+
+# Badge labels — maps field IDs to their value→label mappings.
+# Used by badge-style columns in tables and document cards.
+badgeLabels:
+  invocatio_analysis:
+    symbolica: Symbolica
+    verbalis: Verbalis
+  descriptio_rei_analysis:
+    immobile: Immobile
+    mobile: Mobile
+  sanctio_analysis:
+    dupli_pena: Penalty of Double
+    pecunia_numerata: Numbered Pecunia
+  subscriptio_emittentis_analysis:
+    auctor: Author
+    destinatarius: Recipient
+
+# Default truncation thresholds by context.
+# `table` applies to table cells; `card` applies to document card summaries.
+truncation:
+  table:
+    default: 20          # words
+  card:
+    default: 0           # no truncation in card view
+
+# Field groups — reusable field ID lists referenced by card/form views.
+# These mirror the hardcoded arrays in DocumentCard.tsx.
+fieldGroups:
+  historicalIds:
+    - intitulatio_analysis
+    - inscriptio_analysis
+    - repository
+    - shelfmark
+    - dating_chronological
+    - datatio_topica_analysis
+    - completio_analysis
+    - testes_names
+    - investitor_name
+  extractedIds:
+    - invocatio_analysis
+    - descriptio_rei_analysis
+    - sanctio_analysis
+    - subscriptio_emittentis_analysis
+    - pretium
+    - property_location
+    - datatio_topica_analysis
+  badgeFields:
+    - invocatio_analysis
+    - descriptio_rei_analysis
+    - sanctio_analysis
+    - subscriptio_emittentis_analysis

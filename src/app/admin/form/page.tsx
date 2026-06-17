@@ -1,4 +1,5 @@
-import { loadFormConfig } from "@/lib/formConfig";
+import { loadFormConfig } from "@/lib/schema/views";
+import { loadTeiSchema, getCharterTypes } from "@/lib/schema/registry";
 import AdminFormPage from "@/components/admin/AdminFormPage";
 import { parseTeiXml } from "@/lib/xmlParser";
 import { readFileSync } from "fs";
@@ -15,7 +16,25 @@ export default async function AdminFormRoutePage({
     return <StaticExportPlaceholder />;
   }
 
-  const config = loadFormConfig();
+  // Load charter types for the type selector
+  const charterTypes = getCharterTypes();
+
+  // Load form config and schema for the first charter type
+  const defaultTypeKey = charterTypes[0]?.id ?? "instrumentum_venditionis";
+  const formConfigKey = defaultTypeKey.replace(/_/g, "-");
+  const formConfig = loadFormConfig(formConfigKey);
+  const schema = loadTeiSchema(defaultTypeKey);
+
+  if (!formConfig) {
+    return (
+      <main className="min-h-screen bg-gray-50 py-8 px-4">
+        <div className="mx-auto max-w-3xl">
+          <p className="text-red-600">No form configuration found.</p>
+        </div>
+      </main>
+    );
+  }
+
   const params = await searchParams;
   const editFile = params.edit;
 
@@ -46,12 +65,10 @@ export default async function AdminFormRoutePage({
       );
     }
 
-    const initialValues = parseTeiXml(xml, config);
+    // Use engine-native config + schema for XML parsing
+    const initialValues = parseTeiXml(xml, formConfig, schema);
 
-    // Extract charter type from filename
-    // New format: <code>_<NNNNNN>.xml (e.g. "iv_000001.xml")
-    // Old format: <type_id>_<year>_<number>.xml
-    // Build a code→typeId lookup from config types
+    // Derive charter type from filename
     function deriveCode(typeId: string): string {
       const parts = typeId.split("_");
       if (parts.length >= 2) {
@@ -60,38 +77,46 @@ export default async function AdminFormRoutePage({
       return typeId.slice(0, 2).toLowerCase();
     }
     const codeToTypeId = new Map<string, string>();
-    for (const t of config.types) {
+    for (const t of charterTypes) {
       codeToTypeId.set(deriveCode(t.id), t.id);
     }
 
     const stem = editFile.replace(/\.xml$/, "");
-    let charterType = "";
+    let editCharterType = "";
 
     // Try new format: <code>_<NNNNNN>
     const lastUnderscore = stem.lastIndexOf("_");
     if (lastUnderscore >= 0) {
       const code = stem.slice(0, lastUnderscore);
       const typeId = codeToTypeId.get(code);
-      if (typeId && config.types.some((t) => t.id === typeId)) {
-        charterType = typeId;
+      if (typeId && charterTypes.some((t) => t.id === typeId)) {
+        editCharterType = typeId;
       }
     }
 
     // Fallback: try old format <type_id>_<year>_<number>
-    if (!charterType) {
-      charterType =
-        config.types.find((t) => stem.startsWith(t.id + "_"))?.id || "";
+    if (!editCharterType) {
+      editCharterType =
+        charterTypes.find((t) => stem.startsWith(t.id + "_"))?.id ?? "";
     }
 
     return (
       <AdminFormPage
-        config={config}
+        formConfig={formConfig}
+        schema={schema}
+        charterTypes={charterTypes}
         initialValues={initialValues as Record<string, unknown>}
-        lockedCharterType={charterType}
+        lockedCharterType={editCharterType}
         editFilename={editFile}
       />
     );
   }
 
-  return <AdminFormPage config={config} />;
+  return (
+    <AdminFormPage
+      formConfig={formConfig}
+      schema={schema}
+      charterTypes={charterTypes}
+    />
+  );
 }

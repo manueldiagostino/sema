@@ -2,7 +2,7 @@
 /**
  * build-pdf-copy.ts
  *
- * Pre-generates Formulary Analysis PDFs from all TEI XML files
+ * Pre-generates Formulary Analysis PDFs from corpus-metadata.json data
  * and saves them to public/pdf/ so they're available as static
  * assets on the statically exported site (e.g. GitHub Pages).
  *
@@ -15,47 +15,50 @@ import { fileURLToPath } from "url";
 import React from "react";
 import { renderToBuffer } from "@react-pdf/renderer";
 import FormularyPdf from "../src/lib/pdfFormulary";
+import { loadExportConfig } from "../src/lib/schema/views";
+import { loadTeiSchema } from "../src/lib/schema/registry";
+import type { CorpusMetadata } from "../src/types/corpus";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const root = path.resolve(__dirname, "..");
 
-// Determine active TEI dir (mirrors src/lib/dataDir.ts logic)
-const fakeDir = path.join(root, "data", "fake");
-const teiDir = fs.existsSync(fakeDir)
-  ? fakeDir
-  : path.join(root, "data", "corpus");
-
+const metadataPath = path.join(root, "public", "corpus-metadata.json");
 const outDir = path.join(root, "public", "pdf");
 
-if (!fs.existsSync(teiDir)) {
+if (!fs.existsSync(metadataPath)) {
   console.warn(
-    `[build-pdf-copy] TEI directory not found: ${teiDir} — skipping`,
+    `[build-pdf-copy] corpus-metadata.json not found at ${metadataPath} — skipping`,
   );
   process.exit(0);
 }
 
 fs.mkdirSync(outDir, { recursive: true });
 
-const xmlFiles = fs
-  .readdirSync(teiDir)
-  .filter((f) => f.endsWith(".xml"));
+// Load corpus metadata
+const raw = fs.readFileSync(metadataPath, "utf-8");
+const corpus = JSON.parse(raw) as CorpusMetadata;
+const items = corpus.items;
+
 console.log(
-  `[build-pdf-copy] Generating PDFs for ${xmlFiles.length} XML file(s)...`,
+  `[build-pdf-copy] Generating PDFs for ${items.length} document(s)...`,
 );
+
+// Load configs
+const exportConfig = loadExportConfig();
+const sections = exportConfig.sections;
+const teiSchema = loadTeiSchema();
 
 async function main() {
   let count = 0;
-  for (const file of xmlFiles) {
-    const docId = path.basename(file, ".xml");
-    const xmlContent = fs.readFileSync(path.join(teiDir, file), "utf-8");
-
+  for (const item of items) {
+    const docId = item.id;
     const pdfFilename = `${docId}_formulary.pdf`;
     const outputPath = path.join(outDir, pdfFilename);
 
     try {
       const buffer = await renderToBuffer(
-        React.createElement(FormularyPdf, { xmlContent }) as any,
+        React.createElement(FormularyPdf, { item, sections, schema: teiSchema }) as any,
       );
       fs.writeFileSync(outputPath, buffer);
       console.log(
@@ -72,11 +75,11 @@ async function main() {
   }
 
   console.log(
-    `[build-pdf-copy] Generated ${count}/${xmlFiles.length} PDF(s) to ${outDir}`,
+    `[build-pdf-copy] Generated ${count}/${items.length} PDF(s) to ${outDir}`,
   );
 
   // Exit with error code if any PDF failed
-  if (count < xmlFiles.length) {
+  if (count < items.length) {
     process.exit(1);
   }
 }

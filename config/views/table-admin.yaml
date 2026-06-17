@@ -1,0 +1,51 @@
+# Admin dashboard table — columns shown on /admin.
+#
+# Mirrors DISPLAY_COLUMNS from AdminDashboard.tsx plus an actions column.
+# Column order determines display order left-to-right.
+
+columns:
+  - id: id
+    label: Document
+    width: 200
+    sortable: true
+    filterable: false
+
+  - id: intitulatio_analysis
+    label: Auctor
+    width: 160
+    render: badge
+    sortable: true
+    filterable: true
+
+  - id: inscriptio_analysis
+    label: Destinatarius
+    width: 160
+    render: badge
+    sortable: true
+    filterable: true
+
+  - id: dating_chronological
+    label: Modern Date
+    width: 120
+    sortable: true
+    filterable: true
+
+  - id: repository
+    label: Archive
+    width: 160
+    sortable: true
+    filterable: true
+
+  - id: shelfmark
+    label: Shelfmark
+    width: 120
+    sortable: true
+    filterable: true
+
+  # ── ACTIONS (special column, not backed by data) ───────
+  - id: actions
+    type: special
+    render: edit-delete
+    width: 100
+    sortable: false
+    filterable: false

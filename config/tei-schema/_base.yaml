@@ -1,0 +1,691 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# _base.yaml — Unified TEI Schema Registry (Phase 1)
+# ══════════════════════════════════════════════════════════════════════════════
+#
+# Merged schema from config/columns.yaml + config/form-sections.yaml.
+# Every element that the corpus table reads OR the admin form writes is
+# defined here exactly once.
+#
+# Merge strategy applied:
+#   • ID exists in both configs  → combine xpath (columns) with
+#     tei_element / xpath_parent / wrapper (form); prefer form label.
+#   • ID in columns only         → xpath + attribute from columns;
+#     tei info inferred from XPath structure.
+#   • ID in form only            → full TEI mapping from form-sections.
+#
+# Type mapping rules (from form input type):
+#   date        → date
+#   radio/select → enum
+#   text/textarea → text
+#   dynamic-list with names → entity
+#   computed (display-only) → computed
+#   identifier (archival key) → identifier
+#
+# formulary_section derived from form-sections.yaml nesting:
+#   protocol  — opening diplomatic section
+#   contextus — body / dispositive section
+#   eschatocol — closing section (including subscriptiones)
+#   metadata  — teiHeader / structural fields (not part of the diplomatic text)
+# ══════════════════════════════════════════════════════════════════════════════
+
+namespace: "http://www.tei-c.org/ns/1.0"
+prefix: "tei"
+
+# ──────────────────────────────────────────────────────────────────────────────
+# ELEMENTS — one entry per unique ID from columns.yaml + form-sections.yaml
+# ──────────────────────────────────────────────────────────────────────────────
+#
+# Each entry:
+#   tei:                    TEI element mapping
+#     element               TEI element name (e.g. "term", "date", "p")
+#     type?                 @type attribute value to create/match
+#     attribute?            Which attribute to read (for column display)
+#     wrapper?              Intermediate wrapping element (e.g. "ab")
+#     wrapper_attributes?   Attributes on the wrapper element
+#     xpath_parent          XPath to the parent where this element lives
+#   label                   Human-readable label
+#   type                    Schema type (identifier|text|date|enum|entity|computed)
+#   cardinality             single | multiple
+#   formulary_section       protocol | contextus | eschatocol | metadata
+#   options?                Enum options [{value, label}]
+#   default_value?          Default value for form fields
+#   field_pair?             Visual pairing group in the admin form
+#   exclusive_option?       Per-entry radio config for dynamic lists
+#   level_field?            Level field config for dynamic lists
+#   sortable?               Whether the corpus table column is sortable
+#   filterable?             Whether the corpus table column is filterable
+#   truncate_words?         Max words before ellipsis in table display
+#   join?                   Separator for multiple values in table display
+
+elements:
+
+  # ════════════════════════════════════════════════════════════════════════════
+  # METADATA — teiHeader / structural fields
+  # ════════════════════════════════════════════════════════════════════════════
+
+  full_text:
+    tei:
+      element: ab
+      type: full_text
+      xpath_parent: "tei:text/tei:body"
+    label: Full Text
+    type: text
+    cardinality: single
+    formulary_section: metadata
+    sortable: false
+    filterable: false
+
+  currentLocation:
+    tei:
+      element: computed
+      xpath_parent: ""
+    label: Current Location
+    type: computed
+    cardinality: single
+    formulary_section: metadata
+    sortable: true
+    filterable: true
+
+  repository:
+    tei:
+      element: repository
+      xpath_parent: "tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msIdentifier"
+    label: Repository
+    type: identifier
+    cardinality: single
+    formulary_section: metadata
+    sortable: true
+    filterable: true
+
+  shelfmark:
+    tei:
+      element: idno
+      xpath_parent: "tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msIdentifier"
+    label: Shelfmark
+    type: identifier
+    cardinality: single
+    formulary_section: metadata
+    sortable: true
+    filterable: true
+
+  # dating_chronological: column reads date/@when; form creates date element.
+  # Same TEI element as datatio_chronica_analysis, different application ID.
+  dating_chronological:
+    tei:
+      element: date
+      attribute: when
+      xpath_parent: "tei:teiHeader/tei:profileDesc/tei:creation"
+    label: Datatio Chronica
+    type: date
+    cardinality: single
+    formulary_section: metadata
+    sortable: true
+    filterable: true
+
+  # dating_topical: column reads placeName[@type='datatio_topica_analysis']
+  # from creation element. Note: form creates the same placeName under keywords.
+  dating_topical:
+    tei:
+      element: placeName
+      type: datatio_topica_analysis
+      xpath_parent: "tei:teiHeader/tei:profileDesc/tei:creation"
+    label: Datatio Topica
+    type: text
+    cardinality: single
+    formulary_section: metadata
+    sortable: true
+    filterable: true
+
+  # ════════════════════════════════════════════════════════════════════════════
+  # PROTOCOL — opening diplomatic section (invocatio, datatio chronica)
+  # ════════════════════════════════════════════════════════════════════════════
+
+  invocatio_text:
+    tei:
+      element: ab
+      wrapper_attributes:
+        type: invocatio
+      xpath_parent: "tei:text/tei:body/tei:div[@type='protocol']"
+    label: Invocatio
+    type: text
+    cardinality: single
+    formulary_section: protocol
+    field_pair: invocatio
+    sortable: false
+    filterable: false
+    truncate_words: 20
+
+  invocatio_analysis:
+    tei:
+      element: ab
+      type: invocatio
+      attribute: subtype
+      xpath_parent: "tei:text/tei:body/tei:div[@type='protocol']"
+    label: Invocatio Analysis
+    type: enum
+    cardinality: multiple
+    formulary_section: protocol
+    field_pair: invocatio
+    options:
+      - value: symbolica
+        label: Symbolica
+      - value: verbalis
+        label: Verbalis
+    sortable: false
+    filterable: false
+
+  datatio_chronica_text:
+    tei:
+      element: ab
+      wrapper_attributes:
+        type: datatio
+        subtype: chronica
+      xpath_parent: "tei:text/tei:body/tei:div[@type='protocol']"
+    label: Datatio chronica
+    type: text
+    cardinality: single
+    formulary_section: protocol
+    field_pair: datatio
+    sortable: false
+    filterable: false
+    truncate_words: 20
+
+  datatio_chronica_analysis:
+    tei:
+      element: date
+      xpath_parent: "tei:teiHeader/tei:profileDesc/tei:creation"
+    label: Datatio Chronica Analysis
+    type: date
+    cardinality: single
+    formulary_section: protocol
+    field_pair: datatio
+    default_value: "1200-01-01"
+
+  # ════════════════════════════════════════════════════════════════════════════
+  # CONTEXTUS — body / dispositive section
+  # ════════════════════════════════════════════════════════════════════════════
+
+  intitulatio_text:
+    tei:
+      element: ab
+      wrapper_attributes:
+        type: intitulatio
+      xpath_parent: "tei:text/tei:body/tei:div[@type='contextus']"
+    label: Auctor
+    type: text
+    cardinality: single
+    formulary_section: contextus
+    field_pair: author
+    sortable: false
+    filterable: false
+    truncate_words: 20
+
+  intitulatio_analysis:
+    tei:
+      element: persName
+      wrapper: author
+      wrapper_attributes:
+        role: "issuer"
+      xpath_parent: "tei:teiHeader/tei:fileDesc/tei:titleStmt"
+    label: Auctor (normalized)
+    type: text
+    cardinality: single
+    formulary_section: contextus
+    field_pair: author
+    sortable: true
+    filterable: true
+
+  dispositio_text:
+    tei:
+      element: ab
+      wrapper_attributes:
+        type: dispositio
+      xpath_parent: "tei:text/tei:body/tei:div[@type='contextus']"
+    label: Verba dispositiva
+    type: text
+    cardinality: single
+    formulary_section: contextus
+    sortable: false
+    filterable: false
+    truncate_words: 20
+
+  inscriptio_text:
+    tei:
+      element: ab
+      wrapper_attributes:
+        type: inscriptio
+      xpath_parent: "tei:text/tei:body/tei:div[@type='contextus']"
+    label: Destinatarius
+    type: text
+    cardinality: single
+    formulary_section: contextus
+    field_pair: recipient
+    sortable: false
+    filterable: false
+    truncate_words: 20
+
+  inscriptio_analysis:
+    tei:
+      element: persName
+      type: inscriptio_analysis
+      wrapper: ab
+      wrapper_attributes:
+        type: inscriptio
+      xpath_parent: "tei:text/tei:body/tei:div[@type='contextus']"
+    label: Destinatarius (normalized)
+    type: text
+    cardinality: single
+    formulary_section: contextus
+    field_pair: recipient
+    sortable: true
+    filterable: true
+
+  perpetuitatis_text:
+    tei:
+      element: ab
+      wrapper_attributes:
+        type: clausulae
+        subtype: perpetuitatis
+      xpath_parent: "tei:text/tei:body/tei:div[@type='contextus']"
+    label: Clausula perpetuitatis
+    type: text
+    cardinality: single
+    formulary_section: contextus
+    sortable: false
+    filterable: false
+    truncate_words: 20
+
+  descriptio_rei_text:
+    tei:
+      element: ab
+      wrapper_attributes:
+        type: dispositio
+        subtype: "*"
+      xpath_parent: "tei:text/tei:body/tei:div[@type='contextus']"
+    label: Descriptio rei
+    type: text
+    cardinality: single
+    formulary_section: contextus
+    field_pair: property
+    sortable: false
+    filterable: false
+    truncate_words: 20
+
+  descriptio_rei_analysis:
+    tei:
+      element: ab
+      type: dispositio
+      attribute: subtype
+      xpath_parent: "tei:text/tei:body/tei:div[@type='contextus']"
+    label: Descriptio Rei Analysis
+    type: enum
+    cardinality: single
+    formulary_section: contextus
+    field_pair: property
+    options:
+      - value: immobile
+        label: Immobile
+      - value: mobile
+        label: Mobile
+    sortable: false
+    filterable: false
+
+  property_location:
+    tei:
+      element: term
+      type: property_location
+      xpath_parent: "tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords"
+    label: Property Location
+    type: text
+    cardinality: single
+    formulary_section: contextus
+    sortable: true
+    filterable: true
+
+  pretium:
+    tei:
+      element: term
+      type: price
+      xpath_parent: "tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords"
+    label: Price
+    type: text
+    cardinality: single
+    formulary_section: contextus
+    sortable: true
+    filterable: true
+
+  de_servitute_itineris_text:
+    tei:
+      element: ab
+      wrapper_attributes:
+        type: clausulae
+        subtype: de_servitute_itineris
+      xpath_parent: "tei:text/tei:body/tei:div[@type='contextus']"
+    label: Clausula de servitute itineris
+    type: text
+    cardinality: single
+    formulary_section: contextus
+    sortable: false
+    filterable: false
+    truncate_words: 20
+
+  integritatis_rei_text:
+    tei:
+      element: ab
+      wrapper_attributes:
+        type: clausulae
+        subtype: integritatis_rei
+      xpath_parent: "tei:text/tei:body/tei:div[@type='contextus']"
+    label: Clausula integritatis rei
+    type: text
+    cardinality: single
+    formulary_section: contextus
+    sortable: false
+    filterable: false
+    truncate_words: 20
+
+  quietantiae_pretii_text:
+    tei:
+      element: ab
+      wrapper_attributes:
+        type: clausulae
+        subtype: quietantiae_pretii
+      xpath_parent: "tei:text/tei:body/tei:div[@type='contextus']"
+    label: Clausula quietantiae pretii
+    type: text
+    cardinality: single
+    formulary_section: contextus
+    sortable: false
+    filterable: false
+    truncate_words: 20
+
+  confinium_text:
+    tei:
+      element: ab
+      wrapper_attributes:
+        type: clausulae
+        subtype: confinium
+      xpath_parent: "tei:text/tei:body/tei:div[@type='contextus']"
+    label: Formula confinium
+    type: text
+    cardinality: single
+    formulary_section: contextus
+    sortable: false
+    filterable: false
+    truncate_words: 20
+
+  mensurarum_text:
+    tei:
+      element: ab
+      wrapper_attributes:
+        type: clausulae
+        subtype: mensurarum
+      xpath_parent: "tei:text/tei:body/tei:div[@type='contextus']"
+    label: Formula mensurarum
+    type: text
+    cardinality: single
+    formulary_section: contextus
+    sortable: false
+    filterable: false
+    truncate_words: 20
+
+  translationis_iuris_text:
+    tei:
+      element: ab
+      wrapper_attributes:
+        type: clausulae
+        subtype: translationis_iuris
+      xpath_parent: "tei:text/tei:body/tei:div[@type='contextus']"
+    label: Formula translationis iuris
+    type: text
+    cardinality: single
+    formulary_section: contextus
+    sortable: false
+    filterable: false
+    truncate_words: 20
+
+  liberi_gaudii_text:
+    tei:
+      element: ab
+      wrapper_attributes:
+        type: clausulae
+        subtype: liberi_gaudii
+      xpath_parent: "tei:text/tei:body/tei:div[@type='contextus']"
+    label: Formula liberi gaudii
+    type: text
+    cardinality: single
+    formulary_section: contextus
+    sortable: false
+    filterable: false
+    truncate_words: 20
+
+  legitimae_defensionis_text:
+    tei:
+      element: ab
+      wrapper_attributes:
+        type: clausulae
+        subtype: legitimae_defensionis
+      xpath_parent: "tei:text/tei:body/tei:div[@type='contextus']"
+    label: Formula legitimae defensionis
+    type: text
+    cardinality: single
+    formulary_section: contextus
+    sortable: false
+    filterable: false
+    truncate_words: 20
+
+  sanctio_text:
+    tei:
+      element: ab
+      wrapper_attributes:
+        type: sanctio
+      xpath_parent: "tei:text/tei:body/tei:div[@type='contextus']"
+    label: Sanctio
+    type: text
+    cardinality: single
+    formulary_section: contextus
+    field_pair: sanctio
+    sortable: false
+    filterable: false
+    truncate_words: 20
+
+  sanctio_analysis:
+    tei:
+      element: ab
+      type: sanctio
+      attribute: subtype
+      xpath_parent: "tei:text/tei:body/tei:div[@type='contextus']"
+    label: Sanctio Analysis
+    type: enum
+    cardinality: single
+    formulary_section: contextus
+    field_pair: sanctio
+    options:
+      - value: dupli_pena
+        label: Penalty of Double
+      - value: pecunia_numerata
+        label: Numbered Pecunia
+    sortable: false
+    filterable: false
+
+  # ════════════════════════════════════════════════════════════════════════════
+  # ESCHATOCOL — closing section (datatio topica, subscriptio, completio)
+  # ════════════════════════════════════════════════════════════════════════════
+
+  datatio_topica_text:
+    tei:
+      element: ab
+      wrapper_attributes:
+        type: datatio
+        subtype: topica
+      xpath_parent: "tei:text/tei:body/tei:div[@type='eschatocol']"
+    label: Datatio topica
+    type: text
+    cardinality: single
+    formulary_section: eschatocol
+    field_pair: datatio_topica
+    sortable: false
+    filterable: false
+    truncate_words: 20
+
+  datatio_topica_analysis:
+    tei:
+      element: placeName
+      type: datatio_topica_analysis
+      xpath_parent: "tei:teiHeader/tei:profileDesc/tei:creation"
+    label: Datatio Topica
+    type: entity
+    cardinality: multiple
+    formulary_section: eschatocol
+    field_pair: datatio_topica
+    level_field:
+      key: level
+    sortable: true
+    filterable: true
+    join: ", "
+
+  subscriptio_emittentis_text:
+    tei:
+      element: persName
+      wrapper: ab
+      wrapper_attributes:
+        type: subscriptio
+        subtype: emittens
+      xpath_parent: "tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptio']"
+    label: Subscriptio emittentis
+    type: text
+    cardinality: single
+    formulary_section: eschatocol
+    field_pair: emittens
+    sortable: false
+    filterable: false
+
+  subscriptio_emittentis_analysis:
+    tei:
+      element: term
+      type: subscriptio_emittentis_analysis
+      xpath_parent: "tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords"
+    label: Subscriptio Emittentis Analysis
+    type: enum
+    cardinality: single
+    formulary_section: eschatocol
+    field_pair: emittens
+    options:
+      - value: auctor
+        label: Author
+      - value: destinatarius
+        label: Recipient
+    sortable: false
+    filterable: false
+
+  subscriptiones_testium_text:
+    tei:
+      element: ab
+      wrapper_attributes:
+        type: subscriptio
+        subtype: testium
+      xpath_parent: "tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptio']"
+    label: Subscriptiones testium
+    type: text
+    cardinality: single
+    formulary_section: eschatocol
+    sortable: false
+    filterable: false
+    truncate_words: 20
+
+  testes_names:
+    tei:
+      element: persName
+      wrapper: person
+      xpath_parent: "tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptio']/tei:listPerson"
+    label: Testes
+    type: entity
+    cardinality: multiple
+    formulary_section: eschatocol
+    exclusive_option:
+      label: Investitor
+      fieldKey: is_investitor
+    sortable: false
+    filterable: true
+    join: "; "
+
+  investitor_name:
+    tei:
+      element: persName
+      wrapper: person
+      wrapper_attributes:
+        role: "issuer"
+      xpath_parent: "tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptio']/tei:listPerson"
+    label: Investitor
+    type: entity
+    cardinality: single
+    formulary_section: eschatocol
+    sortable: false
+    filterable: true
+
+  completio_text:
+    tei:
+      element: ab
+      wrapper_attributes:
+        type: subscriptio
+        subtype: completio
+      xpath_parent: "tei:text/tei:body/tei:div[@type='eschatocol']/tei:div[@type='subscriptio']"
+    label: Completio
+    type: text
+    cardinality: single
+    formulary_section: eschatocol
+    field_pair: completio
+    sortable: false
+    filterable: false
+    truncate_words: 20
+
+  completio_analysis:
+    tei:
+      element: persName
+      type: completio_analysis
+      wrapper: respStmt
+      xpath_parent: "tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msContents/tei:msItem"
+    label: Notary
+    type: text
+    cardinality: single
+    formulary_section: eschatocol
+    field_pair: completio
+    sortable: true
+    filterable: true
+
+# ──────────────────────────────────────────────────────────────────────────────
+# ENTITIES — domain entities referenced by elements of type: entity
+# ──────────────────────────────────────────────────────────────────────────────
+#
+# Each entity maps to a TEI element and tracks which schema elements
+# reference it. The `status` field indicates:
+#   active    — fully wired (elements + entity graph integration)
+#   placeholder — defined but not yet integrated
+
+entities:
+  person:
+    label: Person
+    tei_element: persName
+    status: active
+    identifying_attribute: name
+    fields:
+      - testes_names
+      - investitor_name
+      - intitulatio_analysis
+      - inscriptio_analysis
+      - completio_analysis
+
+  place:
+    label: Place
+    tei_element: placeName
+    status: active
+    identifying_attribute: name
+    fields:
+      - datatio_topica_analysis
+
+  institution:
+    label: Institution
+    tei_element: orgName
+    status: placeholder
+    identifying_attribute: name
+    fields: []

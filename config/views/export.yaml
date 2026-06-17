@@ -1,0 +1,107 @@
+# Export rules — defines field groups for exported documents.
+#
+# Controls which fields appear in PDF/TXT exports and in what order.
+# Fields are grouped by formulary section (protocol/contextus/eschatocol).
+
+sections:
+  # ── HEADER ──────────────────────────────────────────────
+  # Metadata displayed at the top of exports
+  - id: header
+    label: Document Information
+    fields:
+      - id: repository
+      - id: shelfmark
+      - id: dating_chronological
+      - id: datatio_topica_analysis
+      - id: intitulatio_analysis
+      - id: inscriptio_analysis
+      - id: completio_analysis
+      - id: testes_names
+      - id: investitor_name
+      - id: pretium
+      - id: property_location
+
+  # ── PROTOCOL ────────────────────────────────────────────
+  - id: protocol
+    label: Protocol
+    fields:
+      - id: invocatio_text
+        label: Invocatio
+      - id: invocatio_analysis
+        label: Invocatio Analysis
+      - id: datatio_chronica_text
+        label: Datatio Chronica
+      - id: datatio_chronica_analysis
+        label: Datatio Chronica Analysis
+
+  # ── CONTEXTUS ───────────────────────────────────────────
+  - id: contextus
+    label: Text
+    fields:
+      - id: intitulatio_text
+        label: Auctor
+      - id: intitulatio_analysis
+        label: Auctor (normalized)
+      - id: dispositio_text
+        label: Verba dispositiva
+      - id: inscriptio_text
+        label: Destinatarius
+      - id: inscriptio_analysis
+        label: Destinatarius (normalized)
+      - id: perpetuitatis_text
+        label: Clausula perpetuitatis
+      - id: descriptio_rei_text
+        label: Descriptio rei
+      - id: descriptio_rei_analysis
+        label: Descriptio rei analysis
+      - id: de_servitute_itineris_text
+        label: Clausula de servitute itineris
+      - id: integritatis_rei_text
+        label: Clausula integritatis rei
+      - id: quietantiae_pretii_text
+        label: Clausula quietantiae pretii
+      - id: confinium_text
+        label: Formula confinium
+      - id: mensurarum_text
+        label: Formula mensurarum
+      - id: translationis_iuris_text
+        label: Formula translationis iuris
+      - id: liberi_gaudii_text
+        label: Formula liberi gaudii
+      - id: legitimae_defensionis_text
+        label: Formula legitimae defensionis
+      - id: sanctio_text
+        label: Sanctio
+      - id: sanctio_analysis
+        label: Sanctio Analysis
+
+  # ── ESCHATOCOL ──────────────────────────────────────────
+  - id: eschatocol
+    label: Eschatocol
+    fields:
+      - id: datatio_topica_text
+        label: Datatio topica
+      - id: datatio_topica_analysis
+        label: Datatio topica
+      - id: subscriptiones_testium_text
+        label: Subscriptiones testium
+      - id: subscriptio_emittentis_text
+        label: Subscriptio emittentis
+      - id: subscriptio_emittentis_analysis
+        label: Subscriptio emittentis analysis
+      - id: testes_names
+        label: Testes
+      - id: investitor_name
+        label: Investitor
+      - id: completio_text
+        label: Completio
+      - id: completio_analysis
+        label: Notary
+
+  # ── FULL TEXT ───────────────────────────────────────────
+  - id: fulltext
+    label: Full Text
+    type: special
+    fields:
+      - id: full_text
+        label: Full Text

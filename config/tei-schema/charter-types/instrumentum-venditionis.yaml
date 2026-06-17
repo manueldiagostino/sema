@@ -1,0 +1,163 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# instrumentum-venditionis.yaml — Charter Type: Instrumentum venditionis
+# ══════════════════════════════════════════════════════════════════════════════
+#
+# Charter type definition for sale/purchase charters (venditio).
+# This is the primary charter type currently supported by the system.
+#
+# ──────────────────────────────────────────────────────────────────────────────
+# STRUCTURE FOR FUTURE CHARTER TYPES
+# ──────────────────────────────────────────────────────────────────────────────
+#
+# Each charter-type YAML can override or extend _base.yaml:
+#
+#   charter_type:
+#     label:                  Display name
+#     object_value:           TEI object/@type value
+#     object_subtype_value:   TEI object/@subtype value
+#     description:            Human-readable description
+#
+#   overrides:               Elements from _base.yaml to override
+#     <element_id>:
+#       tei: { ... }         Override TEI mapping
+#       cardinality: ...     Override cardinality
+#       required: true       Mark as required for this type
+#       options: [...]       Override enum options
+#
+#   extensions:              New elements specific to this charter type
+#     <element_id>:
+#       tei: { ... }         TEI element definition
+#       label: ...
+#       type: ...
+#       cardinality: ...
+#       formulary_section: ...
+#
+#   valid_div_types:         Allowed div[@type] values for this charter
+#     - protocol
+#     - contextus
+#     - eschatocol
+#     - <custom_type>
+#
+#   valid_note_types:        Allowed note[@type] values for this charter
+#     - historical_context
+#     - paleographic
+#     - <custom_type>
+#
+# ──────────────────────────────────────────────────────────────────────────────
+# EXAMPLE: Future charter type with extensions
+# ──────────────────────────────────────────────────────────────────────────────
+#
+# charter_type:
+#   label: Instrumentum donatio
+#   object_value: "Instrumentum donatio"
+#   object_subtype_value: "Donatio"
+#
+# extensions:
+#   donatio_pretium_text:
+#     tei:
+#       element: p
+#       wrapper: diploPart
+#       wrapper_attributes:
+#         type: clausulae
+#         subtype: donatio_pretium
+#       xpath_parent: "tei:text/tei:body/tei:div[@type='contextus']"
+#     label: Clausula de pretio donationis
+#     type: text
+#     cardinality: single
+#     formulary_section: contextus
+#
+# valid_div_types:
+#   - protocol
+#   - contextus
+#   - eschatocol
+#
+# valid_note_types:
+#   - historical_context
+#   - paleographic
+#   - donor_notes
+# ══════════════════════════════════════════════════════════════════════════════
+
+# ──────────────────────────────────────────────────────────────────────────────
+# CHARTER TYPE METADATA
+# ──────────────────────────────────────────────────────────────────────────────
+# Sourced from config/form-sections.yaml types section.
+# These values are used when creating new TEI documents via the admin form.
+
+charter_type:
+  label: Instrumentum venditionis
+  object_value: "Instrumentum venditionis"
+  object_subtype_value: "Venditio"
+  description: >
+    Sale/purchase charter (venditio). Documents the transfer of property
+    (real estate or movable goods) from seller (auctor/investitor) to
+    buyer (destinatarius) for a specified price (pretium).
+
+# ──────────────────────────────────────────────────────────────────────────────
+# OVERRIDES
+# ──────────────────────────────────────────────────────────────────────────────
+# No overrides needed for Phase 1. All elements use base definitions.
+# Future use: restrict cardinality, mark fields required, or adjust TEI
+# mapping for this specific charter type.
+
+overrides: {}
+
+# ──────────────────────────────────────────────────────────────────────────────
+# EXTENSIONS
+# ──────────────────────────────────────────────────────────────────────────────
+# No charter-type-specific extensions in Phase 1. All elements are defined
+# in _base.yaml and shared across charter types.
+
+extensions: {}
+
+# ──────────────────────────────────────────────────────────────────────────────
+# VALID STRUCTURAL TYPES
+# ──────────────────────────────────────────────────────────────────────────────
+# Lists of allowed values for dynamic patterns (_patterns.yaml).
+# Used for validation and to populate admin form dropdowns.
+
+valid_div_types:
+  - protocol
+  - contextus
+  - eschatocol
+  - subscriptio
+
+valid_note_types:
+  - historical_context
+  - paleographic
+  - bibliographic
+  - editorial
+
+# ──────────────────────────────────────────────────────────────────────────────
+# FORMULARY SECTIONS
+# ──────────────────────────────────────────────────────────────────────────────
+# Defines which formulary sections are active for this charter type.
+# All standard sections are active for instrumentum venditionis.
+
+formulary_sections:
+  - id: protocol
+    label: Protocol
+    active: true
+    description: "Opening section: invocatio, datatio chronica"
+  - id: contextus
+    label: Contextus
+    active: true
+    description: "Body: intitulatio, dispositio, inscriptio, sanctio, clauses"
+  - id: eschatocol
+    label: Eschatocol
+    active: true
+    description: "Closing: datatio topica, subscriptio, completio"
+
+# ──────────────────────────────────────────────────────────────────────────────
+# REQUIRED ELEMENTS
+# ──────────────────────────────────────────────────────────────────────────────
+# Element IDs that must be present for a valid instrumentum venditionis.
+# Used for form validation and document completeness checks.
+
+required_elements:
+  - intitulatio_text
+  - dispositio_text
+  - inscriptio_text
+  - pretium
+  - datatio_chronica_text
+  - datatio_topica_text
+  - completio_text
