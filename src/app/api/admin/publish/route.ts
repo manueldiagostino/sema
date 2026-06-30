@@ -37,7 +37,7 @@ export async function POST() {
     }
 
     // 3. Execute publish
-    const result = publishChanges(root, token);
+    const result = publishChanges(root);
 
     if (!result.success) {
       return NextResponse.json(

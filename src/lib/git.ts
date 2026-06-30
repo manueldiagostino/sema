@@ -57,15 +57,7 @@ function git(args: string[], root: string): string {
   }).trim();
 }
 
-/**
- * Derive the GitHub owner/repo from a remote URL.
- * Supports both SSH (git@github.com:owner/repo.git) and HTTPS.
- * Returns null if the URL is not a GitHub remote.
- */
-function parseGitHubRepo(remoteUrl: string): string | null {
-  const match = remoteUrl.match(/github\.com[:/]([^/]+\/[^.]+?)(?:\.git)?$/);
-  return match ? match[1] : null;
-}
+
 
 // ---------------------------------------------------------------------------
 // getGitStatus
@@ -278,11 +270,10 @@ function extractStderr(err: unknown): string {
 // ---------------------------------------------------------------------------
 
 /**
- * Stages and commits corpus files, pulls remote changes (via SSH), then
- * pushes (via HTTPS with token). Does NOT mutate the remote URL on disk —
- * the token is only passed as a command-line config override.
+ * Stages and commits corpus files, pulls remote changes, then pushes.
+ * Authentication is handled transparently by Git Credential Manager (GCM).
  */
-export function publishChanges(root: string, token: string): PublishResult {
+export function publishChanges(root: string): PublishResult {
   // 1. Check for anything to publish (uncommitted changes OR unpushed commits)
   const statusFiles = getGitStatus(root);
   const aheadCount = getAheadCount(root);
@@ -291,17 +282,7 @@ export function publishChanges(root: string, token: string): PublishResult {
     return { success: true, message: "No changes to publish" };
   }
 
-  // 2. Derive GitHub repo from existing remote for the push URL override
-  const remoteUrl = git(["remote", "get-url", "origin"], root);
-  const repo = parseGitHubRepo(remoteUrl);
-  if (!repo) {
-    return {
-      success: false,
-      message: "The git remote does not point to a GitHub repository.",
-    };
-  }
-
-  // 3. If there are uncommitted changes, stage and commit them
+  // 2. If there are uncommitted changes, stage and commit them
   if (statusFiles.length > 0) {
     // Stage corpus files only
     git(["add", "--", "data/corpus/"], root);
@@ -329,7 +310,7 @@ export function publishChanges(root: string, token: string): PublishResult {
     }
   }
 
-  // 4. Pull remote changes (uses existing SSH remote — no token needed)
+  // 3. Pull remote changes (GCM handles authentication)
   try {
     git(["pull", "--rebase", "origin", "main"], root);
   } catch {
@@ -343,24 +324,18 @@ export function publishChanges(root: string, token: string): PublishResult {
     };
   }
 
-  // 5. Push via HTTPS with token (one-shot URL override, NOT written to .git/config)
-  //    -c url.<newUrl>.insteadOf=<match> overrides URL matching for this command only
-  //    credential.helper= prevents git from caching the token
-  const pushOverride = `url.https://x-access-token:${token}@github.com/${repo}.git.insteadOf=git@github.com:${repo}.git`;
+  // 4. Push (GCM handles authentication)
   try {
-    git(
-      ["-c", pushOverride, "-c", "credential.helper=", "push", "origin", "main"],
-      root,
-    );
+    git(["push", "origin", "main"], root);
   } catch {
     return {
       success: false,
       message:
-        "Push failed. Verify the GitHub token is valid and have write permissions.",
+        "Push failed. Verify you have write permissions and Git Credential Manager is configured.",
     };
   }
 
-  // 6. Success
+  // 5. Success
   const commitHash = git(["rev-parse", "--short", "HEAD"], root);
   console.log(`[git.ts] Published commit ${commitHash}: ${statusFiles.length} files`);
 

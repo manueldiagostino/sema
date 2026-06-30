@@ -1,0 +1,10 @@
+#!/bin/sh
+# Rebuild corpus JSON artifacts after every successful merge / pull.
+# The generated files (corpus-metadata.json, entity-graph.json, xml/, pdf/)
+# are in .gitignore, so they become stale when new XML sources are pulled.
+set -e
+ROOT="$(git rev-parse --show-toplevel)"
+cd "$ROOT"
+echo "[post-merge] Rebuilding corpus artifacts..."
+npm run build-json
+echo "[post-merge] Done."
